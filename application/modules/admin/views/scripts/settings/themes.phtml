@@ -1,0 +1,196 @@
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Site Management
+            <small>for your next cool web APP</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-futbol-o"></i> Home</a></li>
+            <li>Site Mangement</li>
+            <li class="active">Themes</li>
+          </ol>
+        </section>
+
+<div class="opennotificationGreen" style="display: none;z-index: 99;">
+<span class="notification_msgGreen">Themes uploaded successfully.</span>
+</div>
+        <!-- Main content -->
+        <section class="content">
+          <!-- Info boxes -->
+          <div class="row">
+          	<div class="col-md-12 col-sm-12 no-p-left no-p-right">
+            	<div class="panel panel-black no-radius">
+                	<div class="panel-heading paddingLR-md paddingTB-sm no-radius">
+                    	<h3 class="font-Russo-One no-margin">Themes Details</h3>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="row">
+          	<div class="col-md-12 col-sm-12">
+            	<div class="panel panel-gray">
+                	<div class="panel-heading paddingLR-md paddingTB-xs">
+                    	<h4 class="font-Libre-Baskerville inline-block">Upload New Theme</h4>
+                    </div>
+                    <div class="panel-body">
+                    	<div class="row">
+                        	<div class="col-md-8 col-sm-8 col-sm-offset-2 col-xs-offset-0">
+                            	<div class="text-center marginTB-md">
+                <form class="themedetails" action="" method="post" enctype="multipart/form-data"> 
+                                	<div class="uploadContainer center-block">
+                                   		<input name="themezipped" id="fileUpload" type="file" class="file-upload center-block">
+                                    </div>
+                                    <div class="form-actions m-top-md">
+                                    	<button type="submit" class="btn btn-blue">Upload Theme</button>
+                                   <span style="color:red;"><?php if(isset($this->ErrorMsg)){echo $this->ErrorMsg;} ?></span>
+                                    </div>
+                </form>
+                                </div>
+                        	</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel panel-gray">
+                	<div class="panel-heading paddingLR-md paddingTB-xs">
+                    	<h4 class="font-Libre-Baskerville inline-block">Themes Manage</h4>
+                    </div>
+                    <div class="panel-body">
+                    	
+                      <div class="m-top-md">
+                        	<div class="table-responsive">
+                            	<table id="themesManage" class="display table text-center" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]" cellspacing="0" width="100%">
+                                	<thead>
+                                    	<tr>
+                                        	<th>Sr No</th>
+                                            <th>Name</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    	<?php if(isset($this->themes)): $row = 0; foreach($this->themes as $themesDetails): $row ++;?>
+                                        <tr class="gradeX">
+                                            <td><?php echo $row; ?></td>                            
+                                            <td><?php echo $themesDetails['name']; ?></td>
+                                            <td><?php echo $themesDetails['title']; ?></td>
+                                            <td class="center"><?php echo $themesDetails['description']; ?></td>
+                                            <?php if($themesDetails['active']==1): ?>
+                                            <td id="activemenu_<?php echo $themesDetails['theme_id']; ?>" class="center js-sortable-handle useractive">Active</td>
+                                            <td class="center" style="width: 80px;"><a href="#" id="<?php if (isset($themesDetails['theme_id'])): echo "themes_" . $themesDetails['theme_id'];endif;?>" class="themesdeactive">
+                                            <span id="activeclass_<?php echo $themesDetails['theme_id']; ?>" class="label label-danger">Deactivate</span></a></td>
+                                              <?php  else: ?>
+                                            <td id="activemenu_<?php echo $themesDetails['theme_id']; ?>" class="center js-sortable-handle userdeactive">Suspended</td>
+                                            <td class="center" style="width: 80px;"><a href="#" id="<?php if (isset($themesDetails['theme_id'])): echo "themes_" . $themesDetails['theme_id']; endif;?>" class="themesactive">
+                                            <span id="activeclass_<?php echo $themesDetails['theme_id']; ?>"  class="label label-success">Activate</span></a></td>
+                                            <?php endif;?>                                                                                  
+                                        </tr>
+                        <?php endforeach;  endif; ?>
+                        <!-- // Table row END -->
+                                        
+                                       
+                                    </tbody>
+                                </table>
+                          </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                
+                
+            </div>
+          </div>
+          
+          
+         
+        </section><!-- /.content -->
+      </div>
+
+     <script>
+ $(document).ready(function(){
+   $(document.body).on('click','.themesdeactive',function(){
+     var country = $(this).attr('id');
+       var country_id = country.replace("themes_","");
+       var w = $(this);        
+        $.ajax({
+        
+            url: '/admin/jshandler',
+            type: 'POST',
+            datatype: 'HTML',
+            data:{
+                method : 'themesdeactive',
+                country_id : country_id
+            },
+            beforeSend : function() {
+
+            },
+            success : function(response) {                  
+                $('#'+"activeclass_"+response).removeClass('label label-danger');
+                $('#'+"activeclass_"+response).addClass('label label-success');
+                $('#'+"activeclass_"+response).html("Activate");
+                $('#themes_'+response).removeClass('themesdeactive');
+                $('#themes_'+response).addClass('themesactive');
+                $('#'+"activemenu_"+response).html("Suspended");
+            }
+            
+        
+        });  
+   }); 
+   
+   $(document.body).on('click','.themesactive',function(){
+        var country = $(this).attr('id');
+        var country_id = country.replace("themes_","");                
+        var w = $(this);        
+        $.ajax({
+        
+            url: '/admin/jshandler',
+            type: 'POST',
+            datatype: 'HTML',
+            data:{
+                method : 'themesactive',
+                country_id : country_id
+            },
+            beforeSend : function() {
+
+            },
+            success : function(response) {    
+                //window.location.reload(true);
+                
+                $('#'+"activeclass_"+response).removeClass('label label-success');
+                $('#'+"activeclass_"+response).addClass('label label-danger');
+                $('#'+"activeclass_"+response).html("Deactivate");
+                $('#themes_'+response).removeClass('themesactive');
+                $('#themes_'+response).addClass('themesdeactive');
+                $('#'+"activemenu_"+response).html("Active");
+            }
+            
+        
+        });   
+   });
+ });
+ </script>
+ <?php if(isset($this->success)) {?>
+<script>  
+        $('.opennotificationGreen').click(function()
+        {
+          
+            $('.opennotificationGreen').fadeOut("slow");
+            $('div').remove(".notification_msgGreen");
+        });
+    
+        $('.opennotificationGreen').fadeIn("slow");             
+        $('.opennotificationGreen').css('display','block');
+        
+        setTimeout(function() {
+            $('.opennotificationGreen').fadeOut("slow");
+            $('div').remove(".notification_msgGreen");
+            }, 3000); 
+             
+        
+    </script>
+<?php } ?>

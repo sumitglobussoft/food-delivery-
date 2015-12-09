@@ -1,0 +1,134 @@
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Site Management
+            <small>for your next cool web APP</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-futbol-o"></i> Home</a></li>
+            <li>Site Mangement</li>
+            <li class="active">Allow Bonus Countries</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <!-- Info boxes -->
+          <div class="row">
+          	<div class="col-md-12 col-sm-12 no-p-left no-p-right">
+            	<div class="panel panel-black no-radius">
+                	<div class="panel-heading paddingLR-md paddingTB-sm no-radius">
+                    	<h3 class="font-Russo-One no-margin">Allow Bonus Countries</h3>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="row">
+          	<div class="col-md-12 col-sm-12">
+            	<div class="panel panel-gray">
+                	<div class="panel-heading paddingLR-md paddingTB-xs">
+                    	<h4 class="font-Libre-Baskerville inline-block">Countries</h4>
+                    </div>
+                    <div class="panel-body paddingTB-md">
+                            <form method="post">
+                    	<div class="table-responsive">
+                        	<table id="countryBonusDetails" class="display table text-center" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]" cellspacing="0" width="100%">
+                                	<thead>
+                                    	<tr>
+                                        	<th><input  type="checkbox" id="checkbutton" class="m-right-xs"> All</th>
+                                            <th>Country Code</th>
+                                            <th>Country Name</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    	 <?php if(isset($this->countries)): $row = 0; foreach($this->countries as $countriesDetails): $row ++;?>
+                        <!-- Table row -->
+                        <tr class="gradeA">
+                            
+                            <td><input type="checkbox" name="list[]" class="checkbox1" value="<?php echo $countriesDetails['country_id']; ?>"></td>
+                            <td><?php echo $countriesDetails['country_code']; ?></td>
+                            <td><?php echo $countriesDetails['country_name']; ?></td>
+                            <td  class="center"><?php if(($countriesDetails['bonus'])==0){
+                                        echo "denied";
+                            } else{echo "allowed";}
+                                 ?>
+                            </td>  
+                        </tr>                        
+                        <!-- // Table row END -->
+                        <?php endforeach;  endif; ?>
+                                    	                                       
+                                    </tbody>
+                             </table>
+                        </div>
+                        <div class="inline-block m-right-md pull-left">
+                        	<div class="input-group">
+                            	<select name="action" class="form-control">
+                                    <option value=1>Allow Bonus</option>
+                                    <option value=0>Deny Bonus</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions inline-block pull-left">
+                        	<button type="submit" class="btn btn-blue paddingLR-lg">Save Changes</button>
+                        </div>
+                        </form>
+                        <div class="clear-both"></div>
+                    </div>
+                </div>
+                
+                
+            </div>
+          </div>
+          
+          
+         
+        </section><!-- /.content -->
+      </div>
+<script>
+    $('#countryBonusDetails').DataTable({
+        "bLengthChange": false,
+    });
+</script>
+  <script type="text/javascript">
+    
+       
+ $(document).ready(function() {
+    $('#checkbutton').click(function(event) {  //on click
+        
+            $('.checkbox1').each(function() { //loop through each checkbox
+                
+          $(this).prop('checked',(!$(this).prop('checked')));     
+//        this.checked = true;  //select all checkboxes with class "checkbox1"              
+            });
+        
+    });
+   
+});        
+     
+ </script>
+ 
+ <?php if(isset($this->success)){ ?>
+<!-- This script Displays the  notification when the user details are submitted on submit  -->
+<script>
+      $('.opennotificationGreen').click(function()
+        {
+//            alert('ss');
+            $('.opennotificationGreen').fadeOut("slow");
+            $('div').remove(".notification_msgGreen");
+        });
+    
+        $('.opennotificationGreen').fadeIn("slow");             
+        $('.opennotificationGreen').css('display','block');
+        
+        setTimeout(function() {
+            $('.opennotificationGreen').fadeOut("slow");
+            $('div').remove(".notification_msgGreen");
+            }, 3000); 
+           
+    
+    </script>
+    <?php } ?>
+      

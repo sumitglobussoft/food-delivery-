@@ -1,0 +1,312 @@
+<style>
+/*    .error{
+        color:red;
+    }*/
+</style> 
+
+
+     <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Player Settings
+            <small>for your next cool web APP</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-futbol-o"></i> Home</a></li>
+            <li>Player Settings</li>
+            <li class="active">Edit Player</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <!-- Info boxes -->
+          <div class="row">
+          	<div class="col-md-12 col-sm-12 no-p-left no-p-right">
+            	<div class="panel panel-black no-radius">
+                	<div class="panel-heading paddingLR-md paddingTB-sm no-radius">
+                    	<h3 class="font-Russo-One no-margin">Edit Player</h3>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="row">
+          	<div class="col-md-12 col-sm-12">
+            	<div class="panel panel-gray">
+                	<div class="panel-heading paddingLR-md paddingTB-xs">
+                    	<h4 class="font-Libre-Baskerville inline-block"><span class="m-right-sm"><i class="fa fa-edit"></i></span>Player details</h4>
+                    </div>
+                    <div class="panel-body padding-md">
+                    	<div class="row">
+                            <form method ="POST" id="edit-player">
+                            <div class="col-sm-8 col-xs-12 col-sm-offset-2 col-xs-offset-0">
+                                <div class="form-group">
+                                	<label for="player_id">Playe ID <span>*</span></label>
+                                    <div class="input-group col-xs-12">
+                                        <input class="form-control" type="text" required="true" readonly="true"  name ="player_id" id="Description"  value="<?php if (isset($this->playerDetails['player_id'])) {
+                                                echo $this->playerDetails['player_id'];
+                                            } ?>">
+                                    </div>
+                                </div>
+                            	<div class="form-group">
+                                	<label for="player_fname1">First Name <span>*</span></label>
+                                    <div class="input-group col-xs-12">
+                                    	<input class="form-control" type="text" required="true" name="player_fname" id="player_fname1" value="<?php if (isset($this->plrDetails['first_name'])) {
+                                            echo $this->plrDetails['first_name'];
+                                        } ?>" placeholder=" <?php if (isset($this->plrDetails['first_name'])) {
+                                            echo $this->plrDetails['first_name'];
+                                        } ?>" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="lastname">Last Name <span>*</span></label>
+                                    <div class="input-group col-xs-12">
+                                    	<input class="form-control" type="text" required="true" name="player_lname" value="<?php if (isset($this->plrDetails['last_name'])) {
+                                            echo $this->plrDetails['last_name'];
+                                        } ?>" placeholder=" <?php if (isset($this->plrDetails['last_name'])) {
+                                            echo $this->plrDetails['last_name'];
+                                        } ?>" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="Salary">Salary <span>*</span></label>
+                                    <div class="input-group col-xs-12">
+                                        <input class="form-control" type="text" required="true"  name ="salary" id="Description"  value="<?php if (isset($this->playerDetails['salary'])) {
+                                                echo $this->playerDetails['salary'];
+                                            } ?>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="status">Injury Status <span>*</span></label>
+                                    <div class="input-group col-xs-12">
+                                    	<select class="form-control" name="injury_status">
+                                                <?php if ($this->playerDetails['injury_status'] == 1) { ?>
+                                                    <option selected="true" value="1">Active</option>
+                                                    <option value="0">Deactive</option>          
+                                                <?php } else { ?>
+                                                    <option  value="1">Active</option>
+                                                    <option selected="true" value="0">Deactive</option>          
+                                                <?php } ?>
+                                            </select>	
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="Injury Reason">Injury Reason</label>
+                                    <div class="input-group col-xs-12">
+                                    	<input class="form-control" type="text" required="true"  name ="injury_reason"  value="<?php if (isset($this->playerDetails['injury_reason'])) {
+                                                echo $this->playerDetails['injury_reason'];
+                                            } ?>" placeholder="<?php if (isset($this->playerDetails['injury_reason'])) {
+                                                echo $this->playerDetails['injury_reason'];
+                                            } ?>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="Height">Height</label>
+                                    <div class="input-group col-xs-12">
+                                    	<input class="form-control" type="text" required="true"  name ="height"   value="<?php if (isset($this->plrDetails['height'])) {
+                                                echo $this->plrDetails['height'];
+                                            } ?>" placeholder="<?php if (isset($this->plrDetails['height'])) {
+                                                echo $this->plrDetails['height'];
+                                            } ?>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="Weight">Weight</label>
+                                    <div class="input-group col-xs-12">
+                                    	<input class="form-control" type="text" required="true"  name ="weight"  value="<?php if (isset($this->plrDetails['weight'])) {
+                                                echo $this->plrDetails['weight'];
+                                            } ?>" placeholder="<?php if (isset($this->plrDetails['weight'])) {
+                                                echo $this->plrDetails['weight'];
+                                            } ?>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="Birth Day">Birth Day</label>
+                                    <div class="input-group col-xs-12">
+                                    	<input class="form-control" type="text"  required="true" name ="birthday"  value="<?php if (isset($this->plrDetails['birthday'])) {
+                                                echo $this->plrDetails['birthday'];
+                                            } ?>" placeholder="<?php if (isset($this->plrDetails['birthday'])) {
+                                                echo $this->plrDetails['birthday'];
+                                            } ?>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="Country">Country</label>
+                                    <div class="input-group col-xs-12">
+                                    	<input class="form-control" type="text" required="true"  name ="country" value="<?php if (isset($this->plrDetails['country'])) {
+                                                echo $this->plrDetails['country'];
+                                            } ?>" placeholder="<?php if (isset($this->plrDetails['country'])) {
+                                                echo $this->plrDetails['country'];
+                                            } ?>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="Residence">Residence</label>
+                                    <div class="input-group col-xs-12">
+                                    	<input class="form-control" type="text" required="true"  name ="residence"  value="<?php if (isset($this->plrDetails['residence'])) {
+                                                echo $this->plrDetails['residence'];
+                                            } ?>" placeholder="<?php if (isset($this->plrDetails['residence'])) {
+                                                echo $this->plrDetails['residence'];
+                                            } ?>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="Birth Place">Birth Place</label>
+                                    <div class="input-group col-xs-12">
+                                    	<input class="form-control" type="text"  required="true" name ="birth_place"   value="<?php if (isset($this->plrDetails['birth_place'])) {
+                                                echo $this->plrDetails['birth_place'];
+                                            } ?>" placeholder="<?php if (isset($this->plrDetails['birth_place'])) {
+                                                echo $this->plrDetails['birth_place'];
+                                            } ?>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="Position">Position</label>
+                                    <div class="input-group col-xs-12">
+                                    	<input class="form-control" type="text" required="true"  name ="position"  value="<?php if (isset($this->plrDetails['position'])) {
+                                                echo $this->plrDetails['position'];
+                                            } ?>" placeholder="<?php if (isset($this->plrDetails['position'])) {
+                                                echo $this->plrDetails['position'];
+                                            } ?>">
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                	<button type="submit" class="btn btn-blue">Save Changes</button>
+                                        <a href="<?php $this->baseUrl(); ?>/admin/player-details">	<button type="button" class="btn btn-icon btn-default glyphicons circle_remove"><i></i>Cancel</button> </a>
+                                </div>
+                                
+                           <div class="opennotificationGreen" style="display:none">
+<span class="notification_msgGreen">successfully updated the player data.</span>
+</div> 
+                          	</div>
+   
+                            </form>
+ 
+                     	</div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          
+         
+        </section><!-- /.content -->
+      </div>
+<script>
+    
+    $('#edit-player').validate({
+        onkeyup:function (element) {
+                $(element).valid();
+            },
+        rules: {
+            player_fname: {
+                required: true,
+                regex: /^\d+$/
+
+            },
+            player_lname: {
+                required: true,
+                regex: /^\w+( \w+)*$/
+
+            },
+            salary: {
+                required: true,
+            },
+            injury_reason: {
+                required: true
+            },
+            height: {
+                required: true
+            },
+            weight: {
+                required: true
+            },
+            birthday: {
+                required: true
+            },
+            country: {
+                required: true
+            },
+            residence: {
+                required: true
+            },
+            birth_place: {
+                required: true
+            },
+            position: {
+                required: true
+            }
+        },
+        messages: {            
+            player_fname: {
+                required: "dd is required Field",
+                regex: "Invalid Format"
+            },
+            player_lname: {
+                required: "Lastname is required Field",
+                regex: "Invalid Format"
+            },
+            salary: {
+                required: "salary is required Field"
+            },
+            injury_reason: {
+                required: "injury reason is required Field"
+            },
+            height: {
+                required: "height is required Field"
+            },
+            weight: {
+                required: "weight is required Field"
+            },
+            birthday: {
+                required: "birthday is required Field"
+            },
+            country: {
+                required: "country is required Field"
+            },
+            residence: {
+                required: "residence is required Field"
+            },
+            birth_place: {
+                required: "birth place is required Field"
+            },
+            position: {
+                required: "position is required Field"
+            }
+        }
+
+    });
+  
+</script>
+
+<?php if(isset($this->success)){
+   
+    ?>
+<!-- This script Displays the  notification when the user details are submitted on submit  -->
+<script>  
+        $('.opennotificationGreen').click(function()
+        {
+          
+            $('.opennotificationGreen').fadeOut("slow");
+            $('div').remove(".notification_msgGreen");
+        });
+    
+        $('.opennotificationGreen').fadeIn("slow");             
+        $('.opennotificationGreen').css('display','block');
+        
+        setTimeout(function() {
+            $('.opennotificationGreen').fadeOut("slow");
+            $('div').remove(".notification_msgGreen");
+            }, 3000); 
+             
+        
+    </script>
+    <?php } ?>
+
+    <style>
+        .opennotificationGreen{
+            color:#00a65a;
+        }
+        </style>

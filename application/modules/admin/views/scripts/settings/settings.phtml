@@ -1,0 +1,280 @@
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Site Management
+            <small>for your next cool web APP</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-futbol-o"></i> Home</a></li>
+            <li>Site Mangement</li>
+            <li class="active">Settings</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <!-- Info boxes -->
+          <div class="row">
+          	<div class="col-md-12 col-sm-12 no-p-left no-p-right">
+            	<div class="panel panel-black no-radius">
+                	<div class="panel-heading paddingLR-md paddingTB-sm no-radius">
+                    	<h3 class="font-Russo-One no-margin">Settings Details</h3>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="row">
+          	<div class="col-md-12 col-sm-12">
+            	<div class="panel panel-gray">
+                	<div class="panel-heading paddingLR-md paddingTB-xs">
+                    	<h4 class="font-Libre-Baskerville inline-block">Settings</h4>
+                    </div>
+                    <div class="panel-body">
+                    	<div class="row">
+                        	<div class="col-md-8 col-sm-8 col-sm-offset-2 col-xs-offset-0">
+                                    <form class="form-horizontal margin-none settingsdetailsform"  method="post">
+                            	<div class="form-group">
+                                	<label>Salary Cap Amount</label>
+                                    <div class="input-group col-xs-12">
+                                    	<input required="true" type="text" name="salary_amount" placeholder="Salary Cap Amount" value="<?php echo  $this->settings['salary_cap_amt']; ?>" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label>Bonus Amount Limit</label>
+                                    <div class="input-group col-xs-12">
+                                    	<input required="true" type="text" name="bonus_amount" placeholder="Bonus Amount Limit"  class="form-control" value="<?php echo $this->settings['bonus_amt_limit']; ?>" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label>Currency CODE</label>
+                                    <div class="input-group col-xs-12">
+                                    	<input required="true" type="text" name="currency_code" placeholder="Currency CODE"  class="form-control" value="<?php echo $this->settings['currency_code']; ?>" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label>Minimum Deposit</label>
+                                    <div class="input-group col-xs-12">
+                                    	<span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                                    	<input required="true" type="text" name="min_deposit"  placeholder="Minimum Deposit" class="form-control" value="<?php echo $this->settings['min_deposit']; ?>" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label>Aff. Commission </label>
+                                    <div class="input-group col-xs-12">
+                                    	<span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                                    	<input required="true" type="text" name="aff_commission"  placeholder="Affiliate Commission Amount" class="form-control" value="<?php echo $this->settings['affilate_commission']; ?>" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label>Bonus Status</label>
+                                    <div class="input-group col-xs-12">
+                                        <select class="form-control" name="bonus_stats">
+                                            <?php if($this->settings['bonus_status'] == '1'){ ?>
+                                            <option selected="true" value="1">Active</option>   
+                                            <option value="0">Deactive</option>
+                                            <?php }else{ ?>
+                                            <option  value="1">Active</option>   
+                                            <option selected="true" value="0">Deactive</option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label>Contact Number</label>
+                                    <div class="input-group col-xs-12">
+                                    	 <input required="true" type="text" name="contact_number" placeholder="Contact Number" class="form-control" value="<?php echo $this->settings['contact_number']; ?>" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label>Email</label>
+                                    <div class="input-group col-xs-12">
+                                        <input required="true" type="text" name="email" placeholder="Email" class="form-control" value="<?php echo $this->settings['email']; ?>" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label>Mailing Address</label>
+                                    <div class="input-group col-xs-12">
+                                    	<textarea class="form-control" name="mailing_address" placeholder="Mailing Address"><?php echo $this->settings['mail_address']; ?></textarea>
+                                    </div>
+                                </div>
+                                        <input type="hidden" name="setting_id" value="<?php echo $this->settings['setting_id']; ?>"/>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-blue paddingLR-lg">Update</button>
+                                </div>
+                                        </form>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+            </div>
+          </div>
+          
+          
+         
+        </section><!-- /.content -->
+      </div>
+<!----------------------Modals-------------------------->
+      
+      <div class="modal fade" id="sendMail" role="dialog" aria-hidden="true">
+                	<div class="modal-dialog width50p">
+                    	<div class="modal-content modal-content-bg">
+                        	<div class="modal-header model-header-bg no-border-bottom">
+                            	<button type="button" data-dismiss="modal" class="close text-white"><span aria-hidden="true" aria-label="Close">&times;</span></button>
+                            	
+                                <h3 class="font-Titillium-Web no-margin text-center">Edit Mail</h3>
+                                
+                            </div>
+                            <div class="modal-body">
+                            	<div class="panel panel-black">
+                                	<div class="panel-heading paddingLR-md">
+                                    	<h4><span class="m-right-sm"><i class="fa fa-edit"></i></span>Send Message To <span><strong>Manoj</strong></span></h4>
+                                    </div>
+                                    <div class="panel-body padding-sm">
+                                    	<div class="row">
+                                        	<div class="col-md-12">
+                                            	<div class="form-group">
+                                                	<label>To</label>
+                                                    <div class="input-group col-xs-12">
+                                                    	<input class="form-control" type="email" value="manoj.kosare@globussoft.com" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                	<label for="subject">Subject</label>
+                                                    <div class="input-group col-xs-12">
+                                                    	<input class="form-control" type="text" id="subject">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                	<label for="message">Message</label>
+                                                    <div class="input-group col-xs-12">
+                                                    	<textarea class="form-control" id="message">
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer light-bg clear-both no-border-top">
+                            	
+                                <div class="text-center">
+                                	<button class="btn btn-blue">Send</button>
+                                	<button data-dismiss="modal" class="btn btn-gray font-Russo-One">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!---------Edit User------------>
+      
+      <!----------------------Modals-------------------------->
+      <?php if(isset($this->success)){?>
+<!-- This script Displays the  notification when the user details are submitted on submit  -->
+<script>  
+        $('.opennotificationGreen').click(function()
+        {
+            alert('ss');
+            $('.opennotificationGreen').fadeOut("slow");
+            $('div').remove(".notification_msgGreen");
+        });
+    
+        $('.opennotificationGreen').fadeIn("slow");             
+        $('.opennotificationGreen').css('display','block');
+        
+        setTimeout(function() {
+            $('.opennotificationGreen').fadeOut("slow");
+            $('div').remove(".notification_msgGreen");
+            }, 3000); 
+             
+        
+    </script>
+    <?php } ?>
+    <script>
+         /*
+ * Developer: priyanka varanasi
+ * Date: 24/07/2015
+ * Description: This function is used to validate form in settings section of
+ *              site management(admin)
+ */ 
+$(document).ready(function(){
+
+                   $(function() {
+   $.validator.addMethod("regex", function(value, element, regexpr) {          
+     return regexpr.test(value);
+   });
+    $(".settingsdetailsform").validate({
+           onkeyup: function(element) {
+                    $(element).valid();
+                },  
+        rules: {
+            salary_amount: {
+                required: true,
+                regex: /^(?:\d*\.\d{1,2}|\d+)$/
+            },
+            bonus_amount: {
+                required: true,
+                regex: /^(?:\d*\.\d{1,2}|\d+)$/
+            },
+            currency_code: {
+                required: true,
+                regex: /^[A-Z]+$/
+            },
+            min_deposit: {
+                required: true,
+                regex: /^(?:\d*\.\d{1,2}|\d+)$/
+            },
+            contact_number: {
+                required: true
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            mailing_address: {
+                required: true
+            }            
+            
+        },
+        messages: {
+            salary_amount: {
+                required: "Please enter salary amount",
+                regex: "Please enter only numbers(decimal also allowed)"
+            },
+            bonus_amount: {
+                required: "Please enter bonus amount",
+                regex: "Please enter only numbers(decimal also allowed)"
+            },
+            currency_code: {
+                required: "Please enter currency code",
+                regex: "Please enter only uppercase alphabets"
+            },
+            min_deposit: {
+                required: "Please enter minimum deposit",
+                regex: "Please enter only numbers(decimal also allowed)"
+            },
+            contact_number: {
+                required: "Please enter contact number"
+            },
+            email: {
+                required: "Please enter email address",
+                email: "Please enter in correct email format"
+            },
+            mailing_address: {
+                required: "Please enter mailing address"
+            }
+            
+        }
+
+    });
+});
+    
+    
+});
+        </script>
+    

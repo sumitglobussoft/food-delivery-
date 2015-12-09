@@ -1,0 +1,341 @@
+<div class="content-wrapper">
+    <section class="content">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-12 col-sm-12 no-p-left no-p-right">
+                <div class="panel panel-black no-radius">
+                    <div class="panel-heading paddingLR-md paddingTB-sm no-radius">
+                        <h3 class="font-Russo-One no-margin">User Details</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+   <div class="opennotificationGreen" style="color:#4cae4c;">
+<span class="notification_msgGreen">
+    <h3 style="padding-left:299px;"><?php if(isset($this->success)){ echo $this->success;}?></h3></span>
+
+</div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-gray">
+                    <div class="panel-heading paddingLR-md paddingTB-xs">
+                        <h4 class="font-Libre-Baskerville inline-block">User Manage</h4>
+<!--                        <button class="btn btn-blue m-top-xs pull-right"><span class="m-right-sm"><i class="fa fa-plus-circle"></i></span>Create New user</button>-->
+                    </div>
+                    <div class="panel-body">
+                        <div class="m-top-md">
+                            <div class="table-responsive">
+                                <table id="userdetails" class="display table" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr No</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Registration Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                            <th>Delete/Edit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (isset($this->users)) {
+                                            $row = 0;
+                                            foreach ($this->users as $userDetails) {
+                                                $row ++; ?>
+                                                <tr>
+
+                                                    <td><?php echo $row; ?></td>
+                                                    <td class="name"><?php echo $userDetails['user_name']; ?></td>
+                                                    <td class ="user"><?php echo $userDetails['email']; ?></td>
+                                                    <td><?php echo $userDetails['reg_date']; ?></td>
+                                                    <?php if ($userDetails['status'] == 1) { ?>
+                                                        <td id="activeuser_<?php echo $userDetails['user_id']; ?>" class="center js-sortable-handle useractive">Active</td>
+                                                        <td class="center" style="width: 80px;"><a href="#" id="<?php if (isset($userDetails['user_id'])): echo "users_" . $userDetails['user_id'];
+                                            endif; ?>" class="usersdeactive">
+                                                                <span id="activeclass_<?php echo $userDetails['user_id']; ?>" data-user ="<?php echo $userDetails['user_id']; ?>" class="label label-danger deactivateuser">Deactivate</span></a></td>
+                                                    <?php } else { ?>
+                                                        <td id="activeuser_<?php echo $userDetails['user_id']; ?>" class="center js-sortable-handle userdeactive">Suspended</td>
+                                                        <td class="center" style="width: 80px;">
+                                                            <a  id="<?php if (isset($userDetails['user_id'])): echo "users_" . $userDetails['user_id'];
+                                                            endif; ?>" class="usersactive">
+                                                                <span id="activeclass_<?php echo $userDetails['user_id']; ?>" data-val="<?php echo $userDetails['user_id']; ?>" class="label label-success activateuser">Activate</span>
+                                                            </a>
+                                                        </td>
+                                                     <?php } ?> 
+                                                    <td class="text-center">
+                                                        <a class="delete" data-delid= "<?php echo $userDetails['user_id']; ?>"class="text-black m-right-sm"><span><i  style ="cursor:pointer"class="fa fa-times"></i></span></a>
+                                                        <a class="text-black" data-edit="<?php echo $userDetails['user_id']; ?>"><span><i class="fa fa-edit edituser"></i></span></a>
+                                                    </td>
+
+                                                </tr>
+                                        <?php }
+                                        } ?>  
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- /.content -->
+</div>
+<div class="modal fade" id="editUser" role="dialog" aria-hidden="true">
+    <div class="modal-dialog width50p">
+        <div class="modal-content modal-content-bg">
+           
+            <div class="modal-header model-header-bg no-border-bottom">
+                <button type="button" data-dismiss="modal" class="close text-white"><span aria-hidden="true" aria-label="Close">&times;</span></button>
+
+                <h3 class="font-Titillium-Web no-margin text-center">Edit User</h3>
+
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-black">
+                    <div class="panel-heading paddingLR-md">
+                        <h4><span class="m-right-sm"><i class="fa fa-edit"></i></span>Manage User Details</h4>
+                    </div>
+                    <div class="panel-body padding-sm">
+                        <div class="row">
+                            <input class="form-control hidden" type="text" id="userid" value="" disabled>
+                            <div class="col-md-12">
+                                <form id ="usereditform" name="usereditform" >
+                                <div class="form-group">
+                                    <label for="userName">User Name</label>
+                                    <div class="input-group col-xs-12">
+                                        <input class="form-control" type="text" name="userName" id="userName" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userEmail">Email</label>
+                                    <div class="input-group col-xs-12">
+                                        <input class="form-control" type="text" name="userEmail" id="userEmail" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPassword">New Password</label>
+                                    <div class="input-group col-xs-12">
+                                        <input class="form-control" type="password" name="newPassword" id="newPassword">
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer light-bg clear-both no-border-top">
+
+                <div class="text-center">
+                    <button class="btn btn-blue saveuser">Save Changes</button>
+                    <button data-dismiss="modal" class="btn btn-gray font-Russo-One">Cancel</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<script>
+    $('#userdetails').DataTable({
+        "bLengthChange": false,
+    });
+
+</script>
+<script type="text/javascript">
+    /*
+     * dev:priyankav varanasi
+     * date:5/5/2015
+     * desc: to deactivate user on call
+     */
+    $(document).on('click', '.deactivateuser', function () {
+        var userid = $(this).attr('data-user');
+        $.ajax({
+            url: './user-ajax-handler',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                method: 'activedeactiveuser',
+                userid: userid
+            },
+            beforeSend: function () {
+                console.log('deactivating user..')
+            },
+            success: function (response) {
+                if (response) {
+                    var clnew = response.replace(/(\r\n|\n|\r)/gm, "");
+                    var cl = "activeuser_" + clnew;
+                    var clu = "users_" + clnew;
+                    $("#" + cl).html('Suspended');
+                    $("#" + clu).html('<span id="activeclass_' + clnew + '" class="label label-success activateuser" data-val="' + clnew + '">Activate</span>');
+                }
+            }
+        });
+    });
+
+    /*
+     * dev:priyankav varanasi
+     * date:5/5/2015
+     * desc: to activate user on call
+     */
+    $(document).on('click', '.activateuser', function () {
+        var userid = $(this).attr('data-val');
+        $.ajax({
+            url: './user-ajax-handler',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                method: 'activedeactiveuser',
+                userid: userid
+            },
+            beforeSend: function () {
+                console.log('activating user..')
+            },
+            success: function (response) {
+                if (response) {
+                    var clnew = response.replace(/(\r\n|\n|\r)/gm, "");
+                    var cl = "activeuser_" + clnew;
+                    var clu = "users_" + clnew;
+                    $("#" + cl).html('Active');
+                    $("#" + clu).html('<span id="activeclass_"' + clnew + '" class="label label-danger deactivateuser" data-user="' + clnew + '">Deactivate</span>');
+                }
+            }
+        });
+    });
+    /*
+     * dev:priyankav varanasi
+     * date:5/5/2015
+     * desc: to delete user on call
+     */
+    $(document.body).on('click', '.delete', function () {
+        var w = $(this);
+        var del_did = $(this).attr('data-delid');
+
+        $.ajax({
+            url: './user-ajax-handler',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                del_did: del_did,
+                method: 'userdelete'
+            },
+            success: function (response) {
+                w.parent().parent().hide();
+            }
+
+        });
+
+    });
+
+    /*
+     * dev:priyankav varanasi
+     * date:6/5/2015
+     * desc: to open the edit modal and show the user details
+     */
+    $(document.body).on('click', '.edituser', function () {
+        var z = $(this);
+        var user = z.parent().parent().attr('data-edit');
+        var username = "";
+        var email = "";
+        username = z.parent().parent().parent().siblings('.name').html();
+        email = z.parent().parent().parent().siblings('.user').html();
+        $('#userName').val(username);
+        $('#userEmail').val(email);
+        $('#userid').val(user);
+
+        $('#editUser').modal('show');
+
+    });
+
+  
+  
+    
+    /*
+     * dev:priyankav varanasi
+     * date:6/5/2015
+     * desc: to update the user details via ajax
+     */
+
+    $(document.body).on('click', '.saveuser', function () {
+
+        var name = $('#userName').val();
+        var email = $('#userEmail').val();
+        var pass = $('#newPassword').val();
+        var userid = $('#userid').val();
+        if($('#usereditform').valid()){
+        $.ajax({
+            url: './user-ajax-handler',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                name: name,
+                email: email,
+                pass: pass,
+                userid: userid,
+                method: 'updateuser'
+            },
+            beforeSend: function () {
+                console.log('updating the user..');
+            },
+            success: function (response) {
+                
+                window.location = "?message=success";
+               
+            }
+        });
+    }
+    });
+
+</script>
+            <script>
+                       $(function() {
+   $.validator.addMethod("regex", function(value, element, regexpr) {          
+     return regexpr.test(value);
+   });
+ $('#usereditform').validate({
+                onkeyup: function(element) {
+                    $(element).valid();
+                },     
+                rules: {
+                   userName: {
+                        required:true
+                                   },
+                      userEmail: {
+                        required:true
+                                   },
+                   newPassword: {
+                        required:true
+                                   }
+          
+                },
+                messages: {
+               
+                    userName:{
+                        required:"Please enter  user name"
+                    },
+                      userEmail:{
+                        required:"Please enter valid user email "
+                    },
+                      newPassword:{
+                        required:"Please enter user password"
+                    }
+        
+                }
+    });
+    });
+   </script>
+   <?php if(isset($this->success)){ ?>
+   <script>
+       //dev:priyanka varanasi
+       //date:11/7/2015
+    setTimeout(function() {
+            $('.opennotificationGreen').fadeOut("slow");
+            $('div').remove(".notification_msgGreen");
+            }, 5000); 
+            
+            //just remove the url params to unshow the success message everytime after relaoding the page
+            window.history.pushState({}, "", "/admin/user-details" );
+            
+       </script>
+  <?php  } ?>
+  

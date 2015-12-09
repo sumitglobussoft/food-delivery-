@@ -1,0 +1,13 @@
+<?php 
+echo $this->render('admin-header.phtml'); 
+
+  echo $this->layout()->content;  
+  
+  // disable page redirect on authentication
+//  if($this->auth->hasIdentity()){
+//    if($this->session->role == 2){ 
+//        echo $this->layout()->content; 
+//   }
+//}
+
+echo $this->render('admin-footer.phtml'); ?>

@@ -1,0 +1,68 @@
+
+<?php if($this->auth->hasIdentity()){ if($this->session->storage->role == 3){ ?>
+
+<footer class="footer padding-md">
+	<div class="container">
+    	<div class="social text-center">
+        	<ul class="list-inline list-unstyled">
+            	<li class="facebook"><a href="#"><span><i class="fa fa-2x fa-facebook-square"></i></span></a></li>
+                <li class="gplus"><a href="#"><span><i class="fa fa-2x fa-google-plus-square"></i></span></a></li>
+                <li class="twitter"><a href="#"><span><i class="fa fa-2x fa-twitter-square"></i></span></a></li>
+                <li class="pinterest"><a href="#"><span><i class="fa fa-2x fa-pinterest-square"></i></span></a></li>
+            </ul>
+        </div>
+        <div class="text-center footer-menu">
+        	<ul class="list-inline list-unstyled">
+            	<li><a href="#">Demo Account</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Advertise With us</a></li>
+                <li><a href="#">Our Partners</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Terms and Conditions</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+            </ul>
+        </div>
+        <div class="text-center payment-gateways">
+        	<ul class="list-inline list-unstyled">
+            	<li><img class="img-responsive" src="images/cirrus.png"></li>
+                <li><img class="img-responsive" src="images/mastercard.png"></li>
+                <li><img class="img-responsive" src="images/mestrocard.png"></li>
+                <li><img class="img-responsive" src="images/discover.png"></li>
+                <li><img class="img-responsive" src="images/visa.png"></li>
+                <li><img class="img-responsive" src="images/paypal.png"></li>
+            </ul>
+        </div>
+        
+        <div class="text-center">
+        	<p>Â© Copyright 2015 Fansports. All Rights Reserved. </p>
+        </div>
+        
+        
+    </div>
+</footer>
+
+<?php } } ?>
+
+</div><!--Body Wrapper End-->
+</body>
+
+<!-- dev:priyankav varanasi
+   date:5/5/2015
+   desc: modal for delete user -->
+    
+<div class="modal fade" class="hidden" id="Deleteusermodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <p>Do You Want to Delete this membership?</p>
+            </div>
+            <div class="modal-footer">
+                <a  id ="ok"class="btn btn-success">Ok</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

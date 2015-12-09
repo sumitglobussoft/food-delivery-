@@ -1,0 +1,417 @@
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Player Setting
+            <small>for your next cool web APP</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-futbol-o"></i> Home</a></li>
+            <li>Player Setting</li>
+            <li class="active">Player Details</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <!-- Info boxes -->
+          <div class="row">
+          	<div class="col-md-12 col-sm-12 no-p-left no-p-right">
+            	<div class="panel panel-black no-radius">
+                	<div class="panel-heading paddingLR-md paddingTB-sm no-radius">
+                    	<h3 class="font-Russo-One no-margin">Player Details</h3>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="row">
+          	<div class="col-md-12 col-sm-12">
+            	<div class="panel panel-gray">
+                	<div class="panel-heading paddingLR-md paddingTB-xs">
+                    	<h4 class="font-Libre-Baskerville">Player Manage</h4>
+                    </div>
+                    <div class="panel-body padding-md">
+                    	<div class="row">
+                        	<div class="col-md-8 col-sm-8 col-sm-offset-2 col-xs-12">
+                            		<div class="form-group">
+                                    	<label for="sports"> Select Sports</label>
+                                        <div class="input-group col-xs-12">
+                                        	<select id="sports" class="form-control">
+                                                    <option value="">Select Sport</option>
+                                                    <?php if(isset($this->activesport)){ foreach ($this->activesport as $value) { ?>
+      <option value="<?php  echo $value['sport_id'];?>"><?php echo $value['sport_name'];?></option>
+ } ?>
+                                                 <?php } } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group hidden">
+                                    	<label for="teams">Teams</label>
+                                        <div class="input-group col-xs-12">
+                                        	<select name="teams" class="form-control" id="teams">
+                                            	<option>Select Team</option>
+                                                <option>Arizona Diamondbacks</option>
+                                                <option>Atlanta Braves</option>
+                                                <option>Los Angeles Dodgers</option>
+                                                <option>Boston Red Sox</option>
+                                                <option>Houston Astros</option>
+                                                <option>Chicago Cubs</option>
+                                                <option>Miami Marlins</option>
+                                                <option>Milwaukee Brewers</option>
+                                                <option>Oakland Athletics</option>
+                                                <option>Cleveland Indians</option>
+                                                <option>Los Angeles Angels</option>
+                                                <option>New York Yankees</option>
+                                                <option>Toronto Blue Jays</option>
+                                                <option>Colorado Rockies</option>
+                                                <option>Philadelphia Phillies</option>
+                                                <option>San Diego Padres</option>
+                                                <option>Minnesota Twins</option>
+                                                <option>Washington Nationals</option>
+                                                <option>St. Louis Cardinals</option>
+                                                <option>Kansas City Royals</option>
+                                                <option>Pittsburgh Pirates</option>
+                                                <option>Baltimore Orioles</option>
+                                                <option>Seattle Mariners</option>
+                                                <option>Cincinnati Reds</option>
+                                                <option>San Francisco Giants</option>
+                                                <option>Texas Rangers</option>
+                                                <option>Detroit Tigers</option>
+                                                <option>Chicago White Sox</option>
+                                                <option>Tampa Bay Rays</option>
+                                                <option>New York Mets</option>
+                                           </select>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="col-md-12 m-top-md players " style="display:none;">
+                            	<div class="form-group">
+                                	<label class="cur-pointer" for="oIP"><input type="checkbox" id="oIP" class="m-right-md">Only Injured Players </label>
+                                </div>
+                            	<div class="table-responsive">
+                            	<table id="playerDetails" class="display table text-center" data-page-length="10" data-order="[[ 1, &quot;asc&quot; ]]" cellspacing="0" width="100%">
+                                	<thead>
+                                    	<tr>
+                                            <th>Sr No</th>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Player Value</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="playerinfo">
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          
+         
+        </section><!-- /.content -->
+      </div>
+
+      <!----------------------Modals-------------------------->
+      <!---------Delete Offer------------>
+      <div class="modal fade" id="editPlayer" role="dialog" aria-hidden="true">
+                	<div class="modal-dialog">
+                    	<div class="modal-content modal-content-bg">
+                        	<div class="modal-header model-header-bg no-border-bottom">
+                            	<button type="button" data-dismiss="modal" class="close text-white"><span aria-hidden="true" aria-label="Close">&times;</span></button>
+                            	
+                                <h3 class="font-Titillium-Web no-margin text-center">Edit Player</h3>
+                                
+                            </div>
+                            <div class="modal-body">
+                            	<div class="panel panel-black">
+                                	<div class="panel-heading paddingLR-md">
+                                    	<h4><span class="m-right-sm"><i class="fa fa-edit"></i></span>Player Details</h4>
+                                    </div>
+                                    <div class="panel-body padding-sm">
+                                    	<div class="row">
+                                        	<div class="col-md-12">
+                                                     	<div class="form-group">
+                                                    
+                                                	<label for="plrid">Player Id</label>
+                                                	<div class="input-group col-xs-12">
+                                                            <input id="plrid" type="text" class="form-control" value="" readonly> 
+                                                    </div>
+                                                </div>
+                                            	<div class="form-group">
+                                                    
+                                                	<label for="pName">Player Name</label>
+                                                	<div class="input-group col-xs-12">
+                                                    	<input id="pName" type="text" class="form-control" value="" > 
+                                                    </div>
+                                                </div>
+<!--                                                <div class="form-group">
+                                                	<label for="pAge">Age</label>
+                                                	<div class="input-group col-xs-12">
+                                                    	<input id="pAge" type="text" class="form-control" value="28" disabled> 
+                                                    </div>
+                                                </div>-->
+<!--                                                <div class="form-group">
+                                                	<label for="fppg">FPPG</label>
+                                                	<div class="input-group col-xs-12">
+                                                    	<input id="fppg" type="text" class="form-control" value="6.02"> 
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                	<label for="fpts">FPTS</label>
+                                                	<div class="input-group col-xs-12">
+                                                    	<input id="fpts" type="text" class="form-control" value="0"> 
+                                                    </div>
+                                                </div>-->
+                                                <div class="form-group">
+                                                	<label for="pSalary">Player Salary</label>
+                                                	<div class="input-group col-xs-12">
+                                                    	<span class="input-group-addon">
+                                                        	<i class="fa fa-usd"></i>
+                                                        </span> 
+                                                        <input id="pSalary" type="text" class="form-control" value="7500">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                	<label for="iStatus">Injury Status</label>
+                                                	<div class="input-group col-xs-12">
+                                                    	<select id="iStatus" class="form-control">
+                                                         <option value="1">Active</option>
+                                                         <option value ="0">Deactive</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                	<label for="iReason">Injury Reason</label>
+                                                	<div class="input-group col-xs-12">
+                                                    	<input id="iReason" type="text" class="form-control" value=""> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer light-bg clear-both no-border-top">
+                            	
+                                <div class="text-center">
+                                	<button class="btn btn-blue " id="saveeditedplayer">Save Changes</button>
+                                	<button data-dismiss="modal" class="btn btn-gray font-Russo-One">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+      <script>
+//    $('#playerDetails').DataTable({
+//        "bLengthChange": false,
+//    });
+</script> 
+      
+      <script>
+        /*
+         * dev: priyanka varanasi
+         *  desc: to get the teams on change the sport 
+         *  date : 17/5/2015
+         */   
+          $(document.body).on('change','#sports',function(){
+             
+            var sports_id = $(this).val();
+            if(sports_id !=='1'){
+            $.ajax({
+                    url:'./player-details',
+                     type:'POST',
+                     dataType :'json',
+                     data:{
+                         method :'getteams',
+                        sportsID : sports_id
+                        
+                     },
+                     beforeSend:function(){
+                    console.log('fetching teams ...');     
+                     },
+                  success:function(response){
+                                 
+                }
+                     
+        });
+            }else{
+                   $.ajax({
+                         
+                     url:'./player-details',
+                     type:'POST',
+                     dataType :'json',
+                     data:{
+                         method : 'getplayers',
+                        sportsID : sports_id
+                        
+                     },
+                     beforeSend:function(){
+                         
+                   console.log('fetching players ...');      
+                     },
+                  success:function(response){
+                       var playertable;
+                  
+                   var t = 1;
+                   $('table#playerDetails tbody').html('');
+                    $(".players").css("display", "block");
+            
+                   $.each(response,function(index,value){
+                       if(value.injury_status==='1'){
+                 $('table#playerDetails tbody').append('<tr><td class="center disable">'+t+'</td><td>'+value.player_name+'<span  style="color:red; margin : 5px;">In</span></td><td>'+value.position+'</td><td>'+value.salary+'</td><td class="text-center "><a href="<?php $this->baseUrl(); ?>/admin/edit-player?playerId='+value.player_id+'" class="editthisplayer" class="text-black" ><span><i class="fa fa-edit"></i></span></a></td><td class="text-center"><a data-id="'+value.player_id+'" class="text-black m-right-sm remove" href="#"><span><i class="fa fa-times"></i></span></a></td></tr>'); 
+             }else{
+                $('table#playerDetails tbody').append('<tr><td>'+t+'</td><td>'+value.player_name+'</td><td>'+value.position+'</td><td>'+value.salary+'</td><td class="text-center "><a href="<?php $this->baseUrl(); ?>/admin/edit-player?playerId='+value.player_id+'" class="editthisplayer" class="text-black" ><span><i class="fa fa-edit"></i></span></a></td><td class="text-center"><a data-id="'+value.player_id+'" class="text-black m-right-sm remove" href="#"><span><i class="fa fa-times"></i></span></a></td></tr>');  
+                
+                }
+                                t++;
+                       
+                   });
+            
+                }
+                     
+        });    
+                
+                
+            }
+          });
+          
+        /*
+         * dev: priyanka varanasi
+         *  desc: to edit the players 
+         *  date : 18/5/2015
+         */  
+          
+    $(document.body).on('click','.editthisplayer',function(){
+              $('#pName').val('');
+              $('#pSalary').val('');
+              $('#iStatus').val('');
+              $('#iReason').val('');
+        var playerid =  $(this).attr('data-val');
+        
+            $.ajax({
+            url :'./player-details',
+            dataType : 'json',
+            type:'POST',
+            data:{
+                method :'getplayersdetails',
+                playerid :playerid
+               
+             },
+             beforeSend:function(){
+                
+              console.log('fetching player details..');  
+          },
+       success:function(response){
+             if(response){
+              $('#plrid').val(response.player_id);
+              $('#pName').val(response.player_name);
+              $('#pSalary').val(response.salary);
+              $('#iStatus').val(response.injury_status);
+              $('#iReason').val(response.injury_reason);
+              
+             }
+        }
+       });
+        
+          });
+       /*
+         * dev: priyanka varanasi
+         *  desc: to edit the players 
+         *  date : 21/5/2015
+         */  
+          
+    $(document.body).on('click','#saveeditedplayer',function(){
+            var name =  $('#pName').val();
+             var salary = $('#pSalary').val();
+            var status =  $('#iStatus').val();
+             var reason =  $('#iReason').val();
+            var playerid =  $('#plrid').val();
+         $.ajax({
+            url :'./player-details',
+            dataType : 'json',
+            type:'POST',
+            data:{
+                method :'editplayers',
+                playerid :playerid,
+                name : name,
+                 salary: salary,
+                 status:status,
+                 reason:reason
+             },
+             beforeSend:function(){
+                
+              console.log('updating player details..');  
+          },
+       success:function(response){
+             if(response){
+        window.location.reload(true);
+              
+             }
+        }
+       });
+        
+          });
+          /*
+     * dev: Ram
+     * date : 3/6/2015
+     * desc: to delete the player from db
+     */
+  $(document.body).on('click','.remove',function(){
+      var x = $(this);
+      console.log(x);
+      var player_id = $(this).attr('data-id');
+      $.ajax({
+          url:"./player-details",
+          type: 'POST',
+            datatype: 'json',
+          data:{
+            method :'playerdelete',
+            playerid : player_id
+          },
+          beforeSend:function(){
+              console.log('deleting player...');
+                  
+          },
+          success: function(response){
+            x.parent().parent().hide();
+          }
+         
+      });
+      
+     
+  }); 
+    /*
+    * dev: priyanka varanasi
+    *desc: to show the injury players only
+    *date: 30/6/2015
+     */     
+    $(document.body).on('click','#oIP',function(){
+        if($(this).prop('checked')){
+            $('table#playerDetails tbody tr').each(function(){
+                if(!$(this).children().hasClass('.injuryplayer')){
+                    $(this).hide();
+                }
+            });
+           
+        }else{
+            $('table#playerDetails tbody tr').each(function(){
+                $(this).show();
+            });
+        } 
+    });     
+          
+          </script>
+            <script>
+		$('#playerDetails').DataTable({
+			"bLengthChange": false,
+			
+			});
+
+	</script>

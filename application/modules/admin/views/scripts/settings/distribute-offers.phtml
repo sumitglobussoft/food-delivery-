@@ -1,0 +1,102 @@
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Manage Offers
+            <small>for your next cool web APP</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-futbol-o"></i> Home</a></li>
+            <li>Manage Offers</li>
+            <li class="active">Distribute Offers</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <!-- Info boxes -->
+          <div class="row">
+          	<div class="col-md-12 col-sm-12 no-p-left no-p-right">
+            	<div class="panel panel-black no-radius">
+                	<div class="panel-heading paddingLR-md paddingTB-sm no-radius">
+                    	<h3 class="font-Russo-One no-margin">Offers Distribution</h3>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="row">
+          	<div class="col-md-12 col-sm-12">
+            	<div class="panel panel-gray">
+                	<div class="panel-heading paddingLR-md paddingTB-xs">
+                    	<h4 class="font-Libre-Baskerville">Select Users</h4>
+                    </div>
+                    <div class="panel-body padding-md">
+                    	<div class="row">
+                        	<div class="col-md-8 col-sm-8 col-sm-offset-2 col-xs-12">
+                                    <form method="POST" id="offerdistribute">
+                            		<div class="form-group">
+                                    	<label>Offers</label>
+                                        <div class="input-group col-xs-12">
+                                        	<select class="form-control " name="offer">
+                                            		<option>select</option>
+                                                        <?php if(isset($this->offers)){ foreach($this->offers as $value) { ?>
+                                                        <option value="<?php echo $value['offer_id'];?>"><?php echo $value['o_name'];?></option>
+                                                        <?php }  } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                    	<label>User Emails</label>
+                                        <div class="input-group col-xs-12">
+                                        	<input class="form-control" name="emailids" type="emails" placeholder="Add Multiple Emails Seperated by comma" multiple> 
+                                        </div>
+                                        <?php if(isset($this->message)){ foreach($this->message as $error){?>
+                                        
+                                        <span style="color:#4cae4c;"><?php echo $error; echo"<br>";?></span>
+                                        <?php } } ?>
+                                    </div>
+                                    
+                                    <div class="text-center">
+                                    	<button class="btn btn-blue paddingLR-lg">Send Offers</button>
+                                        
+                                    </div>
+                                    </form>
+                             </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          
+         
+        </section><!-- /.content -->
+      </div>
+<script>
+$(document).ready(function(){
+         
+   
+   $('#offerdistribute').validate({
+                onkeyup: function(element) {
+                    $(element).valid();
+                },     
+                rules: {
+                  
+                    
+                   emailids: {
+                        required:true
+                                   }
+               
+                },
+                messages: {
+                  
+                emailids:{
+                        required:"Please enter email"
+                    }
+              
+                }
+    });
+   });
+  </script>

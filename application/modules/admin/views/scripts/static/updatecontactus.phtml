@@ -1,0 +1,65 @@
+<style xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+    .test{
+        margin-left: 300px;
+        margin-top: 37px;
+        position: absolute;
+    }
+</style>
+
+
+    <?php echo $this->msg;
+//    print_r($this->settings);die;
+    ?>
+
+<div class="container col-md-10 test">
+    <?php echo $this->msg;?>
+    <form name="update-contact-us" method="post">
+        Route:
+        <select name="route" id="route">
+            <option>select</option>
+            <option value="contact">Contact Us</option>
+            <option value="about">About Us</option>
+            <option value="league">League </option>
+        </select>
+        <div id="about" style="display: none;">
+<!--            Title: <input type="text" name="title" id="title"><br>-->
+            HTML: <textarea name="html" id="editor1" rows="10" cols="80" ><?php echo $this->settings['about_us'];?></textarea><br>
+        </div>
+
+        <div id="league" style="display: none;">
+            <!--            Title: <input type="text" name="title" id="title"><br>-->
+            HTML: <textarea name="league" id="editor2" rows="10" cols="80" ><?php echo $this->settings['league'];?></textarea><br>
+        </div>
+
+        <div id="contact" style="display: none">
+            Phone number: <input type="text" name="contact_number" value="<?php echo $this->settings['contact_number'];?>"></br>
+            Email: <input type="email" name="email" value="<?php echo $this->settings['email'];?>"></br>
+            Mail address: <input type="text" name="mail_address" value="<?php echo $this->settings['mail_address'];?>"></br>
+        </div>
+
+        <button type="submit" name="submit" id="submit">Update</button>
+    </form>
+</div>
+
+<script>
+    CKEDITOR.replace( 'editor1' );
+    CKEDITOR.replace( 'editor2' );
+
+    $(document).on('change', '#route', function(){
+        var val = $(this).val();
+        if(val == "contact"){
+            $('#contact').show();
+            $('#about').hide();
+            $('#league').hide();
+        }else if(val == 'about'){
+            $('#contact').hide();
+            $('#league').hide();
+            $('#about').show();
+        }else if(val == 'league'){
+            $('#league').show();
+            $('#contact').hide();
+            $('#about').hide();
+        }
+    });
+
+</script>
