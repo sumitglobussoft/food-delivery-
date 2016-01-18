@@ -41,7 +41,7 @@ class Engine_Utilities_CurlRequestHandler {
         }
     }
 
-    public function curlUsingPost($url, $data) {
+    public function curlUsingPost($url,$data) {
 
 
         $response = new stdClass();
@@ -53,7 +53,7 @@ class Engine_Utilities_CurlRequestHandler {
         }
         //url-ify the data for the POST
         $fields_string = '';
-        //print_r($data);
+        
         foreach ($data as $key => $value) {
 
             $fields_string .= $key . '=' . $value . '&';
@@ -75,7 +75,7 @@ class Engine_Utilities_CurlRequestHandler {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         //execute post
         $result = curl_exec($ch);
-//        echo '<pre>'; print_r($result); die;
+       
         $result = json_decode($result, true);
 
         //close connection

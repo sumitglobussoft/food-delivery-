@@ -58,6 +58,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
        
        protected function _initLoadPlugins(){
               $objPluginLoader = Engine_Plugins_PluginLoader::getInstance();
+            
               $objPluginLoader->registerPlugin();
        }
        

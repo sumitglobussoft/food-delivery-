@@ -5,45 +5,157 @@ class Admin_Model_Users extends Zend_Db_Table_Abstract {
     private static $_instance = null;
     protected $_name = 'users';
 
-    private function __clone() {
-        
-    }
-
-//Prevent any copy of this object
-
     public static function getInstance() {
-        if (!is_object(self::$_instance))  //or if( is_null(self::$_instance) ) or if( self::$_instance == null )
+        if (!is_object(self::$_instance)) {
             self::$_instance = new Admin_Model_Users();
+        }
         return self::$_instance;
     }
 
-   /*
-   * dev:priyankav varanasi
-   * date:5/5/2015
-   * desc: to get users list form db 
-   */ 
-    public function getUsersDeatils() {
-        $select = $this->select()
-                ->from(array('u' => 'users'))
-                ->where('u.role != 2');
+    public function getUserdetails() {
+        try {
+            $select = $this->select()
+                    ->setIntegrityCheck(false)
+                    ->from(array('u' => 'users'))
+                    ->joinLeft(array('um' => 'usermeta'), 'u.user_id= um.user_id', array('um.first_name', 'um.last_name'));
 
-        $result = $this->getAdapter()->fetchAll($select);
-        if ($result) :
+            $result = $this->getAdapter()->fetchAll($select);
+//            echo '<pre>';print_r($result); die("ok");
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
+        }
+
+        if ($result) {
             return $result;
-        endif;
+        }
     }
 
-    /*
-   * dev:priyankav varanasi
-   * date:5/5/2015
-   * desc: to active and deactive user
-   */
-    public function userActiveDeactive() {
-        if (func_num_args() > 0):
-            $uid = func_get_arg(0);
+    public function getUserdetailsDash() {
+            try {
+                $select = $this->select()
+                        ->from($this)
+                        ->where('role = ?', 1);
+
+                $result = $this->getAdapter()->fetchAll($select);
+                
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+
+            if ($result) {
+                return $result;
+            }
+    }
+
+    public function getAllUserdetails() {
+        if (func_num_args() > 0) {
+            $userid = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('u' => 'users'))
+                        ->joinLeft(array('um' => 'usermeta'), 'u.user_id= um.user_id', array('um.first_name', 'um.last_name', 'um.phone', 'um.city', 'um.state', 'um.country', 'um.address'))
+                        ->where('u.user_id = ?', $userid);
+
+                $result = $this->getAdapter()->fetchRow($select);
+//            echo '<pre>';print_r($result); die("ok");
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+
+            if ($result) {
+                return $result;
+            }
+        }
+    }
+
+    public function updateUserdetails() {
+//        die("ok");
+        if (func_num_args() > 0) {
+            $userid = func_get_arg(0);
+            $userdata = func_get_arg(1);
+  
+            try {
+                $result1 = $this->update($userdata, 'user_id = "' . $userid . '"');
+               
+                if ($result1) {
+                    return $result1;
+                } else {
+                    return null;
+                }
+            } catch (Exception $e) {
+
+                throw new Exception('Unable To update data :' . $e);
+            }
+        }
+    }
+
+    public function deleteUserdetails() {
+        if (func_num_args() > 0) {
+            $userId = func_get_arg(0);
+            try {
+                $deleted = $this->delete('user_id = ' . $userId);
+                if ($deleted) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        } else {
+            throw new Exception("Argument not passed");
+        }
+    }
+
+    public function addUserdetails() {
+        if (func_num_args() > 0) {
+            $userdata = func_get_arg(0);
+
+            try {
+                $row = $this->insert($userdata);
+                if ($row) {
+                    return $row;
+                } else {
+                    return null;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable To insert data :' . $e);
+            }
+        }
+    }
+
+    public function updateStatus() {
+        if (func_num_args() > 0) {
+            $user_id = func_get_arg(0);
+            $status = func_get_arg(1);
+
+            $data = array('status' => $status);
+
+            try {
+                $result = $this->update($data, 'user_id = "' . $user_id . '"');
+//                print_r($result); die("OK");
+            } catch (Exception $e) {
+                throw new Exception('Unable To update data :' . $e);
+            }
+
+
+            if ($result) {
+                return $result;
+            }
+        }
+    }
+    
+     
+    //dev:priyanka varanasi
+    //desc:activate and deactive of the user
+    //date:16/12/2015
+    public function getstatustodeactivate(){
+          if (func_num_args() > 0):
+            $userid = func_get_arg(0);
             try {
                 $data = array('status' => new Zend_DB_Expr('IF(status=1, 0, 1)'));
-                $result = $this->update($data, 'user_id = "' . $uid . '"');
+                $result = $this->update($data, 'user_id = "' . $userid . '"');
             } catch (Exception $e) {
                 throw new Exception($e);
             }
@@ -55,13 +167,13 @@ class Admin_Model_Users extends Zend_Db_Table_Abstract {
         else:
             throw new Exception('Argument Not Passed');
         endif;
+        
     }
 
-   /*
-   * dev:priyankav varanasi
-   * date:5/5/2015
-   * desc: to delete user from db
-   */
+    //dev:priyanka varanasi
+    //desc: to delete user
+    //date:16/12/2015
+    
     public function userdelete() {
         if (func_num_args() > 0):
             $uid = func_get_arg(0);
@@ -77,133 +189,5 @@ class Admin_Model_Users extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         endif;
     }
-
-    public function getUsersDeatilsByID() {
-        if (func_num_args() > 0):
-            $uid = func_get_arg(0);
-            try {
-                $select = $this->select()
-                        ->from(array('u' => 'users'))
-                        ->setIntegrityCheck(false)
-                        ->join(array('ctry' => 'countries'), 'ctry.country_id = u.country_id', array("ctry.country_name"))
-                        ->join(array('st' => 'states'), 'st.state_id = u.state_id', array("st.state_code"))
-                        ->where('u.user_id =?', $uid);
-
-                $result = $this->getAdapter()->fetchRow($select);
-                if ($result) :
-                    return $result;
-                endif;
-            } catch (Exception $e) {
-                throw new Exception($e);
-            }
-        else :
-            throw new Exception('Argument Not Passed');
-        endif;
-    }
-
-   /*
-   * dev:priyankav varanasi
-   * date:5/5/2015
-   * desc: to update user from db
-   */
-    
-    public function updateUserDetails() {
-
-        if (func_num_args() > 0):
-            $uid = func_get_arg(0);
-            $userdata = func_get_arg(1); 
-            try {
-                $result = $this->update($userdata, 'user_id = "' . $uid . '"');
-                if ($result) {
-                    return $result;
-                } else {
-                    return 0;
-                }
-            } catch (Exception $e) {
-                throw new Exception($e);
-            }
-        else :
-            throw new Exception('Argument Not Passed');
-        endif;
-    } 
-    
-    
-      public function getTotalUser() {
-
-        $select = $this->select()
-                ->from($this, array("Totaluser" => "COUNT(*)"))
-                ->where('role !=?', '2');
-
-        $result = $this->getAdapter()->fetchRow($select);
-        if ($result) {
-            return $result['Totaluser'];
-        } else {
-            return false;
-        }
-    } 
-    
-    
-     /*
-   * dev:priyankav varanasi
-   * date:28/5/2015
-   * desc: to get user details from email ids
-   */
-    
-    public function getUsersDeatilsByemailIds() {
-                if (func_num_args() > 0):
-            $emailids = func_get_arg(0);
-            try {
-                $select = $this->select()
-                        ->from($this)
-                        ->where('email IN(?)', $emailids);
-
-                $result = $this->getAdapter()->fetchAll($select);
-                if ($result) :
-                    return $result;
-                endif;
-            } catch (Exception $e) {
-                throw new Exception($e);
-            }
-        else :
-            throw new Exception('Argument Not Passed');
-        endif;
-    }
-    
-    
-    /**
-     * Developer : Ram
-     * Date : 27/05/2015
-     * Description : Show user statics/     
-     */
-     public function userStatics()
-    { 
-         if (func_num_args() > 0) {
-            $year = func_get_arg(0);
-     $select = "SELECT COUNT(u.user_id) AS total, m.month
-                FROM (
-                      SELECT 'JAN' AS MONTH
-                      UNION SELECT 'FEB' AS MONTH
-                      UNION SELECT 'MAR' AS MONTH
-                      UNION SELECT 'APR' AS MONTH
-                      UNION SELECT 'MAY' AS MONTH
-                      UNION SELECT 'JUN' AS MONTH
-                      UNION SELECT 'JUL' AS MONTH
-                      UNION SELECT 'AUG' AS MONTH
-                      UNION SELECT 'SEP' AS MONTH
-                      UNION SELECT 'OCT' AS MONTH
-                      UNION SELECT 'NOV' AS MONTH
-                      UNION SELECT 'DEC' AS MONTH
-                     ) AS m
-               LEFT JOIN users u ON MONTH(STR_TO_DATE(CONCAT(m.month, ' $year'),'%M %Y')) = MONTH(u.reg_date) AND YEAR(u.reg_date) = '$year'
-               GROUP BY m.month
-               ORDER BY 1+1";
-
-
-
-        $result = $this->getAdapter()->fetchAll($select);        
-        return $result;
-    }
-    }
-
 
 }

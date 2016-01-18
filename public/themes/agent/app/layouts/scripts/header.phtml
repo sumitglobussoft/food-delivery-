@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <title>ZINGO :: AdminPanel</title>
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+        <link rel="shortcut icon" href="assets/img/fevicon.ico"/>
+        <meta content="AllThatIsRam" name="author" />
+
+        <!-- ================== BEGIN BASE CSS STYLE ================== -->
+        <link href="/themes/agent/skin/css/jquery-ui.min.css" rel="stylesheet" />
+        <link href="/themes/agent/skin/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="/themes/agent/skin/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="/themes/agent/skin/css/style.min.css" rel="stylesheet" />
+        <link href="/themes/agent/skin/css/style-responsive.min.css" rel="stylesheet" />
+        <link href="/themes/agent/skin/css/custom.css" rel="stylesheet" />	
+        <!-- ================== END BASE CSS STYLE ================== -->
+    </head>
+
+    <body>
+
+        <!-- begin #page-loader -->
+        <div id="page-loader" class="fade in"><span class="spinner"></span></div>
+
+        <?php if (isset($this->session->storage->role)) {
+            if ($this->session->storage->role == '1') { ?>
+                <!-- begin #header -->
+                <div id="header" class="header navbar navbar-default navbar-fixed-top">
+                    <!-- begin container-fluid -->
+                    <div class="container-fluid">
+                        <!-- begin mobile sidebar expand / collapse button -->
+                        <div class="navbar-header">
+                            <a href="index.html" class="navbar-brand">
+                                &nbsp;Z&nbsp;I&nbsp;I&nbsp;N&nbsp;G&nbsp;O&nbsp;
+                            </a>
+                            <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <!-- end mobile sidebar expand / collapse button -->
+
+                        <!-- begin header navigation right -->
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown navbar-user">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                                    <span class="hidden-xs"></span> <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu animated fadeInLeft">
+                                    <li class="arrow"></li>
+                                    <li><a href="#">Edit Profile</a></li>
+                                    <li><a href="#"><span class="badge badge-danger pull-right">2</span> Inbox</a></li>
+                                    <li><a href="#">Calendar</a></li>
+                                    <li><a href="#">Setting</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/agent/logout">Log Out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <!-- end header navigation right -->
+                    </div>
+                    <!-- end container-fluid -->
+                </div>
+
+                <div id="sidebar" class="sidebar">
+                    <div data-scrollbar="true" data-height="100%">
+                        <ul class="nav">
+                            <li class="nav-profile">
+                                <div class="image">
+                                    <a href="#"><img src="assets/img/img.png" alt="" /></a>
+                                </div>
+                                <div class="info">
+
+                                    <small>User Admin</small>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="nav">
+                            <li class="nav-header">Navigation</li>
+                            <li class="has-sub active">
+                                <a href="/agent/dashboard">
+                                    <i class="fa fa-laptop"></i>
+                                    <span>Dashboard</span>
+                                </a>						
+                            </li>
+                            <li class="has-sub">
+                                <a href="/agent/hotel-details">
+                                    <i class="fa fa-th"></i>
+                                    <span>Hotel Details</span>
+                                </a>						
+                            </li>
+                            <li class="has-sub">
+                                <a href="/agent-product-details">
+                                    <i class="fa fa-th"></i>
+                                    <span>Product Details</span>
+                                </a>						
+                            </li>
+                            <li class="has-sub">
+                                <a href="/restuarent-orders">
+                                    <i class="fa fa-th"></i>
+                                    <span>Order Details</span>
+                                </a>						
+                            </li>
+                            <li class="has-sub">
+                                <a href="/agent-payments">
+                                    <i class="fa fa-th"></i>
+                                    <span>Payment Details</span>
+                                </a>						
+                            </li>
+
+                            <li><a href="#" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            <?php }
+        } ?>
+		

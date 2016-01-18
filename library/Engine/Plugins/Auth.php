@@ -31,20 +31,21 @@ class Engine_Plugins_Auth extends Zend_Controller_Plugin_Abstract {
 			if ($this->_auth->hasIdentity()){
                             
                             
-                             //   print "<pre>"; print_r($this->_session->storage); print "</pre>"; die;
+                               
 				$this->_role = isset($this->_session->storage->role)?($this->_session->storage->role):$this->_role;
+                               
                                 if(isset($this->_session->storage->role)){
                                     switch ($this->_session->storage->role) {
                                         case 0:
-                                             //   $this->_session->storage->role = 'guest';
+                                            
                                             $this->_role = $this->_role;
                                             break;
                                         case 1: 
-                                              //  $this->_session->storage->role = 'user';
+                                       
                                             $this->_role = 'user';
                                             break;
                                         case 2:
-                                               // $this->_session->storage->role = 'admin';
+                                             
                                             $this->_role = 'admin';
                                             break;
                                        
@@ -107,9 +108,25 @@ class Engine_Plugins_Auth extends Zend_Controller_Plugin_Abstract {
 					throw new Exception($e->getMessage());
 				}
 				if(!$this->_access){				
-//					$this->getResponse()->setHttpResponseCode(403);
-//					throw new Exception('Access Forbidden',403);
-                                        Zend_Controller_Action_HelperBroker::getStaticHelper('redirector')->setGotoUrl('/signup');
+					 
+                                    
+                                   //DEV :priyanka varanasi
+                                   //DESC: TO redirect user to the home page if access permissions will get violated according to the module.
+                                    $module  = $request->getModuleName();
+                                
+                                    if($module=='admin'){
+                                        Zend_Controller_Action_HelperBroker::getStaticHelper('redirector')->setGotoUrl('/admin');
+				
+                                    }else if($module=='agent'){
+                                        Zend_Controller_Action_HelperBroker::getStaticHelper('redirector')->setGotoUrl('/agent');
+                                        
+                                    }else if($module=='web'){
+                                        
+                                       Zend_Controller_Action_HelperBroker::getStaticHelper('redirector')->setGotoUrl('/'); 
+                                    }else{
+                                        
+                                        Zend_Controller_Action_HelperBroker::getStaticHelper('redirector')->setGotoUrl('/');  
+                                    }
 				}
                             
                             

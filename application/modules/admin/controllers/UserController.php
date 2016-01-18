@@ -1,17 +1,148 @@
 <?php
-/**
- * AdminController
- *
- * @author
- * @version
- */
+
 require_once 'Zend/Controller/Action.php';
 
 class Admin_UserController extends Zend_Controller_Action {
 
-
-
-    public function init() {     
+    public function init() {
         
+    }
+
+    public function userdetailsAction() {
+        $userModel = Admin_Model_Users::getInstance();
+        $result = $userModel->getUserdetails();
+
+        if ($result) {
+            $this->view->userdetails = $result;
+        } else {
+            echo 'controller error occured';
+        }
+    }
+
+    public function allUserDetailsAction() {
+        $userModel = Admin_Model_Users::getInstance();
+        $userId = $this->getRequest()->getParam("userId");
+        $usermetaModel = Admin_Model_Usermeta::getInstance();
+
+        if ($this->_request->isPost()){
+            $userid = $this->getRequest()->getPost('user_id');
+            $userdata['uname'] = $this->getRequest()->getPost('uname');
+            $userdata['email'] = $this->getRequest()->getPost('email');
+            $usermetadata['first_name'] = $this->getRequest()->getPost('first_name');
+            $usermetadata['last_name'] = $this->getRequest()->getPost('last_name');
+            $usermetadata['phone'] = $this->getRequest()->getPost('phone');
+            $usermetadata['city'] = $this->getRequest()->getPost('city');
+            $usermetadata['state'] = $this->getRequest()->getPost('state');
+            $usermetadata['country'] = $this->getRequest()->getPost('country');
+            $usermetadata['address'] = $this->getRequest()->getPost('address');
+            $result1 = $userModel->updateUserdetails($userid, $userdata);
+            $result2 = $usermetaModel->updateUsermetadetails($userid, $usermetadata);
+            if($result1 || $result2){
+                $this->redirect('/admin/userdetails');
+            }
+        }
+        
+        $result = $userModel->getAllUserdetails($userId);
+
+        if ($result) {
+            $this->view->alluserdetails = $result;
+        } else {
+            echo 'controller error occured';
+        }
+    }
+
+    public function addUserDetailsAction() {
+
+        $userModel = Admin_Model_Users::getInstance();
+        $usermetaModel = Admin_Model_Usermeta::getInstance();
+
+        if ($this->_request->isPost()){
+            $userdata['uname'] = $this->getRequest()->getPost('uname');
+            $userdata['email'] = $this->getRequest()->getPost('email');
+            $userdata['role'] = 1;
+
+            $userId = $userModel->addUserdetails($userdata);
+            
+            $usermetadata['user_id'] = $userId;
+            $usermetadata['first_name'] = $this->getRequest()->getPost('first_name');
+            $usermetadata['last_name'] = $this->getRequest()->getPost('last_name');
+            $usermetadata['phone'] = $this->getRequest()->getPost('phone');
+            $usermetadata['city'] = $this->getRequest()->getPost('city');
+            $usermetadata['state'] = $this->getRequest()->getPost('state');
+            $usermetadata['country'] = $this->getRequest()->getPost('country');
+            $usermetadata['address'] = $this->getRequest()->getPost('address');
+            
+            $result2 = $usermetaModel->addUsermetadetails($usermetadata);
+            
+            if($result2){
+             $this->redirect('/admin/userdetails');    
+                
+            }
+            
+        }
+
+    }
+
+     /*
+     * DEV :priyanka varanasi
+     * Desc : user ajax handler action 
+     * Date : 16/12/2015
+     */
+
+    public function userAjaxHandlerAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+          $userModel = Admin_Model_Users::getInstance();
+         $agentsModal = Admin_Model_Agents::getInstance();
+       
+        if ($this->getRequest()->isPost()) {
+            $method = $this->getRequest()->getParam('method');
+
+            switch ($method) {
+                case 'useractive':
+                    $userstate = $this->getRequest()->getParam('userid');
+                    $ok = $userModel->getstatustodeactivate($userstate);
+
+                    if ($ok) {
+                        echo $userstate;
+                        
+                    } else {
+                        echo "Error";
+                    }
+                    break;
+                case 'userdelete':
+                    $userid = $this->getRequest()->getParam('userid');
+                    $result = $userModel->userdelete($userid);
+                    if ($result) {
+                        echo $result;
+                       
+                    } else {
+                        echo "error";
+                    }
+                    break;
+                    case 'agentactive':
+                    $userstate = $this->getRequest()->getParam('agentid');
+                    $ok = $agentsModal->getstatustodeactivate($userstate);
+
+                    if ($ok) {
+                        echo $userstate;
+                        return $userstate;
+                    } else {
+                        echo "Error";
+                    }
+                    break;
+                case 'agentdelete':
+                    $agentid = $this->getRequest()->getParam('agentid');
+                    $result = $agentsModal->agentdelete($agentid);
+                    if ($result) {
+                        echo $result;
+                       
+                    } else {
+                        echo "error";
+                    }
+                    break;
+
+            }
+        }
     }
 }

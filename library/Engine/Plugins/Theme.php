@@ -1,4 +1,5 @@
 <?php
+
 class Engine_Plugins_Theme extends Zend_Controller_Plugin_Abstract{
     
     /**
@@ -8,9 +9,12 @@ class Engine_Plugins_Theme extends Zend_Controller_Plugin_Abstract{
     * @param Zend_Controller_Request_Abstract $request
     */
     public function routeShutdown(Zend_Controller_Request_Abstract $request){
-        $layout = Zend_Layout::getMvcInstance();
+               $layout = Zend_Layout::getMvcInstance();
+               
         $module = strtolower($request->getModuleName());
+       
         $controller = strtolower($request->getControllerName());
+        
         $view = $layout->getView();
         
         $objCore = Engine_Core_Core::getInstance();
@@ -18,7 +22,7 @@ class Engine_Plugins_Theme extends Zend_Controller_Plugin_Abstract{
         
 //        $objThemesModel = Application_Model_Themes::getInstance();
 //        $activeTheme = $objThemesModel->getActiveTheme();
-        
+//        
 //        if($activeTheme){
 //            
 //            $filename = 'themes/'.$activeTheme['name'];
@@ -29,25 +33,53 @@ class Engine_Plugins_Theme extends Zend_Controller_Plugin_Abstract{
 //            
 //        }else{
 //            $theme = $this->_appSetting->layout->theme;
-//        }
-//        print_r($module); die;
-        if ($module != "admin") {
-            
-//            $view->theme = $theme;
-//            // send theme basepath to the layout
-//            $view->theme_base_path = '/themes/' . $theme . '/skin';
-//            
-//            $layoutPath = 'themes/' . $theme . '/app/layouts/scripts/'; // set selected theme layout path
-//           
-//            $viewPath   = 'themes/' . $theme . '/app/views/'.$module.'/'.$controller;// set selected theme view
-//            
-//            $layout->setLayoutPath($layoutPath); // set theme layout
-//            $layout->getView()->setBasePath($viewPath);// set theme view
-             $layout->setLayout('layout');
+//       }
+        
+       
+        
+        if ($module == "admin") {
+  
+             $layout->setLayout('adminlayout');
         }
-        else{
-                 
-            $layout->setLayout('adminlayout');
+        else if( ($module == "agent")){
+             $view->theme = 'agent';
+             $theme = 'agent';
+            // send theme basepath to the layout
+            $view->theme_base_path = '/themes/' . $theme . '/skin';
+            
+            $layoutPath = 'themes/' . $theme . '/app/layouts/scripts/'; // set selected theme layout path
+          
+            $viewPath   = 'themes/' . $theme . '/app/views/'.$module.'/'.$controller;// set selected theme view
+           
+            $layout->setLayoutPath($layoutPath); // set theme layout
+            $layout->getView()->setBasePath($viewPath);// set theme view     
+         
+        }else if($module == "web"){
+            
+            $view->theme = 'web';
+             $theme = 'web';
+            // send theme basepath to the layout
+            $view->theme_base_path = '/themes/' . $theme . '/skin';
+            
+            $layoutPath = 'themes/' . $theme . '/app/layouts/scripts/'; // set selected theme layout path
+          
+            $viewPath   = 'themes/' . $theme . '/app/views/'.$module.'/'.$controller;// set selected theme view
+         
+            $layout->setLayoutPath($layoutPath); // set theme layout
+            $layout->getView()->setBasePath($viewPath);// set theme view   
+            
+        }else{
+           $view->theme = 'web';
+            // send theme basepath to the layout
+            $view->theme_base_path = '/themes/' . $theme . '/skin';
+            
+            $layoutPath = 'themes/' . $theme . '/app/layouts/scripts/'; // set selected theme layout path
+          
+            $viewPath   = 'themes/' . $theme . '/app/views/'.$module.'/'.$controller;// set selected theme view
+           
+            $layout->setLayoutPath($layoutPath); // set theme layout
+            $layout->getView()->setBasePath($viewPath);// set theme view   
+            
         }
     }
 }

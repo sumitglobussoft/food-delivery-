@@ -1,0 +1,167 @@
+
+<!--location search modal-->
+<div id="loginModal" class="modal loginModal">
+    <button class="btn-floating modal-close modal-close-btn waves-effect waves-light"><i class="material-icons">clear</i></button>
+    <div class="modal-content">
+        <div class="row">
+            <div class="col s12">
+                <img src="/assets/images/logo.png" class="logo">
+            </div>
+        </div>
+        <div id="loginContent" class="row no-m-bot">
+            <form class="col s12 loginForm" method="post">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="loginname" name="loginname" class="validate" type="text">
+                        <label for="loginname">Email</label>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input  type="password" id="pwd" name="pwd" class="validate">
+                            <label for="pwd">Password</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 right-align">
+                            <a id="forgotBtn" href="javascript:;">Forgot Password?</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 center">
+                            <button  name="userform" value="ziingologin" class="btn waves-light waves-effect ziingologin">Login</button>
+                        </div>
+                    </div>
+                    <span class="error" style="text-align: center"></span>
+                    <div class="row no-m-bot">
+                        <div class="col s12">
+                            <p class="center">New User ? <a href="/signup">Signup</a></p>
+                        </div>
+                    </div>
+
+                </div>
+            </form>         
+
+            <div id="passwordResetContent" class="row no-m-bot hide">
+                <div class="col s12 center marginTB-sm">
+                    <h4 class="font-DancingScript bold ">Forgot Password</h4>
+                </div>
+                <form class="col s12 passwordResetForm">
+                    <div class="row">
+                        <div class="col s12">
+                            <p>Enter Your Email Address, We'll Send you Password Reset Link to Your Email Address</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="emailForgot" type="email" class="validate">
+                            <label for="emailForgot">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 center">
+                            <button  name="userform" value="ziingoreset" class="btn waves-light waves-effect ziingologin">Reset Password</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--- modal ends here ----->
+
+<!--location search modal-->
+<div id="changePlaceModal" class="modal modal-small changePlaceModal red lighten-5">
+    <button class="btn-floating modal-close modal-close-btn waves-effect waves-light"><i class="material-icons">clear</i></button>
+    <div class="modal-content">
+        <div class="row">
+            <div class="col s12 center">
+                <h4 class="font-DancingScript bold">Change Locality</h4>
+            </div>
+            <form class="col s12 m-top-md" method="Post" action="/restaurents-list">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="dropdown dropContent closed">
+                            <div class="title city1">Choose your City</div>
+                            <input type="hidden" value="" class="thiscity" name="city">
+                            <ul id="cityslist" class="city2">
+                                            <?php
+                                                    if ($this->session->storage->cityslist) {
+                                                        foreach ($this->session->storage->cityslist as $value) {
+                                                            ?>
+                                                            <li><span value="<?php echo $value['location_id']; ?>"><?php echo $value['name']; ?></span></li>
+                                                                       
+                                                        <?php
+                                                        }
+                                                    }
+                                                    ?>
+                            </ul>
+                        </div>
+<!--                        <select class="material-select">
+                            <option value="" disabled selected>Choose your city</option>
+                            <option value="1">City 1</option>
+                            <option value="2">City 2</option>
+                            <option value="3">City 3</option>
+                        </select>-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="dropdown dropContent closed">
+                            <div class="title location1">Choose your nearest Location</div>
+                            <input type="hidden" value="" class="thislocation" name="location">
+                            <ul id="locationList" class="city2">
+                            
+                            </ul>
+                        </div>
+<!--                        <select class="material-select">
+                            <option value="" disabled selected>Choose your nearest location</option>
+                            <option value="1">Location 1</option>
+                            <option value="2">Location 2</option>
+                            <option value="3">Location 3</option>
+                        </select>-->
+                    </div>
+                </div>
+                <div class="row m-top-md">
+                    <div class="col s12 center">
+                        <button class="btn btn-alt waves-effect teal-text  waves-teal top5px" type="submit">Find Restaurants</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<!--- modal ends here ----->
+<style>
+    .help-block{
+        color : rgb(251,0,7);
+    }
+    .error{
+        color : rgb(251,0,7);
+    }
+    .dropdown.dropContent ul.city2 {
+        width: 81.2%;
+    }
+    .dropdown.dropContent div.city1::after {
+        right: 14%;
+        top: 40%;
+    }
+    .dropdown.dropContent div.location1::after {
+        right: 14%;
+        bottom: 40%;
+    }
+    .city1, .location1 {
+        color: rgba(0,0,0,0.7);
+    }
+    body .lean-overlay:last-child {
+        display: none !important;
+    }
+</style>
+<script>
+    $("#locationList li").on("click", function() {
+       $("#locationList li").parent().parent().toggleClass('closed');
+        //var location_id = $(this).children().attr('value');
+        $(this).parent().parent().toggleClass("closed").find(".title").text($(this).text());
+        //$(this).parent().parent().find(".thislocation").val(location_id);
+    });
+</script>

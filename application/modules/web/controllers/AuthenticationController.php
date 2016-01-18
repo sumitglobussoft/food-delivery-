@@ -13,36 +13,167 @@ class Web_AuthenticationController extends Zend_Controller_Action {
              
                
     }
- 
-    public function indexAction() {
-        if (isset($this->view->session->storage->role)):
-            if ($this->view->session->storage->role == '2'):
-                $this->_redirect('admin/dashboard');
-            endif;
-        endif;
-
-        $objSecurity = Engine_Vault_Security::getInstance();
-
-        if ($this->_request->isPost()):
-            $username = $this->getRequest()->getPost('username');
-            $password = ($this->getRequest()->getPost('password'));
-            if (isset($username) && isset($password)):
-                $authStatus = $objSecurity->authenticate($username, md5($password));
-//            echo"<pre>";print_r($authStatus);die;
-                if ($authStatus->code == 200):
-                    if ($this->view->session->storage->role == '2'):
-                        $this->_redirect('admin/dashboard');
-                    endif;
-                elseif ($authStatus->code == 198):
-                    $this->view->errormgs = "Invalid credentials";
-                endif;
-            endif;
-        endif;
-    }
-
-        public function dashboardAction() {
-//            die('test');
+ /*
+     * Dev : Priyanka Varanasi
+     * Desc: Modified  Ziingo signup Action
+     * Date : 11/1/2016
+     * 
+     */
+    public function signupAction() {
+         $mailer = Engine_Mailer_Mailer::getInstance();
+         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+         $objCore = Engine_Core_Core::getInstance();
+          $objSecurity = Engine_Vault_Security::getInstance();
+          $this->_appSetting = $objCore->getAppSetting();
+        if ($this->view->auth->hasIdentity()) {
+            $this->_redirect('/');
         }
+        if ($this->getRequest()->isPost()) {
+              $username = $this->getRequest()->getPost('name');
+                $email = $this->getRequest()->getPost('email');
+                $password = $this->getRequest()->getPost('password');
+                $agreeterms = $this->getRequest()->getPost('agreeterms');
+                  if ($agreeterms == 'on'){
+               if (isset($username) && isset($email) && isset($password)) {
+                  
+                    $data = array('uname' => $username,
+                           'password' => sha1(md5($password)),
+                            'email' => $email,
+                            'reg_date' => date('Y-m-d H-i-s'),
+                            'status' => 1,
+                            'role' => 1,
+                         );
+                    
+                    $agentdata['userdata']  = json_encode($data);
+     
+           $url = $this->_appSetting->apiLink . '/web-authentication?method=usersignup';
+            
+           $curlResponse = $objCurlHandler->curlUsingPost($url,$agentdata);
+           
+                        if ($curlResponse->code===200) {
+                           //////////////////SEND EMAIL /////////////////////////////
+                            
+                            $authStatus = $objSecurity->authenticate($email, sha1(md5($password)));
+                     
+                            }
+                          
+                            if ($authStatus) {
+                                $this->_redirect('/');
+                            }
+                        }
+                   }
+                }
+    }
+    /*
+     * Dev : Priyanka Varanasi
+     * Desc: Modified  Ziingo login Action
+     * Date : 11/1/2016
+     * 
+     */
+    public function ziingoLoginAction(){
+       
+      $this->_helper->layout->disableLayout();
+      $this->_helper->viewRenderer->setNoRender(true);
+    
+      $mailer = Engine_Mailer_Mailer::getInstance();
+     
+      $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+      $objCore = Engine_Core_Core::getInstance();
+      $objSecurity = Engine_Vault_Security::getInstance();
+      $this->_appSetting = $objCore->getAppSetting();
+      $method = $this->getRequest()->getPost('methodtype');
+    if($method=='ziingologin'){
+      $loginData = $this->getRequest()->getPost('loginname');
+      $password = $this->getRequest()->getPost('password');
+     if (isset($loginData) && isset($password)) {
+         $data['logindata'] = $loginData;
+         $data['password'] = $password;
+        
+          $url = $this->_appSetting->apiLink . '/web-authentication?method=userlogin';
+          $curlResponse = $objCurlHandler->curlUsingPost($url,$data);
+         
+         if ($curlResponse->code == 200) {
+          $authStatus = $objSecurity->authenticate($loginData,sha1(md5($password)));
+         
+           if ($authStatus) {
+               $array = array('code'=>200,
+                              'messsage'=>'Success');
+             echo json_encode($array);
+             }
+           } else {
+               $array = array('code'=>198,
+                              'messsage'=>'Failed Authentication');
+            echo json_encode($array);
+           }  
+        
+    }
+    
+    }else if($method='ziingoreset'){
+        
+     //reset password action   
+    }
+}
+ /*
+     * Dev : Priyanka Varanasi
+     * Desc: ajax handler functions will be carried 
+     * Date : 15/1/2016
+     * 
+     */
+public function ajaxHandlerAuthAction(){
+     $this->_helper->layout->disableLayout();
+      $this->_helper->viewRenderer->setNoRender(true);
+    
+      $mailer = Engine_Mailer_Mailer::getInstance();
+     
+      $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+      $objCore = Engine_Core_Core::getInstance();
+      $objSecurity = Engine_Vault_Security::getInstance();
+      $this->_appSetting = $objCore->getAppSetting();
+      $method = $this->getRequest()->getParam('ajaxMethod');
+        if ($method) {
+            switch ($method) {
+               case'validateUsername':
+                  $data['uname'] = $this->getRequest()->getParam('username');
+                  $url = $this->_appSetting->apiLink . '/web-authentication?method=validateusername';
+                 $curlResponse = $objCurlHandler->curlUsingPost($url,$data);
+                
+                  if ($curlResponse->code===200) {
+                       echo json_encode(true);
+                        }else{
+                          $arr = array("Username already exists");
+                            echo json_encode($arr);  
+                        }
+                      die();
+                    break;
+                 case'validateEmail':
+                  $data['email'] = $this->getRequest()->getParam('email');
+                  $url = $this->_appSetting->apiLink . '/web-authentication?method=validateemail';
+                 $curlResponse = $objCurlHandler->curlUsingPost($url,$data);
+                  if ($curlResponse->code===200) {
+                       echo json_encode(true);
+                        }else{
+                          $arr = array("Email already exists");
+                            echo json_encode($arr,true);  
+                        }
+                     die();
+                    break;
+            }
+        } else {
+            $response->message = 'Invalid Request';
+            $response->code = 401;
+            $response->data = 'No Method';
+
+            echo json_encode($response,true);
+            die();
+        }
+    
+}
+ /*
+     * Dev : Priyanka Varanasi
+     * Desc: session destroy logout action
+     * Date : 10/12/2015
+     * 
+     */
         
     public function logoutAction() {
         $this->_helper->layout->disableLayout();
@@ -52,7 +183,7 @@ class Web_AuthenticationController extends Zend_Controller_Action {
 
             Zend_Session::destroy(true);
 
-            $this->_redirect('/admin');
+            $this->_redirect('/');
         }
     }
 

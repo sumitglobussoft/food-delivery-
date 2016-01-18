@@ -1,0 +1,229 @@
+<?php
+/*
+  DEV :Priyanka Varanasi
+  DESC: javascripts File
+  Design Date : 11/1/2015
+ */
+?>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        $(".loginForm").validate({
+            rules: {
+                loginname: {
+                    required: true,
+                },
+                pwd: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 10
+                }
+            },
+            messages: {
+                loginname: {
+                    required: 'please enter username or email'
+                },
+                pwd: {
+                    required: "Password is required Field",
+                    minlength: "Minimum Length of password is 3",
+                    maxlength: "MaxLength of Password is 10"
+                }
+            },
+            submitHandler: function(form) {
+                var methodtype = $('.ziingologin').val();
+                var loginname = $('#loginname').val();
+
+                var password = $('#pwd').val();
+
+                $.ajax({
+                    url: '/ziingo-login',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        methodtype: methodtype,
+                        loginname: loginname,
+                        password: password
+                    },
+                    success: function(response) {
+                        if (response) {
+                            if (response.code === 200) {
+                                window.location.reload(true);
+                            } else {
+                                $('.error').css('display', 'block');
+                                $('.error').text('Please enter valid login credentials');
+                            }
+
+                        }
+
+                    }
+                });
+
+            }
+
+        });
+        $(".signupForm").validate({
+            rules: {
+                name: {
+                    required: true,
+                    remote: {
+                        url: "/ajax-handler-auth",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            username: function() {
+                                return $("#name").val();
+                            },
+                            ajaxMethod: 'validateUsername'
+                        }
+
+                    },
+                    regex: /^[a-zA-Z0-9_\.]+$/
+
+                },
+                email: {
+                    required: true,
+                    remote: {
+                        url: "/ajax-handler-auth",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            email: function() {
+                                return $("#email").val();
+                            },
+                            ajaxMethod: 'validateEmail'
+                        }
+
+                    },
+                    email: true
+
+                },
+                password: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 10
+                },
+                agreeterms: {
+                    required: true
+                }
+            },
+            messages: {
+                name: {
+                    required: "Username is required Field",
+                    regex: "Invalid Format",
+                    remote: "Username already exits"
+                },
+                email: {
+                    required: "Email is required Field",
+                    email: "Invalid Email Format",
+                    remote: "Email already exists"
+                },
+                password: {
+                    required: "Password is required Field",
+                    minlength: "Minimum Length of password is 3",
+                    maxlength: "MaxLength of Password is 10"
+                },
+                agreeterms: {
+                    required: "You Must Agree to term and condition"
+                }
+
+
+            }
+
+        });
+
+        $('#cityslist li').click(function(e) {
+            e.preventDefault();
+            var locationid = $(this).children().attr('value');
+
+            $.ajax({
+                url: '/home-ajax-handler',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    methodtype: 'getlocations',
+                    locationid: locationid,
+                },
+                success: function(response) {
+                    if (response) {
+                        if (response.code === 200) {
+                            $('#locationList').html('');
+
+                            $.each(response.data, function(index, val) {
+
+                                $('#locationList').append('<li ><span value="' + val.location_id + '" >' + val.name + '</span></li>');
+                            });
+                        } else {
+                            $('#locationList').append('<li><span value="">No Location under this city</span></li>');
+                        }
+
+                    }
+
+                }
+            });
+
+        });
+
+        //  home page search box drop down scripts//
+        $(".dropdown .title").click(function() {
+            $(this).parent().toggleClass("closed");
+        });
+
+        $(".dropdown li").click(function() {
+            var locationid = $(this).children().attr('value');
+            $(this).parent().parent().toggleClass("closed").find(".title").text($(this).text());
+            $(this).parent().parent().find(".thiscity").val(locationid);
+        });
+
+        $("#locationList").on("click", "li", function() {
+            var location_id = $(this).children().attr('value');
+             var  cityid = $('.thiscity').val();
+            $(this).parent().parent().toggleClass("closed").find(".title").text($(this).text());
+            $(this).parent().parent().find(".thislocation").val(location_id);
+            if(location_id){
+            $('#addlocid').attr('href','/restaurents-list?location_id='+location_id+'&city='+cityid+'');
+        }else{
+            $('#addlocid').attr('href','/restaurents-list?city='+cityid+'');
+        }
+        });
+var count = 0;
+    $(document.body).on('click','.getproductid',function(){
+       count++;
+       var productid = $(this).attr('data-prod');
+          $.ajax({
+                url: '/home-ajax-handler',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    methodtype: 'getproductdetails',
+                    productid: productid,
+                },
+                success: function(response) {
+                    if (response) {
+                        if (response.code===200) {
+                             //$(response.data).each(function(ind,val){
+                             $('.orderTable tbody ').append('<tr><td>'+count+'</td>'+
+                                 '<td><span class="dish-name">'+response['data'].name+'</span></td>'+
+                                  '<td><a href="#" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Remove Quantity">'+
+                                         '<span><i class="fa fa-minus"></i></span>'+
+                                               '</a><span>01</span><a href="#" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Add Quantity">'+
+                                                '<span><i class="fa fa-plus"></i></span></a></td>'+
+                                  '<td><span><i class="fa fa-inr"></i></span>'+response['data'].cost+'</td>'+
+                                  '<td><a href="#" data-id='+response['data'].product_id+' class="tooltipped red-text" data-position="top" data-delay="50" data-tooltip="Remove Item!">'+
+                                   '<span><i class="fa fa-trash"></i></span></a></td></tr>');  
+                       
+                            //});
+                   } else {
+                           
+                        }
+
+                    }
+
+                }
+            });
+
+});
+
+////////scripts ends here ///////
+    });
+</script>

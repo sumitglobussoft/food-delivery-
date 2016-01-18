@@ -15,7 +15,7 @@ class Admin_AdminController extends Zend_Controller_Action {
     }
  
     public function indexAction() {
-        if (isset($this->view->session->storage->role)):
+              if (isset($this->view->session->storage->role)):
             if ($this->view->session->storage->role == '2'):
                 $this->_redirect('admin/dashboard');
             endif;
@@ -23,25 +23,57 @@ class Admin_AdminController extends Zend_Controller_Action {
 
         $objSecurity = Engine_Vault_Security::getInstance();
 
-        if ($this->_request->isPost()):
+        if ($this->_request->isPost()){
             $username = $this->getRequest()->getPost('username');
-            $password = ($this->getRequest()->getPost('password'));
+            $password = sha1(md5($this->getRequest()->getPost('password')));
+
             if (isset($username) && isset($password)):
-                $authStatus = $objSecurity->authenticate($username, md5($password));
-//            echo"<pre>";print_r($authStatus);die;
+
+                $authStatus = $objSecurity->authenticate($username,$password);
+
                 if ($authStatus->code == 200):
                     if ($this->view->session->storage->role == '2'):
                         $this->_redirect('admin/dashboard');
                     endif;
                 elseif ($authStatus->code == 198):
-                    $this->view->errormgs = "Invalid credentials";
+                    $this->view->error = "Invalid credentials";
                 endif;
             endif;
-        endif;
+        }
     }
 
         public function dashboardAction() {
-//            die('test');
+         $userModel = Admin_Model_Users::getInstance();
+        $result = $userModel->getUserdetailsDash();
+        if ($result) {
+            $this->view->userdetails = $result;
+        } else {
+            
+        }
+
+        $usertransactionModel = Admin_Model_UserTransactions::getInstance();
+        $result = $usertransactionModel->getAllUsertransaction();
+        if ($result) {
+            $this->view->usertransaction = $result;
+        } else {
+            
+        }
+
+        $ordersModel = Admin_Model_Orders::getInstance();
+        $result = $ordersModel->getAllOrders();
+        if ($result) {
+            $this->view->orderdetails = $result;
+        } else {
+            
+        }
+
+         $productsModel = Admin_Model_Products::getInstance();
+        $result = $productsModel->getAllproducts();
+        if ($result) {
+            $this->view->productsdetails = $result;
+        } else {
+            
+        }
         }
         
     public function logoutAction() {

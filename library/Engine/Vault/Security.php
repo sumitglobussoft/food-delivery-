@@ -119,6 +119,84 @@ class Engine_Vault_Security {
             return $response;
         }
     }
+    
+    
+        public function agentAuthenticate() {
+        $data = new stdClass();
+        $data->username = func_get_arg(0);
+        $data->password = func_get_arg(1);
+   
+        $auth = Zend_Auth::getInstance();
+ 
+        $storage = new Zend_Auth_Storage_Session($this->_appSetting->appName);
+        $auth->setStorage($storage);
+
+        $authAdapter = new Zend_Auth_Adapter_DbTable($this->_db);
+
+        /** check creds against the this table and column * */
+        $authAdapter->setTableName('agents')
+                ->setIdentityColumn(stripos($data->username, '@') ? 'email' : 'loginname')
+                ->setCredentialColumn('password');
+
+        /** check creds against this values * */
+        $authAdapter->setIdentity($data->username)
+                ->setCredential($data->password);
+//                ->setCredentialTreatment('MD5(?)')
+//        ->setCredentialTreatment('SHA1(CONCAT(?,salt))');
+ 
+        $result = $this->_auth->authenticate($authAdapter);
+                                    
+   
+//        echo"<pre>";print_r($result->getCode());die;
+       
+       
+        
+        switch ($result->getCode()) {
+
+            case Zend_Auth_Result::SUCCESS:
+                $this->_logger->info('success');
+                break;
+            case Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND:
+            case Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID:
+            default:
+                foreach ($result->getMessages() as $message) {
+                    //throw new Exception($message);
+                    $errorMsg = $message;
+                }
+                break;
+        }
+        $response = new stdClass();
+        
+        
+        if ($result->isValid()) {
+            if ($auth->hasIdentity()) {
+              
+                $dataResponse = $authAdapter->getResultRowObject();
+                if ($dataResponse->agent_status == 0) {
+                    $auth->clearIdentity();
+                    $response->code = 196;
+                    $response->message = "Account is Inactive";
+                } else {
+               
+                    $storage->write($authAdapter->getResultRowObject());
+                    $this->_logger->info($storage);
+                    $this->_logger->info($auth->getIdentity());
+                    $response->code = 200;
+                    $response->message = "Authentication Successful";
+                    
+                }
+            } else {
+                $this->_logger->info('No Identity found');
+                $response->code = 198;
+            }
+            
+            return $response;
+        } else {
+            $response->code = 198;
+            $response->data = $errorMsg;
+            return $response;
+        }
+    }
 
     public function encript() {
         $pure_string = func_get_arg(0);

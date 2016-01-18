@@ -1,1 +1,482 @@
-<P>Hello</P>
+<main class="page-content">
+    <section class="home">
+        <div class="parallax-container h-auto">
+            <div class="parallax"><img src="assets/images/gallery/image-1.jpg" class="responsive-img"></div>
+            <div class="parallax-content p-top-64">
+                <div class="container">
+                    <div class="row no-m-bot">
+                        <div class="col s12">
+                            <div class="paddingTB-lg">
+                                <div class="bg-pixel-black center padding-md">
+                                    <h4 class="font-squadaone">Order food online from the best restaurants near you</h4>
+
+                                    <div class="row m-top-lg">
+                                        <form class="col s12" method="POST">
+
+                                            <div class="row">
+                                                <div class="col s12 m8 offset-m2 l6 offset-l3">
+<!--                                                    <select class="material-select" id="cityslist">
+                                                        <option value="" disabled selected>Choose your city</option>
+                                                    <?php
+                                                    if ($this->cityslist) {
+                                                        foreach ($this->cityslist as $value) {
+                                                            ?>
+                                                                        <option value="<?php echo $value['location_id']; ?>"><?php echo $value['name']; ?></option>
+                                                        <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                    </select>-->
+
+
+                                                    <div class="dropdown dropContent closed">
+                                                        <div class="title">Select the City</div>
+                                                        <input type="hidden" value="" class="thiscity" name="city">
+                                                        <ul id="cityslist">
+                                                               <?php
+                                                    if ($this->cityslist) {
+                                                        foreach ($this->cityslist as $value) {
+                                                            ?>
+                                                            <li><span value="<?php echo $value['location_id']; ?>"><?php echo $value['name']; ?></span></li>
+                                                                       
+                                                        <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                        </ul>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12 m8 offset-m2 l6 offset-l3" id="test">
+<!--                                                    <select class="material-select" id="selectlocationlist">
+                                                        <option value="44" disabled selected>Select your city first</option>
+                                                       
+                                                    </select>-->
+
+
+                                                    <div class="dropdown dropContent closed">
+                                                        <div class="title">Select your Location</div>
+                                                         <input type="hidden" value="" class="thislocation" name="location">
+                                                        <ul id="locationList">
+                                                          
+                                                        </ul>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12 m8 offset-m2 l6 offset-l3 center">
+                                                    <a href="" class="btn btn-alt waves-effect waves-light top5px" id="addlocid" disabled type="submit">Find Restaurants</a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12 center">
+                                                    <p class="center font-DancingScript">-------- OR --------</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12 m8 offset-m2 l6 offset-l3 center">
+                                                    <a href="restaurant-list.html" class="btn btn-alt lime-text waves-effect waves-light top5px">Locate Me In<span class="m-left-sm"><i class="fa fa-map-marker"></i></span></a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="row m-top-md">
+                                        <div class="col s12">
+                                            <h5 class="font-DancingScript">---------- Share Us ----------</h5>
+                                            <ul class="list-inline center m-top-md">
+                                                <li>
+                                                    <a href="#" class="white-text">
+                                                        <span class="fa-stack fa-lg">
+                                                            <i class="fa fa-square-o fa-stack-2x"></i>
+                                                            <i class="fa fa-facebook fa-stack-1x"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="white-text">
+                                                        <span class="fa-stack fa-lg">
+                                                            <i class="fa fa-square-o fa-stack-2x"></i>
+                                                            <i class="fa fa-twitter fa-stack-1x"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="white-text">
+                                                        <span class="fa-stack fa-lg">
+                                                            <i class="fa fa-square-o fa-stack-2x"></i>
+                                                            <i class="fa fa-google-plus fa-stack-1x"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="how-it-works red lighten-5">
+        <div class="paddingTB-lg">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12">
+                        <h3 class="section-title">How It Works</h3>
+                        <p class="center font-18 m-top-md">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ex ea commodo consequat.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-top-md">
+                <div class="col s12 m6 l3">
+                    <div class="card red lighten-3">
+                        <div class="card-content center">
+                            <span><i class="fa fa-3x fa-search "></i></span>
+                            <h4 class="font-Lobster marginTB-md">Search</h4>
+                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l3">
+                    <div class="card red lighten-4">
+                        <div class="card-content center">
+                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                            <h4 class="font-Lobster marginTB-md">Choose</h4>
+                            <span><i class="fa fa-3x fa-hand-o-up"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l3">
+                    <div class="card red lighten-3">
+                        <div class="card-content center">
+                            <span><i class="fa fa-3x fa-money"></i></span>
+                            <h4 class="font-Lobster marginTB-md">Pay Cash/Card</h4>
+                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l3">
+                    <div class="card red lighten-4">
+                        <div class="card-content center">
+                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                            <h4 class="font-Lobster marginTB-md">Doorstep</h4>
+                            <span><i class="fa fa-3x fa-motorcycle"></i></span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="">
+        <div class="parallax-container h-250">
+            <div class="parallax"><img src="assets/images/gallery/blurred-image-9.jpg" class="responsive-img"></div>
+            <div class="parallax-content">
+                <div class="container m-top-lg">
+                    <div class="row white-text">
+                        <div class="col s12 m6 l4 center">
+                            <h2 id="restaurantCount" class="font-SquadaOne lime-text "></h2>
+                            <h3>Our Restaurants</h3>
+                        </div>
+                        <div class="col s12 m6 l4 center">
+                            <h2 id="orderCount" class="font-SquadaOne lime-text "></h2>
+                            <h3>Orders Completed</h3>
+                        </div>
+                        <div class="col s12 m12 l4 center">
+                            <h2 id="usersCount" class="font-SquadaOne lime-text "></h2>
+                            <h3>Registered Users</h3>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <section class="restaurants min-h-350 red lighten-5">
+        <div class="paddingTB-lg container">
+            <div class="row">
+                <div class="col s12">
+                    <h3 class="section-title">Popular Restaurants</h3>
+                    <p class="center font-18 m-top-md">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <div id="popularRestaurants"  class="owl-carousel">
+                        <div class="item">
+                            <div class="card restaurant popular">
+                                <div class="card-content">
+                                    <figure>
+                                        <img src="assets/images/restaurants/restaurant-1.jpg" class="restaurant-image">
+                                        <figcaption>
+                                            <a href="#" class="restaurant-name">Restaurant Name</a>
+                                        </figcaption>
+                                    </figure>
+                                    <div class="details">
+                                        <p class="restaurant-cuisine">North Indian, Chinese, Continental, Italian, Mediterranean, Thai, Lebanese</p>
+                                        <ul class="facilities">
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="From 8AM To 10PM"><span class="fa fa-clock-o"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="No Minimum Order"><span class="fa fa-usd"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Delivery in 45Min"><span class="fa fa-motorcycle"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Cash On Delivery Available"><span class="fa fa-money"></span></a></li>
+                                        </ul>
+                                        <ul>
+                                            <li><p class="restaurant-rating" data-score="4.5"></p></li>
+                                            <li><p class="rating-count">(450) Ratings</p></li>
+                                        </ul>
+                                        <a href="#" class="btn waves-light waves-effect btn-order">Order Now</a>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="item">
+                            <div class="card restaurant popular">
+                                <div class="card-content">
+                                    <figure>
+                                        <img src="assets/images/restaurants/restaurant-2.jpg" class="restaurant-image">
+                                        <figcaption>
+                                            <a href="#" class="restaurant-name">Restaurant Name Restaurant Name Restaurant Name</a>
+                                        </figcaption>
+                                    </figure>
+                                    <div class="details">
+                                        <p class="restaurant-cuisine">North Indian, South Indian, Chinese</p>
+                                        <ul class="facilities">
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="From 8AM To 10PM"><span class="fa fa-clock-o"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="No Minimum Order"><span class="fa fa-usd"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Delivery in 45Min"><span class="fa fa-motorcycle"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Cash On Delivery Available"><span class="fa fa-money"></span></a></li>
+                                        </ul>
+                                        <ul>
+                                            <li><p class="restaurant-rating" data-score="4.5"></p></li>
+                                            <li><p class="rating-count">(450) Ratings</p></li>
+                                        </ul>
+                                        <a href="#" class="btn waves-light waves-effect btn-order">Order Now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="item">
+                            <div class="card restaurant popular">
+                                <div class="card-content">
+                                    <figure>
+                                        <img src="assets/images/restaurants/restaurant-3.jpg" class="restaurant-image">
+                                        <figcaption>
+                                            <a href="#" class="restaurant-name">Restaurant Name Restaurant</a>
+                                        </figcaption>
+                                    </figure>
+                                    <div class="details">
+                                        <p class="restaurant-cuisine">North Indian, Thai, Italian</p>
+                                        <ul class="facilities">
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="From 8AM To 10PM"><span class="fa fa-clock-o"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="No Minimum Order"><span class="fa fa-usd"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Delivery in 45Min"><span class="fa fa-motorcycle"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Cash On Delivery Available"><span class="fa fa-money"></span></a></li>
+                                        </ul>
+                                        <ul>
+                                            <li><p class="restaurant-rating" data-score="4.5"></p></li>
+                                            <li><p class="rating-count">(450) Ratings</p></li>
+                                        </ul>
+                                        <a href="#" class="btn waves-light waves-effect btn-order">Order Now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="item">
+                            <div class="card restaurant popular">
+                                <div class="card-content">
+                                    <figure>
+                                        <img src="assets/images/restaurants/restaurant-4.jpg" class="restaurant-image">
+                                        <figcaption>
+                                            <a href="#" class="restaurant-name">Restaurant Name Restaurant</a>
+                                        </figcaption>
+                                    </figure>
+                                    <div class="details">
+                                        <p class="restaurant-cuisine">North Indian, Thai, Italian</p>
+                                        <ul class="facilities">
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="From 8AM To 10PM"><span class="fa fa-clock-o"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="No Minimum Order"><span class="fa fa-usd"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Delivery in 45Min"><span class="fa fa-motorcycle"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Cash On Delivery Available"><span class="fa fa-money"></span></a></li>
+                                        </ul>
+                                        <ul>
+                                            <li><p class="restaurant-rating" data-score="4.5"></p></li>
+                                            <li><p class="rating-count">(450) Ratings</p></li>
+                                        </ul>
+                                        <a href="#" class="btn waves-light waves-effect btn-order">Order Now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="item">
+                            <div class="card restaurant popular">
+                                <div class="card-content">
+                                    <figure>
+                                        <img src="assets/images/restaurants/restaurant-1.jpg" class="restaurant-image">
+                                        <figcaption>
+                                            <a href="#" class="restaurant-name">Restaurant Name Restaurant</a>
+                                        </figcaption>
+                                    </figure>
+                                    <div class="details">
+                                        <p class="restaurant-cuisine">North Indian, Thai, Italian</p>
+                                        <ul class="facilities">
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="From 8AM To 10PM"><span class="fa fa-clock-o"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="No Minimum Order"><span class="fa fa-usd"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Delivery in 45Min"><span class="fa fa-motorcycle"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Cash On Delivery Available"><span class="fa fa-money"></span></a></li>
+                                        </ul>
+                                        <ul>
+                                            <li><p class="restaurant-rating" data-score="4.5"></p></li>
+                                            <li><p class="rating-count">(450) Ratings</p></li>
+                                        </ul>
+                                        <a href="#" class="btn waves-light waves-effect btn-order">Order Now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="item">
+                            <div class="card restaurant popular">
+                                <div class="card-content">
+                                    <figure>
+                                        <img src="assets/images/restaurants/restaurant-6.jpg" class="restaurant-image">
+                                        <figcaption>
+                                            <a href="#" class="restaurant-name">Restaurant Name</a>
+                                        </figcaption>
+                                    </figure>
+                                    <div class="details">
+                                        <p class="restaurant-cuisine">North Indian, Chinese, Continental, Italian, Mediterranean, Thai, Lebanese</p>
+                                        <ul class="facilities">
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="From 8AM To 10PM"><span class="fa fa-clock-o"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="No Minimum Order"><span class="fa fa-usd"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Delivery in 45Min"><span class="fa fa-motorcycle"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Cash On Delivery Available"><span class="fa fa-money"></span></a></li>
+                                        </ul>
+                                        <ul>
+                                            <li><p class="restaurant-rating" data-score="4.5"></p></li>
+                                            <li><p class="rating-count">(450) Ratings</p></li>
+                                        </ul>
+                                        <a href="#" class="btn waves-light waves-effect btn-order">Order Now</a>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="item">
+                            <div class="card restaurant popular">
+                                <div class="card-content">
+                                    <figure>
+                                        <img src="assets/images/restaurants/restaurant-7.jpg" class="restaurant-image">
+                                        <figcaption>
+                                            <a href="#" class="restaurant-name">Restaurant Name</a>
+                                        </figcaption>
+                                    </figure>
+                                    <div class="details">
+                                        <p class="restaurant-cuisine">North Indian, Chinese, Continental, Italian, Mediterranean, Thai, Lebanese</p>
+                                        <ul class="facilities">
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="From 8AM To 10PM"><span class="fa fa-clock-o"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="No Minimum Order"><span class="fa fa-usd"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Delivery in 45Min"><span class="fa fa-motorcycle"></span></a></li>
+                                            <li><a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Cash On Delivery Available"><span class="fa fa-money"></span></a></li>
+                                        </ul>
+                                        <ul>
+                                            <li><p class="restaurant-rating" data-score="4.5"></p></li>
+                                            <li><p class="rating-count">(450) Ratings</p></li>
+                                        </ul>
+                                        <a href="#" class="btn waves-light waves-effect btn-order">Order Now</a>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </section>
+    <section class="subscribe">
+        <div class="parallax-container h-250">
+            <div class="parallax"><img src="assets/images/gallery/blurred-image-11.jpg" class="responsive-img"></div>
+            <div class="parallax-content">
+                <div class="container m-top-lg">
+                    <div class="row">
+                        <div class="col s12">
+                            <h3 class="section-title white-text">Subscribe To Newsletter</h3>
+                        </div>
+                        <div class="col s12">
+                            <div class="row">
+                                <form class="col s12 m8 offset-m2 offset-l2">
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <input id="emailSubscribe" type="email" class="validate center white-text" placeholder="Enter Your Email Address to Subscribe Newsletter">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 center">
+                                            <button type="submit" class="btn waves-effect waves-light">Subscribe</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </section>
+    <section class="app-stores red lighten-5">
+        <div class="container p-top-lg">
+            <div class="row no-m-bot">
+                <div class="col s12 center">
+                    <h3 class="section-title">Get Our Mobile App</h3>
+                </div>
+                <div class="col s12 m6 right">
+                    <div class="mobile-container">
+                        <img src="assets/images/mobile-views.png" class="responsive-img mobile hide-on-med-only">
+                        <img src="assets/images/android-mobile.png" class="responsive-img mobile hide-on-large-only hide-on-small-and-down">
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="p-top-lg center">
+                        <p class="font-18 m-top-md">Download our free iOS, Windows phone and Android App and order food online the fastest way possible.</p>
+                        <ul class="store-links m-top-md">
+                            <li><a href="#"><img src="assets/images/android-store.png"></a></li>
+                            <li><a href="#"><img src="assets/images/apple-store.png"></a></li>
+                            <li><a href="#"><img src="assets/images/windows-store.png"></a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
