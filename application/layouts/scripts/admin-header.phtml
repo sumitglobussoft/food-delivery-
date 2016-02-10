@@ -10,331 +10,286 @@
 
         # CSS
         echo $this->headLink()
-                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/bootstrap.min.css')
-                ->appendStylesheet($this->baseUrl() . 'http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
-                ->appendStylesheet($this->baseUrl() . 'http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css')
-                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/jquery-jvectormap-1.2.2.css')
-                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/daterangepicker-bs3.css')
-                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/_all-skins.css')
-                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/jquery.dataTables.css')
-                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/AdminLTE.css')
-                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/fansports-admin.css')
-                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/morris.css')
-                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/summernote.css')
-        ?>
+                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/animate.min.css')
+                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/plugin.min.css')
+                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/widget.min.css')
+                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/admin.min.css')
+                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/select2.min.css')
+                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/jasny-bootstrap.min.css')
+                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/custom.css');
 
-        <link rel="stylesheet" href="/assets/admin/js/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="/assets/admin/js/jquery.gritter/css/jquery.gritter.css" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" />
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />	
-        <link rel="stylesheet" href="/assets/admin/js/jquery.nanoscroller/nanoscroller.css" />
-        <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/1.10.10/filtering/row-based/range_dates.js" />
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" />
-        <link rel="stylesheet" href="/assets/admin/js/jasny.bootstrap/extend/css/jasny-bootstrap.min.css" />
-
-        <link rel="stylesheet" href="/assets/admin/js/jquery.niftymodals/css/component.css" />
-        <link rel="stylesheet" href="/assets/admin/css/summernote.css" />
-        <link rel="stylesheet" href="/assets/admin/css/style.css" />
-
+        if ($this->auth->hasIdentity()) {
+            if ($this->session->storage->role == 2) {
+                echo $this->headScript()
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-core.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-ui-core.js', 'text/javascript')
+//                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/bootstrap.min.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/dropdown.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/tooltip.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/collapse.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/superclick.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/slimscroll.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/slidebars.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/material.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/ripples.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/select2.full.min.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jasny-bootstrap.min.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/custom.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/layout.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/datatable-bootstrap.js', 'text/javascript');
+            }
+        } else {
+            echo $this->headScript()
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-core.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-ui-core.js', 'text/javascript')
+//                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/bootstrap.min.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/superclick.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/slimscroll.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/material.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/ripples.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/layout.js', 'text/javascript');
+        }
+        ?>  
+        <script>
+            $(window).load(function() {
+                setTimeout(function() {
+                    $('#loading').fadeOut(400, "linear");
+                }, 300);
+            });
+        </script>
+    </head> 
+    <body>
         <?php
-        ;
-        #JS        
-        echo $this->headScript()
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jQuery-2.1.3.min.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-1.11.2.min.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery.validate.min.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery.settings.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/bootstrap.min.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/Chart.min.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/fastclick.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/app.min.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery.dataTables.min.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/bootstrap-datepicker.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery.mCustomScrollbar.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery.mCustomScrollbar.concat.min.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'js/bootstrap-datepicker.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/fansports-admin.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/highcharts.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/exporting.js', 'text/javascript')
-                ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/summernote.js', 'text/javascript');
-        ?>   
-
-        <script src="/assets/admin/js/jquery.datatables/jquery.datatables.min.js"></script>
-        <script src="/assets/admin/js/jquery.datatables/bootstrap-adapter/js/datatables.js"></script>
-        <script src="/assets/admin/js/jquery.datatables/jquery.dataTables.columnFilter.js"></script>
-
-        <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-        <script src="//cdn.ckeditor.com/4.5.3/full/ckeditor.js"></script>
-    </head>    
-    <body class="skin-black sidebar-mini">
-        <div class="wrapper">
-            <?php
-            if ($this->auth->hasIdentity()) {
-                if ($this->session->storage->role == 2) {
-                    ?>
-                    <header class="main-header">
-
-                        <a href="/admin" class="logo">
-                            <span class="logo-lg">
-                                <span class="font-Titillium-Web">
-                                    <span class="text-gray">Ziingo</span>
-                                </span>
-                            </span>
-                        </a>
-
-                        <nav class="navbar navbar-static-top" role="navigation">
-                            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                                <span class="sr-only">Toggle navigation</span>
-                            </a>
-                            <div class="navbar-custom-menu">
-                                <ul class="nav navbar-nav">
-                                    <li class="dropdown user user-menu">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <span class="hidden-xs"><?php echo $this->session->storage->uname; ?></span>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li class="user-header">
-                                                <p>
-                                                    <?php echo $this->session->storage->uname; ?>
-                                                </p>
-                                            </li>
-                                            <li class="user-footer">
-                                                <div class="pull-left">
-                                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                                </div>
-                                                <div class="pull-right">
-                                                    <a href="/admin/logout" class="btn btn-default btn-flat">Sign out</a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </nav>
-                    </header>
-                    <aside class="main-sidebar">
-                        <section class="sidebar">
-                            <div class="user-panel">
-                                <div class="pull-left info">
-                                    <p><?php echo $this->session->storage->uname; ?></p>
-                                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                                </div>
-                            </div>
-                            <ul class="sidebar-menu">
-                                <li class="active treeview">
-                                    <a href="/admin/dashboard">
-                                        <i class="fa fa-dashboard" ></i> <span>Dashboard</span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-user"></i> 
-                                        <span>User</span>
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li>
-                                            <a href="/admin/userdetails">
-                                                <i class="fa fa-circle-o"></i> 
-                                                User Details
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/add-user-details">
-                                                <i class="fa fa-circle-o"></i> 
-                                                Add User Details
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li>
-                                    <a href="/admin/transaction">
-                                        <i class="fa fa-usd"></i>
-                                        <span>Transaction Details</span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="/admin/orderdetails">
-                                        <i class="fa fa-usd"></i>
-                                        <span>Order Details</span>
-                                    </a>
-                                </li>                                
-                                
-                                   <li>
-                                    <a href="#">
-                                        <i class="fa fa-user"></i> 
-                                        <span>Product</span>
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li>
-                                            <a href="/admin/product-details">
-                                                <i class="fa fa-circle-o"></i> 
-                                                Product Details
-                                            </a>
-                                        </li>
-                                        <li>
-<!--                                            <a href="/add-product-details">
-                                                <i class="fa fa-circle-o"></i> 
-                                                Add Product Details
-                                            </a>-->
-                                        </li>
-                                    </ul>
-                                </li>
-                                
-                                 <li>
-                                    <a href="#">
-                                        <i class="fa fa-user"></i> 
-                                        <span>Delivery Guy</span>
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li>
-                                            <a href="/admin/delivery-guy-details">
-                                                <i class="fa fa-circle-o"></i> 
-                                                Delivery Guy Details
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/add-delivery-guy-details">
-                                                <i class="fa fa-circle-o"></i> 
-                                                Add Delivery Guy Details
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                
-                                   <li>
-                                    <a href="#">
-                                        <i class="fa fa-user"></i> 
-                                        <span>Agents</span>
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li>
-                                            <a href="/admin/agent-details">
-                                                <i class="fa fa-circle-o"></i> 
-                                                Agent Details
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/admin/add-agents">
-                                                <i class="fa fa-circle-o"></i> 
-                                                Add Agents
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                         <li>
-                                    <a href="#">
-                                        <i class="fa fa-user"></i> 
-                                        <span>Settings</span>
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li>
-                                            <a href="/admin/countries-details">
-                                                <i class="fa fa-circle-o"></i> 
-                                                countries settings
-                                            </a>
-                                        </li>
-                                           <li>
-                                            <a href="/admin/states-details">
-                                                <i class="fa fa-circle-o"></i> 
-                                                states settings
-                                            </a>
-                                        </li>
-                                           <li>
-                                            <a href="/admin/city-details">
-                                                <i class="fa fa-circle-o"></i> 
-                                                cities settings
-                                            </a>
-                                        </li>
-                                            <li>
-                                            <a href="/admin/location-details">
-                                                <i class="fa fa-circle-o"></i> 
-                                                location settings
-                                            </a>
-                                        </li>
-                                     
-                                    </ul>
-                                </li>
-
-                            </ul>
-                        </section>
-                    </aside>
-
-                    <div class="container-fluid" id="pcont">
-
-                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">Delete Confirmation</h4>
-                                    </div>
-
-                                    <div class="modal-body">
-                                        Are you sure ?
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" id="confirmDelete">Yes</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="ModalLabel">Modal title</h4>
-                                    </div>
-                                    <div class="modal-body" id="ModalBody">
-
-                                        <div id="ModalBody" class="modal-body">
-                                        </div>
-
-                                    </div>
-                                    <div class="modal-footer form-actions">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" id="add">Add</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">EDIT</h4>
-                                    </div>
-                                    <div class="modal-body" id="myModalBody">
-                                        ...
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
+        if ($this->auth->hasIdentity()) {
+            if ($this->session->storage->role == 2) {
+                ?>
+                <div id="sb-site">
                     <?php
                 }
             }
             ?>
+
+            <div id="loading">
+                <div class="svg-icon-loader"><img src="/assets/admin/images/bars.svg" width="40" alt=""></div>
+            </div>
+
+            <?php
+            if ($this->auth->hasIdentity()) {
+                if ($this->session->storage->role == 2) {
+                    ?>
+
+                    <div id="page-wrapper">
+                        <div id="mobile-navigation">
+                            <button id="nav-toggle" class="collapsed" data-toggle="collapse" data-target="#page-sidebar"><span></span></button>
+                        </div>
+                        <div id="page-sidebar">
+                            <div id="header-logo" class="logo-bg">
+                                <a href="/admin" class="logo-content-big" title="Ziingo">Ziingo <i>UI</i> <span>Dashboard</span></a>
+                                <a href="/admin" class="logo-content-small" title="Ziingo">Ziingo <i>UI</i> <span>Dashboard</span></a>
+                                <a id="close-sidebar" href="#" title="Close sidebar"><i class="glyph-icon icon-outdent"></i></a>
+                            </div>
+                            <div class="scroll-sidebar">
+                                <ul id="sidebar-menu">
+                                    <li class="header"><span>Overview</span></li>
+                                    <li>
+                                        <a href="/admin/dashboard" title="Dashboard">
+                                            <i class="glyph-icon icon-linecons-tv"></i> <span>Dashboard</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Users">
+                                            <i class="glyph-icon icon-linecons-user"></i> <span>Users</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li><a href="/admin/userdetails" title="User Details"><span>User Details</span></a></li>
+                                                <li><a href="/admin/add-user-details" title="Add New User"><span>Add New User</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/transaction" title="Transaction Details">
+                                            <i class="glyph-icon icon-linecons-money"></i> <span>Transaction Details</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li><a href="/admin/admin-user-transactions" title="User Transactions"><span>User Transactions</span></a></li>
+                                                <li><a href="/admin/admin-agent-transactions" title="Agent Transactions"><span>Agent Transactions</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/order-details" title="Order Details">
+                                            <i class="glyph-icon icon-linecons-note"></i> <span>Order Details</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Products">
+                                            <i class="glyph-icon icon-linecons-cup"></i> <span>Products</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li><a href="/admin/product-details" title="Product Details"><span>Product Details</span></a></li>
+                                                <li><a href="/admin/add-product-details" title="Add New Product"><span>Add New Product</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Delivery Guys">
+                                            <i class="glyph-icon icon-linecons-truck"></i> <span>Delivery Guys</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li><a href="/admin/delivery-guys-details" title="Delivery Guys Details"><span>Delivery Guys Details</span></a></li>
+                                                <li><a href="/admin/add-delivery-guy" title="Add New Delivery Guy"><span>Add New Delivery Guy</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Agents">
+                                            <i class="glyph-icon icon-linecons-shop"></i> <span>Agents</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li><a href="/admin/agent-details" title="Agent Details"><span>Agent Details</span></a></li>
+                                                <li><a href="/admin/add-agents" title="Add New Agent"><span>Add New Agent</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Settings">
+                                            <i class="glyph-icon icon-linecons-cog"></i> <span>Settings</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li><a href="/admin/countries-details" title="Country Details"><span>Country Details</span></a></li>
+                                                <li><a href="/admin/states-details" title="State Details"><span>State Details</span></a></li>
+                                                <li><a href="/admin/city-details" title="City Details"><span>City Details</span></a></li>
+                                                <li><a href="/admin/location-details" title="Location Details"><span>Location Details</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="page-content-wrapper">
+                            <div id="page-content">
+                                <div id="page-header">
+                                    <div id="header-nav-left">
+                                        <a class="header-btn" id="logout-btn"  title="Lockscreen page example"></a>
+                                        <div class="user-account-btn dropdown">
+                                            <a href="#" title="My Account" class="user-profile clearfix" data-toggle="dropdown"><img width="28" src="/assets/admin/images/pic.jpg" alt="Profile image"> <span><?php echo $this->session->storage->uname; ?></span> <i class="glyph-icon icon-angle-down"></i></a>
+                                            <div class="dropdown-menu float-right">
+                                                <div class="box-sm">
+                                                    <div class="login-box clearfix">
+                                                        <div class="user-img"><a href="#" title="" class="change-img">Change photo</a> <img src="/assets/admin/images/pic.jpg" alt=""></div>
+                                                        <div class="user-info"><span><?php echo $this->session->storage->uname; ?><i>CEO - Ziingo</i></span> <a href="#" title="Edit profile">Edit profile</a> <a href="#" title="View notifications">View notifications</a></div>
+                                                    </div>
+                                                    <div class="divider"></div>
+                                                    <div class="button-pane button-pane-alt pad5L pad5R text-center">
+                                                        <a href="/admin/logout" class="btn btn-flat display-block font-normal btn-danger">
+                                                            <i class="glyph-icon icon-power-off"></i> Logout
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="header-nav-right">
+                                        <div class="dropdown" id="notifications-btn"><a data-toggle="dropdown" href="#" title=""><span class="small-badge bg-yellow"></span> <i class="glyph-icon icon-linecons-megaphone"></i></a>
+                                            <div class="dropdown-menu box-md float-left">
+                                                <div class="popover-title display-block clearfix pad10A">Notifications <a class="text-transform-cap font-primary font-normal btn-link float-right" href="#" title="View more options">More options...</a></div>
+                                                <div class="scrollable-content scrollable-slim-box">
+                                                    <ul class="no-border notifications-box">
+                                                        <li>
+                                                            <span class="bg-danger icon-notification glyph-icon icon-bullhorn"></span>
+                                                            <span class="notification-text">This is an error notification</span>
+                                                            <div class="notification-time">
+                                                                a few seconds ago <span class="glyph-icon icon-clock-o"></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="bg-warning icon-notification glyph-icon icon-users"></span>
+                                                            <span class="notification-text font-blue">This is a warning notification</span>
+                                                            <div class="notification-time">
+                                                                <b>15</b> minutes ago <span class="glyph-icon icon-clock-o"></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="bg-green icon-notification glyph-icon icon-sitemap"></span>
+                                                            <span class="notification-text font-green">A success message example.</span>
+                                                            <div class="notification-time">
+                                                                <b>2 hours</b> ago <span class="glyph-icon icon-clock-o"></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="bg-azure icon-notification glyph-icon icon-random"></span>
+                                                            <span class="notification-text">This is an error notification</span>
+                                                            <div class="notification-time">
+                                                                a few seconds ago <span class="glyph-icon icon-clock-o"></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="bg-warning icon-notification glyph-icon icon-ticket"></span>
+                                                            <span class="notification-text">This is a warning notification</span>
+                                                            <div class="notification-time">
+                                                                <b>15</b> minutes ago <span class="glyph-icon icon-clock-o"></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="bg-blue icon-notification glyph-icon icon-user"></span>
+                                                            <span class="notification-text font-blue">Alternate notification styling.</span>
+                                                            <div class="notification-time">
+                                                                <b>2 hours</b> ago <span class="glyph-icon icon-clock-o"></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="bg-purple icon-notification glyph-icon icon-user"></span>
+                                                            <span class="notification-text">This is an error notification</span>
+                                                            <div class="notification-time">
+                                                                a few seconds ago <span class="glyph-icon icon-clock-o"></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="bg-warning icon-notification glyph-icon icon-user"></span>
+                                                            <span class="notification-text">This is a warning notification</span>
+                                                            <div class="notification-time">
+                                                                <b>15</b> minutes ago <span class="glyph-icon icon-clock-o"></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="bg-green icon-notification glyph-icon icon-user"></span>
+                                                            <span class="notification-text font-green">A success message example.</span>
+                                                            <div class="notification-time">
+                                                                <b>2 hours</b> ago <span class="glyph-icon icon-clock-o"></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="bg-purple icon-notification glyph-icon icon-user"></span>
+                                                            <span class="notification-text">This is an error notification</span>
+                                                            <div class="notification-time">
+                                                                a few seconds ago <span class="glyph-icon icon-clock-o"></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="bg-warning icon-notification glyph-icon icon-user"></span>
+                                                            <span class="notification-text">This is a warning notification</span>
+                                                            <div class="notification-time">
+                                                                <b>15</b> minutes ago <span class="glyph-icon icon-clock-o"></span>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="button-pane button-pane-alt pad5T pad5L pad5R text-center"><a href="#" class="btn btn-flat btn-primary" title="View all notifications">View all notifications</a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                        }
+                        ?>
+
+
 
 

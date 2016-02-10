@@ -1,0 +1,149 @@
+<?php $alluserdetailsArray = $this->agentdetails;?>
+<div id="page-title">
+    <h2>View/Edit AgentsDetails</h2>
+    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal bordered-row" enctype="multipart/form-data" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User Name</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="loginname" id="loginname" value="<?php echo $alluserdetailsArray['loginname'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Email</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" type="text" name="email"  id="email" value="<?php echo $alluserdetailsArray['email'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">First Name</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control"  name="first_name" value="<?php echo $alluserdetailsArray['first_name'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Last Name</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="last_name"  id="last_name" value="<?php echo $alluserdetailsArray['last_name'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+          
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">status</label>
+                                            </td>
+                                            <td>
+                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="status"> 
+                                                    <option value="1" <?php
+                                                    if ($alluserdetailsArray['agent_status'] == 1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Active 
+                                                    </option>
+                                                    <option value="2" <?php
+                                                    if ($alluserdetailsArray['agent_status'] == 2) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Deactive 
+                                                    </option>
+                                                </select>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                         <tr>
+                                            <td>
+                                                <label class="control-label">MemberShip Status</label>
+                                            </td>
+                                            <td>
+                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="membership"> 
+                                                    <option value="1" <?php
+                                                    if ($alluserdetailsArray['membership'] == 1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Active Member
+                                                    </option>
+                                                    <option value="2" <?php
+                                                    if ($alluserdetailsArray['membership'] == 2) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Deactive Member
+                                                    </option>
+                                                </select>
+                                            </td>
+
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">City</label>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <input type="text" placeholder="" type="text" name="city"  id="city" value="<?php echo $alluserdetailsArray['city'] ?>" class="form-control" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                      <tr>
+                                            <td>
+                                                <label class="control-label">Address</label>
+                                            </td>
+                                            <td>
+                                                <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ><?php echo $alluserdetailsArray['address'] ?></textarea>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="form-group pull-right">
+                                    <button type="submit" class="btn btn-alt btn-hover btn-primary">
+                                        <span>SAVE</span> <i class="glyph-icon icon-arrow-right"></i>
+                                        <div class="ripple-wrapper"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

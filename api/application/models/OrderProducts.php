@@ -94,6 +94,27 @@ class Application_Model_OrderProducts extends Zend_Db_Table_Abstract {
         } else {
             throw new Exception("Argument not passed");
         }
+    }    
+        /*
+         * DEV: priyanka varanasi
+         * Desc: insert array of cart products in table
+         * date: 22/1/2016
+         */
+     public function insertOrderedCartProducts() {
+        if (func_num_args() > 0) {
+            $data1 = func_get_arg(0);
+           $array = array();
+            foreach ($data1 as $value) {
+                $responseId = $this->insert($value);
+                if ($responseId) {
+                     $array[]= $responseId;
+                }
+             }
+             return $array;
+        } else {
+            return "argument not passed";
+        }
     }
+    
 }
 ?>

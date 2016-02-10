@@ -9,10 +9,11 @@ class Engine_Plugins_Theme extends Zend_Controller_Plugin_Abstract{
     * @param Zend_Controller_Request_Abstract $request
     */
     public function routeShutdown(Zend_Controller_Request_Abstract $request){
+        
                $layout = Zend_Layout::getMvcInstance();
                
         $module = strtolower($request->getModuleName());
-       
+     
         $controller = strtolower($request->getControllerName());
         
         $view = $layout->getView();
@@ -44,19 +45,19 @@ class Engine_Plugins_Theme extends Zend_Controller_Plugin_Abstract{
         else if( ($module == "agent")){
              $view->theme = 'agent';
              $theme = 'agent';
-            // send theme basepath to the layout
+          // send theme basepath to the layout
             $view->theme_base_path = '/themes/' . $theme . '/skin';
             
             $layoutPath = 'themes/' . $theme . '/app/layouts/scripts/'; // set selected theme layout path
           
             $viewPath   = 'themes/' . $theme . '/app/views/'.$module.'/'.$controller;// set selected theme view
-           
+        
             $layout->setLayoutPath($layoutPath); // set theme layout
-            $layout->getView()->setBasePath($viewPath);// set theme view     
+            $layout->getView()->setBasePath($viewPath);// set theme view  // set theme view      
          
         }else if($module == "web"){
-            
-            $view->theme = 'web';
+          
+             $view->theme = 'web';
              $theme = 'web';
             // send theme basepath to the layout
             $view->theme_base_path = '/themes/' . $theme . '/skin';
@@ -67,18 +68,20 @@ class Engine_Plugins_Theme extends Zend_Controller_Plugin_Abstract{
          
             $layout->setLayoutPath($layoutPath); // set theme layout
             $layout->getView()->setBasePath($viewPath);// set theme view   
-            
+    
+//            die;
         }else{
-           $view->theme = 'web';
+            $view->theme = 'web';
+             $theme = 'web';
             // send theme basepath to the layout
             $view->theme_base_path = '/themes/' . $theme . '/skin';
             
             $layoutPath = 'themes/' . $theme . '/app/layouts/scripts/'; // set selected theme layout path
           
             $viewPath   = 'themes/' . $theme . '/app/views/'.$module.'/'.$controller;// set selected theme view
-           
+         
             $layout->setLayoutPath($layoutPath); // set theme layout
-            $layout->getView()->setBasePath($viewPath);// set theme view   
+            $layout->getView()->setBasePath($viewPath);// set theme view  // set theme view   
             
         }
     }

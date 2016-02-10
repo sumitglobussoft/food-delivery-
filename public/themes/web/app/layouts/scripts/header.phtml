@@ -1,15 +1,15 @@
 <!doctype html>
 <html>
     <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
 
-    <title>Ziingo</title>
+        <title>Ziingo</title>
 
-    <meta content="Designed by Globussoft" name="description"/>
-    <meta content="Nagaraja Sabhahith" name="designer"/>
-     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <meta content="Designed by Globussoft" name="description"/>
+        <meta content="Nagaraja Sabhahith" name="designer"/>
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <?php
         # Title
         echo $this->headTitle();
@@ -25,67 +25,88 @@
                  ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/plugins/owl.carousel.2.0.0-beta.2.4/assets/owl.carousel.css')
                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/plugins/font-awesome/css/font-awesome.min.css')
                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/plugins/raty-jquery/jquery.raty.css')
+                  ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/plugins/sweetAlert/sweetalert.css')
                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/css/ziingo-style.css');
-     
+
         //      # Javascript
         echo $this->headScript()
-                
                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery-2.1.4.min.js', 'text/javascript')
                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/materialize/js/materialize.min.js', 'text/javascript')
                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/countUp/countUp.js', 'text/javascript')
                  ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/owl.carousel.2.0.0-beta.2.4/owl.carousel.js', 'text/javascript')
                  ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/raty-jquery/jquery.raty.js', 'text/javascript')
+                ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/moment.js', 'text/javascript')
+                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/sweetAlert/sweetalert.min.js', 'text/javascript')
                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/ziingo-script.js', 'text/javascript')
                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/isotope.pkgd.min.js', 'text/javascript')
                  ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery.validate.min.js', 'text/javascript')
                  ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/validate.settings.js', 'text/javascript');
-         ?>
+        ?>
     </head>
     <body class="">
-  <header class="top-header fixed">
-    <nav class="header-wrapper">
-        <div class="nav-wrapper">
-            <a href="index.html" class="brand-logo"><img src="/assets/images/logo.png" class="logo"></a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-             
-                 <?php if ($this->auth->hasIdentity()) {
-                     ?>
-                <li class="profile-dropdown">
-                    <a class="dropdown-button" href="javascript:;"
-                       data-activates="myAccount"
-                       data-constrainwidth="false"
-                       data-alignment="right">
-                        <img src="/assets/images/profile/avatar-7.jpg" class="profile-pic"><i class="material-icons right">arrow_drop_down</i>
+        <header class="top-header fixed">
+            <nav class="header-wrapper">
+                <div class="nav-wrapper">
+                    <a href="index.html" class="brand-logo">
+                        <img src="/assets/images/logo1.png" class="logo" />
+                        <img src="/assets/images/logo.png" class="logo" style="margin-top: 4%;" />
                     </a>
-                    <ul id="myAccount" class="dropdown-content">
-                        <li class="user">
-                            <img src="/assets/images/profile/avatar-7.jpg" class="profile-pic">
-                            <p class="name"> <?php if (isset($this->session->storage->uname)) {
-                                                    echo $this->session->storage->uname;
-                              }?></p>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="#">Activity</a></li>
-                        <li><a href="#">My Account</a></li>
-                        <li><a href="#">Address Book</a></li>
-                        <li class="divider"></li>
-                        <li><a href="/logout">Logout</a></li>
-                         <li><a href="#">Help</a></li>
-                    </ul>
-                        
-                </li>
-                  <?php }else{?>
-                         
-                <li><a class="modal-trigger" href="#loginModal">Login</a></li>
-                 
-                <li><a href="/signup">Sign Up</a></li>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+   <li>
+						<a href="/cart">
+							<i class="material-icons">shopping_cart</i>
+							<div class="cart-icon">
+                                                          
+                                                            <span class="badge cart-count"><?php   if (isset($_COOKIE['user_cartitems_cookie'])) {
+            $cartitems = $_COOKIE['user_cartitems_cookie'];
+
+            $cartitems = stripslashes($cartitems);
+            $saved_cart_items = json_decode($cartitems, true);
+                                                            echo count($saved_cart_items);}?></span>
+                             
+							</div>
+						</a>
+					</li>
+                        <?php if ($this->auth->hasIdentity()) { ?>
+                        	
+                            <li class="profile-dropdown">
+                                <a class="dropdown-button" href="javascript:;"
+                                   data-activates="myAccount"
+                                   data-constrainwidth="false"
+                                   data-alignment="right">
+                                    <img src="/assets/images/profile/avatar-7.jpg" class="profile-pic"><i class="material-icons right">arrow_drop_down</i>
+                                </a>
+                                <ul id="myAccount" class="dropdown-content">
+                                    <li class="user">
+                                        <img src="/assets/images/profile/avatar-7.jpg" class="profile-pic">
+                                        <p class="name"> <?php
+                            if (isset($this->session->storage->uname)) {
+                                echo $this->session->storage->uname;
+                            }
+                            ?></p>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Activity</a></li>
+                                    <li><a href="#">My Account</a></li>
+                                    <li><a href="#">Address Book</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/logout">Logout</a></li>
+                                    <li><a href="#">Help</a></li>
+                                </ul>
+
+                            </li>
+<?php } else { ?>
                       
-                  <?php } ?>
-            </ul>
-        </div>
-    </nav>
- 
-</header>
+                            <li><a class="modal-trigger" href="#loginModal">Login</a></li>
+
+                            <li><a href="/signup">Sign Up</a></li>
+
+<?php } ?>
+                    </ul>
+                </div>
+            </nav>
+
+        </header>
 
 
 

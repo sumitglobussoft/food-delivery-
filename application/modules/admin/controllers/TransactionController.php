@@ -5,18 +5,23 @@ require_once 'Zend/Controller/Action.php';
 class Admin_TransactionController extends Zend_Controller_Action {
 
     public function init() {
-        
-    }
 
-    public function allTransactionAction() {
+    }
+  /*
+     * DEV: priyanka varanasi
+     * Date : 6/2/2015
+     * Desc :admin transaction details
+     * 
+     */
+    public function adminUserTransactionsAction() {
+      
         $usertransactionModel = Admin_Model_UserTransactions::getInstance();
         $result = $usertransactionModel->getAllUsertransaction();
-
+ 
         if ($result) {
             $successfullArr = $pendingArr = $failedArr = $cancelArr = array();
             foreach ($result as $key => $value) {
-//               echo "-----".$key;
-//               echo '<pre>'; print_r($value);die;
+
                 if ($value['tx_status'] == 1) {
                     $successfullArr[] = $value;
                 } else if ($value['tx_status'] == 2) {
@@ -35,7 +40,19 @@ class Admin_TransactionController extends Zend_Controller_Action {
             echo 'controller error occured';
         }
         
-        $this->view->usertransaction = $result;
+       
     }
+    
+    /*
+     * DEV: priyanka varanasi
+     * Date : 6/2/2015
+     * Desc :admin agent details
+     * 
+     */
+    public function adminAgentTransactionsAction() {
+
+    }
+
+    
 
 }

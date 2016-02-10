@@ -5,13 +5,13 @@ require_once 'Zend/Controller/Action.php';
 class Admin_UserController extends Zend_Controller_Action {
 
     public function init() {
-        
+  
     }
 
     public function userdetailsAction() {
         $userModel = Admin_Model_Users::getInstance();
         $result = $userModel->getUserdetails();
-
+                
         if ($result) {
             $this->view->userdetails = $result;
         } else {
@@ -19,15 +19,16 @@ class Admin_UserController extends Zend_Controller_Action {
         }
     }
 
-    public function allUserDetailsAction() {
+    public function editUserDetailsAction() {
         $userModel = Admin_Model_Users::getInstance();
         $userId = $this->getRequest()->getParam("userId");
         $usermetaModel = Admin_Model_Usermeta::getInstance();
 
         if ($this->_request->isPost()){
-            $userid = $this->getRequest()->getPost('user_id');
+            $userid = $userId;
             $userdata['uname'] = $this->getRequest()->getPost('uname');
             $userdata['email'] = $this->getRequest()->getPost('email');
+            $userdata['status'] = $this->getRequest()->getPost('status');
             $usermetadata['first_name'] = $this->getRequest()->getPost('first_name');
             $usermetadata['last_name'] = $this->getRequest()->getPost('last_name');
             $usermetadata['phone'] = $this->getRequest()->getPost('phone');
@@ -35,13 +36,15 @@ class Admin_UserController extends Zend_Controller_Action {
             $usermetadata['state'] = $this->getRequest()->getPost('state');
             $usermetadata['country'] = $this->getRequest()->getPost('country');
             $usermetadata['address'] = $this->getRequest()->getPost('address');
+            
             $result1 = $userModel->updateUserdetails($userid, $userdata);
-            $result2 = $usermetaModel->updateUsermetadetails($userid, $usermetadata);
-            if($result1 || $result2){
-                $this->redirect('/admin/userdetails');
+            $result2 = $usermetaModel->updateUsermetadetails($userid,$usermetadata);
+            if($result1 ||$result2 ){
+              $this->redirect('/admin/userdetails');   
+            }else{
+               $this->view->errormessage = 'user details not updated properly'; 
             }
-        }
-        
+         }
         $result = $userModel->getAllUserdetails($userId);
 
         if ($result) {
@@ -59,6 +62,7 @@ class Admin_UserController extends Zend_Controller_Action {
         if ($this->_request->isPost()){
             $userdata['uname'] = $this->getRequest()->getPost('uname');
             $userdata['email'] = $this->getRequest()->getPost('email');
+            $userdata['status'] = $this->getRequest()->getPost('status');
             $userdata['role'] = 1;
 
             $userId = $userModel->addUserdetails($userdata);
@@ -94,6 +98,7 @@ class Admin_UserController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
           $userModel = Admin_Model_Users::getInstance();
          $agentsModal = Admin_Model_Agents::getInstance();
+          $delguyModal = Admin_Model_DeliveryGuys::getInstance();
        
         if ($this->getRequest()->isPost()) {
             $method = $this->getRequest()->getParam('method');
@@ -134,6 +139,29 @@ class Admin_UserController extends Zend_Controller_Action {
                 case 'agentdelete':
                     $agentid = $this->getRequest()->getParam('agentid');
                     $result = $agentsModal->agentdelete($agentid);
+                    if ($result) {
+                        echo $result;
+                       
+                    } else {
+                        echo "error";
+                    }
+                    break;
+                    
+                        case 'delguystatus':
+                    $delguyid = $this->getRequest()->getParam('delguyid');
+                    $ok = $delguyModal->getstatustodeactivate($delguyid);
+
+                    if ($ok) {
+                        echo $delguyid;
+                        return $delguyid;
+                    } else {
+                        echo "Error";
+                    }
+                    break;
+                    
+                       case 'delguydelete':
+                    $delguyid = $this->getRequest()->getParam('delguyid');
+                    $result = $delguyModal->deliveryGuydelete($delguyid);
                     if ($result) {
                         echo $result;
                        

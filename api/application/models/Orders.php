@@ -1,9 +1,10 @@
 <?php
-  /*
-   * Dev : Priyanka Varanasi
-   * Date: 2/12/2015
-   * Desc: Users Transactiona Modal Design
-   */
+
+/*
+ * Dev : Priyanka Varanasi
+ * Date: 2/12/2015
+ * Desc: Users Transactiona Modal Design
+ */
 
 class Application_Model_Orders extends Zend_Db_Table_Abstract {
 
@@ -22,12 +23,12 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
         return self::$_instance;
     }
 
-     /*
-   * Dev : Priyanka Varanasi
-   * Date: 3/12/2015
-   * Desc: insert all user transaction details 
-   */
-    
+    /*
+     * Dev : Priyanka Varanasi
+     * Date: 3/12/2015
+     * Desc: insert all user transaction details 
+     */
+
     public function insertOrders() {
 
         if (func_num_args() > 0) {
@@ -36,8 +37,8 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
                 $responseId = $this->insert($data);
                 if ($responseId) {
                     return $responseId;
-                }else{
-                  return null;   
+                } else {
+                    return null;
                 }
             } catch (Exception $e) {
                 throw new Exception('Unable To Insert Exception Occured :' . $e);
@@ -46,44 +47,59 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         }
     }
-    
-     public function GetOrderProducts(){
-        if(func_num_args()>0){
-           $agent_id =   func_get_arg(0);
-       
+
+    public function GetOrderProducts() {
+        if (func_num_args() > 0) {
+            $agent_id = func_get_arg(0);
+
             try {
-       $select = $this->select()
-                      ->setIntegrityCheck(false)
-                      ->from(array('o' => 'orders'))
-                      ->joinLeft(array('op' => 'order_products'), 'o.order_id=op.order_id')
-                      ->joinLeft(array('p' => 'products'),'op.product_id=p.product_id')
-                      ->joinLeft(array('hd' => 'hotel_details'),'op.restaurent_id=hd.id')
-                      ->joinLeft(array('dsl' => 'delivery_status_log'),'op.order_product_id=dsl.order_product_id')
-                      ->joinLeft(array('dg' => 'delivery_guys'),'dsl.delivery_guy_id=dg.del_guy_id')
-                       ->where('hd.agent_id=?',$agent_id);
-                 $result = $this->getAdapter()->fetchAll($select);
-       
-            if ($result) {
-                return $result;
-            }else{
-                
-                return null;
-            } 
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('o' => 'orders'))
+                         ->join(array('u' => 'users'),'o.user_id=u.user_id')
+                        ->join(array('hd' => 'hotel_details'), 'o.order_from_hotel=hd.id',array('hd.id','hd.hotel_name','hd.agent_id'))
+                        ->join(array('dsl' => 'delivery_status_log'), 'o.order_id= dsl.order_id')
+                        ->join(array('dg' => 'delivery_guys'), 'dsl.delivery_guy_id=dg.del_guy_id')
+                        ->where('hd.agent_id=?', $agent_id);
+                $result = $this->getAdapter()->fetchAll($select);
+
+                if ($result) {
+                    return $result;
+                } else {
+
+                    return null;
+                }
             } catch (Exception $e) {
                 throw new Exception('Unable to access data :' . $e);
             }
+        } else {
 
-         }else{
-             
-            throw new Exception('Argument Not Passed');  
-         }
-        
-        
+            throw new Exception('Argument Not Passed');
+        }
     }
-    
+
+    public function updateOrderDetails() {
+
+        if (func_num_args() > 0) {
+
+            $data = func_get_arg(0);
+            $order_id = func_get_arg(1);
+            try {
+                $result = $this->update($data, 'order_id =' . $order_id);
+                if ($result) {
+                    return $result;
+                } else {
+                    return null;
+                }
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        } else {
+            throw new Exception("Argument not passed");
+        }
+    }
 
 }
-
 ?>
 
 

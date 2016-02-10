@@ -30,22 +30,7 @@ class Admin_Model_Users extends Zend_Db_Table_Abstract {
         }
     }
 
-    public function getUserdetailsDash() {
-            try {
-                $select = $this->select()
-                        ->from($this)
-                        ->where('role = ?', 1);
 
-                $result = $this->getAdapter()->fetchAll($select);
-                
-            } catch (Exception $e) {
-                throw new Exception('Unable To retrieve data :' . $e);
-            }
-
-            if ($result) {
-                return $result;
-            }
-    }
 
     public function getAllUserdetails() {
         if (func_num_args() > 0) {
@@ -58,7 +43,7 @@ class Admin_Model_Users extends Zend_Db_Table_Abstract {
                         ->where('u.user_id = ?', $userid);
 
                 $result = $this->getAdapter()->fetchRow($select);
-//            echo '<pre>';print_r($result); die("ok");
+
             } catch (Exception $e) {
                 throw new Exception('Unable To retrieve data :' . $e);
             }
@@ -90,23 +75,7 @@ class Admin_Model_Users extends Zend_Db_Table_Abstract {
         }
     }
 
-    public function deleteUserdetails() {
-        if (func_num_args() > 0) {
-            $userId = func_get_arg(0);
-            try {
-                $deleted = $this->delete('user_id = ' . $userId);
-                if ($deleted) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (Exception $exc) {
-                echo $exc->getTraceAsString();
-            }
-        } else {
-            throw new Exception("Argument not passed");
-        }
-    }
+ 
 
     public function addUserdetails() {
         if (func_num_args() > 0) {
@@ -125,26 +94,6 @@ class Admin_Model_Users extends Zend_Db_Table_Abstract {
         }
     }
 
-    public function updateStatus() {
-        if (func_num_args() > 0) {
-            $user_id = func_get_arg(0);
-            $status = func_get_arg(1);
-
-            $data = array('status' => $status);
-
-            try {
-                $result = $this->update($data, 'user_id = "' . $user_id . '"');
-//                print_r($result); die("OK");
-            } catch (Exception $e) {
-                throw new Exception('Unable To update data :' . $e);
-            }
-
-
-            if ($result) {
-                return $result;
-            }
-        }
-    }
     
      
     //dev:priyanka varanasi

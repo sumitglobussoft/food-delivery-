@@ -76,10 +76,241 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
 
             try {
                 $select = $this->select()
-                        ->from(array('act' => 'addtocart'), array('act.id','act.product_id', 'act.user_id', 'act.hotel_id', 'act.quantity','act.cost','act.hotel_id'))
-                        ->setIntegrityCheck(FALSE)
-                        ->joinLeft(array('p' => 'products'), 'act.product_id=p.product_id', array('p.name', 'p.imagelink'))
+                        ->from(array('act' => 'addtocart'))
+                        ->setIntegrityCheck(false)
+                        ->joinLeft(array('p' => 'products'), 'act.product_id=p.product_id', array('p.name', 'p.imagelink', 'p.cost AS product_cost'))
                         ->where('act.user_id = ?', $user_id);
+                $result = $this->getAdapter()->fetchAll($select);
+
+                if ($result) {
+                    return $result;
+                } else {
+                    return null;
+                }
+            } catch (Exception $ex) {
+                throw new Exception("argument not passed: " . $ex);
+            }
+        } else {
+            throw new Exception("argument not passed");
+        }
+    }
+
+    /*
+     * DEV : priyanka varanasi
+     * Desc: TO cart products by Hotel ids
+     * Date : 13/1/2015
+     * 
+     */
+
+    public function getCartProductsByHotelIds() {
+
+        if (func_num_args() > 0) {
+            $user_id = func_get_arg(0);
+            $hotel_id = func_get_arg(1);
+
+            try {
+                $select = $this->select()
+                        ->from(array('act' => 'addtocart'), array('act.id', 'act.product_id', 'act.user_id', 'act.hotel_id', 'act.quantity', 'act.cost', 'act.hotel_id'))
+                        ->setIntegrityCheck(FALSE)
+                        ->joinLeft(array('p' => 'products'), 'act.product_id=p.product_id', array('p.name', 'p.imagelink', 'p.cost AS product_cost'))
+                        ->joinLeft(array('hd' => 'hotel_details'), 'act.hotel_id=hd.id', array())
+                        ->where('act.user_id = ?', $user_id)
+                        ->where('act.hotel_id = ?', $hotel_id)
+                        ->where('p.prod_status = ?', 1)
+                        ->where('hd.hotel_status = ?', 1);
+
+                $result = $this->getAdapter()->fetchAll($select);
+
+                if ($result) {
+                    return $result;
+                } else {
+                    return null;
+                }
+            } catch (Exception $ex) {
+                throw new Exception("argument not passed: " . $ex);
+            }
+        } else {
+            throw new Exception("argument not passed");
+        }
+    }
+
+    /*
+     * DEV : priyanka varanasi
+     * Desc: TO check whether  same product exits or not
+     * Date : 13/1/2015
+     * 
+     */
+
+    public function checkProductifExists() {
+        if (func_num_args() > 0) {
+            $user_id = func_get_arg(0);
+            $product_id = func_get_arg(1);
+            $hotel_id = func_get_arg(2);
+       
+            try {
+                $select = $this->select()
+                        ->where('user_id = ?', $user_id)
+                        ->where('hotel_id = ?', $hotel_id)
+                        ->where('product_id = ?', $product_id);
+
+                $result = $this->getAdapter()->fetchRow($select);
+
+                if ($result) {
+                    return $result;
+                } else {
+                    return null;
+                }
+            } catch (Exception $ex) {
+                throw new Exception("argument not passed: " . $ex);
+            }
+        } else {
+            throw new Exception("argument not passed");
+        }
+    }
+
+    /*
+     * DEV : priyanka varanasi
+     * Desc: TO update quantity
+     * Date : 18/1/2016
+     * 
+     */
+
+    public function updateCart() {
+        if (func_num_args() > 0):
+            $userid = func_get_arg(0);
+            $productid = func_get_arg(1);
+            $quantity = func_get_arg(2);
+            $cost = func_get_arg(3);
+            $hotelid = func_get_arg(4);
+            $select = $this->select()
+                    ->from($this)
+                    ->where('user_id = ?', $userid)
+                    ->where('product_id = ?', $productid)
+                    ->where('hotel_id = ?', $hotelid);
+            $res = $this->getAdapter()->fetchRow($select);
+
+            $value = 1;
+            if ($quantity['quantity'] === 'increase') {
+                $data = array('quantity' => new Zend_Db_Expr('quantity + ' . $value),
+                    'cost' => new Zend_Db_Expr('cost + ' . $cost));
+            } else if ($quantity['quantity'] === 'decrease' && $res['quantity'] > 1) {
+                $data = array('quantity' => new Zend_Db_Expr('quantity - ' . $value),
+                    'cost' => new Zend_Db_Expr('cost - ' . $cost));
+            } else {
+                $value = 0;
+                $cost = 0;
+                $data = array('quantity' => new Zend_Db_Expr('quantity + ' . $value),
+                    'cost' => new Zend_Db_Expr('cost + ' . $cost));
+            }
+            try {
+                $where[] = $this->getAdapter()->quoteInto('user_id = ?', $userid);
+                $where[] = $this->getAdapter()->quoteInto('product_id = ?', $productid);
+                $where[] = $this->getAdapter()->quoteInto('hotel_id = ?', $hotelid);
+                $result = $this->update($data, $where);
+                if ($result) {
+                     try {
+                        $select = $this->select()
+                                ->from($this)
+                                ->where('user_id = ?', $userid)
+                                ->where('product_id = ?', $productid)
+                                ->where('hotel_id = ?', $hotelid);
+                        $response = $this->getAdapter()->fetchRow($select);
+                        if ($response) {
+                               $select = $this->select()
+                                     ->from($this,array("totalcost"=>"SUM(cost)"))
+                                     ->where('user_id = ?', $userid)
+                                     ->where('hotel_id = ?', $hotelid);
+                            $res = $this->getAdapter()->fetchRow($select);
+                        $response['total'] = $res['totalcost'];
+                        if($response){
+                          return $response;  
+                        } else {
+                            return null;
+                        }
+                        } else {
+                            return null;
+                        }
+                    } catch (Exception $ex) {
+                        
+                    }
+                } else {
+                    return null;
+                }
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        else:
+            throw new Exception("Argument not passed");
+        endif;
+    }
+
+    /*
+     * DEV : priyanka varanasi
+     * Desc: TO delete cart
+     * Date : 18/1/2016
+     * 
+     */
+
+    public function deleteItem() {
+
+        if (func_num_args() > 0){
+            $uid = func_get_arg(0);
+            $prid = func_get_arg(1);
+            $hotelid = func_get_arg(2);
+            try {
+                $db = Zend_Db_Table::getDefaultAdapter();
+                $where[] = $this->getAdapter()->quoteInto('user_id = ?', $uid);
+                $where[] = $this->getAdapter()->quoteInto('product_id = ?', $prid);
+                $where[] = $this->getAdapter()->quoteInto('hotel_id = ?', $hotelid);
+                $did = $db->delete('addtocart', $where);
+                if ($did) {
+                    try {
+                        $select = $this->select()
+                                ->from($this)
+                                ->where('user_id = ?', $uid)
+                                ->where('hotel_id = ?', $hotelid);
+                        $response = $this->getAdapter()->fetchAll($select);
+                        if ($response) {
+
+                            return $response;
+                        } else {
+                            return null;
+                        }
+                    } catch (Exception $ex) {
+                        
+                    }
+                } else {
+                    return null;
+                }
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+           
+        }else{
+            throw new Exception('Argument Not Passed');
+        }
+    }
+
+    /*
+     * DEV : priyanka varanasi
+     * Desc: TO cart products by Hotel ids
+     * Date : 13/1/2015
+     * 
+     */
+
+    public function getCartProductsByLoggedIds() {
+
+        if (func_num_args() > 0) {
+            $user_id = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->from(array('act' => 'addtocart'), array('act.id', 'act.product_id', 'act.user_id', 'act.hotel_id', 'act.quantity', 'act.cost', 'act.hotel_id'))
+                        ->setIntegrityCheck(FALSE)
+                        ->joinLeft(array('p' => 'products'), 'act.product_id=p.product_id', array('p.name', 'p.imagelink', 'p.cost AS product_cost'))
+                        ->joinLeft(array('hd' => 'hotel_details'), 'act.hotel_id=hd.id')
+                        ->where('act.user_id = ?', $user_id)
+                        ->where('hd.hotel_status = ?', 1)
+                        ->where('p.prod_status = ?', 1);
 
                 $result = $this->getAdapter()->fetchAll($select);
 
@@ -96,25 +327,52 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
         }
     }
     
-    /*
+      /*
+     * DEV : priyanka varanasi
+     * Desc: TO insert orders to cart and fetch the details sum of cost of all products in cart
+     * Date : 13/1/2015
+     * 
+     */
+     public function insertCartProducts() {
+
+        if (func_num_args() > 0) {
+            $data = func_get_arg(0);
+            foreach ($data as $value) {
+                $result[] = $this->insert($value);
+            }
+            if($result){
+                 return $result;
+            }else{
+                
+               return null; 
+            }
+       
+        } else {
+            throw new Exception("argument not passed");
+        }
+    }
+    
+       /*
      * DEV : priyanka varanasi
      * Desc: TO check whether  same product exits or not
      * Date : 13/1/2015
      * 
      */
-    
-    public function checkProductifExists($param) {
-           if (func_num_args() > 0) {
+
+    public function checkCartSameProductIfExists() {
+        if (func_num_args() > 0) {
             $user_id = func_get_arg(0);
             $product_id = func_get_arg(1);
             $hotel_id = func_get_arg(2);
-
+            $quantity= func_get_arg(2);
+       
             try {
                 $select = $this->select()
-                         ->where('user_id = ?', $user_id)
-                         ->where('hotel_id = ?', $hotel_id)
-                         ->where('product_id = ?', $product_id);
-                
+                        ->where('user_id = ?', $user_id)
+                        ->where('hotel_id = ?', $hotel_id)
+                        ->where('product_id = ?', $product_id)
+                        ->where('quantity = ?',$quantity);
+
                 $result = $this->getAdapter()->fetchRow($select);
 
                 if ($result) {
@@ -127,7 +385,42 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
             }
         } else {
             throw new Exception("argument not passed");
-        }   
+        }
+    }
+    
+    
+        /*
+     * Dev : Priyanka Varanasi
+     * Date: 1/2/2015
+     * Desc: To fetch the products details based on cookie values of all hotels
+     */
+
+    function getCartProductsByCartIds() {
+
+        if (func_num_args() > 0) {
+            $carts = func_get_arg(0);
+            $result = array();
+            if ($carts) {
+                foreach ($carts as $value) {
+                    $select = $this->select()
+                            ->setIntegrityCheck(false)
+                            ->from(array('cr' => 'addtocart'))
+                            ->joinLeft(array('pr' => 'products'), 'pr.product_id=cr.product_id')
+                            ->where('cr.id=?', $value)
+                            ->where('pr.prod_status=?',1);
+                    $result[] = $this->getAdapter()->fetchRow($select);
+                  }
+       if($result){
+           return $result;
+           
+       }else{
+         return null;   
+       }
+                
+            }
+        } else {
+            return null;
+        }
     }
 
 }

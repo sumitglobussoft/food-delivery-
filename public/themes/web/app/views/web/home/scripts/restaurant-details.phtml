@@ -1,0 +1,473 @@
+<section class="restaurant-details">
+    <div class="parallax-container h-350">
+        <div class="parallax"><img src="/assets/images/gallery/blurred-image-11.jpg" class="responsive-img"></div>
+        <div class="parallax-content p-top-64">
+            <div class="row">
+                <div class="col s12">
+                    <div class="restaurant-box">
+                        <div class="res-image">
+                            <img src="<?php
+                            if (isset($this->hoteldata['hotel_image'])) {
+                                echo $this->hoteldata['hotel_image'];
+                            }
+                            ?>" class="restaurant-logo">
+                        </div>
+                        <div class="details">
+                            <ul>
+                                <li><a class="restName" href="#"><?php
+                            if (isset($this->hoteldata['hotel_name'])) {
+                                echo $this->hoteldata['hotel_name'];
+                            }
+                            ?></a></li>
+                                <li><p class="address"> <span><i class="fa fa-map-marker"></i></span><?php
+                                        if (isset($this->hoteldata['address'])) {
+                                            echo $this->hoteldata['address'];
+                                        }
+                                        ?></p></li>
+                                <li><p class="cuisine"><?php
+                                        if (isset($this->hoteldata['cuisine'])) {
+                                            echo $this->hoteldata['cuisine'];
+                                        }
+                                        ?></p></li>
+                                <li><p class="rating"><span class="restaurant-rating" data-score="4.5"></span> (450 Ratings)</p></li>
+
+                                <li>
+                                    <ul class="facilities">
+                                        <li>
+                                            <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Veg Available">
+                                                <span class="fa-stack fa-lg veg">
+                                                    <i class="fa fa-square-o fa-stack-2x"></i>
+                                                    <i class="fa fa-circle fa-stack-1x"></i>
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Non-Veg Available">
+                                                <span class="fa-stack fa-lg non-veg">
+                                                    <i class="fa fa-square-o fa-stack-2x"></i>
+                                                    <i class="fa fa-circle fa-stack-1x"></i>
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Delivery Fee 0">
+                                                <span><i class="fa fa-2x fa-motorcycle"></i></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Delivery in 45 Mins">
+                                                <span><i class="fa fa-2x fa-hourglass-1"></i></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="No Minimum Order">
+                                                <span><i class="fa fa-2x fa-usd"></i></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Online Payment Accepted">
+                                                <span><i class="fa fa-2x fa-credit-card"></i></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Cash On Delivery Accepted">
+                                                <span><i class="fa fa-2x fa-money"></i></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Add to Bookmark">
+                                                <span><i class="fa fa-2x fa-bookmark"></i></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="red lighten-5 paddingTB-md">
+        <div class="container w85">
+            <div class="card-panel">
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="tab col s3"><a class="active" href="#resMenu"><span class="m-right-md"><i class="fa fa-list"></i></span> Menu</a></li>
+                            <li class="tab col s3"><a href="#resReview"><span class="m-right-md"><i class="fa fa-comments"></i></span> Reviews</a></li>
+                            <li class="tab col s3"><a href="#resInfo"><span class="m-right-md"><i class="fa fa-info"></i></span> Info</a></li>
+                        </ul>
+                    </div>
+                    <div id="resMenu" class="col s12">
+                        <div class="tab-content">
+                            <div class="menuCartDiv">
+                                <div class="menu">
+                                    <ul class="collapsible popout resDishesList" data-collapsible="accordion">
+<?php
+if (isset($this->hotelmenu)) { 
+    
+    foreach ($this->hotelmenu as $value) {
+       
+        ?>
+                                                <li class="active">
+                                                    <a class="collapsible-header active">
+                                                        <i class="fa fa-angle-right"></i><?php if(isset($value['cusine_name'])){ echo $value['cusine_name'];}else{ echo $value['category_name'];} ?>
+                                                    </a>
+                                                    <div class="collapsible-body">
+                                                        <div>
+                                                            <img src="/assets/images/menu-imgs/menu-img-1.jpg" width="100%" height="100">
+                                                        </div>
+                                                        <table class="dish-table">
+                                                            <tbody>
+        <?php
+        if (isset($value['product_type'])) {
+            foreach ($value['product_type'] as $val) {
+                ?>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span class="fa-stack veg">
+                                                                                    <i class="fa fa-square-o fa-stack-2x"></i>
+                                                                                    <i class="fa fa-circle fa-stack-1x"></i>
+                                                                                </span>
+                                                                            </td>
+                                                                            <td><?php echo $val['name']; ?></td>
+                                                                            <td><span class="productcostdata"><i class="fa fa-inr"></i></span><?php echo $val['cost']; ?></td>
+
+                                                                            <td><a href="javascript:;"><span><i class="fa fa-2x fa-plus-circle getproductid"  data-hotelid="<?php if ($val['hotel_id']) {
+                    echo $val['hotel_id'];
+                } ?>" data-prod="<?php echo $val['product_id']; ?>"></i></span></a></td>
+
+
+                                                                        </tr>
+
+            <?php }
+        }
+        ?>
+
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </li>
+    <?php }
+   
+}
+?> </ul>
+                                </div>
+                                <div class="cart">
+                                    <div class="card-panel m-top-15 padding-sm">
+                                        <h5 class="orderHeading">Your Order <span class="right"><i class="fa fa-shopping-cart"></i></span></h5>
+                                        <div class="tdel">
+                                            <table class="orderTable">
+                                                <tbody>
+<?php if (isset($this->addtocartproducts)) {
+    foreach ($this->addtocartproducts as $value) {
+        ?>
+                                                            <tr class="trows grandparent">
+                                                                <td><span class="dish-name" ><?php echo $value['name']; ?></span></td>
+                                                                <td class="dish-id">
+                                                                    <a style="cursor:pointer"  item-cost="<?php echo $value['item_cost']; ?>" hotel-id="<?php echo $value['hotel_id']; ?>" product-id="<?php echo $value['product_id']; ?>" class="tooltipped changecartquantity" value="sub" data-position="top" data-delay="50" data-tooltip="Remove Quantity">
+                                                                        <span><i class="fa fa-minus"></i></span>
+                                                                    </a>
+                                                                    <span class="dataquantity"><?php echo $value['quantity']; ?></span>
+                                                                    <a style="cursor:pointer"  class="tooltipped changecartquantity" item-cost="<?php echo $value['item_cost']; ?>" hotel-id="<?php echo $value['hotel_id']; ?>" product-id="<?php echo $value['product_id']; ?>"  value="add"  data-position="top" data-delay="50" data-tooltip="Add Quantity">
+                                                                        <span><i class="fa fa-plus"></i></span>
+                                                                    </a>
+                                                                </td>
+                                                                <td class="dish-cost" ><span><i class="fa fa-inr"><?php echo $value['cost']; ?></i></span></td>
+                                                                <td>
+                                                                    <a style="cursor:pointer" data-prod="<?php echo $value['product_id']; ?>" data-hid="<?php echo $value['hotel_id']; ?>" data-totalcost="<?php echo $value['cost']; ?>"  class="tooltipped red-text deletecookieitem" data-position="top" data-delay="50" data-tooltip="Remove Item!">
+                                                                        <span><i class="fa fa-trash"></i></span>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+    <?php }
+}
+?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <table class="totalTable">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="subtotal1">Subtotal</td>
+                                        <?php if ($this->total) { ?>
+                                                            <td><span class="subtotal" data-total="<?php echo $this->total; ?>"><i class="fa fa-inr"><?php echo $this->total; ?></i></span><td>
+                                            <?php } else { ?><td><span class="subtotal" data-total="0"><i class="fa fa-inr">0</i></span><td><?php } ?>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Grand Total</td>
+<?php if ($this->total) { ?>
+                                                            <td><span class="grandtotal" grand-total="<?php echo $this->total; ?>" ><i class="fa fa-inr"><?php echo $this->total; ?></i></span></td>
+<?php } else { ?><td><span grand-total="0" class="grandtotal"><i class="fa fa-inr">0</i></span></td> <?php } ?>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="center">
+                                        
+                                          <?php if ($this->auth->hasIdentity()) { ?>
+                                        
+                                        <a  href ="/order-confirmation/<?php
+if (isset($this->hotelId)) {
+    echo $this->hotelId;
+}
+?>/-for-the-restaurant-<?php
+if (isset($this->hoteldata['hotel_name'])) {
+    echo $this->hoteldata['hotel_name'];
+}
+?>&order_id=" class="btn btn-alt waves-effect waves-teal btn-large green-text">Proceed to Check Out</a>
+<?php }else{ ?>
+    <a   class="btn btn-alt waves-effect waves-teal btn-large green-text modal-trigger" href="#loginModal">Proceed to Check Out</a>
+<?php }?>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="resReview" class="col s12">
+                        <div class="tab-content">
+                            <div class="center paddingTB-md">
+                                <h4 class="font-SquadaOne">Reviews for <span class="restName">Restaurant Name</span></h4>
+                                <p class="restaurant-rating" data-score="4.5"></p>
+                                <p>(450 Ratings)</p>
+                            </div>
+                            <ul class="reviewsList">
+                                <li class="review">
+                                    <div class="review-wrapper">
+                                        <div class="user">
+                                            <img src="/assets/images/profile/avatar-4.jpg" class="user-pic">
+                                        </div>
+                                        <div class="details">
+                                            <p class="date">Dec 15, 2015</p>
+                                            <p> By <span class="name">Tracy J. Wilson</span></p>
+                                            <p class="userRating" data-score="4"></p>
+                                            <p class="experience">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="review">
+                                    <div class="review-wrapper">
+                                        <div class="user">
+                                            <img src="/assets/images/profile/avatar-9.jpg" class="user-pic">
+                                        </div>
+                                        <div class="details">
+                                            <p class="date">Dec 15, 2015</p>
+                                            <p>By <span class="name">Diana J. Fields</span></p>
+                                            <p class="userRating" data-score="3"></p>
+                                            <p class="experience">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="review">
+                                    <div class="review-wrapper">
+                                        <div class="user">
+                                            <img src="/assets/images/profile/avatar-11.jpg" class="user-pic">
+                                        </div>
+                                        <div class="details">
+                                            <p class="date">Dec 15, 2015</p>
+                                            <p>By <span class="name">Amy R. Barnes</span></p>
+                                            <p class="userRating" data-score="5"></p>
+                                            <p class="experience">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="review">
+                                    <div class="review-wrapper">
+                                        <div class="user">
+                                            <img src="/assets/images/profile/avatar-4.jpg" class="user-pic">
+                                        </div>
+                                        <div class="details">
+                                            <p class="date">Dec 15, 2015</p>
+                                            <p> By <span class="name">Tracy J. Wilson</span></p>
+                                            <p class="userRating" data-score="4"></p>
+                                            <p class="experience">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="review">
+                                    <div class="review-wrapper">
+                                        <div class="user">
+                                            <img src="/assets/images/profile/avatar-9.jpg" class="user-pic">
+                                        </div>
+                                        <div class="details">
+                                            <p class="date">Dec 15, 2015</p>
+                                            <p>By <span class="name">Diana J. Fields</span></p>
+                                            <p class="userRating" data-score="3"></p>
+                                            <p class="experience">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="review">
+                                    <div class="review-wrapper">
+                                        <div class="user">
+                                            <img src="/assets/images/profile/avatar-11.jpg" class="user-pic">
+                                        </div>
+                                        <div class="details">
+                                            <p class="date">Dec 15, 2015</p>
+                                            <p>By <span class="name">Amy R. Barnes</span></p>
+                                            <p class="userRating" data-score="5"></p>
+                                            <p class="experience">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="center">
+                                <a href="#">Load More Reviews</a>
+                            </div>
+                            <div class="m-top-md">
+                                <div>
+                                    <h4 class="center font-SquadaOne">-- Give your experience with us --</h4>
+                                </div>
+                                <div class="userRatingSection">
+                                    <div class="center">
+                                        <p id="addUserRating" class="addYourRating"></p>
+                                    </div>
+                                    <div class="input-field">
+                                        <textarea id="review" class="materialize-textarea"></textarea>
+                                        <label for="review">Give us short review</label>
+                                    </div>
+                                    <div class="center">
+                                        <button class="btn waves-effect waves-light">Send Review</button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="resInfo" class="col s12">
+                        <div class="tab-content">
+                            <div class="center paddingTB-md">
+                                <h4 class="font-SquadaOne">Information for <span class="restName">Restaurant Name</span></h4>
+                            </div>
+                            <div class="information">
+                                <div>
+                                    <p class="subTitle">Cuisines</p>
+                                    <p>North Indian, South Indian, Chinese</p>
+                                </div>
+                                <div class="m-top-15">
+                                    <p class="subTitle">Address</p>
+                                    <p>#111, 7th Street , Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+
+                                </div>
+                                <div class="m-top-15">
+                                    <p class="subTitle">Delivery hours</p>
+                                    <table class="tablePaddingNormal">
+                                        <tbody>
+                                            <tr>
+                                                <td>Monday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tuesday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Wednesday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Thursday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Friday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Saturday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sunday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="m-top-15">
+                                    <p class="subTitle">Takeaway hours</p>
+                                    <table class="tablePaddingNormal">
+                                        <tbody>
+                                            <tr>
+                                                <td>Monday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tuesday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Wednesday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Thursday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Friday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Saturday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sunday</td>
+                                                <td>09:00 - 22:30</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="m-top-15">
+                                    <p class="subTitle">Payment Types</p>
+                                    <ul class="list-inline m-top-sm">
+                                        <li><span><i class="fa fa-2x fa-cc-visa"></i></span></li>
+                                        <li><span><i class="fa fa-2x fa-paypal"></i></span></li>
+                                        <li><span><i class="fa fa-2x fa-credit-card"></i></span></li>
+                                        <li><span><i class="fa fa-2x fa-money"></i></span></li>
+                                    </ul>
+                                </div>
+                                <div class="m-top-15">
+                                    <p class="subTitle">Delivery locations</p>
+                                    <ul class="list-inline m-top-sm">
+                                        <li>Lorem ipsum dolor sit amet,</li>
+                                        <li>sed do eiusmod tempor,</li>
+                                        <li>magna aliqua,</li>
+                                        <li>Lorem ipsum dolor sit amet,</li>
+                                        <li>sed do eiusmod tempor,</li>
+                                        <li>magna aliqua,</li>
+                                        <li>Lorem ipsum dolor sit amet,</li>
+                                        <li>sed do eiusmod tempor,</li>
+                                        <li>magna aliqua,</li>
+                                        <li>Lorem ipsum dolor sit amet,</li>
+                                        <li>sed do eiusmod tempor,</li>
+                                        <li>magna aliqua,</li>
+                                        <li>Lorem ipsum dolor sit amet,</li>
+                                        <li>sed do eiusmod tempor,</li>
+                                        <li>magna aliqua,</li>
+                                        <li>Lorem ipsum dolor sit amet,</li>
+                                        <li>sed do eiusmod tempor,</li>
+                                        <li>magna aliqua,</li>
+
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>

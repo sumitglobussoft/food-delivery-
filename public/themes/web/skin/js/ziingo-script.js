@@ -4,6 +4,7 @@ var Ziingo = function(){
         $(window).scroll(function (event) {
             var scrolled = $(window).scrollTop();
             (scrolled > 50) ? $('body').addClass('scrolled') : $('body').removeClass('scrolled') ;
+            (scrolled > 50) ? $('.logo').addClass('sLogo') : $('.logo').removeClass('sLogo') ;
         });
         $('#forgotBtn').on('click',function(){
             $('#loginContent').addClass('hide');
@@ -33,7 +34,6 @@ var Ziingo = function(){
     var dropdownFunction= function () {
         $(".dropdown-button").dropdown();
     };
-
 
     return{
         initComponents: function () {
@@ -83,7 +83,7 @@ var Layout = function () {
         slider.owlCarousel({
             loop:true,
             nav:false,
-            margin:10,
+            margin:20,
             autoWidth:true,
             items:4,
             autoplay:true,
@@ -164,6 +164,66 @@ var Layout = function () {
         });
 
     };
+//
+//    var dateTimePickerFunction = function(){
+//
+//        $('input[name="group2"]').click(function () {
+//            if($('input[id="later"]').is(":checked")){
+//                $('#laterDateTime').removeClass('hide');
+//            }
+//            if($('input[id="asap"]').is(":checked")){
+//                $('#laterDateTime').addClass('hide');
+//            }
+//
+//        });
+//
+//        $('#datePicker').bootstrapMaterialDatePicker({
+//            weekStart : 0,
+//            date:true,
+//            time: false,
+//            format: 'DD/MM/YYYY',
+//
+//        });
+//        $('#timePicker').bootstrapMaterialDatePicker({
+//            date: false,
+//            time : true,
+//            format: 'HH:mm'
+//        });
+//    };
+
+    var sweetAlertFunction = function () {
+        $('#confirmOrder').on('click', function () {
+            $('#thirdTab').addClass('done');
+            swal({
+                title: "Thank You For Ordering With Us",
+                text: "Wait for 45 minutes, Your Order will be delivered to your address",
+                type: "success",
+                confirmButtonText: "Cool!",
+                confirmButtonColor: "#009688",
+            });
+        })
+
+
+
+    };
+
+
+    var checkOutFormFunction= function () {
+        $('#checkOut').on('click', function () {
+            $('#firstTab').addClass('done disabled');
+            $('#secondTab').removeClass('disabled');
+            $('#checkOutTabs').tabs('select_tab', 'secureCheckout');
+
+        });
+        $('#paymentBtn').on('click', function () {
+            $('#secondTab').addClass('done disabled');
+            $('#thirdTab').removeClass('disabled');
+            $('#checkOutTabs').tabs('select_tab', 'paymentWay');
+        });
+
+
+
+    };
 
     return{
 
@@ -190,6 +250,18 @@ var Layout = function () {
         initAddYourRating: function () {
             addUserRating();
         },
+
+//        initDateTimePicker:function(){
+//            dateTimePickerFunction();
+//        },
+
+        initSweetAlert: function () {
+            sweetAlertFunction();
+        },
+
+        initCheckOutFrom: function () {
+            checkOutFormFunction();
+        }
 
 
 

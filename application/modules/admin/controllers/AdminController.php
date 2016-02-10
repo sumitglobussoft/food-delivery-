@@ -10,16 +10,23 @@ require_once 'Zend/Controller/Action.php';
 class Admin_AdminController extends Zend_Controller_Action {
 
     public function init() {
-             
-               
+         
     }
  
     public function indexAction() {
-              if (isset($this->view->session->storage->role)):
-            if ($this->view->session->storage->role == '2'):
-                $this->_redirect('admin/dashboard');
-            endif;
-        endif;
+             /*
+         * temporary usage for user not to redirect to admin panel dashboard
+         */
+     
+      if ($this->view->auth->hasIdentity()) {
+
+            $this->view->auth->clearIdentity();
+
+            Zend_Session::destroy(true);
+
+            $this->_redirect('/admin');
+      }
+      /////////////////code ends ////////////////
 
         $objSecurity = Engine_Vault_Security::getInstance();
 
@@ -44,12 +51,12 @@ class Admin_AdminController extends Zend_Controller_Action {
 
         public function dashboardAction() {
          $userModel = Admin_Model_Users::getInstance();
-        $result = $userModel->getUserdetailsDash();
-        if ($result) {
-            $this->view->userdetails = $result;
-        } else {
-            
-        }
+//        $result = $userModel->getUserdetailsDash();
+//        if ($result) {
+//            $this->view->userdetails = $result;
+//        } else {
+//            
+//        }
 
         $usertransactionModel = Admin_Model_UserTransactions::getInstance();
         $result = $usertransactionModel->getAllUsertransaction();
@@ -67,13 +74,13 @@ class Admin_AdminController extends Zend_Controller_Action {
             
         }
 
-         $productsModel = Admin_Model_Products::getInstance();
-        $result = $productsModel->getAllproducts();
-        if ($result) {
-            $this->view->productsdetails = $result;
-        } else {
-            
-        }
+//         $productsModel = Admin_Model_Products::getInstance();
+//        $result = $productsModel->getAllproducts();
+//        if ($result) {
+//            $this->view->productsdetails = $result;
+//        } else {
+//            
+//        }
         }
         
     public function logoutAction() {

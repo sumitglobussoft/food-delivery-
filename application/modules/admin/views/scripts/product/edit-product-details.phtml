@@ -1,0 +1,176 @@
+<div id="page-title">
+    <h2>View/Edit Product</h2>
+    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal bordered-row" enctype="multipart/form-data" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Product Name</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="name" value="<?php echo $this->allproductdetails['name'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Product Description</label>
+                                            </td>
+                                            <td>
+                                                <textarea class="form-control" name="prod_desc" value="<?php echo $this->allproductdetails['prod_desc'] ?>" placeholder="" required><?php echo $this->allproductdetails['prod_desc'] ?></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Hotel Name</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" disabled="" name="" value="<?php echo $this->allproductdetails['hotel_name'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Cost</label>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon addon-inside bg-black">
+                                                        <i class="glyph-icon icon-dollar"></i>
+                                                    </span>
+                                                    <input type="text" placeholder=""  name="cost" value="<?php echo $this->allproductdetails['cost'] ?>" class="form-control" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                                  <tr>
+                                            <td>
+                                    <label class="control-label">Product status</label>
+                                            </td>
+                                             <td>
+                                        <select  class="js-example-responsive js-example-basic-hide-search form-control" name="prod_status"> 
+                                            <option value="1" <?php
+                                                    if ($this->allproductdetails['prod_status']==1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                Active 
+                                            </option>
+                                            <option value="2" <?php
+                                                    if ($this->allproductdetails['prod_status']==2) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                Deactive 
+                                            </option>
+                                        </select>
+                                             </td>
+                                   
+                                </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Delivery Timing</label>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon addon-inside bg-black">
+                                                        <i class="glyph-icon icon-clock-o"></i>
+                                                    </span>
+                                                    <input type="text" placeholder="" name="delivery_time" value="<?php echo $this->allproductdetails['delivery_time'] ?>" class="form-control" />
+                                                    <span class="input-group-addon">mins</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Discount Type</label>
+                                            </td>
+                                            <td>
+                                                <label class="radio-inline">
+                                                    <input type="radio" value="1"  name="product_discount_type" <?php
+                                                    if (isset($this->allproductdetails['product_discount_type'])) {
+                                                        echo"checked";
+                                                    }
+                                                    ?> id=""> Percentage
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" value="2" name="product_discount_type" <?php
+                                                    if (isset($this->allproductdetails['product_discount_type'])) {
+                                                        echo"checked";
+                                                    }
+                                                    ?> id=""> Amount
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Discount</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="product_discount" value="<?php echo $this->allproductdetails['product_discount'] ?>" id="" placeholder="" required />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Service Tax</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="servicetax" value="<?php echo $this->allproductdetails['servicetax'] ?>" id="" placeholder="" required />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Product Image</label>
+                                            </td>
+                                            <td>
+                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                        <img src="<?php echo $this->allproductdetails['imagelink'] ?>" alt="">
+                                                    </div>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                                    <div>
+                                                        <span class="btn btn-default btn-file">
+                                                            <span class="fileinput-new">Replace</span>
+                                                            <span class="fileinput-exists">Replace</span>
+                                                            <input type="file" name="fileToUpload">
+                                                        </span>
+                                                        <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="form-group pull-right">
+                                    <button type="submit" class="btn btn-alt btn-hover btn-primary">
+                                        <span>SAVE</span> <i class="glyph-icon icon-arrow-right"></i>
+                                        <div class="ripple-wrapper"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

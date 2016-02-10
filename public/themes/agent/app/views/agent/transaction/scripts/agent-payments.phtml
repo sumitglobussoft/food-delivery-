@@ -1,0 +1,143 @@
+
+<div class="content-wrapper">
+ 
+  
+        <div class="row">
+            <div class="col-md-12 col-sm-12 no-p-left no-p-right">
+                <div class="panel panel-black no-radius">
+                    <div class="panel-heading paddingLR-md paddingTB-sm no-radius">
+                        <h3 class="font-Russo-One no-margin">User Details</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+  <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-gray">
+                    <div class="panel-heading paddingLR-md paddingTB-xs">
+                        <h4 class="font-Libre-Baskerville inline-block">User Manage</h4>
+                    </div>
+                    <div class="content">
+                       <form action="" id="addthisrow" method="Post" enctype="multipart/form-data">
+                          
+                            <div class="">
+                                <table class="table table-bordered" id="datatable">
+                                    <thead>
+                                        <tr>
+                                            <th class="success-emphasis-dark">Sl. No.</th>
+                                            <th class="success-emphasis-dark">Product Name</th>
+                                            <th class="success-emphasis-dark">Product Cost</th>
+                                            <th class="success-emphasis-dark">Hotel Name</th>
+                                            <th class="success-emphasis-dark">Order Status </th>
+                                            <th class="success-emphasis-dark">Pay Status </th>
+                                            <th class="success-emphasis-dark">Pay Amount</th>
+                                            <th class="success-emphasis-dark">Quantity</th>
+                                            <th class="success-emphasis-dark">Pay Type  </th>
+                                            <th class="success-emphasis-dark">Transaction Type</th>
+                                            <th class="success-emphasis-dark">Transaction amount</th>
+                                            <th class="success-emphasis-dark">Transaction Code </th>
+                                            <th class="success-emphasis-dark">Transaction Date </th>
+                                            <th class="success-emphasis-dark">Transaction status </th>
+                                            
+                                            
+                                           
+                                        </tr>
+                                    </thead>
+                                   <tbody>
+                                         <?php
+                                       if($this->transactiondetails){
+                                                 
+                                    $i = 1;
+                                    foreach ($this->transactiondetails as $value) {?>
+                                       
+                                            <tr class="odd gradeX" id="<?php echo $value['order_product_id'];?>" data-prod = "<?php echo $value['order_id'];?>">
+                                            <td><strong><?php echo $i; ?></strong></td>
+                                            <td><strong><?php echo $value['name'];?></strong></td>
+                                            <td><strong><?php echo $value['product_cost'];?></strong></td>
+                                            <td><strong><?php echo $value['hotel_name'];?></strong></td>
+                                            <?php if(isset($value['order_status'])){ 
+                                                if($value['order_status']==1){ ?>
+                                               <td><strong>In Process</strong></td>     
+                                                <?php }else if($value['order_status']==2) { ?>
+                                               <td><strong>Delivered</strong></td> 
+                                                <?php }else if($value['order_status']==3){?>
+                                                    
+                                                    <td><strong>Cancelled</strong></td> 
+                                               <?php  } }else{?>
+                                                    <td><strong>Unknown</strong></td>  
+                                                    
+                                              <?php } ?>
+                                              <?php if(isset($value['pay_status'])){ 
+                                                if($value['pay_status']==1){ ?>
+                                               <td><strong>Pending</strong></td>     
+                                                <?php }else if($value['pay_status']==2) { ?>
+                                               <td><strong>Complette</strong></td> 
+                                                <?php }else if($value['pay_status']==3){?>
+                                                    
+                                                    <td><strong>Failed</strong></td> 
+                                               <?php  } }else{?>
+                                                    <td><strong>Unknown</strong></td>  
+                                                    
+                                              <?php } ?>
+                                            
+                                             <td><strong><?php echo $value['pay_amount'];?></strong></td>
+                                             <td><strong><?php echo $value['quantity'];?></strong></td>
+                                          
+                                         
+                              <?php if(isset($value['pay_type'])){ 
+                                                if($value['pay_type']==1){ ?>
+                                               <td><strong>COD</strong></td>     
+                                                <?php }else if($value['pay_type']==2) { ?>
+                                               <td><strong>Paypal</strong></td> 
+                              <?php } } else{?>
+                                                    <td><strong>Unknown</strong></td>  
+                                                    
+                                              <?php } ?>
+                                                        <?php if(isset($value['pay_type'])){ 
+                                                if($value['pay_type']==1){ ?>
+                                               <td><strong>COD</strong></td>     
+                                                <?php }else if($value['pay_type']==2) { ?>
+                                               <td><strong>Paypal</strong></td> 
+                              <?php } } else{?>
+                                                    <td><strong>Unknown</strong></td>  
+                                                    
+                                              <?php } ?>
+                                                      <td><strong><?php echo $value['tx_amount'];?></strong></td>
+                                            <td><strong><?php echo $value['tx_code'];?></strong></td>
+                                            <td><strong><?php echo $value['tx_date'];?></strong></td>
+                                            <?php if(isset($value['tx_status'])){ 
+                                                if($value['tx_status']==1){ ?>
+                                               <td><strong>Success</strong></td>     
+                                                <?php }else if($value['tx_status']==2) { ?>
+                                               <td><strong>Pending</strong></td> 
+                                          <?php }else if($value['tx_status']==3) { ?>
+                                  
+                                  <td><strong>Failed</strong></td
+                                             <?php  }else if($value['tx_status']==4) { ?>
+                                  
+                                  <td><strong>Cancelled</strong></td
+                                             <?php  }
+                                                } else{?>
+                                                    <td><strong>Unknown</strong></td>  
+                                                    
+                                              <?php } ?>
+                                            <?php
+                                       $i++; }
+                                   
+                                   } ?>
+                                            </tbody>
+
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+</div>
+
+
+
+
+

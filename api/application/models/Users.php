@@ -137,6 +137,7 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
         if (func_num_args() > 0) {
             $email = func_get_arg(0);
             $password = func_get_arg(1);
+           
             try {
                 $select = $this->select()
                         ->from($this)

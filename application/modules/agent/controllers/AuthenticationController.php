@@ -10,7 +10,7 @@ require_once 'Zend/Controller/Action.php';
 class Agent_AuthenticationController extends Zend_Controller_Action {
 
     public function init() {
-        
+
                
     }
   /*
@@ -42,27 +42,33 @@ class Agent_AuthenticationController extends Zend_Controller_Action {
       
         if ($this->getRequest()->isPost()) {
             $methodSelector = $this->getRequest()->getPost('agentform');
+            
             if ($methodSelector == 'agentsignup') {
 
+                $first_name = $this->getRequest()->getPost('first_name');
+                $last_name = $this->getRequest()->getPost('last_name');
                 $username = $this->getRequest()->getPost('name');
                 $email = $this->getRequest()->getPost('email');
                 $password = $this->getRequest()->getPost('password');
                 $city = $this->getRequest()->getPost('city');
-                $address = $this->getRequest()->getPost('address');
- 
-                if (isset($username) && isset($email) && isset($password) && isset($city) && isset($address)) {
+                
+
+    
+                if ( isset($first_name) && isset($last_name) && isset($username) && isset($email) && isset($password) && isset($city)) {
                   
                     $data = array('loginname' => $username,
+                        'first_name' => $first_name,
+                        'last_name' => $last_name,
                            'password' => sha1(md5($password)),
                             'email' => $email,
                             'city' => $city,
-                            'address' => $address,
                             'reg_date' => date('Y-m-d H-i-s'),
+                            'role' => 1,
                             'agent_status' => 1,
                          );
                     
                     $agentdata['agentdata']  = json_encode($data);
-        
+       
            $url = $this->_appSetting->apiLink . '/agent-authentication?method=agentsignup';
             
            $curlResponse = $objCurlHandler->curlUsingPost($url,$agentdata);

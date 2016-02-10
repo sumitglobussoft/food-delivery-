@@ -1,23 +1,31 @@
+<?php
+if ($this->auth->hasIdentity()) {
+    if ($this->session->storage->role == 1) {
+        ?>
+        <div id="footer" class="footer">
+            <span class="pull-right">
+                <a href="javascript:;" class="btn-scroll-to-top" data-click="scroll-top">
+                    <i class="fa fa-arrow-up"></i> <span class="hidden-xs">Back to Top</span>
+                </a>
+            </span>
+            &copy; 2016 Copyright <b>Ziingo</b>. A <a href="javascript:;">Worldjunction</a> LLC Company. 
+        </div>
+        <!-- end #footer -->
+
+        <!-- end #content -->
+        </div>
+        <?php
+    }
+} else {
+    ?>
+    </div>
 
 
-<script src="/themes/agent/skin/js/jquery-1.8.2.min.js"></script>
-<script src="/themes/agent/skin/js/jquery-ui.min.js"></script>
-<script src="/themes/agent/skin/js/bootstrap.min.js"></script>
-<!--[if lt IE 9]>
-        <script src="assets/crossbrowserjs/html5shiv.js"></script>
-        <script src="assets/crossbrowserjs/respond.min.js"></script>
-        <script src="assets/crossbrowserjs/excanvas.min.js"></script>
-<![endif]-->
-<script src="/themes/agent/skin/js/jquery.slimscroll.min.js"></script>
+<?php }
+?>
 
-<script>
-    $(document).ready(function() {
-        App.init();
-        Dashboard.init();
-        $('.dropdown-toggle').dropdown();
-    });
-</script>
-
-<script src="/themes/agent/skin/js/apps.min.js"></script>
+<?php echo $this->render('scripts.phtml'); ?>
 </body>
 </html>
+
+

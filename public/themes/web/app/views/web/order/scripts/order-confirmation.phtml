@@ -1,0 +1,553 @@
+
+<main class="page-content">
+    <section class="restaurant-details">
+        <div class="parallax-container h-350">
+            <div class="parallax"><img src="/assets/images/gallery/blurred-image-11.jpg" class="responsive-img"></div>
+            <div class="parallax-content p-top-64">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="restaurant-box">
+                            <div class="res-image">
+                                <img src="<?php
+                                if (isset($this->hoteldata['hotel_image'])) {
+                                    echo $this->hoteldata['hotel_image'];
+                                }
+                                ?>" class="restaurant-logo">
+                            </div>
+                            <div class="details">
+                                <ul>
+                                    <li><a class="restName" href="#"><?php
+                                            if (isset($this->hoteldata['hotel_name'])) {
+                                                echo $this->hoteldata['hotel_name'];
+                                            }
+                                            ?></a></li>
+                                    <li><p class="address"> <span><i class="fa fa-map-marker"></i></span><?php
+                                            if (isset($this->hoteldata['address'])) {
+                                                echo $this->hoteldata['address'];
+                                            }
+                                            ?></p></li>
+                                    <li><p class="cuisine"><?php
+                                            if (isset($this->hoteldata['cuisine'])) {
+                                                echo $this->hoteldata['cuisine'];
+                                            }
+                                            ?></p></li>
+                                    <li><p class="rating"><span class="restaurant-rating" data-score="4.5"></span> (450 Ratings)</p></li>
+
+                                    <li>
+                                        <ul class="facilities">
+                                            <li>
+                                                <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Veg Available">
+                                                    <span class="fa-stack fa-lg veg">
+                                                        <i class="fa fa-square-o fa-stack-2x"></i>
+                                                        <i class="fa fa-circle fa-stack-1x"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Non-Veg Available">
+                                                    <span class="fa-stack fa-lg non-veg">
+                                                        <i class="fa fa-square-o fa-stack-2x"></i>
+                                                        <i class="fa fa-circle fa-stack-1x"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Delivery Fee 0">
+                                                    <span><i class="fa fa-2x fa-motorcycle"></i></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Delivery in 45 Mins">
+                                                    <span><i class="fa fa-2x fa-hourglass-1"></i></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="No Minimum Order">
+                                                    <span><i class="fa fa-2x fa-usd"></i></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Online Payment Accepted">
+                                                    <span><i class="fa fa-2x fa-credit-card"></i></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Cash On Delivery Accepted">
+                                                    <span><i class="fa fa-2x fa-money"></i></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Add to Bookmark">
+                                                    <span><i class="fa fa-2x fa-bookmark"></i></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="red lighten-5 paddingTB-md">
+            <div class="container">
+                <div class="card-panel ">
+                    <div class="row">
+                        <div class="col s12">
+                            <ul id="checkOutTabs" class="tabs checkOutTabs">
+                                <li id="firstTab"  <?php
+                                    if (isset($this->orderid)) {
+                                        echo 'class="tab col s3 disabled"';
+                                    }else{
+                                      echo 'class="tab col s3"';   
+                                    }
+                                    ?>><a <?php
+                                    if (isset($this->orderid)) {
+                                        echo 'class="active"';
+                                    }else{
+                                        echo 'class="active"';
+                                    }
+                                    ?>  href="#orderDetails"><span class="m-right-sm"><i class="fa fa-2x fa-shopping-cart"></i></span> 1. Your Order</a></li>
+                                <li id="secondTab" class="tab col s3 disabled"><a href="#secureCheckout"><span class="m-right-md"><i class="fa fa-2x fa-check-circle"></i></span> 2. Secure Checkout</a></li>
+                                <li id="thirdTab" <?php
+                                    if (isset($this->orderid)) {
+                                        echo 'class="tab col s3"';
+                                    }else{
+                                      echo 'class="tab col s3 disabled"';   
+                                    }
+                                    ?> ><a <?php
+                                    if (isset($this->orderid)) {
+                                        echo 'class="active"';
+                                    }
+                                    ?> href="#paymentWay"><span class="m-right-md"><i class="fa fa-2x fa-money"></i></span> Payment Gateway</a></li>
+                            </ul>
+                        </div>
+                        <form  role="form" method="post">
+                            <div id="orderDetails" class="col s12" <?php
+                                    if (isset($this->orderid)) {
+                                        echo 'style="display: none;"';
+                                    }else{
+                                        
+                                         echo 'style="display: block;"';
+                                  
+                                    }
+                                    ?> >
+                                <div class="tab-content">
+                                    <div class="row">
+                                        <div class="col s12 m12 l6">
+                                            <div class="m-top-md">
+                                                <p class="font-18 bold">Make sure everything is as you wish</p>
+                                            </div>
+                                            <div>
+                                                <table class="orderTable">
+                                                    <tbody>
+                                                      <?php if (isset($this->addtocartproducts)) {
+    foreach ($this->addtocartproducts as $value) {
+        ?>
+                                                            <tr class="trows grandparent">
+                                                                <td><span class="dish-name" ><?php echo $value['name']; ?></span></td>
+                                                                <td class="dish-id">
+                                                                    <a style="cursor:pointer"  item-cost="<?php echo $value['item_cost']; ?>" hotel-id="<?php echo $value['hotel_id']; ?>" product-id="<?php echo $value['product_id']; ?>" class="tooltipped changecartquantity" value="sub" data-position="top" data-delay="50" data-tooltip="Remove Quantity">
+                                                                        <span><i class="fa fa-minus"></i></span>
+                                                                    </a>
+                                                                    <span class="dataquantity"><?php echo $value['quantity']; ?></span>
+                                                                    <a style="cursor:pointer"  class="tooltipped changecartquantity" item-cost="<?php echo $value['item_cost']; ?>" hotel-id="<?php echo $value['hotel_id']; ?>" product-id="<?php echo $value['product_id']; ?>"  value="add"  data-position="top" data-delay="50" data-tooltip="Add Quantity">
+                                                                        <span><i class="fa fa-plus"></i></span>
+                                                                    </a>
+                                                                </td>
+                                                                <td class="dish-cost" ><span><i class="fa fa-inr"><?php echo $value['cost']; ?></i></span></td>
+                                                                <td>
+                                                                    <a style="cursor:pointer" data-prod="<?php echo $value['product_id']; ?>" data-hid="<?php echo $value['hotel_id']; ?>" data-totalcost="<?php echo $value['cost']; ?>"  class="tooltipped red-text deletecookieitem" data-position="top" data-delay="50" data-tooltip="Remove Item!">
+                                                                        <span><i class="fa fa-trash"></i></span>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+    <?php }
+}
+?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div>
+                                                <table class="totalTable">
+                                                    <tbody>
+                                                                                                <tr>
+                                                        <td class="subtotal1">Subtotal</td>
+                                        <?php if ($this->total) { ?>
+                                                            <td><span class="subtotal" data-total="<?php echo $this->total; ?>"><i class="fa fa-inr"><?php echo $this->total; ?></i></span><td>
+                                            <?php } else { ?><td><span class="subtotal" data-total="0"><i class="fa fa-inr">0</i></span><td><?php } ?>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Grand Total</td>
+<?php if ($this->total) { ?>
+                                                            <td><span class="grandtotal" grand-total="<?php echo $this->total; ?>" ><i class="fa fa-inr"><?php echo $this->total; ?></i></span></td>
+<?php } else { ?><td><span grand-total="0" class="grandtotal"><i class="fa fa-inr">0</i></span></td> <?php } ?>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m12 l6">
+                                            <div class="m-top-md">
+                                                <div class="">
+                                                    <p class="font-18 bold center teal-text">Order Information</p>
+                                                </div>
+                                                <div>
+                                                    <p>
+                                                        <input class="with-gap" name="delivery_type"  value="1" type="radio" id="delivery" checked/>
+                                                        <label for="delivery">
+                                                            <span class="bold">Delivery</span><br>
+                                                            <span>Your order will be delivered to your address.</span>
+                                                        </label>
+                                                    </p>
+                                                    <p>
+                                                        <input class="with-gap" name="delivery_type"  value="2" type="radio" id="pickup"  />
+                                                        <label for="pickup">
+                                                            <span class="bold">Pickup</span><br>
+                                                            <span>You will pick up the order yourself at restaurant,&nbsp;<?php
+                                                                if (isset($this->hoteldata['address'])) {
+                                                                    echo $this->hoteldata['address'];
+                                                                }
+                                                                ?></span>
+                                                        </label>
+                                                    </p>
+                                                </div>
+                                                <div class="m-top-sm">
+                                                    <div class="input-field">
+                                                        <textarea id="messageForOrder" name="user_message" class="materialize-textarea"></textarea>
+                                                        <label for="messageForOrder">Add message to your order</label>
+                                                    </div>
+                                                    <p class="font-12">(If you want to add any comment, e.g. about allergies or delivery instructions, this is the right place)</p>
+                                                </div>
+                                                <div class="m-top-md">
+                                                    <span id="checkOut" class="btn btn-block btn-large waves-light waves-effect">Check Out</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="secureCheckout" class="col s12">
+                                <div class="tab-content">
+                                    <div class="row">
+                                        <div class="col s12 m12 l6">
+                                            <div>
+                                                <div class="row m-top-md">
+                                                    <div class="col s12">
+                                                        <p class="font-18 bold center teal-text">Contact Details</p>
+                                                    </div>
+                                                    <div class="col s12">
+                                                        <div class="row">
+                                                            <div class="input-field col s12 m6">
+                                                                <input type="text" name="first_name" id="fName" class="validate">
+                                                                <label for="fName">First Name</label>
+                                                            </div>
+                                                            <div class="input-field col s12 m6">
+                                                                <input type="text" name="last_name" id="lName" class="validate">
+                                                                <label for="lName">Last Name</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="input-field col s12">
+                                                                <input type="text" name="Contact_no" id="mobile" class="validate">
+                                                                <label for="mobile">Mobile Number</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="input-field col s12">
+                                                                <input type="email" name="Contact_email" id="uEmail" class="validate">
+                                                                <label for="uEmail">Email Address</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="input-field col s12">
+                                                                <input type="text"  name="Contact_address" id="fullAddress" class="validate">
+                                                                <label for="fullAddress">Full Address</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="input-field col s12 m6">
+                                                                <input type="text" name="city" id="city" class="validate">
+                                                                <label for="city">City</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col s12">
+                                                                <p class="font-18 bold center teal-text">Delivery Address</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="input-field col s12">
+                                                                <input type="text" name="house-no/name" id="hName" class="validate">
+                                                                <label for="hName">House Name or Number</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="input-field col s12">
+                                                                <input type="text" name="localityaddress" id="hAddress" class="validate">
+                                                                <label for="hAddress">Locality Address</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="input-field col s12">
+                                                                <input type="text" name="nearby" id="nearBy" class="validate">
+                                                                <label for="nearBy">Near By</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m12 l6">
+                                            <div class="m-top-md">
+                                                <p class="font-18 bold center teal-text">Order Details</p>
+                                            </div>
+                                            <div>
+                                                <table class="orderTable">
+                                                    <tbody>
+                                                        <?php
+                                                        if (isset($this->addtocartproducts)) {
+                                                            foreach ($this->addtocartproducts as $value) {
+                                                                ?>
+                                                                <tr>
+                                                                    <td>1.</td>
+                                                                    <td><span class="dish-name" ><?php echo $value['name']; ?></span></td>
+                                                                    <td>
+                                                                        <span>x<?php echo $value['quantity']; ?></span>
+                                                                    </td>
+
+
+                                                                    <td class="dish-cost" added-cost="<?php echo $value['cost']; ?>" item-cost="<?php echo $value['product_cost']; ?>"><span><i class="fa fa-inr"><?php echo $value['cost']; ?></i></span></td>
+                                                                    <td>
+                                                                        <a class="tooltipped green-text" data-tooltip="Item Available" data-delay="50" data-position="top" href="#" data-tooltip-id="be469de9-3c2a-3af1-e74e-c19c21ea7d4e">
+                                                                            <span>
+                                                                                <i class="fa fa-check-circle"></i>
+                                                                            </span>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div>
+                                                <table class="totalTable">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="subtotal1">Subtotal</td>
+                                                            <?php if ($this->total) { ?>
+                                                                <td><span class="subtotal" data-subcost="<?php echo $this->total; ?>"><i class="fa fa-inr"> <?php echo $this->total; ?></i></span></td>
+                                                            <?php } else { ?>
+                                                                <td><span class="subtotal" data-subcost="0"><i class="fa fa-inr"> 00</i></span><td>
+                                                                <?php } ?>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>Promotion</td>
+                                                            <td> (-) <span><i class="fa fa-inr">0</i></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Grand Total</td>
+                                                            <?php if ($this->total) { ?>
+                                                                <td><span class="grandtotal"><i class="fa fa-inr"><?php echo $this->total; ?></i></span></td>
+                                                            <?php } else { ?><td><span class="grandtotal"><i class="fa fa-inr">0</i></span></td> <?php } ?>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="">
+                                                    <div class="row">
+                                                        <div class="input-field col s12 m8">
+                                                            <input type="text" id="coupon" class="validate">
+                                                            <label for="coupon">Apply Coupon</label>
+                                                        </div>
+                                                        <div class="col s12 m4 center">
+                                                            <button class="btn blue darken-4 waves-effect waves-light m-top-25">Apply</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="m-top-md">
+                                                <button id="paymentBtn" class="btn btn-block btn-large waves-light waves-effect">Confirm Order</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <?php
+                                    if (isset($this->orderid)) {
+                                      
+                                       echo '<style>#paymentWay{display:block !important;} .indicator{}</style>';
+                                    }else{
+                                         echo '<style>#paymentWay{display:none;}</style>';
+                                    }
+                                    ?>
+
+                        <div id="paymentWay" class="col s12" >
+                            <div class="tab-content">
+                                <div class="row m-top-md">
+                                    <div class="col s12">
+                                        <h5 class="grandtotal right text-teal"><small>GRAND TOTAL :-</small> <i class="fa fa-inr">180</i></h5>
+                                    </div>
+                                    <div class="col s12">
+                                        <ul class="paymentMethods collapsible" data-collapsible="accordion">
+                                            <li class="active">
+                                                <a href="javascript:;" class="mainItem collapsible-header active">
+                                                    <span class="marginLR-md"><i class="fa fa-credit-card"></i></span> Credit/ Debit Card
+                                                </a>
+                                                <div class="collapsible-body">
+                                                    <div class="padding-md">
+                                                        <div class="row">
+                                                            <div class="col s12 m8 offset-m2 l8 offset-l2">
+                                                                <div class="row">
+                                                                    <div class="input-field col s12">
+                                                                        <input type="text" class="validate" id="nameOnCard">
+                                                                        <label for="nameOnCard">Name On Card</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="input-field col s12">
+                                                                        <input type="text" class="validate" id="cardNumber">
+                                                                        <label for="cardNumber">Card Number</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="input-field col s12 m6 ">
+                                                                        <input type="text" class="validate" id="expDate">
+                                                                        <label for="expDate">Valid Through (MM/YYYY)</label>
+                                                                    </div>
+                                                                    <div class="input-field col s12 m6 ">
+                                                                        <input type="text" class="validate" id="cvv">
+                                                                        <label for="cvv">CVV</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <!--                                            <li>
+                                                                                            <a href="javascript:;" class="mainItem collapsible-header">
+                                                                                                <span class="marginLR-md"><i class="fa fa-bank"></i></span> Internet Banking
+                                                                                            </a>
+                                                                                            <div class="collapsible-body">
+                                                                                                <div class="padding-md">
+                                                                                                    <div class="row">
+                                                                                                        <div class="col s12">
+                                                                                                            <ul class="bankLists">
+                                                                                                                <li>
+                                                                                                                    <p>
+                                                                                                                        <input class="with-gap" name="group1" type="radio" id="bank1"  />
+                                                                                                                        <label for="bank1">Bank Name 1</label>
+                                                                                                                    </p>
+                                                                                                                </li>
+                                                                                                                <li>
+                                                                                                                    <p>
+                                                                                                                        <input class="with-gap" name="group1" type="radio" id="bank2"  />
+                                                                                                                        <label for="bank2">Bank Name 2</label>
+                                                                                                                    </p>
+                                                                                                                </li>
+                                                                                                                <li>
+                                                                                                                    <p>
+                                                                                                                        <input class="with-gap" name="group1" type="radio" id="bank3"  />
+                                                                                                                        <label for="bank3">Bank Name 3</label>
+                                                                                                                    </p>
+                                                                                                                </li>
+                                                                                                                <li>
+                                                                                                                    <p>
+                                                                                                                        <input class="with-gap" name="group1" type="radio" id="bank4"  />
+                                                                                                                        <label for="bank4">Bank Name 4</label>
+                                                                                                                    </p>
+                                                                                                                </li>
+                                                                                                                <li>
+                                                                                                                    <p>
+                                                                                                                        <input class="with-gap" name="group1" type="radio" id="bank5"  />
+                                                                                                                        <label for="bank5">Bank Name 5</label>
+                                                                                                                    </p>
+                                                                                                                </li>
+                                                                                                                <li>
+                                                                                                                    <p>
+                                                                                                                        <input class="with-gap" name="group1" type="radio" id="bank6"  />
+                                                                                                                        <label for="bank6">Bank Name 6</label>
+                                                                                                                    </p>
+                                                                                                                </li>
+                                                                                                                <li>
+                                                                                                                    <p>
+                                                                                                                        <input class="with-gap" name="group1" type="radio" id="bank7"  />
+                                                                                                                        <label for="bank7">Bank Name 7</label>
+                                                                                                                    </p>
+                                                                                                                </li>
+                                                                                                                <li>
+                                                                                                                    <p>
+                                                                                                                        <input class="with-gap" name="group1" type="radio" id="bank8"  />
+                                                                                                                        <label for="bank8">Bank Name 8</label>
+                                                                                                                    </p>
+                                                                                                                </li>
+                                                                                                            </ul>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </li>-->
+                                            <li>
+                                                <a href="javascript:;" class="mainItem collapsible-header">
+                                                    <span class="marginLR-md"><i class="fa fa-paypal"></i></span> Pay With PayPal
+                                                </a>
+                                                <div class="collapsible-body">
+                                                    <div class="padding-md">
+                                                        <div class="row">
+                                                            <div class="col s12 m8 offset-m2 l8 offset-l2">
+                                                                <div class="row">
+                                                                    <div class="input-field col s12">
+                                                                        <input type="text" class="validate" id="payPalEmail">
+                                                                        <label for="payPalEmail">Your Paypal Email Address</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" class="mainItem collapsible-header">
+                                                    <span class="marginLR-md"><i class="fa fa-money"></i></span> Pay Cash on Delivery
+                                                </a>
+                                                <div class="collapsible-body">
+                                                    <div class="padding-md">
+                                                        <div class="row">
+                                                            <div class="col s12 m8 offset-m2 l8 offset-l2">
+                                                                <p class="padding-sm">
+                                                                    <input class="with-gap" value="1" name="payment" type="radio" id="cod"  />
+                                                                    <label for="cod"> Cash on Delivery</label>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col s12 center">
+                                        <button id="confirmOrder" class="btn btn-large">Make Payment</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+ <input class="with-gap" value="  <?php if (isset($this->orderid)) { echo $this->orderid;}?>" name="ordername" type="text" id="orderconfirmid"  />

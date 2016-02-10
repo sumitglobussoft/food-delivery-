@@ -1,0 +1,87 @@
+
+
+
+<div id="content" class="content">
+    <!-- begin breadcrumb -->
+    <ol class="breadcrumb pull-right">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="javascript:;">Hotel</a></li>
+        <li class="active">Hotel Details</li>
+    </ol>
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header">Hotel Details <small>header small text goes here...</small></h1>
+    <!-- end page-header -->
+
+    <!-- begin row -->
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <div class="text-right m-b-15">
+                <a href="/agent/add-hotel-details" class="btn btn-primary"> <i class="fa fa-plus-circle"></i> Add Hotel </a>
+            </div>
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0">
+                <table id="data-table" data-order='[[1,"asc"]]' class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="default">
+                            <th> Hotel Name </th>
+                            <th> Timing </th>
+                            <th> Status </th>
+                            <th> Status Change </th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (isset($this->hoteldetails)) {
+                            $i = 0;
+                            foreach ($this->hoteldetails as $value) {
+                                ?>
+                                <tr id="<?php echo $value['id']; ?>">
+                                    <td><?php echo $value['hotel_name']; ?></td>
+                                    <td>
+                                        <span><?php echo $value['open_time']; ?>AM</span> - <span><?php echo $value['closing_time']; ?>PM</span>
+                                    </td>
+        <?php if ($value['hotel_status'] == 1) { ?>
+                                        <td>
+                                            <label id="activeclass_<?php echo $value['id']; ?>" class="label label-success js-check-change-field">ACTIVE</label>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <input type="checkbox" data-render="switchery" id="<?php if (isset($value['id'])): echo "hotel_" . $value['id'];
+            endif; ?>"  class="js-switch js-check-change hoteldeactive" data-theme="lime" checked /> 
+                                        </td>
+        <?php }else { ?>
+                                        <td >
+                                            <label id="activeclass_<?php echo $value['id']; ?>" class="label label-danger js-check-change-field">SUSPENDED</label>
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="checkbox" data-render="switchery" id="<?php if (isset($value['id'])): echo "hotel_" . $value['id'];
+            endif; ?>"  class="js-switch js-check-change hotelactive" data-theme="lime" /> 
+                                        </td>
+        <?php } ?>
+
+                                    <td class="text-center">
+                                      
+                                        <a href="/agent/edit-hotel-details/<?php echo $value['id'] ;?>" class="btn btn-primary btn-icon btn-circle btn-sm">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+    <?php }
+}
+?>
+
+                    </tbody>
+                </table>
+            </div>
+       
+        </div>
+       
+    </div>
+
+</div>
+
+
+

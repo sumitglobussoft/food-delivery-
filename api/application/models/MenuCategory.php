@@ -32,7 +32,8 @@ class Application_Model_MenuCategory extends Zend_Db_Table_Abstract {
             try {
 
                 $select = $this->select()
-                        ->from($this);
+                        ->from($this)
+                         ->where('cat_status=?',1);
                  $result = $this->getAdapter()->fetchAll($select);
                
             if ($result) {

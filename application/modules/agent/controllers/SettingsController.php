@@ -54,50 +54,63 @@ class Agent_SettingsController extends Zend_Controller_Action {
         $this->_appSetting = $objCore->getAppSetting();
         $agentid = $this->view->session->storage->agent_id;
         $hotel_id = $this->getRequest()->getParam('hotelid');
+        $dt['hotel_id'] = $hotel_id;
+        $url = $this->_appSetting->apiLink . '/restaurent-menu-card?method=getcuisinesofHotel';
+        $curlResponse = $objCurlHandler->curlUsingPost($url,$dt);
+        $i=0;
+        if($curlResponse->code==200){
+            foreach ($curlResponse->data as $value) {
+               $array[$i] =  $value['Cuisine_name'];
+               $i++;
+            }
+         $this->view->cuisine  =  implode ($array,',');
+        }
+        
         if ($this->getRequest()->isPost()) {
 
             $data['id'] = $hotel_id;
-            $data['owner_fname'] = $this->getRequest()->getPost('first_name');
-            $data['owner_lname'] = $this->getRequest()->getPost('last_name');
-            $data['city'] = $this->getRequest()->getPost('city');
-            $data['state'] = $this->getRequest()->getPost('state');
-            $data['country'] = $this->getRequest()->getPost('country');
-            $data['primary_phone'] = $this->getRequest()->getPost('prphone');
-            $data['secondary_phone'] = $this->getRequest()->getPost('secphone');
-            $data['hotel_name'] = $this->getRequest()->getPost('hotelname');
-            $data['open_time'] = $this->getRequest()->getPost('opentime');
-            $data['closing_time'] = $this->getRequest()->getPost('closetime');
+            $data['primary_phone'] = $this->getRequest()->getPost('primary_phone');
+            $data['secondary_phone'] = $this->getRequest()->getPost('secondary_phone');
+            $data['hotel_name'] = $this->getRequest()->getPost('hotel_name');
+            $data['open_time'] = $this->getRequest()->getPost('open_time');
+            $data['closing_time'] = $this->getRequest()->getPost('closing_time');
             $data['notice'] = $this->getRequest()->getPost('notice');
-            $data['hotel_status'] = $this->getRequest()->getPost('status');
+            $data['hotel_status'] = $this->getRequest()->getPost('hotel_status');
+            $data['address'] = $this->getRequest()->getPost('address');
+            $data['deliverycharge'] = $this->getRequest()->getPost('deliverycharge');
+            $data['minorder'] = $this->getRequest()->getPost('minorder');
 
             $coverphoto = $_FILES["fileToUpload"]["name"];
 
-            $dirpath = getcwd()."/themes/agent/skin/hotelimages/$agentid/$hotel_id/";
-            
-             if (!file_exists($dirpath)) {
+            $dirpath = getcwd() . "/themes/agent/skin/hotelimages/$agentid/$hotel_id/";
+
+            if (!file_exists($dirpath)) {
                 mkdir($dirpath, 0777, true);
-                 }
+            }
             if (!empty($coverphoto)) {
-               $imagepath = $dirpath.$coverphoto;
-               $savepath = "/themes/agent/skin/hotelimages/$agentid/$hotel_id/$coverphoto";
-               $imageTmpLoc = $_FILES["fileToUpload"]["tmp_name"];
-               $ext = pathinfo($coverphoto, PATHINFO_EXTENSION);
+                $imagepath = $dirpath . $coverphoto;
+                $savepath = "/themes/agent/skin/hotelimages/$agentid/$hotel_id/$coverphoto";
+                $imageTmpLoc = $_FILES["fileToUpload"]["tmp_name"];
+                $ext = pathinfo($coverphoto, PATHINFO_EXTENSION);
                 if ($ext != "jpg" && $ext != "png" && $ext != "jpeg" && $ext != "gif") {
                     echo json_encode("Something went wrong image upload");
                 } else {
-                    $imagemoveResult = (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"],$imagepath));
-                     if ($imagemoveResult) {
-                    $data['hotel_image'] = $savepath;
-                    $url = $this->_appSetting->apiLink . '/hoteldetails?method=updatehoteldetails';
-                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
-                    
-                    if ($curlResponse->code == 200) {
-                        $this->redirect('/agent/hotel-details');
+                    $imagemoveResult = (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $imagepath));
+
+                    if ($imagemoveResult) {
+                        $link = $this->_appSetting->hostLink;
+                        $data['hotel_image'] = $link . $savepath;
+                        $url = $this->_appSetting->apiLink . '/hoteldetails?method=updatehoteldetails';
+                        $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+
+                        if ($curlResponse->code == 200) {
+                            $this->redirect('/agent/hotel-details');
+                        }
+                    } else {
+
+                        echo "DIE HERE";
+                        die;
                     }
-                }else{
-                    
-                    echo "DIE HERE" ;die;
-                }
                 }
             } else {
                 $url = $this->_appSetting->apiLink . '/hoteldetails?method=updatehoteldetails';
@@ -111,11 +124,12 @@ class Agent_SettingsController extends Zend_Controller_Action {
         $url = $this->_appSetting->apiLink . '/hoteldetails?method=getHotelDetailsByHotelId';
         $data['hotel_id'] = $hotel_id;
         $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
-
+        
         if ($curlResponse->code == 200) {
             $this->view->hoteldetails = $curlResponse->data;
         }
     }
+    
 
     /*
      * Dev: Priyanka Varanasi
@@ -125,56 +139,180 @@ class Agent_SettingsController extends Zend_Controller_Action {
      */
 
     public function addHotelDetailsAction() {
+
+
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
         $objCore = Engine_Core_Core::getInstance();
         $objSecurity = Engine_Vault_Security::getInstance();
         $this->_appSetting = $objCore->getAppSetting();
+
+        $url = $this->_appSetting->apiLink . '/get-locations?method=getcountrys';
+        $curlResponse = $objCurlHandler->curlUsingGet($url);
+        if ($curlResponse->code == 200) {
+            $this->view->countrylist = $curlResponse->data;
+        }
+
+        $url = $this->_appSetting->apiLink . '/restaurent-menu-card?method=getcuisines';
+        $curlResponse = $objCurlHandler->curlUsingGet($url);
+
+        if ($curlResponse->code == 200) {
+            $this->view->cuisineslist = $curlResponse->data;
+        }
+
+
         $agentid = $this->view->session->storage->agent_id;
         if ($this->getRequest()->isPost()) {
-            $data['owner_fname'] = $this->getRequest()->getPost('first_name');
-             $data['agent_id'] = $agentid;
-            $data['owner_lname'] = $this->getRequest()->getPost('last_name');
-            $data['city'] = $this->getRequest()->getPost('city');
-            $data['state'] = $this->getRequest()->getPost('state');
-            $data['country'] = $this->getRequest()->getPost('country');
-            $data['primary_phone'] = $this->getRequest()->getPost('prphone');
-            $data['secondary_phone'] = $this->getRequest()->getPost('secphone');
-            $data['hotel_name'] = $this->getRequest()->getPost('hotelname');
-            $data['open_time'] = $this->getRequest()->getPost('opentime');
-            $data['closing_time'] = $this->getRequest()->getPost('closetime');
+            $cuisines = array();
+            $data['select_country'] = $this->getRequest()->getPost('selectcountry');
+            $data['select_state'] = $this->getRequest()->getPost('selectstate');
+            $data['select_city'] = $this->getRequest()->getPost('selectcity');
+            $data['primary_phone'] = $this->getRequest()->getPost('primary_phone');
+            $data['secondary_phone'] = $this->getRequest()->getPost('secondary_phone');
+            $data['hotel_name'] = $this->getRequest()->getPost('hotel_name');
+            $data['open_time'] = $this->getRequest()->getPost('open_time');
+            $data['closing_time'] = $this->getRequest()->getPost('closing_time');
             $data['notice'] = $this->getRequest()->getPost('notice');
-            $data['hotel_status'] = $this->getRequest()->getPost('status');
-            
-          $url = $this->_appSetting->apiLink . '/hoteldetails?method=addhoteldetails';
-            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
-           if ($curlResponse->code == 200) {
-            $coverphoto = $_FILES["fileToUpload"]["name"];
-            $hotel_id = $curlResponse->data['hotel_id'];
-            $dirpath = getcwd()."/themes/agent/skin/hotelimages/$agentid/$hotel_id/";
-              if (!file_exists($dirpath)) {
-                mkdir($dirpath, 0777, true);
-                 }
-            if (!empty($coverphoto)) {
-               $imagepath = $dirpath.$coverphoto;
-               $savepath = "/themes/agent/skin/hotelimages/$agentid/$hotel_id/$coverphoto";
-               $imageTmpLoc = $_FILES["fileToUpload"]["tmp_name"];
-               $ext = pathinfo($coverphoto, PATHINFO_EXTENSION);
-                if ($ext != "jpg" && $ext != "png" && $ext != "jpeg" && $ext != "gif") {
-                    echo json_encode("Something went wrong image upload");
-                } else {
-                    $imagemoveResult = (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"],$imagepath));      
-                    if ($imagemoveResult) {
-                    $data['hotel_image'] = $savepath;
-                    $data['id'] = $hotel_id;
-                    $url = $this->_appSetting->apiLink . '/hoteldetails?method=updatehoteldetails';
-                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
-                    if ($curlResponse->code == 200) {
-                        $this->redirect('/agent/hotel-details');
+            $data['address'] = $this->getRequest()->getPost('address');
+            $data['minorder'] = $this->getRequest()->getPost('minorder');
+            $data['deliverycharge'] = $this->getRequest()->getPost('deliverycharge');
+            $data['hotel_status'] = $this->getRequest()->getPost('hotel_status');
+            $data['agent_id'] = $agentid;
+            $cuisines = $this->getRequest()->getPost('selectcuisine');
+            $hotellocation = $this->getRequest()->getPost('selectlocation');
+             
+            if (!empty($hotellocation)) {
+               
+                $data['hotel_location'] = $hotellocation;
+                $url = $this->_appSetting->apiLink . '/hoteldetails?method=addhoteldetails';
+                $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+
+                if ($curlResponse->code == 200) {
+                    $coverphoto = $_FILES["fileToUpload"]["name"];
+                    $hotel_id = $curlResponse->data['hotel_id'];
+                    $dirpath = getcwd() . "/themes/agent/skin/hotelimages/$agentid/$hotel_id/";
+                    if (!file_exists($dirpath)) {
+                        mkdir($dirpath, 0777, true);
                     }
-           }
-    }
-              }
-           }
+                    if (!empty($coverphoto)) {
+                        $imagepath = $dirpath . $coverphoto;
+                        $savepath = "/themes/agent/skin/hotelimages/$agentid/$hotel_id/$coverphoto";
+                        $imageTmpLoc = $_FILES["fileToUpload"]["tmp_name"];
+                        $ext = pathinfo($coverphoto, PATHINFO_EXTENSION);
+                        if ($ext != "jpg" && $ext != "png" && $ext != "jpeg" && $ext != "gif") {
+                            echo json_encode("Something went wrong image upload");
+                        } else {
+                            $imagemoveResult = (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $imagepath));
+                            if ($imagemoveResult) {
+                                $link = $this->_appSetting->hostLink;
+                                $da['hotel_image'] = $link . $savepath;
+                                $da['id'] = $hotel_id;
+                                $url = $this->_appSetting->apiLink . '/hoteldetails?method=updatehoteldetails';
+                                $curlResponse = $objCurlHandler->curlUsingPost($url, $da);
+                            }
+                        }
+                    } else {
+                        $this->view->errormessage = 'Hotel cover images in not updated ';
+                    }
+                    if ($cuisines) {
+                       
+                        $i = 0;
+                        foreach ($cuisines as $value) {
+                            $array[$i]['cuisine_id'] = $value;
+                            $array[$i]['hotel_id'] = $hotel_id;
+                            $i++;
+                        }
+                  
+                        $cui['cuisines'] = json_encode($array, true);
+               
+                        $url = $this->_appSetting->apiLink . '/search-hotels-by?method=insertCuisines';
+                        $curlResponse = $objCurlHandler->curlUsingPost($url, $cui);
+                        if ($curlResponse->code = 200) {
+                            
+                        }
+                    } else {
+                        $this->view->errormessage = 'Hotel cuisines are not inserted properly';
+                    }
+                } else {
+
+                    $this->view->errormessage = 'Hotel details are not inserted properly';
+                }
+            } else {
+                $location['name'] = $this->getRequest()->getPost('location_name');
+                if ($data['select_city']) {
+                    $location['parent_id'] = $data['select_city'];
+                    $location['location_status'] = 1;
+                    $location['location_type'] = 3;
+                    $location['country_id'] = $data['select_country'];
+                    $location['state_id'] = $data['select_state'];
+
+                    ///insert new location //  
+                    
+                    $url = $this->_appSetting->apiLink . '/get-restaurants-list?method=addNewlocation';
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $location);
+                
+                    if ($curlResponse->code == 200) {
+                        $data['hotel_location'] = $curlResponse->data;
+                        $url = $this->_appSetting->apiLink . '/hoteldetails?method=addhoteldetails';
+                        $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                        if ($curlResponse->code == 200) {
+                            $coverphoto = $_FILES["fileToUpload"]["name"];
+                            $hotel_id = $curlResponse->data['hotel_id'];
+                            $dirpath = getcwd() . "/themes/agent/skin/hotelimages/$agentid/$hotel_id/";
+                            if (!file_exists($dirpath)) {
+                                mkdir($dirpath, 0777, true);
+                            }
+                            if (!empty($coverphoto)) {
+                                $imagepath = $dirpath . $coverphoto;
+                                $savepath = "/themes/agent/skin/hotelimages/$agentid/$hotel_id/$coverphoto";
+                                $imageTmpLoc = $_FILES["fileToUpload"]["tmp_name"];
+                                $ext = pathinfo($coverphoto, PATHINFO_EXTENSION);
+                                if ($ext != "jpg" && $ext != "png" && $ext != "jpeg" && $ext != "gif") {
+                                    echo json_encode("Something went wrong image upload");
+                                } else {
+                                    $imagemoveResult = (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $imagepath));
+                                    if ($imagemoveResult) {
+                                        $link = $this->_appSetting->hostLink;
+                                        $dat['hotel_image'] = $link . $savepath;
+                                        $dat['id'] = $hotel_id;
+                                        $url = $this->_appSetting->apiLink . '/hoteldetails?method=updatehoteldetails';
+                                        $curlResponse = $objCurlHandler->curlUsingPost($url, $dat);
+                                     
+                                    }
+                                }
+                            } else {
+
+                                $this->view->errormessage = 'Hotel cover images in not updated ';
+                            }
+                            if ($cuisines) {
+                       
+                        $i = 0;
+                        foreach ($cuisines as $value) {
+                            $array[$i]['cuisine_id'] = $value;
+                            $array[$i]['hotel_id'] = $hotel_id;
+                            $i++;
+                        }
+                  
+                        $cui['cuisines'] = json_encode($array, true);
+
+                        $url = $this->_appSetting->apiLink . '/search-hotels-by?method=insertCuisines';
+                        $curlResponse = $objCurlHandler->curlUsingPost($url, $cui);
+                        if ($curlResponse->code = 200) {
+                            
+                        }
+                    } else {
+                                $this->view->errormessage = 'Hotel cuisines are not inserted properly';
+                            }
+                        } else {
+                            $this->view->errormessage = 'Hotel details are not inserted properly';
+                        }
+                    } else {
+                        $this->view->errormessage = 'Hotel location is not inserted properly, please try again';
+                    }
+                } else {
+                    $this->view->errormessage = 'Hotel location is not inserted properly, please try again';
+                }
+            }
         }
     }
+
 }

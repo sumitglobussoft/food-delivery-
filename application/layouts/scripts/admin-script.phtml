@@ -1,108 +1,733 @@
 <script>
- $(document).ready(function(){
-    admin.init({ currentUrl: 'http://<?php echo $_SERVER['HTTP_HOST']; ?>/admin/settings/jshandler'}); 
-    $(document.body).on('click','.themesactive',admin.themesactive);
-    $(document.body).on('click','.usersdeactive',admin.userdeactive);
-    $(document.body).on('click','.usersactive',admin.useractive);
-    $(document.body).on('click','.countrydeactive',admin.countrydeactive);
-    $(document.body).on('click','.countryactive',admin.countryactive);
-    $(document.body).on('click','.withdrawalapproval',admin.withdrawalapproval);
-    $(document.body).on('click','.btn-action.glyphicons.remove_2.btn-danger-user',admin.deleteuser);
-    $(document.body).on('click','.btn-action.glyphicons.remove_2.btn-danger-country',admin.deletecountry);
-    $(document.body).on('click','.btn-action.glyphicons.remove_2.btn-danger-contest',admin.deletecontest);
-    $(document.body).on('click','.btn-action.glyphicons.ok_2.btn-success.featuredcontest',admin.updatecontest);
-    $(document.body).on('click','.btn-action.glyphicons.remove_2.btn-danger-contestype',admin.deletecontestype);
-    $(document.body).on('click','.btn-action.glyphicons.remove_2.btn-danger-game',admin.deletegame);
-    $(document.body).on('click','.btn-action.glyphicons.remove_2.btn-danger.ticket-delete',admin.deleteticket);
-    $(document.body).on('click','.btn-action.glyphicons.remove_2.btn-danger.product-delete',admin.deleteproduct);
-    $(document.body).on('click','.gamedeactive',admin.gamedeactive);
-    $(document.body).on('click','.gameactive',admin.gameactive);
-    $(document.body).on('click','.contestdeactive',admin.contestdeactive);
-    $(document.body).on('click','.contestactive',admin.contestactive);
-    $(document.body).on('click','.offersactive',admin.offeractive);
-    $(document.body).on('click','.offersdeactive',admin.offerdeactive);
-    $(document.body).on('click','.btn-action.glyphicons.remove_2.btn-danger.offer-delete',admin.deleteoffer);
-    $(document.body).on('click','.approvalactive',admin.approvalactive);
-    $(document.body).on('click','.ticketdeactive',admin.ticketdeactive);
-    $(document.body).on('click','.ticketactive',admin.ticketactive);
-    $(document.body).on('click','.productdeactive',admin.productdeactive);
-    $(document.body).on('click','.productactive',admin.productactive);
-    $(document.body).on('click','.promotiondeactive',admin.promotiondeactive);
-    $(document.body).on('click','.promotionactive',admin.promotionactive);
-    $(document.body).on('click','.btn-action.glyphicons.remove_2.btn-danger.promotion-delete',admin.deletepromotion);
-    $(document.body).on('click','.btn-action.glyphicons.remove_2.btn-danger-featured',admin.deletefeatured);
-    $(document.body).on('change','#user_year_select',admin.userstatic);
-    $(document.body).on('change','#profit_year_select',admin.userstatic);
-    $(document.body).on('change','#pro_mo_select',admin.profitstatic);
-    $(document.body).on('change','#pro_yr_select',admin.profitstatic);
-    $(document.body).on('click','.close_btn',function(){
-        $(this).parents('.paylayout').remove();
+    eval(mod_pagespeed_YJn5ujga1x);
+    eval(mod_pagespeed_ao7FkmdxcI);
+    eval(mod_pagespeed_mIkonhgi7n);
+    $(document).ready(function() {
+        
+        
+        $('.datatable-responsive').DataTable({
+            responsive: true
+        });
     });
-    
-//    $(function() {
-//      $('table').footable();
-//    });
-    $('.datatable').dataTable({
-        "sPaginationType": "bs_full"
-    });	
-    $('.datatable').each(function(){
-        var datatable = $(this);
-        // SEARCH - Add the placeholder for Search and Turn this into in-line form control
-        var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
-        search_input.attr('placeholder', 'Search');
-        search_input.addClass('form-control input-sm');
-        // LENGTH - Inline-Form control
-        var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
-        length_sel.addClass('form-control input-sm');
+    $(document).ready(function() {
+        $('.dataTables_filter input').attr("placeholder", "Search...");
     });
 
-    $(document.body).on('click','.botpwd', function (event) { 
-        event.stopPropagation();
-        var uid = $(this).attr('data-id');
-        $('#botModal').modal('show');
-        $('#botagree').attr('data-botid',uid);
-        $('#tpass').val('');
-        $('#pass_msg').html('');
+
+    $('#selectcity').change(function() {
+        $("#demo").prop("disabled", false);
     });
-   
-    $(document.body).on('click','#botagree', function(){ 
-        var tpass = $('#tpass').val();
-        var uid=$('#botagree').attr('data-botid');
-        if(tpass!=""){
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Deactivate user
+     * Date : 16/12/2015
+     */
+    $(document.body).on('change', '#selectcountry', function() {
+        var countryid = $(this).val();
+
+        $.ajax({
+            url: './locationsettings-handler',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                method: 'FetchSatesByCountryId',
+                countryid: countryid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var res = jQuery.parseJSON(response);
+                if (res['code'] === 200) {
+                    $('#selectstate').html('');
+                    $('#selectstate').append('<option>Select state</option>');
+                    $(res.data).each(function(ind, val) {
+                        $('#selectstate').append('<option value=' + val.location_id + '>' + val.name + '</option>');
+                        $('#selectstate').select2();
+                    });
+                    $('#selectstate').prop('disabled', false);
+                    $("#demo").prop("disabled", true);
+                } else {
+                    $('#selectstate').html('');
+                    $('#selectstate').append('<option>No state available for this city</option>');
+                    $('#selectstate').select2();
+                    $('#selectstate').prop('disabled', false);
+                    $("#demo").prop("disabled", true);
+                    $("#selectcity").prop("disabled", true);
+
+                }
+            }
+        });
+
+    });
+
+    $(window).load(function() {
+        setTimeout(function() {
+            $('#loading').fadeOut(400, "linear");
+        }, 300);
+    });
+    $(".js-example-responsive").select2();
+
+    $(".js-example-basic-hide-search").select2({
+        minimumResultsForSearch: Infinity
+    });
+    $('#selectstate').change(function() {
+        $("#demo").prop("disabled", false);
+    });
+    $('#test').change(function() {
+        $("#demo").prop("disabled", false);
+    });
+
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Deactivate user
+     * Date : 16/12/2015
+     */
+    $(document.body).on('change', '#selectstate', function() {
+        var stateid = $(this).val();
+
+        $.ajax({
+            url: './locationsettings-handler',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                method: 'FetchCityByStateId',
+                stateid: stateid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var res = jQuery.parseJSON(response);
+                if (res['code'] === 200) {
+                    $('#selectcity').html('');
+                    $('#selectcity').append('<option>Select state</option>');
+                    $(res.data).each(function(ind, val) {
+                        $('#selectcity').append('<option value=' + val.location_id + '>' + val.name + '</option>');
+                        $('#selectcity').select2();
+                    });
+                    $('#selectcity').prop('disabled', false);
+                    $("#demo").prop("disabled", false);
+                } else {
+                    $('#selectcity').html('');
+                    $('#selectcity').append('<option>No city available for this state</option>');
+                    $('#selectcity').select2();
+                    $('#selectcity').prop('disabled', false);
+                    $("#demo").prop("disabled", true);
+                }
+            }
+        });
+
+    });
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Deactivate location status
+     * Date : 16/12/2015
+     */
+    $(document.body).on('click', '.locationdeactive', function() {
+        var locationid = $(this).attr('id');
+        var locationid = locationid.replace("location_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './locationsettings-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'locationactive',
+                locationid: locationid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                console.log(response);
+                var uid = response.replace(/ /g, '');
+
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).html("Activate");
+                $('#location_' + uid).removeClass('locationdeactive');
+                $('#location_' + uid).addClass('locationactive');
+                $('#' + "activelocation_" + uid).html("Suspended");
+
+            }
+        });
+
+    });
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Activate location
+     * Date : 16/12/2015
+     */
+    $(document.body).on('click', '.locationactive', function() {
+        var locationid = $(this).attr('id');
+        var locationid = locationid.replace("location_", "");
+        console.log('activate called');
+        $.ajax({
+            url: './locationsettings-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'locationactive',
+                locationid: locationid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var uid = response.replace(/ /g, '');
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).html("Dectivate");
+                $('#location_' + uid).removeClass('locationactive');
+                $('#location_' + uid).addClass('locationdeactive');
+                $('#' + "activelocation_" + uid).html("Active");
+
+            }
+
+
+        });
+
+    });
+
+    /*
+     * DEV :priyanka varanasi
+     * Desc : edit country
+     * Date : 16/12/2015
+     */
+    $(document.body).on('click', '.locationedit', function() {
+        var locationid = $(this).attr('id');
+        var locationid = locationid.replace("showEdit_", "");
+        $.ajax({
+            url: './locationsettings-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'getlocation',
+                locationid: locationid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var res = jQuery.parseJSON(response);
+                if (res.code === 200) {
+
+                    $('.editContent').find('#editlocation').val('');
+                    $('.editContent').find('#locationid').val(res.data['location_id']);
+                    $('.editContent').find('#editlocation').val(res.data['name']);
+                    $('.editContent').show();
+                    $('.addContent').hide();
+
+                } else {
+
+                    window.location.reload(true);
+                }
+
+            }
+
+
+        });
+
+    });
+
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Deactivate product status
+     * Date : 29/1/2016
+     */
+    $(document.body).on('click', '.productdeactive', function() {
+        var productid = $(this).attr('id');
+        var productid = productid.replace("product_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './product-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'productstatuschange',
+                productid: productid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                console.log(response);
+                var uid = response.replace(/ /g, '');
+
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).html("Activate");
+                $('#product_' + uid).removeClass('productdeactive');
+                $('#product_' + uid).addClass('productactive');
+                $('#' + "activeproduct_" + uid).html("Suspended");
+
+            }
+        });
+
+    });
+
+
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Deactivate product status
+     * Date : 29/1/2016
+     */
+    $(document.body).on('click', '.productactive', function() {
+        var productid = $(this).attr('id');
+        var productid = productid.replace("product_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './product-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'productstatuschange',
+                productid: productid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                console.log(response);
+                var uid = response.replace(/ /g, '');
+
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).html("Deactivate");
+                $('#product_' + uid).removeClass('productactive');
+                $('#product_' + uid).addClass('productdeactive');
+                $('#' + "activeproduct_" + uid).html("Active");
+
+            }
+        });
+
+    });
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Delete product
+     * Date : 29/1/2016
+     */
+
+    $(document.body).on('click', '.deleteproduct', function() {
+        var productid = $(this).attr('id');
+        productid = productid.replace("productdelete_", "");
+        if (productid) {
             $.ajax({
-                url      : '/admin/manage-bots-ajax',
-                type     : 'POST',
-                dataType : 'json',
-                data     : {
-                    method : 'vpass',
-                    tpass  : tpass,
-                    uid:     uid
+                url: './product-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'productdelete',
+                    productid: productid
                 },
-                success  : function(response12){ 
-                    $('#pass_msg').html('');
-                    if(response12.code == 200){
-                        $('#pass_msg').removeClass('hidden');
-                        $('#pass_msg').addClass('success');
-                        $('#pass_msg').html(response12.message);
-                        setTimeout(function() {
-                            // Do something after 5 seconds
-                            $('#botModal').modal('hide');
-                        }, 1000);
-                    }else if(response12.code == 198){
-                        $('#pass_msg').removeClass('hidden');
-                        $('#pass_msg').addClass('danger');
-                        $('#pass_msg').html(response12.message);
-                    }if(response12.code == 196){
-                        $('#pass_msg').removeClass('hidden');
-                        $('#pass_msg').addClass('alert');
-                        $('#pass_msg').html(response12.message);
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+                        $('#' + "productdelete_" + uid).parent().parent().remove();
+
                     }
                 }
+
+
             });
-        }else{
-            alert('please enter passsword');
         }
     });
- });   
-</script>  
 
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Deactivate user
+     * Date : 16/12/2015
+     */
+    $(document.body).on('click', '.userdeactive', function() {
+        var userid = $(this).attr('id');
+        var userid = userid.replace("user_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './user-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'useractive',
+                userid: userid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                console.log(response);
+                var uid = response.replace(/ /g, '');
+
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).html("Activate");
+                $('#user_' + uid).removeClass('userdeactive');
+                $('#user_' + uid).addClass('useractive');
+                $('#' + "activeuser_" + uid).html("Suspended");
+
+            }
+        });
+
+    });
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Activate user
+     * Date : 16/12/2015
+     */
+    $(document.body).on('click', '.useractive', function() {
+        var userid = $(this).attr('id');
+        var userid = userid.replace("user_", "");
+        console.log('activate called');
+        $.ajax({
+            url: './user-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'useractive',
+                userid: userid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var uid = response.replace(/ /g, '');
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).html("Dectivate");
+                $('#user_' + uid).removeClass('useractive');
+                $('#user_' + uid).addClass('userdeactive');
+                $('#' + "activeuser_" + uid).html("Active");
+
+            }
+
+
+        });
+
+    });
+
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Delete user
+     * Date : 16/12/2015
+     */
+
+    $(document.body).on('click', '.deleteuser', function() {
+        var userid = $(this).attr('id');
+        var deleteid = userid.replace("userdelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './user-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'userdelete',
+                    userid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+
+                        $('#' + "userdelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+
+    });
+
+
+
+
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Activate agent
+     * Date : 16/12/2015
+     */
+    $(document.body).on('click', '.agentactive', function() {
+        var agentid = $(this).attr('id');
+        var agentid = agentid.replace("agent_", "");
+        console.log('activate called');
+        $.ajax({
+            url: './user-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'agentactive',
+                agentid: agentid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var uid = response.replace(/ /g, '');
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).html("Dectivate");
+                $('#agent_' + uid).removeClass('agentactive');
+                $('#agent_' + uid).addClass('agentdeactive');
+                $('#' + "activeagent_" + uid).html("Active");
+
+            }
+
+
+        });
+
+    });
+
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Delete user
+     * Date : 16/12/2015
+     */
+
+    $(document.body).on('click', '.deleteagent', function() {
+        var agentid = $(this).attr('id');
+        var deleteid = agentid.replace("agentdelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './user-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'agentdelete',
+                    agentid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+
+                        $('#' + "agentdelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+    });
+
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Deactivate agent
+     * Date : 16/12/2015
+     */
+    $(document.body).on('click', '.agentdeactive', function() {
+
+        var agentid = $(this).attr('id');
+        var agentid = agentid.replace("agent_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './user-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'agentactive',
+                agentid: agentid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                console.log(response);
+                var uid = response.replace(/ /g, '');
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).html("Activate");
+                $('#agent_' + uid).removeClass('agentdeactive');
+                $('#agent_' + uid).addClass('agentactive');
+                $('#' + "activeagent_" + uid).html("Suspended");
+
+            }
+        });
+
+    });
+
+    $('#type_cusine').change(function() {
+        var typevalue = $(this).val();
+        $.ajax({
+            url: './product-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'getcuisines',
+                typevalue: typevalue
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+           var res = jQuery.parseJSON(response);
+                if (res.code===200) {
+             
+                    $('#cuisine').html('');
+                    $('#cuisine').append('<option disabled selected>Select Cusine</option>');
+                    $.each(res.data, function(i, a) {
+                        $('#cuisine').append('<option value="' + a.cuisine_id + '">' + a.Cuisine_name + '</option>');
+                    });
+                    $('.show-cusine').show();
+                    $('.show-category').hide();
+                }
+
+
+            }
+        });
+    });
+    $('#type_category').change(function() {
+        var typevalue = $(this).val();
+        $.ajax({
+            url: './product-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'getcategories',
+                typevalue: typevalue
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                 var res = jQuery.parseJSON(response);
+                if (res.code===200) {
+
+                    $('#category').html('');
+                    $('#category').append('<option disabled selected>Select category</option>');
+                    $.each(res.data, function(i, a) {
+                        $('#category').append('<option value="' + a.category_id + '">'+ a.cat_name + '</option>');
+                    });
+                    $('.show-category').show();
+                    $('.show-cusine').hide();
+                }
+
+
+            }
+        });
+    });
+
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Deactivate delivery guy
+     * Date : 9/2/2016
+     */
+    $(document.body).on('click', '.delguydeactive', function() {
+
+        var delguyid = $(this).attr('id');
+        var delguyid = delguyid.replace("delguy_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './user-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'delguystatus',
+                delguyid: delguyid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                console.log(response);
+                var uid = response.replace(/ /g, '');
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).html("Activate");
+                $('#delguy_' + uid).removeClass('delguydeactive');
+                $('#delguy_' + uid).addClass('delguyactive');
+                $('#' + "activedelguy_" + uid).html("Suspended");
+
+            }
+        });
+
+    });
+
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Deactivate delivery guy
+     * Date : 9/2/2016
+     */
+    $(document.body).on('click', '.delguyactive', function() {
+
+        var delguyid = $(this).attr('id');
+        var delguyid = delguyid.replace("delguy_", "");
+
+        console.log('activate called');
+        $.ajax({
+            url: './user-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'delguystatus',
+                delguyid: delguyid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                console.log(response);
+                var uid = response.replace(/ /g, '');
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).html("Deactivate");
+                $('#delguy_' + uid).removeClass('delguyactive');
+                $('#delguy_' + uid).addClass('delguydeactive');
+                $('#' + "activedelguy_" + uid).html("Active");
+
+            }
+        });
+
+    });
+    
+    
+    
+       /*
+     * DEV :priyanka varanasi
+     * Desc : Delete delivery guy
+     * Date : 9/2/2016
+     */
+
+    $(document.body).on('click', '.deletedelguy', function() {
+        var delguyid = $(this).attr('id');
+        var deleteid = delguyid.replace("delguydelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './user-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'delguydelete',
+                    delguyid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+
+                        $('#' + "delguydelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+    });
+</script>

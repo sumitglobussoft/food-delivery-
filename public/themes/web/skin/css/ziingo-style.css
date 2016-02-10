@@ -79,6 +79,7 @@
 .p-top-lg{padding-top: 40px;}
 .p-top-15{padding-top: 15px;}
 .p-top-25{padding-top: 25px;}
+.p-top-60{padding-top: 60px !important;}
 
 .p-bot-xs{padding-bottom: 5px;}
 .p-bot-sm{padding-bottom: 10px;}
@@ -914,11 +915,71 @@ table.tablePaddingNormal td{
     padding: 10px 5px;
 }
 
+div.divider{
+    margin: 10px 0px;
+}
+
+
+
+
+.dtp table.dtp-picker-days tr > td{
+    padding: 0px !important;
+}
+
+.paymentMethods .mainItem [type="radio"] +  label::before,
+.paymentMethods .mainItem [type="radio"] + label::after{
+    height: 25px !important;
+    width: 25px !important;
+    top: -4px;
+    left: 14px;
+}
+.paymentMethods .mainItem label{
+    font-size: 25px;
+    color: #000;
+}
+.paymentMethods .mainItem{
+    padding: 8px;
+    display: block;
+    font-size: 25px;
+    color: #000000;
+}
+
+.paymentMethods .collapsible-header i{
+    display: inline;
+    float: none;
+    line-height: normal;
+    margin-right: 0px;
+}
+.paymentMethods .collapsible-header{
+    min-height: inherit;
+    line-height: normal;
+
+}
+.bankLists p{
+    padding: 5px;
+}
+.bankLists > li{
+    width: 33.333%;
+    float: left;
+}
+.bankLists:after{
+    clear: both;
+    content: '';
+    display: block;
+}
+.checkOutTabs.tabs .tab.done a{
+    color: #009688 ;
+}
+/*.checkOutTabs.tabs .indicator{*/
+/*background-color: #009688;*/
+/*}*/
+
 /* --- Ram --- */
 .dropdown.dropContent {
     text-align: left;
     font-size: 0.9em;
     color: #f0f0f0;
+    text-shadow: 0px 1px 1px black;
     width: 100%;
 }
 
@@ -1056,3 +1117,299 @@ table.tablePaddingNormal td{
     position: relative !important;
 }
 
+h4.font-squadaone {
+    font-size: 2rem;
+}
+
+.owl-prev {
+    background-image: url("/assets/images/left-arrow.png");
+    background-repeat: no-repeat;
+    color: #ffebee;
+    display: block !important;
+    height: 60px;
+    left: -15%;
+    position: absolute;
+    top: 32%;
+    width: 87px;
+    text-align: right;
+    padding-left: 12%;
+}
+
+.owl-next {
+    background-image: url("/assets/images/right-arrow.png");
+    background-repeat: no-repeat;
+    color: #ffebee;
+    display: block !important;
+    height: 60px;
+    position: absolute;
+    right: -15%;
+    top: 32%;
+    width: 87px;
+    padding-left: 11%;
+}
+
+.brand-logo .logo:last-child {
+    display: none;
+}
+
+.logo.sLogo:first-child {
+    display: none;
+}
+
+.logo.sLogo:last-child {
+    display: block !important;
+}
+
+.badge.cart-count {
+    background-color: #fb0007;
+    color: #fff !important;
+    vertical-align: top;
+    border-radius: 5px;
+}
+
+div.cart-icon {
+    margin-left: 1%;
+    position: absolute;
+    top: 16px;
+}
+
+#cart {
+    /*
+    margin: 75px auto;
+    width: 900px;
+    height: 600px;
+    */
+    background-color: #fff;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
+    float: left;
+    width: 100%;
+}
+
+#cart .items {
+    float: left;
+    /*	width: 710px;
+    margin: 0 5px;*/
+    height: 100%;
+}
+
+.subTotal {
+    float: left;
+    /*	width: 180px;*/
+    margin: 0;
+    height: 100%;
+    text-align: center;
+}
+
+.subTotal > div.chk {
+    background-color: #ecf0f1;
+    margin-bottom: 10%;
+    padding: 3%;
+}
+
+.items h1 {
+    margin: 5px 0;
+    font-size: 24px;
+    color: #2C3E50;
+}
+
+.subTotal h1 {
+    margin: 10px 0;
+    font-size: 20px;
+    color: #34495E;
+}
+
+.subTotal h2 {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #34495E;
+}
+
+.subTotal h3 {
+    margin: 15px 0;
+    font-size: 20px;
+    color: #16A085;
+    font-weight: bold
+}
+
+.subTotal h4 {
+    margin: 15px 0;
+    font-size: 12px;
+    color: rgba(0, 0, 0, .3);
+}
+
+#cart .checkout {
+    height: 30px;
+    line-height: 30px;
+    width: 100px;
+    margin: 10px auto;
+    background-color: #E74C3C;
+    color: #fff;
+}
+
+#cart form {
+    font-size: 14px;
+    color: #1ABC9C;
+}
+
+#cart input[type=checkbox] {
+    margin-right: 5px;
+}
+
+
+/*********************************************/
+
+#cart ul {
+    margin: 0;
+    padding: 0
+}
+
+#cart ul li {
+    list-style-type: none;
+}
+
+#cart .item {
+    width: 660px;
+    height: 100px;
+    margin: 10px auto;
+    text-align: left;
+}
+
+#cart img {
+    display: block;
+    border: 0;
+    padding: 0;
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 75px;
+    height: 80px;
+}
+
+.product_image {
+    float: left;
+    width: 100px;
+}
+
+#cart .description {
+    float: left;
+    padding-left: 5px;
+    float: left;
+    margin-top: 10px;
+    /*
+    width: 355px;
+    height: 100px;
+    */
+}
+
+#cart .description h1 {
+    font-size: 14px;
+    color: #e74c3c
+}
+
+#cart .description h2 {
+    font-size: 12px;
+    color: #2c3e50;
+    margin: 5px 0;
+}
+
+.product_quantity {
+    float: left;
+    margin: 0 auto;
+    /*
+    width: 100px;
+    height: 100px
+    */
+}
+
+.quantity_button {
+    margin: 33px auto;
+    /*	height: 26px;*/
+    width: 71px;
+    text-align: center;
+    padding: 2px;
+    background-color: #ECF0F1;
+}
+
+.how_many {
+    width: 46px;
+    float: left;
+    height: 26px;
+    line-height: 30px;
+    font-size: 1.25em;
+    background-color: #fff;
+    color: #7F8C8D;
+}
+
+.add_sub {
+    /*
+    float: left;
+    width: 25px;
+    */
+}
+
+.add {
+    line-height: 13px;
+    width: 100%;
+    font-size: 10px;
+    color: #1ABC9C;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add:hover {
+    background-color: #1ABC9C;
+    color: #FFF;
+}
+
+.sub {
+    line-height: 13px;
+    font-size: 12px;
+    color: #E74C3C;
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.sub:hover {
+    background-color: #E74C3C;
+    color: #FFF;
+}
+
+.price {
+    float: left;
+    text-align: center;
+    line-height: 91px;
+    font-size: 1.5em;
+    color: #2C3E50
+}
+
+.orderHeading {
+    border-bottom: 2px solid;
+    color: #009688;
+    font-family: "Squada One";
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+
+.text-teal {
+    color: teal;
+}
+
+.text-red {
+    color: #e53935;
+}
+
+/*
+@media only screen and (min-width: 600px) and (max-width: 992px) {
+  .mobile-container {
+    padding-top: 28% !important;
+  }
+}
+*/
+
+@media only screen and (min-width: 600px) and (max-width: 1160px) {
+    .mobile-container {
+        padding-top: 30% !important;
+    }
+}

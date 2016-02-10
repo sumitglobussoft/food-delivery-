@@ -28,6 +28,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
                 $frontController = Zend_Controller_Front::getInstance();
                 $router = $frontController->getRouter();
+                 
        }
 	
 
@@ -58,7 +59,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
        
        protected function _initLoadPlugins(){
               $objPluginLoader = Engine_Plugins_PluginLoader::getInstance();
-            
+                
               $objPluginLoader->registerPlugin();
        }
        
@@ -105,13 +106,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		endif;
 	}
         
-        protected function _initTmpDirectory(){
-        # check tmp directory is writable
-      
-            if (!is_writable($this->_config->appSettings->logs->tmpDir)) {
-                throw new Exception('Error: tmp dir is not writable ( ' . $this->_config->appSettings->logs->tmpDir . '), check folder/file permissions');
-            }
-        }
+//        protected function _initTmpDirectory(){
+//        # check tmp directory is writable
+//      
+//            if (!is_writable($this->_config->appSettings->logs->tmpDir)) {
+//                throw new Exception('Error: tmp dir is not writable ( ' . $this->_config->appSettings->logs->tmpDir . '), check folder/file permissions');
+//            }
+//        }
 
 
 

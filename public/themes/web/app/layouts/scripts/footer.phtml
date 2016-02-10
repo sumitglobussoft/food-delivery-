@@ -20,22 +20,24 @@
     </div>
     <div class="footer-copyright">
         <div class="container">
-            <p class="center">© 2015 Copyright <a class="bold" href="#">Ziingo</a></p>
+            <p class="center">&copy; 2016 Copyright Ziingo. A <a target="_blank" href="https://worldjunction.com" class="bold">Worldjunction</a> LLC Company </p>
         </div>
     </div>
 </footer>
-
-</body>
-</html>
-<?php echo $this->render('script.phtml'); ?>
-<?php echo $this->render('popups.phtml'); ?>
-        <script>
-    $(document).ready(function () {
+<script>
+    $(document).ready(function() {
         Ziingo.initComponents();
+        Layout.initCheckOutFrom();
+        Layout.initSweetAlert();
         Layout.initLayoutComponents();
-
-
+        Layout.initRestaurantRating();
+//        Layout.initDateTimePicker();
     });
 
 
 </script>
+</body>
+</html>
+<?php echo $this->render('script.phtml'); ?>
+<?php echo $this->render('popups.phtml'); ?>
+

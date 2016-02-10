@@ -1,4 +1,4 @@
-<?php
+<?php 
 class Engine_Plugins_PluginLoader{
 
 	private static $_instance = null;

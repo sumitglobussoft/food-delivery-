@@ -1,0 +1,232 @@
+<div id="content" class="content">
+    <ol class="breadcrumb pull-right">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="javascript:;">Hotel</a></li>
+        <li class="active">Edit Hotel</li>
+    </ol>
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header">Edit Hotel <small>header small text goes here...</small></h1>
+    <!-- end page-header -->
+
+    <!-- begin row -->
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0">
+                <div class="panel-body">
+                    <form class="" role="form" enctype="multipart/form-data" method="POST">
+                        <!--                        <div class="row">
+                                                    <div class="col-md-12">
+                                                        <legend class="heading">Location:</legend>
+                        
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Select the Country</label>
+                                                                    <select class="form-control selectpicker width-full selectcountry" name="selectcountry" da selectpicker width-full ta-size="10" data-live-search="true">
+                                                                        <optgroup label="Select Country">
+                                                                            <option> Select Country </option>
+                        <?php
+                        if (isset($this->countrylist)) {
+                            foreach ($this->countrylist as $value) {
+                                ?>
+                                                                                                    <option value="<?php echo $value['location_id']; ?>"><?php echo $value['name']; ?></option>
+                                <?php
+                            }
+                        }
+                        ?>
+                                                                        </optgroup>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Select the State</label>
+                                                                    <select class="form-control selectpicker width-full selectstate" name="selectstate" data-size="10" data-live-search="true">
+                                                                        <optgroup label="Select State" id="state">                                                    
+                                                                            <option> Select State </option>
+                                                                        </optgroup>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Select the City</label>
+                                                                    <select class="form-control selectpicker width-full selectcity" name="selectcity" data-size="10" data-live-search="true">
+                                                                        <optgroup label="Select City" id="city">
+                                                                            <option> Select City </option>
+                                                                        </optgroup>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Select the Location</label>
+                                                                    <select class="form-control selectpicker loc-disable width-full" name="selectlocation" data-size="10" data-live-search="true">
+                                                                        <optgroup label="Select Location" id="location">
+                                                                            <option value=""> Select Location </option>
+                                                                        </optgroup>
+                                                                    </select>
+                                                                    <small><i>if your location is not listed, Click <a href="javascript:;" class="add-loc">here</a></i></small>
+                                                                    <input type="text" class="form-control m-t-20 new-location" name="location_name" placeholder="Enter your Location" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>-->
+                        <div class="col-md-12">
+                            <legend class="heading">Details:</legend>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group has-success has-feedback m-b-10">
+                                        <label class="control-label">Hotel Name</label>
+                                        <input type="text" value="<?php
+                                        if (isset($this->hoteldetails['hotel_name'])) {
+                                            echo $this->hoteldetails['hotel_name'];
+                                        }
+                                        ?>" name="hotel_name" class="form-control" />
+                                        <span class="fa fa-check form-control-feedback"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Select Cuisine</label>
+                                        <select class="form-control selectpicker width-full" value="<?php echo $this->cuisine; ?>" multiple="" name="selectcuisine[]" data-size="10" data-live-search="true">
+                                            <optgroup label="Select Cuisine">
+                                                <?php
+                                                if (isset($this->cuisineslist)) {
+                                                    foreach ($this->cuisineslist as $value) {
+                                                        ?>
+                                                        <option value="<?php echo $value['cuisine_id']; ?>"><?php echo $value['Cuisine_name']; ?></option>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </optgroup>
+                                        </select>
+
+                                    </div>
+
+                                    <div class="form-group has-error has-feedback m-b-10">
+                                        <label class="control-label">Hotel Address</label>
+                                        <textarea  name="address" class="form-control" rows="3"><?php
+                                                if (isset($this->hoteldetails['address'])) {
+                                                    echo $this->hoteldetails['address'];
+                                                }
+                                                ?></textarea>
+                                        <span class="fa fa-times form-control-feedback"></span>
+                                    </div>
+                                    <div class="form-inline m-b-10">
+                                        <label class="">Timing</label>
+                                        <br/>
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Opening Time" value="<?php
+                                                if (isset($this->hoteldetails['open_time'])) {
+                                                    echo $this->hoteldetails['open_time'];
+                                                }
+                                                ?>" name="open_time" class="form-control" /> AM &nbsp; &nbsp; &nbsp; &nbsp;
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Closing Time" value="<?php
+                                                   if (isset($this->hoteldetails['closing_time'])) {
+                                                       echo $this->hoteldetails['closing_time'];
+                                                   }
+                                                ?>" name="closing_time" class="form-control" /> PM
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group m-b-10">
+                                        <label class="control-label">Primary Phone No.</label>
+                                        <input type="text" name="primary_phone" value="<?php
+                                               if (isset($this->hoteldetails['primary_phone'])) {
+                                                   echo $this->hoteldetails['primary_phone'];
+                                               }
+                                               ?>"class="form-control" />
+                                    </div>
+
+                                    <div class="form-group m-b-10">
+                                        <label class="control-label">Secondary Phone No.</label>
+                                        <input type="text"  value="<?php
+                                               if (isset($this->hoteldetails['secondary_phone'])) {
+                                                   echo $this->hoteldetails['secondary_phone'];
+                                               }
+                                               ?>" name="secondary_phone" class="form-control" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Status</label>
+                                        <select class="form-control selectpicker width-full" name="hotel_status" data-size="10">
+                                            <option value="1" <?php
+                                                    if (isset($this->hoteldetails['hotel_status']) == 1) {
+                                                        echo "selected";
+                                                    }
+                                               ?>>Active</option>
+                                            <option value="2" <?php
+                                                         if (isset($this->hoteldetails['hotel_status']) == 2) {
+                                                             echo "selected";
+                                                         }
+                                                         ?>>Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group m-b-10">
+                                        <label class="control-label">Hotel Image</label>
+                                        <div class="form-group">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                    <img src="<?php
+                                                         if (isset($this->hoteldetails['hotel_image'])) {
+                                                             echo $this->hoteldetails['hotel_image'];
+                                                         }
+                                                         ?>" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-default btn-file">
+                                                        <span class="fileinput-new">Select Image</span>
+                                                        <span class="fileinput-exists">Replace</span>
+                                                        <input type="file" name="fileToUpload">
+                                                    </span>
+                                                    <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-b-10">
+                                        <label class="control-label">Min. Order</label>
+                                        <input type="text" value="<?php
+                                        if (isset($this->hoteldetails['minorder'])) {
+                                            echo $this->hoteldetails['minorder'];
+                                        }
+                                                         ?>" name="minorder" class="form-control" />
+                                    </div>
+                                    <div class="form-group m-b-10">
+                                        <label class="control-label">Delivery Charges</label>
+                                        <input type="text" value="<?php
+                                        if (isset($this->hoteldetails['deliverycharge'])) {
+                                            echo $this->hoteldetails['deliverycharge'];
+                                        }
+                                                         ?>" name="deliverycharge" class="form-control" />
+                                    </div>
+                                    <div class="form-group m-b-10">
+                                        <label class="control-label">Hotel Notice</label>
+                                        <textarea   name="notice" class="form-control"> <?php
+                                        if (isset($this->hoteldetails['notice'])) {
+                                            echo $this->hoteldetails['notice'];
+                                        }
+                                                         ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right m-r-10">
+                            <button type="submit" class="btn btn-theme">Edit Hotel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-12 -->
+</div>
+<!-- end row -->

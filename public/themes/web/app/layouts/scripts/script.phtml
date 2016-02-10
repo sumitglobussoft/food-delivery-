@@ -33,9 +33,7 @@
             submitHandler: function(form) {
                 var methodtype = $('.ziingologin').val();
                 var loginname = $('#loginname').val();
-
                 var password = $('#pwd').val();
-
                 $.ajax({
                     url: '/ziingo-login',
                     type: 'POST',
@@ -58,7 +56,6 @@
 
                     }
                 });
-
             }
 
         });
@@ -131,11 +128,9 @@
             }
 
         });
-
         $('#cityslist li').click(function(e) {
             e.preventDefault();
             var locationid = $(this).children().attr('value');
-
             $.ajax({
                 url: '/home-ajax-handler',
                 type: 'POST',
@@ -146,14 +141,15 @@
                 },
                 success: function(response) {
                     if (response) {
+                        $('.location1').html('');
+                        $('.location1').html('Choose your nearest Location');
                         if (response.code === 200) {
                             $('#locationList').html('');
-
                             $.each(response.data, function(index, val) {
-
                                 $('#locationList').append('<li ><span value="' + val.location_id + '" >' + val.name + '</span></li>');
                             });
                         } else {
+                            $('#locationList').html('');
                             $('#locationList').append('<li><span value="">No Location under this city</span></li>');
                         }
 
@@ -161,69 +157,483 @@
 
                 }
             });
-
         });
-
         //  home page search box drop down scripts//
         $(".dropdown .title").click(function() {
             $(this).parent().toggleClass("closed");
         });
-
         $(".dropdown li").click(function() {
             var locationid = $(this).children().attr('value');
             $(this).parent().parent().toggleClass("closed").find(".title").text($(this).text());
             $(this).parent().parent().find(".thiscity").val(locationid);
         });
-
         $("#locationList").on("click", "li", function() {
             var location_id = $(this).children().attr('value');
-             var  cityid = $('.thiscity').val();
+            var cityid = $('.thiscity').val();
             $(this).parent().parent().toggleClass("closed").find(".title").text($(this).text());
             $(this).parent().parent().find(".thislocation").val(location_id);
-            if(location_id){
-            $('#addlocid').attr('href','/restaurents-list?location_id='+location_id+'&city='+cityid+'');
-        }else{
-            $('#addlocid').attr('href','/restaurents-list?city='+cityid+'');
-        }
+            if (location_id) {
+                $('#addlocid').attr('href', '/restaurents-list?location_id=' + location_id + '&city=' + cityid + '');
+            } else {
+                $('#addlocid').attr('href', '/restaurents-list?city=' + cityid + '');
+            }
         });
-var count = 0;
-    $(document.body).on('click','.getproductid',function(){
-       count++;
-       var productid = $(this).attr('data-prod');
-          $.ajax({
+        $("#locationList li").on("click", function() {
+            $("#locationList li").parent().parent().toggleClass('closed');
+            $(this).parent().parent().toggleClass("closed").find(".title").text($(this).text());
+
+        });
+
+
+
+        // add product to cart and stored in cookies///////////
+
+        $(document.body).on('click', '.getproductid', function() {
+            var productid = $(this).attr('data-prod');
+            var hotelid = $(this).attr('data-hotelid');
+            $.ajax({
                 url: '/home-ajax-handler',
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    methodtype: 'getproductdetails',
+                    methodtype: 'AddtoCartCookie',
                     productid: productid,
+                    hotelid: hotelid,
                 },
                 success: function(response) {
                     if (response) {
-                        if (response.code===200) {
-                             //$(response.data).each(function(ind,val){
-                             $('.orderTable tbody ').append('<tr><td>'+count+'</td>'+
-                                 '<td><span class="dish-name">'+response['data'].name+'</span></td>'+
-                                  '<td><a href="#" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Remove Quantity">'+
-                                         '<span><i class="fa fa-minus"></i></span>'+
-                                               '</a><span>01</span><a href="#" class="tooltipped" data-position="top" data-delay="50" data-tooltip="Add Quantity">'+
-                                                '<span><i class="fa fa-plus"></i></span></a></td>'+
-                                  '<td><span><i class="fa fa-inr"></i></span>'+response['data'].cost+'</td>'+
-                                  '<td><a href="#" data-id='+response['data'].product_id+' class="tooltipped red-text" data-position="top" data-delay="50" data-tooltip="Remove Item!">'+
-                                   '<span><i class="fa fa-trash"></i></span></a></td></tr>');  
-                       
-                            //});
-                   } else {
-                           
+                        if (response.code === 200) {
+                            var cookies = document.cookie.split(';');
+                            var userbagdata = '';
+                            var allcookies = '';
+                            var tempcookie = '';
+                            $.each(cookies, function(i, a) {
+                                tempcookie = a.split(';');
+                                $.each(tempcookie, function(i, a) {
+                                    allcookies = a.split(';');
+                                    $.each(allcookies, function(i, a) {
+                                        var cartitemcookie = a.split('=');
+                                        if (cartitemcookie[0] == " user_cartitems_cookie") {//do not remove the space in the compare string
+                                            userbagdata = cartitemcookie[1];
+                                        }
+                                    });
+                                });
+                            });
+                            userbagdata = JSON.parse(decodeURIComponent(userbagdata));
+                            $(".badge.cart-count").html(userbagdata.length);
+                            $(".badge.cart-count").html(userbagdata.length);
+                            var actualtotal = Number($('.subtotal').attr('data-total'))
+                            actualtotal += Number(response.data['cost']);
+                            $('.subtotal').attr('data-total', Number(actualtotal));
+                            $('.subtotal').children().html(Number(actualtotal));
+                            $('.grandtotal').attr('grand-total', Number(actualtotal));
+                            $('.grandtotal').children().html(Number(actualtotal));
+                            $('.orderTable tbody ').append('<tr class="trows grandparent"><td><span class="dish-name" >' + response.data['name'] + '</span></td>' +
+                                    '<td class="dish-id"><a style="cursor:pointer"  item-cost="' + response.data['cost'] + '" hotel-id="' + response.data['hotel_id'] + '"  product-id="' + response.data['product_id'] + '" class="tooltipped changecartquantity" value="sub" data-position="top" data-delay="50" data-tooltip="Remove Quantity">' +
+                                    '<span><i class="fa fa-minus"></i></span></a><span class="dataquantity">1</span>' +
+                                    '<a style="cursor:pointer"  class="tooltipped changecartquantity" item-cost="' + response.data['cost'] + '" hotel-id="' + response.data['hotel_id'] + '"  product-id="' + response.data['product_id'] + '"   value="add"  data-position="top" data-delay="50" data-tooltip="Add Quantity">' +
+                                    '<span><i class="fa fa-plus"></i></span></a></td><td class="dish-cost" ><span><i class="fa fa-inr">' + response.data['cost'] + '</i></span></td>' +
+                                    '<td><a style="cursor:pointer" data-prod="' + response.data['product_id'] + '" data-totalcost="' + response.data['cost'] + '"  data-hid="' + response.data['hotel_id'] + '" class="tooltipped red-text deletecookieitem" data-position="top" data-delay="50" data-tooltip="Remove Item!">' +
+                                    '<span><i class="fa fa-trash"></i></span></a></td></tr>');
+                        } else {
+
+                            // show message that product  already exists     
                         }
-
                     }
-
                 }
             });
+        });
+        // delete product from cart cookies in RESTAURANT DETAILS PAGE and ORDER CONFIRMATION PAGE///////////
 
-});
+        $(document.body).on('click', '.deletecookieitem', function() {
+
+            var currenttarget = $(this);
+            var productcost = $(this).parent().siblings('.dish-cost').children().children().html();
+            var cookies = document.cookie.split(';');
+            var productid = $(this).attr('data-prod');
+
+            var userbagdata = '';
+            var allcookies = '';
+            var tempcookie = '';
+
+            $.each(cookies, function(i, a) {
+                tempcookie = a.split(';');
+                $.each(tempcookie, function(i, a) {
+                    allcookies = a.split(';');
+                    $.each(allcookies, function(i, a) {
+                        var cartitemcookie = a.split('=');
+                        if (cartitemcookie[0] == " user_cartitems_cookie") {//do not remove the space in the compare string
+                            userbagdata = cartitemcookie[1];
+                        }
+                    });
+                });
+            });
+            userbagdata = JSON.parse(decodeURIComponent(userbagdata));
+            if (userbagdata != '') {
+
+                var it = 0;
+
+                $.each(userbagdata, function(ind, val) {
+                    var check = val.product_id;
+                    if (check === productid) {
+                        userbagdata.splice(it, 1);
+                        document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
+                        $(".badge.cart-count").html(userbagdata.length);
+                        var actualtotal = 0;
+                        var total = Number($('.subtotal').attr('data-total'));
+                        actualtotal = Number(total);
+                        actualtotal -= Number(productcost);
+
+                        $('.subtotal').attr('data-total', '');
+                        $('.subtotal').children().html('');
+                        $('.subtotal').attr('data-total', Number(actualtotal));
+                        $('.subtotal').children().html(Number(actualtotal));
+                        $('.grandtotal').attr('grand-total', '');
+                        $('.grandtotal').children().html('');
+                        $('.grandtotal').attr('grand-total', Number(actualtotal));
+                        $('.grandtotal').children().html(Number(actualtotal));
+                        $(currenttarget).closest('.grandparent').remove();
+                    }
+                    it = it + 1;
+                });
+            }
+
+        });
+
+
+        // delete product from cart cookies in CART PAGE///////////
+
+
+
+        $(document.body).on('click', '.deleteitem', function() {
+
+            var currenttarget = $(this);
+            var cookies = document.cookie.split(';');
+
+            var productid = $(this).attr('data-prod');
+
+//            console.log(productid);
+            var totalprice = $(this).closest('.tdel').siblings('.tcost').children().children().html();
+
+            var userbagdata = '';
+            var allcookies = '';
+            var tempcookie = '';
+            $.each(cookies, function(i, a) {
+                tempcookie = a.split(';');
+                $.each(tempcookie, function(i, a) {
+                    allcookies = a.split(';');
+                    $.each(allcookies, function(i, a) {
+                        var cartitemcookie = a.split('=');
+                        if (cartitemcookie[0] == " user_cartitems_cookie") {//do not remove the space in the compare string
+                            userbagdata = cartitemcookie[1];
+                        }
+                    });
+                });
+            });
+            userbagdata = JSON.parse(decodeURIComponent(userbagdata));
+            if (userbagdata != '') {
+
+                var it = 0;
+                var check;
+                $.each(userbagdata, function(i, a) {
+                    if (a.product_id == productid) {
+
+                        userbagdata.splice(it, 1);
+                        document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
+                        $(".badge.cart-count").html(userbagdata.length);
+
+                        if (userbagdata.length > 0) {
+                            var actualtotal = 0;
+                            var total = Number(currenttarget.closest('#cart').children().closest('.subTotal').children('.chk').children('.totalTable').children().children().find('.subtotal').attr('data-total'));
+                            actualtotal = Number(total);
+                            var totalcost = Number(totalprice);
+                            actualtotal -= (Number(totalcost));
+
+                            currenttarget.closest('#cart').children().closest('.subTotal').children('.chk').children('.totalTable').children().children().find('.subtotal').attr('data-total', '');
+                            currenttarget.closest('#cart').children().closest('.subTotal').children('.chk').children('.totalTable').children().children().find('.subtotal').children().html('');
+                            currenttarget.closest('#cart').children().closest('.subTotal').children('.chk').children('.totalTable').children().children().find('.subtotal').attr('data-total', Number(actualtotal));
+                            currenttarget.closest('#cart').children().closest('.subTotal').children('.chk').children('.totalTable').children().children().find('.subtotal').children().html(Number(actualtotal));
+                            currenttarget.closest('#cart').children().closest('.subTotal').children('.chk').children('.totalTable').children().children().find('.grandtotal').attr('grand-total', '');
+                            currenttarget.closest('#cart').children().closest('.subTotal').children('.chk').children('.totalTable').children().children().find('.grandtotal').children().html('');
+                            currenttarget.closest('#cart').children().closest('.subTotal').children('.chk').children('.totalTable').children().children().find('.grandtotal').attr('grand-total', Number(actualtotal));
+                            currenttarget.closest('#cart').children().closest('.subTotal').children('.chk').children('.totalTable').children().children().find('.grandtotal').children().html(Number(actualtotal));
+                            $(currenttarget).closest('.grandparent').remove();
+
+                        } else {
+                            window.location.reload(true);
+                        }
+                    } else {
+
+
+                    }
+                    it = it + 1;
+                });
+            }
+
+        });
+
+
+
+        // change quantity from cart cookies in RESTAURANT DETAILS PAGE and ORDER CONFIRMATION PAGE///////////
+        $(document.body).on('click', '.changecartquantity', function() {
+
+            var currentTarget = $(this);
+            var typeofchange = $(this).attr('value');
+
+            var totalcost = 0;
+            var actualtotal = 0;
+
+            var product_id = $(this).attr("product-id");
+            var hotel_id = $(this).attr("hotel-id");
+
+            var oldquantity = $(this).siblings('.dataquantity').html();
+            var productunitcost = $(this).attr("item-cost");
+
+            var grandtotal = Number($('.subtotal').attr('data-total'));
+
+            var cookies = document.cookie.split(';');
+            var userbagdata = '';
+            var allcookies = '';
+            var tempcookie = '';
+            $.each(cookies, function(i, a) {
+
+                tempcookie = a.split(';');
+                $.each(tempcookie, function(i, a) {
+
+                    allcookies = a.split(';');
+                    $.each(allcookies, function(i, a) {
+
+                        var cartitemcookie = a.split('=');
+                        if (cartitemcookie[0] == " user_cartitems_cookie") {//do not remove the space in the compare string
+                            userbagdata = cartitemcookie[1];
+                        }
+                    });
+                });
+            });
+            if (userbagdata != '') {
+
+                userbagdata = JSON.parse(decodeURIComponent(userbagdata));
+                $.each(userbagdata, function(i, a) {
+                    var check = a.product_id;
+                    if (check == product_id) {
+                        if (typeofchange == 'add') {
+                            var newquantity = (Number(oldquantity) + 1);
+                            totalcost = Number(productunitcost) * Number(newquantity);
+                            actualtotal = Number(grandtotal);
+                            actualtotal += Number(productunitcost);
+                            a.quantity = Number(newquantity);
+                            currentTarget.siblings('.dataquantity').html('');
+                            currentTarget.siblings('.dataquantity').html(Number(newquantity));
+                            currentTarget.parent().siblings('.dish-cost').children().children().html('');
+                            currentTarget.parent().siblings('.dish-cost').children().children().html(totalcost);
+                            $('.subtotal').attr('data-total', '');
+                            $('.subtotal').children().html('');
+                            $('.subtotal').attr('data-total', Number(actualtotal));
+                            $('.subtotal').children().html(Number(actualtotal));
+                            $('.grandtotal').attr('grand-total', '');
+                            $('.grandtotal').children().html('');
+                            $('.grandtotal').attr('grand-total', Number(actualtotal));
+                            $('.grandtotal').children().html(Number(actualtotal));
+
+                            document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
+
+                        } else if (typeofchange == 'sub') {
+                            if (Number(oldquantity) > 1) {
+                                var newquantity = (Number(oldquantity) - 1);
+                                totalcost = Number(productunitcost) * Number(newquantity);
+                                actualtotal = Number(grandtotal);
+                                actualtotal -= Number(productunitcost);
+
+                                a.quantity = Number(newquantity);
+                                currentTarget.siblings('.dataquantity').html('');
+                                currentTarget.siblings('.dataquantity').html(Number(newquantity));
+                                currentTarget.parent().siblings('.dish-cost').children().children().html('');
+                                currentTarget.parent().siblings('.dish-cost').children().children().html(totalcost);
+                                $('.subtotal').attr('data-total', '');
+                                $('.subtotal').children().html('');
+                                $('.subtotal').attr('data-total', Number(actualtotal));
+                                $('.subtotal').children().html(Number(actualtotal));
+                                $('.grandtotal').attr('grand-total', '');
+                                $('.grandtotal').children().html('');
+                                $('.grandtotal').attr('grand-total', Number(actualtotal));
+                                $('.grandtotal').children().html(Number(actualtotal));
+
+                                document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
+                            } else {
+
+                                // if product count is equal to 1 do something 
+                            }
+                            document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
+
+                        }
+
+                        else {
+                            document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
+                        }
+
+                    } else {
+
+                        document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
+                    }
+                });
+            } else {
+                console.log("userbagdata not found");
+            }
+        });
+
+
+        // change quantity from cart cookies in CART PAGE ///////////
+
+        $(document.body).on('click', '.changecookiequantity', function() {
+
+            var currentTarget = $(this);
+            var typeofchange = $(this).attr('value');
+            var totalcost = 0;
+            var actualtotal = 0;
+
+            var product_id = $(this).attr("product-id");
+            var hotel_id = $(this).attr("hotel-id");
+
+            var oldquantity = $(this).parent().siblings('.how_many').html();
+            var productunitcost = $(this).attr("item-cost");
+
+            var grandtotal = Number($('.subtotal').attr('data-total'));
+
+            var cookies = document.cookie.split(';');
+            var userbagdata = '';
+            var allcookies = '';
+            var tempcookie = '';
+            $.each(cookies, function(i, a) {
+
+                tempcookie = a.split(';');
+                $.each(tempcookie, function(i, a) {
+
+                    allcookies = a.split(';');
+                    $.each(allcookies, function(i, a) {
+
+                        var cartitemcookie = a.split('=');
+                        if (cartitemcookie[0] == " user_cartitems_cookie") {//do not remove the space in the compare string
+                            userbagdata = cartitemcookie[1];
+                        }
+                    });
+                });
+            });
+            if (userbagdata != '') {
+
+                userbagdata = JSON.parse(decodeURIComponent(userbagdata));
+                $.each(userbagdata, function(i, a) {
+                    var check = a.product_id;
+                    if (check == product_id) {
+                        if (typeofchange == 'add') {
+                            var newquantity = (Number(oldquantity) + 1);
+                            totalcost = Number(productunitcost) * Number(newquantity);
+                            actualtotal = Number(grandtotal);
+                            actualtotal += Number(productunitcost);
+
+                            a.quantity = Number(newquantity);
+                            currentTarget.parent().siblings('.how_many').html('');
+                            currentTarget.parent().siblings('.how_many').html(Number(newquantity));
+                            currentTarget.closest('.tquant').siblings('.tcost').children().children().html('');
+                            currentTarget.closest('.tquant').siblings('.tcost').children().children().html(totalcost);
+                            $('.subtotal').attr('data-total', '');
+                            $('.subtotal').children().html('');
+                            $('.subtotal').attr('data-total', Number(actualtotal));
+                            $('.subtotal').children().html(Number(actualtotal));
+                            $('.grandtotal').attr('grand-total', '');
+                            $('.grandtotal').children().html('');
+                            $('.grandtotal').attr('grand-total', Number(actualtotal));
+                            $('.grandtotal').children().html(Number(actualtotal));
+
+                            document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
+
+                        } else if (typeofchange == 'sub') {
+                            if (Number(oldquantity) > 1) {
+                                var newquantity = (Number(oldquantity) - 1);
+                                totalcost = Number(productunitcost) * Number(newquantity);
+                                actualtotal = Number(grandtotal);
+                                actualtotal -= Number(productunitcost);
+
+                                a.quantity = Number(newquantity);
+                                currentTarget.parent().siblings('.how_many').html('');
+                                currentTarget.parent().siblings('.how_many').html(Number(newquantity));
+                                currentTarget.closest('.tquant').siblings('.tcost').children().children().html('');
+                                currentTarget.closest('.tquant').siblings('.tcost').children().children().html(totalcost);
+                                $('.subtotal').attr('data-total', '');
+                                $('.subtotal').children().html('');
+                                $('.subtotal').attr('data-total', Number(actualtotal));
+                                $('.subtotal').children().html(Number(actualtotal));
+                                $('.grandtotal').attr('grand-total', '');
+                                $('.grandtotal').children().html('');
+                                $('.grandtotal').attr('grand-total', Number(actualtotal));
+                                $('.grandtotal').children().html(Number(actualtotal));
+
+                                document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
+                            } else {
+
+                                // if product count is equal to 1 do something 
+                            }
+                            document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
+
+                        }
+
+                        else {
+                            document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
+                        }
+
+                    } else {
+
+                        document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
+                    }
+                });
+            } else {
+                console.log("userbagdata not found");
+            }
+        });
+
+///////////// to update the order  cod  status///////////
+        $(document.body).on('click', '#confirmOrder', function() {
+
+            var cod = $('#cod').val();
+            var orderconfirmid = $('#orderconfirmid').val();
+
+            if (cod) {
+                $.ajax({
+                    url: '/order-ajax-handler',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        ajaxmethod: 'CodPayment',
+                        cod: cod,
+                        orderid: orderconfirmid
+
+                    },
+                    success: function(response) {
+
+                        if (response.code == 200) {
+
+                        }
+
+
+                    }
+                });
+
+            }
+
+
+        });
+
+
+
+
+
+
+
+
+//////////////////////////////////////code ends /////////////////////////////////////////////
+
+
 
 ////////scripts ends here ///////
+
     });
 </script>
