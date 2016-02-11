@@ -106,7 +106,7 @@ class Web_OrderController extends Zend_Controller_Action {
         }
 
         if ($this->getRequest()->isPost()) {
-
+            
             //THEME OF ORDER CONFIRMATION//
 
             /* 1.user will enter all details like delivery details, and order messages etc
@@ -135,8 +135,9 @@ class Web_OrderController extends Zend_Controller_Action {
             $orderdata['delivery_type'] = $this->getRequest()->getPost('delivery_type');
             $orderdata['user_message'] = $this->getRequest()->getPost('user_message');
             if (isset($this->view->session->storage->user_id)) {
+               
                 $user_id = $this->view->session->storage->user_id;
-
+            
                 $orderdata['user_id'] = $user_id;
 
                 $orderdata['order_date'] = date('Y-m-d H-i-s');

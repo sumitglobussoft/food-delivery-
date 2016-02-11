@@ -44,7 +44,7 @@ class Web_SettingsController extends Zend_Controller_Action {
                         $arr[$hotel_id]['hotel_id'] = $value['id'];
                         $arr[$hotel_id]['hotel_image'] = $value['hotel_image'];
                         $arr[$hotel_id]['notice'] = $value['notice'];
-                        $arr[$hotel_id]['min order'] = $value['min order'];
+                        $arr[$hotel_id]['minorder'] = $value['minorder'];
                         $arr[$hotel_id]['deliverycharge'] = $value['deliverycharge'];
                         if (!isset($arr[$hotel_id]['totalcost'])) {
                             $arr[$hotel_id]['totalcost'] = 0;

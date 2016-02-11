@@ -894,16 +894,17 @@ class OrdersController extends Zend_Controller_Action {
                 case 'RemoveOrderToCart':
                     if ($this->getRequest()->isPost()) {
 
-                        $addtocartSerialNo = $this->getRequest()->getPost('sl_no');
+                        $addtocartSerialNo = $this->getRequest()->getPost('cart_id');
+                         $user_id = $this->getRequest()->getPost('user_id');
 
-                        if ($addtocartSerialNo) {
-                            $removeaddtocartorderid = $Addtocart->RemoveAddtocartorder($addtocartSerialNo);
+                        if ($addtocartSerialNo && $user_id) {
+                            $cartdetails = $Addtocart->RemoveAddtocartorder($addtocartSerialNo,$user_id);
 
-                            if ($removeaddtocartorderid) {
+                            if ($cartdetails) {
 
                                 $response->message = 'successfully Deleted';
                                 $response->code = 200;
-                                $response->data = $removeaddtocartorderid;
+                                $response->data = $cartdetails;
                                 echo json_encode($response, true);
                                 die();
                             } else {
