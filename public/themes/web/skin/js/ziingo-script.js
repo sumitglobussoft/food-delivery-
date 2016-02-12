@@ -191,21 +191,18 @@ var Layout = function () {
 //        });
 //    };
 
-    var sweetAlertFunction = function () {
-        $('#confirmOrder').on('click', function () {
-            $('#thirdTab').addClass('done');
-            swal({
-                title: "Thank You For Ordering With Us",
-                text: "Wait for 45 minutes, Your Order will be delivered to your address",
-                type: "success",
-                confirmButtonText: "Cool!",
-                confirmButtonColor: "#009688",
-            });
-        })
-
-
-
-    };
+//    var sweetAlertFunction = function () {
+//        $('#confirmOrder').on('click', function () {
+//            $('#thirdTab').addClass('done');
+//            swal({
+//                title: "Thank You For Ordering With Us",
+//                text: "Wait for 45 minutes, Your Order will be delivered to your address",
+//                type: "success",
+//                confirmButtonText: "Cool!",
+//                confirmButtonColor: "#009688",
+//            });
+//        })
+//    };
 
 
     var checkOutFormFunction= function () {
@@ -255,9 +252,9 @@ var Layout = function () {
 //            dateTimePickerFunction();
 //        },
 
-        initSweetAlert: function () {
-            sweetAlertFunction();
-        },
+//        initSweetAlert: function () {
+//            sweetAlertFunction();
+//        },
 
         initCheckOutFrom: function () {
             checkOutFormFunction();

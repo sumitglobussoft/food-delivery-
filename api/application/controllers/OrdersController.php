@@ -335,6 +335,7 @@ class OrdersController extends Zend_Controller_Action {
                         if ($data['user_id']) {
                             $insertedorderid = $ordersModel->insertOrders($data);
                             if ($insertedorderid) {
+                                
                                 $dat['fullname'] = $this->getRequest()->getPost('fullname');
                                 $dat['phone_no'] = $this->getRequest()->getPost('phonenum');
                                 $dat['address'] = $this->getRequest()->getPost('address');

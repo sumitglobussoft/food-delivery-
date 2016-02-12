@@ -610,7 +610,14 @@
                     success: function(response) {
 
                         if (response.code == 200) {
-
+                            $('#thirdTab').addClass('done');
+                            swal({
+                                title: "Thank You For Ordering With Us",
+                                text: "Wait for 45 minutes, Your Order will be delivered to your address",
+                                type: "success",
+                                confirmButtonText: "Cool!",
+                                confirmButtonColor: "#009688",
+                            });
                         }
 
 

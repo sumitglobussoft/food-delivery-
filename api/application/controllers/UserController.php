@@ -279,10 +279,29 @@ class UserController extends Zend_Controller_Action {
 
                     if ($this->getRequest()->isPost()) {
 
-                        $order['total_amount'] = $this->getRequest()->getPost('total_amount');
+                     $total_amount = $this->getRequest()->getPost('total_amount');
+                        if (!empty($total_amount)) {
+                            $data['total_amount'] = $total_amount;
+                        }
+                        $pay_type = $this->getRequest()->getPost('pay_type');
+                        if (!empty($pay_type)) {
+                            $data['pay_type'] = $pay_type;
+                        }
+                        $pay_status = $this->getRequest()->getPost('pay_status');
+                        if (!empty($pay_status)) {
+                            $data['pay_status'] = $pay_status;
+                        }
+                        $order_status = $this->getRequest()->getPost('order_status');
+                        if (!empty($order_status)) {
+                            $data['order_status'] = $order_status;
+                        }
+                        $delivery_status = $this->getRequest()->getPost('delivery_status');
+                        if (!empty($delivery_status)) {
+                            $data['delivery_status'] = $delivery_status;
+                        }
                         $order_id = $this->getRequest()->getPost('order_id');
-                         if ($order) {
-                            $result = $ordersModel->updateOrderDetails($order,$order_id);
+                         if ($order_id && $data) {
+                            $result = $ordersModel->updateOrderDetails($data,$order_id);
                             if ($result) {
                                 $response->message = 'successfull';
                                 $response->code = 200;
@@ -315,7 +334,7 @@ class UserController extends Zend_Controller_Action {
                           $order['delivery_status'] = $this->getRequest()->getPost('delivery_status');
                            $order['pay_type'] = $this->getRequest()->getPost('pay_type');
                           $order_id = $this->getRequest()->getPost('order_id');
-                         if ($order) {
+                         if ($order && $order_id) {
                             $result = $ordersModel->updateOrderDetails($order,$order_id);
                             if ($result) {
                                 $response->message = 'successfull';

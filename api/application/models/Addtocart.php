@@ -81,6 +81,7 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
                         $res['products'][$i]['sub_cost_product'] = $value['product_cost'] * $value['quantity'];
                         $res['products'][$i]['quantity'] = $value['quantity'];
                         $res['products'][$i]['cart_id'] = $value['cart_id'];
+                        $res['products'][$i]['product_name'] = $value['name'];
                         if (isset($res['subtotal'])) {
                             $res['subtotal']+= $res['products'][$i]['sub_cost_product'];
                         } else {
@@ -178,6 +179,7 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
                         $res['products'][$i]['sub_cost_product'] = $value['product_cost'] * $value['quantity'];
                         $res['products'][$i]['quantity'] = $value['quantity'];
                         $res['products'][$i]['cart_id'] = $value['cart_id'];
+                        $res['products'][$i]['product_name'] = $value['name'];
                         if (isset($res['subtotal'])) {
                             $res['subtotal']+= $res['products'][$i]['sub_cost_product'];
                         } else {

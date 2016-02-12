@@ -17,6 +17,10 @@ class Web_OrderController extends Zend_Controller_Action {
     public function orderAjaxHandlerAction() {
         $this->_helper->_layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
+        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+        $objCore = Engine_Core_Core::getInstance();
+        $objSecurity = Engine_Vault_Security::getInstance();
+        $this->_appSetting = $objCore->getAppSetting();
         $method = $this->getRequest()->getParam('ajaxmethod');
 
         switch ($method) {
@@ -106,7 +110,7 @@ class Web_OrderController extends Zend_Controller_Action {
         }
 
         if ($this->getRequest()->isPost()) {
-            
+
             //THEME OF ORDER CONFIRMATION//
 
             /* 1.user will enter all details like delivery details, and order messages etc
@@ -135,9 +139,9 @@ class Web_OrderController extends Zend_Controller_Action {
             $orderdata['delivery_type'] = $this->getRequest()->getPost('delivery_type');
             $orderdata['user_message'] = $this->getRequest()->getPost('user_message');
             if (isset($this->view->session->storage->user_id)) {
-               
+
                 $user_id = $this->view->session->storage->user_id;
-            
+
                 $orderdata['user_id'] = $user_id;
 
                 $orderdata['order_date'] = date('Y-m-d H-i-s');
@@ -147,7 +151,7 @@ class Web_OrderController extends Zend_Controller_Action {
 
                 $url = $this->_appSetting->apiLink . '/order-process?method=insertwebuserorders';
                 $Respo1 = $objCurlHandler->curlUsingPost($url, $orderset);
-
+            
                 if ($Respo1->code == 200) {
                     $order_id = $Respo1->data['order_id'];
                     if ($order_id) {
@@ -224,6 +228,7 @@ class Web_OrderController extends Zend_Controller_Action {
 
                                         $url = $this->_appSetting->apiLink . '/order-process?method=insertuserorderproducts';
                                         $Respo4 = $objCurlHandler->curlUsingPost($url, $orproducts);
+                                        
                                     }
                                 }
                             }
@@ -241,6 +246,7 @@ class Web_OrderController extends Zend_Controller_Action {
                         $deliveryaddress['nearby'] = $this->getRequest()->getPost('nearby');
                         $delivery['delivery_addr'] = json_encode($deliveryaddress);
                         $delivery['order_id'] = $order_id;
+                         $delivery['ordered_user_id'] = $user_id;
 
 
                         $deliver['deliver'] = json_encode($delivery, true);
@@ -248,7 +254,7 @@ class Web_OrderController extends Zend_Controller_Action {
 
                         $url = $this->_appSetting->apiLink . '/order-process?method=insertuserdeliverydetails';
                         $Respo5 = $objCurlHandler->curlUsingPost($url, $deliver);
-
+           
 
 
                         ///////////coupon details and calculation , updating in order table ///////////////
@@ -258,9 +264,10 @@ class Web_OrderController extends Zend_Controller_Action {
                         ////updating finalorder amount///////
                         $orderamount['total_amount'] = $finalcost;
                         $orderamount['order_id'] = $order_id;
+                        
                         $url = $this->_appSetting->apiLink . '/order-process?method=updateuserorderdetails';
                         $Respo6 = $objCurlHandler->curlUsingPost($url, $orderamount);
-
+ 
                         if ($Respo6->code == 200) {
 
                             $this->_redirect('/order-confirmation/' . $hotel_id . '/-for-the-restaurant-Chanakya Restrurent-way-to-make-payment&order_id=' . $order_id . '');
