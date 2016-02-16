@@ -274,19 +274,48 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
 
             try {
 
-                $select = $this->select()
+                $selectMenu = $this->select()
                         ->from(array('hd' => 'hotel_details'), array('hd.id'))
                         ->setIntegrityCheck(false)
                         ->joinLeft(array('p' => 'products'), 'hd.id=p.hotel_id', array('p.category_id'))
                         ->joinLeft(array('cat' => 'menu_category'), 'p.category_id=cat.category_id')
                         ->where('hd.id=?', $hotel_id)
-                        ->distinct('p.category_id');
-                $result = $this->getAdapter()->fetchAll($select);
+                        ->where('hd.hotel_status=?', 1)
+                        ->where('cat.cat_status=?', 1)
+                        ->distinct('p.category_id')
+                        ->order('p.category_id ASC');
 
-                if ($result) {
-                    return $result;
+                $selectCuisine = $this->select()
+                        ->from(array('hd' => 'hotel_details'), array('hd.id'))
+                        ->setIntegrityCheck(false)
+                        ->joinLeft(array('p' => 'products'), 'hd.id=p.hotel_id', array('p.cuisine_id'))
+                        ->joinLeft(array('fc' => 'famous_cuisines'), 'p.cuisine_id=fc.cuisine_id')
+                        ->where('hd.id=?', $hotel_id)
+                        ->where('hd.hotel_status=?', 1)
+                        ->where('fc.cuisine_status=?', 1)
+                        ->distinct('p.cuisine_id')
+                        ->order('p.cuisine_id ASC');
+
+                $resultMenu = $this->getAdapter()->fetchAll($selectMenu);
+                $resultCuisine = $this->getAdapter()->fetchAll($selectCuisine);
+
+                $categorys = array();
+
+                if ($resultMenu) {
+                    $categorys['menuList'] = $resultMenu;
                 } else {
+                    $categorys['menuList'] = array();
+                }
 
+                if ($resultCuisine) {
+                    $categorys['cuisineList'] = $resultCuisine;
+                } else {
+                    $categorys['cuisineList'] = array();
+                }
+
+                if (!empty($categorys['menuList']) || !empty($categorys['cuisineList'])) {
+                    return $categorys;
+                } else {
                     return null;
                 }
             } catch (Exception $e) {
@@ -394,8 +423,8 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
             $name = func_get_arg(0);
             try {
                 $select = $this->select()
-                ->from($this)
-                ->where('hotel_name LIKE ?', '%'.$name.'%');
+                        ->from($this)
+                        ->where('hotel_name LIKE ?', '%' . $name . '%');
                 $result = $this->getAdapter()->fetchAll($select);
                 if ($result) {
                     return $result;
@@ -410,7 +439,6 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
 
             throw new Exception('Argument Not Passed');
         }
-
     }
 
 }

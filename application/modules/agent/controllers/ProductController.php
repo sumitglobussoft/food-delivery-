@@ -41,6 +41,7 @@ class Agent_ProductController extends Zend_Controller_Action {
 
         $url = $this->_appSetting->apiLink . '/hoteldetails?method=getHotelDetailsByAgentId';
         $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+        
         if ($curlResponse->code == 200) {
 
             $this->view->hotelslist = $curlResponse->data;
@@ -162,8 +163,9 @@ class Agent_ProductController extends Zend_Controller_Action {
         $url = $this->_appSetting->apiLink . '/hoteldetails?method=getHotelDetailsByAgentId';
         $data['agent_id'] = $agent_id;
         $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+     
         if($curlResponse->code==200){
-            $this->view->hotellist =$curlResponse->data; 
+            $this->view->hotellist = $curlResponse->data; 
             
         }
         if ($this->getRequest()->isPost()) {

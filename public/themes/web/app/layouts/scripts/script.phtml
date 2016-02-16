@@ -7,7 +7,7 @@
 ?>
 <script type="text/javascript">
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         $(".loginForm").validate({
             rules: {
@@ -30,7 +30,7 @@
                     maxlength: "MaxLength of Password is 10"
                 }
             },
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 var methodtype = $('.ziingologin').val();
                 var loginname = $('#loginname').val();
                 var password = $('#pwd').val();
@@ -43,7 +43,7 @@
                         loginname: loginname,
                         password: password
                     },
-                    success: function(response) {
+                    success: function (response) {
                         if (response) {
                             if (response.code === 200) {
                                 window.location.reload(true);
@@ -68,7 +68,7 @@
                         type: "post",
                         dataType: "json",
                         data: {
-                            username: function() {
+                            username: function () {
                                 return $("#name").val();
                             },
                             ajaxMethod: 'validateUsername'
@@ -85,7 +85,7 @@
                         type: "post",
                         dataType: "json",
                         data: {
-                            email: function() {
+                            email: function () {
                                 return $("#email").val();
                             },
                             ajaxMethod: 'validateEmail'
@@ -128,7 +128,7 @@
             }
 
         });
-        $('#cityslist li').click(function(e) {
+        $('#cityslist li').click(function (e) {
             e.preventDefault();
             var locationid = $(this).children().attr('value');
             $.ajax({
@@ -139,13 +139,13 @@
                     methodtype: 'getlocations',
                     locationid: locationid,
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response) {
                         $('.location1').html('');
                         $('.location1').html('Choose your nearest Location');
                         if (response.code === 200) {
                             $('#locationList').html('');
-                            $.each(response.data, function(index, val) {
+                            $.each(response.data, function (index, val) {
                                 $('#locationList').append('<li ><span value="' + val.location_id + '" >' + val.name + '</span></li>');
                             });
                         } else {
@@ -159,15 +159,15 @@
             });
         });
         //  home page search box drop down scripts//
-        $(".dropdown .title").click(function() {
+        $(".dropdown .title").click(function () {
             $(this).parent().toggleClass("closed");
         });
-        $(".dropdown li").click(function() {
+        $(".dropdown li").click(function () {
             var locationid = $(this).children().attr('value');
             $(this).parent().parent().toggleClass("closed").find(".title").text($(this).text());
             $(this).parent().parent().find(".thiscity").val(locationid);
         });
-        $("#locationList").on("click", "li", function() {
+        $("#locationList").on("click", "li", function () {
             var location_id = $(this).children().attr('value');
             var cityid = $('.thiscity').val();
             $(this).parent().parent().toggleClass("closed").find(".title").text($(this).text());
@@ -178,7 +178,7 @@
                 $('#addlocid').attr('href', '/restaurents-list?city=' + cityid + '');
             }
         });
-        $("#locationList li").on("click", function() {
+        $("#locationList li").on("click", function () {
             $("#locationList li").parent().parent().toggleClass('closed');
             $(this).parent().parent().toggleClass("closed").find(".title").text($(this).text());
 
@@ -188,7 +188,7 @@
 
         // add product to cart and stored in cookies///////////
 
-        $(document.body).on('click', '.getproductid', function() {
+        $(document.body).on('click', '.getproductid', function () {
             var productid = $(this).attr('data-prod');
             var hotelid = $(this).attr('data-hotelid');
             $.ajax({
@@ -200,18 +200,18 @@
                     productid: productid,
                     hotelid: hotelid,
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response) {
                         if (response.code === 200) {
                             var cookies = document.cookie.split(';');
                             var userbagdata = '';
                             var allcookies = '';
                             var tempcookie = '';
-                            $.each(cookies, function(i, a) {
+                            $.each(cookies, function (i, a) {
                                 tempcookie = a.split(';');
-                                $.each(tempcookie, function(i, a) {
+                                $.each(tempcookie, function (i, a) {
                                     allcookies = a.split(';');
-                                    $.each(allcookies, function(i, a) {
+                                    $.each(allcookies, function (i, a) {
                                         var cartitemcookie = a.split('=');
                                         if (cartitemcookie[0] == " user_cartitems_cookie") {//do not remove the space in the compare string
                                             userbagdata = cartitemcookie[1];
@@ -245,7 +245,7 @@
         });
         // delete product from cart cookies in RESTAURANT DETAILS PAGE and ORDER CONFIRMATION PAGE///////////
 
-        $(document.body).on('click', '.deletecookieitem', function() {
+        $(document.body).on('click', '.deletecookieitem', function () {
 
             var currenttarget = $(this);
             var productcost = $(this).parent().siblings('.dish-cost').children().children().html();
@@ -256,11 +256,11 @@
             var allcookies = '';
             var tempcookie = '';
 
-            $.each(cookies, function(i, a) {
+            $.each(cookies, function (i, a) {
                 tempcookie = a.split(';');
-                $.each(tempcookie, function(i, a) {
+                $.each(tempcookie, function (i, a) {
                     allcookies = a.split(';');
-                    $.each(allcookies, function(i, a) {
+                    $.each(allcookies, function (i, a) {
                         var cartitemcookie = a.split('=');
                         if (cartitemcookie[0] == " user_cartitems_cookie") {//do not remove the space in the compare string
                             userbagdata = cartitemcookie[1];
@@ -273,7 +273,7 @@
 
                 var it = 0;
 
-                $.each(userbagdata, function(ind, val) {
+                $.each(userbagdata, function (ind, val) {
                     var check = val.product_id;
                     if (check === productid) {
                         userbagdata.splice(it, 1);
@@ -305,7 +305,7 @@
 
 
 
-        $(document.body).on('click', '.deleteitem', function() {
+        $(document.body).on('click', '.deleteitem', function () {
 
             var currenttarget = $(this);
             var cookies = document.cookie.split(';');
@@ -318,11 +318,11 @@
             var userbagdata = '';
             var allcookies = '';
             var tempcookie = '';
-            $.each(cookies, function(i, a) {
+            $.each(cookies, function (i, a) {
                 tempcookie = a.split(';');
-                $.each(tempcookie, function(i, a) {
+                $.each(tempcookie, function (i, a) {
                     allcookies = a.split(';');
-                    $.each(allcookies, function(i, a) {
+                    $.each(allcookies, function (i, a) {
                         var cartitemcookie = a.split('=');
                         if (cartitemcookie[0] == " user_cartitems_cookie") {//do not remove the space in the compare string
                             userbagdata = cartitemcookie[1];
@@ -335,7 +335,7 @@
 
                 var it = 0;
                 var check;
-                $.each(userbagdata, function(i, a) {
+                $.each(userbagdata, function (i, a) {
                     if (a.product_id == productid) {
 
                         userbagdata.splice(it, 1);
@@ -375,7 +375,7 @@
 
 
         // change quantity from cart cookies in RESTAURANT DETAILS PAGE and ORDER CONFIRMATION PAGE///////////
-        $(document.body).on('click', '.changecartquantity', function() {
+        $(document.body).on('click', '.changecartquantity', function () {
 
             var currentTarget = $(this);
             var typeofchange = $(this).attr('value');
@@ -395,13 +395,13 @@
             var userbagdata = '';
             var allcookies = '';
             var tempcookie = '';
-            $.each(cookies, function(i, a) {
+            $.each(cookies, function (i, a) {
 
                 tempcookie = a.split(';');
-                $.each(tempcookie, function(i, a) {
+                $.each(tempcookie, function (i, a) {
 
                     allcookies = a.split(';');
-                    $.each(allcookies, function(i, a) {
+                    $.each(allcookies, function (i, a) {
 
                         var cartitemcookie = a.split('=');
                         if (cartitemcookie[0] == " user_cartitems_cookie") {//do not remove the space in the compare string
@@ -413,7 +413,7 @@
             if (userbagdata != '') {
 
                 userbagdata = JSON.parse(decodeURIComponent(userbagdata));
-                $.each(userbagdata, function(i, a) {
+                $.each(userbagdata, function (i, a) {
                     var check = a.product_id;
                     if (check == product_id) {
                         if (typeofchange == 'add') {
@@ -484,7 +484,7 @@
 
         // change quantity from cart cookies in CART PAGE ///////////
 
-        $(document.body).on('click', '.changecookiequantity', function() {
+        $(document.body).on('click', '.changecookiequantity', function () {
 
             var currentTarget = $(this);
             var typeofchange = $(this).attr('value');
@@ -503,13 +503,13 @@
             var userbagdata = '';
             var allcookies = '';
             var tempcookie = '';
-            $.each(cookies, function(i, a) {
+            $.each(cookies, function (i, a) {
 
                 tempcookie = a.split(';');
-                $.each(tempcookie, function(i, a) {
+                $.each(tempcookie, function (i, a) {
 
                     allcookies = a.split(';');
-                    $.each(allcookies, function(i, a) {
+                    $.each(allcookies, function (i, a) {
 
                         var cartitemcookie = a.split('=');
                         if (cartitemcookie[0] == " user_cartitems_cookie") {//do not remove the space in the compare string
@@ -521,7 +521,7 @@
             if (userbagdata != '') {
 
                 userbagdata = JSON.parse(decodeURIComponent(userbagdata));
-                $.each(userbagdata, function(i, a) {
+                $.each(userbagdata, function (i, a) {
                     var check = a.product_id;
                     if (check == product_id) {
                         if (typeofchange == 'add') {
@@ -591,7 +591,7 @@
         });
 
 ///////////// to update the order  cod  status///////////
-        $(document.body).on('click', '#confirmOrder', function() {
+        $(document.body).on('click', '#confirmOrder', function () {
 
             var cod = $('#cod').val();
             var orderconfirmid = $('#orderconfirmid').val();
@@ -607,17 +607,18 @@
                         orderid: orderconfirmid
 
                     },
-                    success: function(response) {
+                    success: function (response) {
 
                         if (response.code == 200) {
-                            $('#thirdTab').addClass('done');
-                            swal({
-                                title: "Thank You For Ordering With Us",
-                                text: "Wait for 45 minutes, Your Order will be delivered to your address",
-                                type: "success",
-                                confirmButtonText: "Cool!",
-                                confirmButtonColor: "#009688",
-                            });
+                              $('#thirdTab').addClass('done');
+                                swal({
+                                    title: "Thank You For Ordering With Us",
+                                    text: "Wait for 45 minutes, Your Order will be delivered to your address",
+                                    type: "success",
+                                    confirmButtonText: "Cool!",
+                                    confirmButtonColor: "#009688",
+                                });
+                           
                         }
 
 

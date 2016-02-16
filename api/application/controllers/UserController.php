@@ -189,7 +189,7 @@ class UserController extends Zend_Controller_Action {
                     if ($this->getRequest()->isPost()) {
 
                         $carts = $this->getRequest()->getPost('bagitems');
-                        $bag = (array)json_decode($carts, true);
+                        $bag = (array) json_decode($carts, true);
                         if ($bag) {
                             $result = $cartsModel->getCartProductsByCartIds($bag);
                             if ($result) {
@@ -221,7 +221,7 @@ class UserController extends Zend_Controller_Action {
                         $order_products = $this->getRequest()->getPost('order_products');
                         $order_productsnew = (array) json_decode($order_products, true);
                         if ($order_productsnew) {
-                            
+
                             $result = $orderproductsModel->insertOrderedCartProducts($order_productsnew);
                             if ($result) {
                                 $response->message = 'successfull';
@@ -275,11 +275,10 @@ class UserController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die();
                     break;
-                    case'updateuserorderdetails':
+                case'updateuserorderdetails':
 
                     if ($this->getRequest()->isPost()) {
-
-                     $total_amount = $this->getRequest()->getPost('total_amount');
+                        $total_amount = $this->getRequest()->getPost('total_amount');
                         if (!empty($total_amount)) {
                             $data['total_amount'] = $total_amount;
                         }
@@ -305,7 +304,7 @@ class UserController extends Zend_Controller_Action {
                             if ($result) {
                                 $response->message = 'successfull';
                                 $response->code = 200;
-                                $response->data =$order_id ;
+                                $response->data = $order_id;
                             } else {
                                 $response->message = 'Could Not Serve The Request';
                                 $response->code = 197;
@@ -324,8 +323,8 @@ class UserController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die();
                     break;
-                    
-                          case'updatepaymenttypedetails':
+
+                case'updatepaymenttypedetails':
 
                     if ($this->getRequest()->isPost()) {
 
@@ -339,7 +338,7 @@ class UserController extends Zend_Controller_Action {
                             if ($result) {
                                 $response->message = 'successfull';
                                 $response->code = 200;
-                                $response->data =$order_id ;
+                                $response->data = $order_id;
                             } else {
                                 $response->message = 'Could Not Serve The Request';
                                 $response->code = 197;
@@ -358,7 +357,6 @@ class UserController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die();
                     break;
-                    
             }
         } else {
             $response->message = 'Invalid Request';

@@ -38,7 +38,7 @@ class ProductController extends Zend_Controller_Action {
                             if ($cats) {
                                 $response->message = 'Successfull';
                                 $response->code = 200;
-                                $response->data['categorys'] = $cats;
+                                $response->data = $cats;
                             } else {
                                 $response->message = 'Could not Serve the Response';
                                 $response->code = 197;

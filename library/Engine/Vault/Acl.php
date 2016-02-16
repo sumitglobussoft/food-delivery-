@@ -18,8 +18,6 @@ class Engine_Vault_Acl extends Zend_Acl {
 
         $this->add(new Zend_Acl_Resource('web'))
                 ->add(new Zend_Acl_Resource('web::home'), 'web')
-                ->add(new Zend_Acl_Resource('web::error'), 'web')
-                ->add(new Zend_Acl_Resource('web::error::error'), 'web::error')
                 ->add(new Zend_Acl_Resource('web::home::home'), 'web::home')
                 ->add(new Zend_Acl_Resource('web::home::index'), 'web::home')
                 ->add(new Zend_Acl_Resource('web::home::home-ajax-handler'), 'web::home')
@@ -30,11 +28,16 @@ class Engine_Vault_Acl extends Zend_Acl {
 
 
         $this->allow('guest', 'web::home::home')
-                ->allow('guest', 'web::error::error')
                 ->allow('guest', 'web::home::index')
                 ->allow('guest', 'web::home::home-ajax-handler')
                 ->allow('guest', 'web::home::restaurents-list')
                 ->allow('guest', 'web::home::restaurant-details');
+
+        $this->add(new Zend_Acl_Resource('web::error'), 'web')
+                ->add(new Zend_Acl_Resource('web::error::error'), 'web::error');
+
+        $this->allow('guest', 'web::error::error');
+
 
 
         $this->add(new Zend_Acl_Resource('web::authentication'), 'web')
@@ -79,8 +82,8 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('user', 'agent::authentication::dashboard')
                 ->allow('guest', 'agent::authentication::logout');
 
-            $this->add(new Zend_Acl_Resource('agent::settings'), 'agent')
-        ->add(new Zend_Acl_Resource('agent::settings::agent-hotel-details'), 'agent::settings')
+        $this->add(new Zend_Acl_Resource('agent::settings'), 'agent')
+                ->add(new Zend_Acl_Resource('agent::settings::agent-hotel-details'), 'agent::settings')
                 ->add(new Zend_Acl_Resource('agent::settings::edit-hotel-details'), 'agent::settings')
                 ->add(new Zend_Acl_Resource('agent::settings::add-hotel-details'), 'agent::settings');
 
@@ -91,11 +94,11 @@ class Engine_Vault_Acl extends Zend_Acl {
 
         $this->add(new Zend_Acl_Resource('agent::order'), 'agent')
                 ->add(new Zend_Acl_Resource('agent::order::order-ajax-handler'), 'agent::order')
-                  ->add(new Zend_Acl_Resource('agent::order::restuarent-orders'), 'agent::order');
+                ->add(new Zend_Acl_Resource('agent::order::restuarent-orders'), 'agent::order');
 
 
         $this->allow('user', 'agent::order::order-ajax-handler')
-                 ->allow('user', 'agent::order::restuarent-orders');
+                ->allow('user', 'agent::order::restuarent-orders');
 
         $this->add(new Zend_Acl_Resource('agent::product'), 'agent')
                 ->add(new Zend_Acl_Resource('agent::product::product-details'), 'agent::product')
@@ -220,7 +223,7 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('admin', 'admin::static::delivery-guys-details')
                 ->allow('admin', 'admin::static::edit-deliveryguy-details')
                 ->allow('admin', 'admin::static::add-delivery-guy')
-                 ->allow('admin', 'admin::static::delivery-guy-orders');
+                ->allow('admin', 'admin::static::delivery-guy-orders');
 
 //====================end Admin module=======================  
     }

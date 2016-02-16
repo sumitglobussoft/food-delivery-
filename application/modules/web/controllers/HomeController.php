@@ -252,7 +252,7 @@ class Web_HomeController extends Zend_Controller_Action {
             /*             * **** Display of restaurant menu details and products***** */
             $url = $this->_appSetting->apiLink . '/restaurant-info-card?method=getmenulist';
             $Response = $objCurlHandler->curlUsingPost($url, $loc);
-//          echo"<pre>";print_r($Response);die;
+  //       echo"<pre>";print_r($Response);die;
             if ($Response->code == 200) {
                 $this->view->hotelmenu = $Response->data;
             }
