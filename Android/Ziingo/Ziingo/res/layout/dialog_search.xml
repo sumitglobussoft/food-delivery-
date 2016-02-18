@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/editbox"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/list"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/no_products"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/input_box"
+        android:ems="10"
+        android:hint="search product"
+        android:singleLine="true" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editbox"
+        android:layout_margin="10dp" >
+    </ListView>
+
+    <TextView
+        android:id="@+id/no_products"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/editbox"
+        android:textColor="@color/red"
+        android:visibility="invisible"
+        android:text="No products available at this moment" />
+
+    <ImageView
+        android:id="@+id/search_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/editbox"
+        android:layout_toRightOf="@+id/editbox"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/icon_search" />
+
+</RelativeLayout>

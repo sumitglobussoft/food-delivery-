@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel_cntry_list"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp" >
+
+    <TextView
+        android:id="@+id/country_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/rad_btn"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Country"
+        android:textColor="#FF2600"
+        android:textSize="15sp" />
+
+    <RadioButton
+        android:id="@+id/rad_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/country_name"
+        android:layout_marginLeft="12dp"
+        android:button="@drawable/radiobutton_selector"
+        android:checked="false"
+        android:clickable="false"
+        android:focusable="false" />
+
+</RelativeLayout>

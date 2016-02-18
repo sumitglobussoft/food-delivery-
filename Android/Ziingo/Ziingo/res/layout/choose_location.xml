@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"    
+    android:background="@drawable/bg" >
+
+    <TextView 
+        android:id="@+id/txt_choose_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose location"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FF2600"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+    
+    <RelativeLayout 
+        android:id="@+id/rellll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="20dp"
+        android:layout_below="@+id/txt_choose_location">
+    
+    <RelativeLayout
+        android:id="@+id/rel_sel_cntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/sel_cntry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Country"
+            android:textColor="#FF2600" />
+
+        <Spinner
+            android:id="@+id/spinner_country"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/sel_cntry"
+            android:prompt="@string/select_country" 
+            android:background="@drawable/input_box"         />
+
+        <ImageView
+            android:id="@+id/slct_btn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/spinner_country"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/select" />
+
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/rel_sel_state"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/rel_sel_cntry">
+
+        <TextView
+            android:id="@+id/sel_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="State"
+            android:textColor="#FF2600" />
+
+        <Spinner
+            android:id="@+id/spinner_state"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/sel_state"
+            android:prompt="@string/select_state"
+            android:background="@drawable/input_box" />
+
+        <ImageView
+            android:id="@+id/slct_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/spinner_state"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/select" />
+
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/rel_sel_city"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/rel_sel_state">
+
+        <TextView
+            android:id="@+id/sel_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="City"
+            android:textColor="#FF2600" />
+
+        <Spinner
+            android:id="@+id/spinner_city"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/sel_city"
+            android:prompt="@string/select_city" 
+            android:background="@drawable/input_box"/>
+
+        <ImageView
+            android:id="@+id/slct_btn3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/select" />
+
+    </RelativeLayout>
+    
+     <RelativeLayout
+        android:id="@+id/rel_sel_location"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/rel_sel_city">
+
+        <TextView
+            android:id="@+id/sel_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"            
+            android:text="Location"
+            android:textColor="#FF2600" />
+
+        <Spinner
+            android:id="@+id/spinner_location"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/sel_location"
+            android:prompt="@string/select_location"
+            android:background="@drawable/input_box" />
+
+        <ImageView
+            android:id="@+id/slct_btn4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/spinner_location"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/select" />
+
+    </RelativeLayout>    
+    
+     </RelativeLayout>
+     
+     <RelativeLayout 
+        android:id="@+id/rel_usemyloc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/loc_pro"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"   >
+        
+        <ImageView 
+            android:id="@+id/img_usemyloc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gps_round"/>
+        
+        <TextView 
+            android:id="@+id/txt_usemyloc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use my location"
+            android:textColor="#33A61D"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:layout_toRightOf="@+id/img_usemyloc"/>
+    </RelativeLayout>
+    
+    <ProgressBar 
+        android:id="@+id/loc_pro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/shw_rtr" 
+        android:layout_marginBottom="10dp"      
+        style="?android:attr/progressBarStyleSmall"
+        android:visibility="invisible"/>    
+   
+     
+    <TextView 
+        android:id="@+id/shw_rtr"
+        android:layout_width="240dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="Show Restaurants"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:background="#33A61D"/> 
+
+</RelativeLayout>

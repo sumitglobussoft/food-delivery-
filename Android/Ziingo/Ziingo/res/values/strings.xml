@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Ziingo</string>
+    <string name="facebook_app_id">1530966447225479</string>
+    <string name="facebook_app_secret">5f6f18a774ca411fea89cd1271e490cf</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="action_bag">Bag</string>
+    <string name="action_notification">Notification</string>
+    <string name="action_filter">Filter</string>    
+    <string name="action_menu">Menu</string>
+    <string name="select_country">Select Country</string>
+    <string name="select_state">Select State</string>
+    <string name="select_city">Select City</string>
+    <string name="select_location">Select Location</string>
+    <string name="hide_items">Hide Items</string>
+    <string name="show_items">Show Items</string>
+     <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string name="replace_my_dish">Replace my dish with a similar one if my first choice is not available</string>
+    <string name="food_desc">Food Description</string>
+    <string name="a1">Answer > what is ziingo / rhfgvbjdvfbgdfvgbjkhgnhgn</string>
+    <string name="a2">Answer > why ziingo / rhfghbfgjgydfyh15gjn6h5gkhgnhgn  hcghjv cjhbhdfiubn cxhbiuhdjncv ughiuhc</string>
+    <string name="Use_of_information">At times, you may furnish your personal information on the website. 
+                                      We receive and store all the information provided by the customer. 
+                                      Personal information includes name, billing address or email address etc.
+                                      In addition to your contact information, we may collect information about your
+                                      purchases, shipping address, gender, occupation, birthday, marital status, 
+                                      anniversary, interests, phone number or other contact information and CREDIT 
+                                      CARD information. We may combine the information you provide to us over time 
+                                      including the information that is publicly available, collected through data 
+                                      collection devices, and information that we receive from our partners, 
+                                      affiliates and other third parties.</string>
+                                      
+    <string name="share_info">We will never release your personal details to any outside company
+                              for any purpose. Payments are processed by a third party, which adheres 
+                              to the privacy policy that is set out here. We have a non_disclosure 
+                              agreement with this third party, and they are certified by all the 
+                              major card issuers to hold details securely. </string>
+                              
+    <!--  <string name="other_use_info">When you place an order by entering your name and other details, 
+                                   you will become a recognized user and we will send a cookie to your
+                                   computer. A cookie is a small file that may be placed on your computer's 
+                                   hard disk for record-keeping purposes. A cookie does not contain any 
+                                   information that can personally identify you. They help us to recognize 
+                                   you when you visit the website and make use of the service so that the 
+                                   service can be tailored to your needs. By using cookies, we can make your 
+                                   online experience more efficient.  </string> -->
+    <!-- <string name="t&c">Terms & Conditions</string> -->
+    <string-array name="country_array">
+        <item>Greece</item>
+        <item>United Kingdom</item>
+        <item>Italy</item>
+        <item>France</item>
+        <item>Germany</item>
+        <item>Turkey</item>
+        <item>Poland</item>
+        <item>India</item>
+    </string-array>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>Home</item>
+        <item>Restaurants</item>
+        <item>Groceries</item>
+        <item>My Orders</item>
+        <item>Order Status</item>
+        <item>Account</item>
+        <item>Rate us on the Play Store</item>
+        <item>FAQs</item>
+        <item>Settings</item>
+        <item>Help</item>
+        <item>Sign Out</item>
+    </string-array>
+
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/home</item>
+        <item>@drawable/food_item</item>
+        <item>@drawable/groceries</item>
+        <item>@drawable/myorders</item>
+        <item>@drawable/order_status</item>
+        <item>@drawable/account</item>
+        <item>@drawable/rating</item>
+        <item>@drawable/faq</item>
+        <item>@drawable/setting</item>
+        <item>@drawable/help</item>
+        <item>@drawable/signout</item>
+    </array>
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+
+    <!-- Ordered Items -->
+    <string-array name="ordered_items">
+        <item>Foods</item>
+        <item>Groceries</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/rel_marker_gr"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp" >
+
+        <ImageView
+            android:id="@+id/marker_gr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:src="@drawable/icon_marker" />
+
+        <TextView
+            android:id="@+id/location_gr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/marker_gr"
+            android:gravity="center_vertical"
+            android:text="Location" />
+
+        <ImageView
+            android:id="@+id/edit_gr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/icon_edit" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/picker_gr"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/rel_marker_gr"
+        android:background="#393939"
+        android:gravity="center"
+        android:text=" Open Stores"
+        android:textColor="#FFFFFF" />
+
+    <ImageView
+        android:id="@+id/imageView1_gr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/picker_gr"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-13dp"
+        android:src="@drawable/select" />
+
+    <LinearLayout
+        android:id="@+id/rel_gr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/picker_gr"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/list_stores_gr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:divider="@color/list_divider"
+            android:dividerHeight="0.5dp"
+            android:listSelector="@drawable/list_selector" />
+
+     
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/rest_cnt_gr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/picker_gr"
+        android:layout_alignBottom="@+id/picker_gr"
+        android:layout_marginRight="44dp"
+        android:layout_toLeftOf="@+id/imageView1_gr"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="#FFFFFF" />
+    
+    <RelativeLayout 
+        android:id="@+id/rel_pr_gr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+    <ProgressBar
+        android:id="@+id/progressBar1_gr"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"        
+        android:visibility="visible"
+        android:layout_centerHorizontal="true"/>
+    <TextView 
+        android:id="@+id/txt_fr_gr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressBar1_gr"
+        android:text="Searching stores"
+        android:textColor="@color/restaurant_add"/>
+    </RelativeLayout>
+    
+    <TextView 
+        android:id="@+id/No_rest_gr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Sorry, There are no stores in this location."
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="#FF2600"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

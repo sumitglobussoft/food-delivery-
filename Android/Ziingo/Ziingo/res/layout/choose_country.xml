@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/txt_cc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Please choose your country"
+        android:textColor="#FF2600"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/rel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/picker"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/list_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:divider="@color/list_divider"
+            android:dividerHeight="0.15dp"
+            android:listSelector="@drawable/list_selector" />
+    </LinearLayout>
+
+</LinearLayout>

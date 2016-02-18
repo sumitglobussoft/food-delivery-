@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg" >
+
+    <RelativeLayout
+        android:id="@+id/rel_cnfrm_ph"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="#FF2600" >
+
+        <ImageView
+            android:id="@+id/cnfrm_ph_bk_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="15dp"
+            android:src="@drawable/back_btn" />
+
+        <TextView
+            android:id="@+id/cnfrm_ph_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/cnfrm_ph_bk_btn"
+            android:gravity="left"
+            android:text="Confirm"
+            android:textColor="#FFFFFF" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txt_cnfrm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_cnfrm_ph"
+        android:layout_margin="13dp"
+        android:text="Confirm your number"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txt_sms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_cnfrm"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:text="We've sent you an SMS code to 1111111111 to verify and complete your account."
+        android:textColor="@color/restaurant_name"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/enter_code"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_sms"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/input_box"
+        android:hint="Enter code here"
+        android:textColor="#000000"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/txt_incorrect_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/enter_code"
+        android:layout_marginLeft="80dp"
+        android:text="Incorrect code"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/txt_vr"
+        android:layout_width="175dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/txt_incorrect_code"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:background="#1EA005"
+        android:gravity="center"
+        android:text="Verify"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txt_resend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_vr"
+        android:layout_centerHorizontal="true"
+        android:text="Resend the code"
+        android:textColor="@color/restaurant_add" />
+
+    <TextView
+        android:id="@+id/txt_wrng_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txt_edit_num"
+        android:layout_centerHorizontal="true"
+        android:text="Wrong number?"
+        android:textColor="@color/restaurant_add"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/txt_edit_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="Edit your phone number"
+        android:textColor="#1EA005"
+        android:textSize="15sp" />
+
+</RelativeLayout>

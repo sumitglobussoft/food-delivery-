@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+    <RelativeLayout
+        android:id="@+id/rel_rest_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <!-- Thumbnail Image -->
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="60dp"
+            android:layout_height="60dp"         
+           android:layout_margin="8dp"
+            android:src="@drawable/thumbnail_icon" 
+            android:background="@drawable/image_bg"
+            android:scaleType="fitXY"
+            android:layout_centerVertical="true"/>
+      
+
+            <!-- Product Name -->
+
+            <TextView
+                android:id="@+id/product_name_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/thumbnail"
+                android:layout_toRightOf="@+id/thumbnail"
+                android:text="product_name"
+                android:textColor="#000000"
+                android:textSize="@dimen/restaurant_name" />
+
+        <RelativeLayout
+            android:id="@+id/rel_pr_qty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/product_name_txt"
+            android:layout_toRightOf="@+id/thumbnail" >
+
+            <!-- product_quantity -->
+
+            <TextView
+                android:id="@+id/product_quantity_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Qty :"
+                android:textColor="@color/restaurant_add"
+                android:textSize="@dimen/restaurant_add" />
+
+            <TextView
+                android:id="@+id/product_qnty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/product_quantity_txt"
+                android:textColor="@color/restaurant_add"
+                android:text="1" />
+        </RelativeLayout>
+        
+        <RelativeLayout 
+            android:id="@+id/rel_pr_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rel_pr_qty"
+            android:layout_toRightOf="@+id/thumbnail">
+
+        <!-- price -->
+
+        <TextView
+            android:id="@+id/prc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price : "
+            android:textColor="@color/price"
+            android:textSize="@dimen/cuisine" />
+
+        <!-- <ImageView
+            android:id="@+id/rupee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="28dp"
+            android:layout_toRightOf="@+id/prc"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_rupee" /> -->
+
+        <TextView
+            android:id="@+id/pr_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/prc"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="3dp"
+            android:text=" 100" 
+            android:textColor="@color/price"
+            android:textSize="@dimen/cuisine"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/pr_rmv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/rel_pr_qty"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/trash_btn_dark" />
+
+    </RelativeLayout>
+
+</LinearLayout>
