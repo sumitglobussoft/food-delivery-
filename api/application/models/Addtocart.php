@@ -58,49 +58,49 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
 
                 $deleted = $this->delete('id= ' . $addtocartSerialNo);
                 if ($deleted) {
-                    
+
                     $select = $this->select()
-                        ->from(array('act' => 'addtocart'),array('act.user_id', 'act.product_id', 'act.id AS cart_id','act.hotel_id','act.quantity'))
-                        ->setIntegrityCheck(false)
-                        ->joinLeft(array('p' => 'products'), 'act.product_id=p.product_id', array('p.name', 'p.imagelink', 'p.cost AS product_cost'))
-                        ->joinLeft(array('hd' => 'hotel_details'), 'act.hotel_id=hd.id')
-                        ->where('act.user_id = ?', $userid);
+                            ->from(array('act' => 'addtocart'), array('act.user_id', 'act.product_id', 'act.id AS cart_id', 'act.hotel_id', 'act.quantity'))
+                            ->setIntegrityCheck(false)
+                            ->joinLeft(array('p' => 'products'), 'act.product_id=p.product_id', array('p.name', 'p.imagelink', 'p.cost AS product_cost'))
+                            ->joinLeft(array('hd' => 'hotel_details'), 'act.hotel_id=hd.id')
+                            ->where('act.user_id = ?', $userid);
 
-                $result = $this->getAdapter()->fetchAll($select);
+                    $result = $this->getAdapter()->fetchAll($select);
 
-                if ($result) {
-                    $i = 0;
-                    foreach ($result as $value) {
-                        $hotel_id = $value['id'];
-                        $res['hotel_name'] = $value['hotel_name'];
-                        $res['hotel_id'] = $value['id'];
-                        $res['deliverycharge'] = $value['deliverycharge'];
-                        $res['products'][$i]['product_id'] = $value['product_id'];
-                        $res['products'][$i]['imagelink'] = $value['imagelink'];
-                        $res['products'][$i]['cost'] = $value['product_cost'];
-                        $res['products'][$i]['sub_cost_product'] = $value['product_cost'] * $value['quantity'];
-                        $res['products'][$i]['quantity'] = $value['quantity'];
-                        $res['products'][$i]['cart_id'] = $value['cart_id'];
-                        $res['products'][$i]['product_name'] = $value['name'];
-                        if (isset($res['subtotal'])) {
-                            $res['subtotal']+= $res['products'][$i]['sub_cost_product'];
-                        } else {
-                            $res['subtotal'] = 0;
-                            $res['subtotal']+= $res['products'][$i]['sub_cost_product'];
+                    if ($result) {
+                        $i = 0;
+                        foreach ($result as $value) {
+                            $hotel_id = $value['id'];
+                            $res['hotel_name'] = $value['hotel_name'];
+                            $res['hotel_id'] = $value['id'];
+                            $res['deliverycharge'] = $value['deliverycharge'];
+                            $res['products'][$i]['product_id'] = $value['product_id'];
+                            $res['products'][$i]['imagelink'] = $value['imagelink'];
+                            $res['products'][$i]['cost'] = $value['product_cost'];
+                            $res['products'][$i]['sub_cost_product'] = $value['product_cost'] * $value['quantity'];
+                            $res['products'][$i]['quantity'] = $value['quantity'];
+                            $res['products'][$i]['cart_id'] = $value['cart_id'];
+                            $res['products'][$i]['product_name'] = $value['name'];
+                            if (isset($res['subtotal'])) {
+                                $res['subtotal']+= $res['products'][$i]['sub_cost_product'];
+                            } else {
+                                $res['subtotal'] = 0;
+                                $res['subtotal']+= $res['products'][$i]['sub_cost_product'];
+                            }
+                            $i++;
                         }
-                        $i++;
+                        if ($res) {
+                            return $res;
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        return null;
                     }
-                 if($res){
-                   return $res;   
-                 }else{
-                    return null;  
-                 }
-               } else {
-                    return null;
+                } else {
+                    return 'error';
                 }
-                }else{
-                  return 'error';   
-                }  
             } catch (Exception $ex) {
                 echo $ex->getTraceAsString();
             }
@@ -150,19 +150,25 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
      * no where condition  is required to check for hotel id i
      * 
      */ // ABOVE CODE MODIFIED 
-
+    
+    /*
+    * Modyfied By : Nitin Kumar Gupta
+    * Modyfied Date : 20 FEB 2016
+    */
     public function getaddtocart() {
 
         if (func_num_args() > 0) {
             $user_id = func_get_arg(0);
+            $hotel_id = func_get_arg(1);
             $res = array();
             try {
                 $select = $this->select()
-                        ->from(array('act' => 'addtocart'),array('act.user_id', 'act.product_id', 'act.id AS cart_id','act.hotel_id','act.quantity'))
+                        ->from(array('act' => 'addtocart'), array('act.user_id', 'act.product_id', 'act.id AS cart_id', 'act.hotel_id', 'act.quantity'))
                         ->setIntegrityCheck(false)
                         ->joinLeft(array('p' => 'products'), 'act.product_id=p.product_id', array('p.name', 'p.imagelink', 'p.cost AS product_cost'))
                         ->joinLeft(array('hd' => 'hotel_details'), 'act.hotel_id=hd.id')
-                        ->where('act.user_id = ?', $user_id);
+                        ->where('act.user_id = ?', $user_id)
+                        ->where('act.hotel_id = ?', $hotel_id);
 
                 $result = $this->getAdapter()->fetchAll($select);
 
@@ -522,6 +528,95 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
             }
         } else {
             return null;
+        }
+    }
+
+    /*
+     * Dev : Nitin Kumar Gupta
+     * Desc : To insert the new cart product and update the existing cart product in addtocart table.
+     * Date : 19 FEB 2016
+     */
+
+    public function insertUpdateProductInCart() {
+        if (func_num_args() > 0) {
+            $user_id = func_get_arg(0);
+            $hotel_id = func_get_arg(1);
+            $product_id = func_get_arg(2);
+            $quantity = func_get_arg(3);
+            $allCartDetail = array();
+            $success = null;
+             $i=0;
+            $this->getAdapter()->beginTransaction();
+
+            try {
+
+                foreach ($product_id as $key => $value) {
+                    $cartId = $this->select()
+                            ->from($this, array('id'))
+                            ->where('user_id = ?', $user_id)
+                            ->where('hotel_id = ?', $hotel_id)
+                            ->where('product_id = ?', $value);
+
+                    $cartId = $this->getAdapter()->fetchRow($cartId);
+
+                    $data = null;
+
+                    if ($cartId) {
+
+                        $where['id = ?'] = $cartId['id'];
+                        $data1 = array('quantity' => 0);
+                        $data2 = array('quantity' => $quantity[$key]);
+                        $updateQuantity1 = $this->update($data1, $where);
+                        $updateQuantity2 = $this->update($data2, $where);
+
+                        if ($updateQuantity1 && $updateQuantity2) {
+
+                            $allCartDetail[$i]['cartId'] = $cartId['id'];
+                            $allCartDetail[$i]['productId'] = $value;
+                            $allCartDetail[$i]['orderedQuantity'] = $quantity[$key];
+                            $success = true;
+                        } else {
+                            $success = false;
+                            break;
+                        }
+                    } else {
+
+                        $data = array(
+                            'product_id' => $value,
+                            'user_id' => $user_id,
+                            'quantity' => $quantity[$key],
+                            'hotel_id' => $hotel_id,
+                        );
+
+                        $insertedCartId = $this->insert($data);
+
+                        if ($insertedCartId) {
+                            $allCartDetail[$i]['cartId'] = $insertedCartId;
+                            $allCartDetail[$i]['productId'] = $value;
+                            $allCartDetail[$i]['orderedQuantity'] = $quantity[$key];
+                            $success = true;
+                        } else {
+                            $success = false;
+                            break;
+                        }
+                    }
+                    
+                    $i++;
+                }
+
+                if ($success) {
+                    $this->getAdapter()->commit();
+                    return $allCartDetail;
+                } else {
+                    $this->getAdapter()->rollBack();
+                    return 'fail';
+                }
+            } catch (Exception $ex) {
+                $this->getAdapter()->rollBack();
+                throw new Exception("Error : " . $ex);
+            }
+        } else {
+            throw new Exception("Argument has not passed");
         }
     }
 

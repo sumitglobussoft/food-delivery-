@@ -335,7 +335,7 @@ class OrdersController extends Zend_Controller_Action {
                         if ($data['user_id']) {
                             $insertedorderid = $ordersModel->insertOrders($data);
                             if ($insertedorderid) {
-                                
+
                                 $dat['fullname'] = $this->getRequest()->getPost('fullname');
                                 $dat['phone_no'] = $this->getRequest()->getPost('phonenum');
                                 $dat['address'] = $this->getRequest()->getPost('address');
@@ -680,7 +680,7 @@ class OrdersController extends Zend_Controller_Action {
 
                 case'addhoteldetails':
                     if ($this->getRequest()->isPost()) {
-                      
+
                         $data['primary_phone'] = $this->getRequest()->getPost('primary_phone');
                         $data['secondary_phone'] = $this->getRequest()->getPost('secondary_phone');
                         $data['hotel_name'] = $this->getRequest()->getPost('hotel_name');
@@ -737,6 +737,7 @@ class OrdersController extends Zend_Controller_Action {
     public function addtoCartSummaryAction() {
 
         $Addtocart = Application_Model_Addtocart::getInstance();
+        $objProducts = Application_Model_Products::getInstance();
 
 
         $response = new stdClass();
@@ -750,7 +751,7 @@ class OrdersController extends Zend_Controller_Action {
                         $data['product_id'] = $this->getrequest()->getPost('productid');
                         $data['hotel_id'] = $this->getRequest()->getPost('hotelid');
                         $data['quantity'] = $this->getRequest()->getPost('quantity');
-                        
+
                         if ($data['user_id'] && $data['hotel_id']) {
                             $productexists = $Addtocart->checkProductifExists($data['user_id'], $data['product_id'], $data['hotel_id']);
                             if ($productexists) {
@@ -789,6 +790,75 @@ class OrdersController extends Zend_Controller_Action {
                         die;
                     }
                     break;
+                /*
+                 * Dev : Nitin Kumar Gupta
+                 * Desc : To insert the new cart product in table and update the existing cart product in table.
+                 * Date : 19 FEB 2016
+                 */
+                case 'InsertUpdateAllOrdersToCart':
+                    if ($this->getRequest()->isPost()) {
+                        $user_id = $this->getRequest()->getPost('userid');
+                        $hotel_id = $this->getRequest()->getPost('hotelid');
+                        $product_id = (array) json_decode($this->getrequest()->getPost('productid'), true);
+                        $quantity = (array) json_decode($this->getrequest()->getPost('quantity'), true);
+
+                        if ($user_id && $hotel_id && !empty($product_id) && !empty($quantity)) {
+
+                            if (sizeof($product_id) == sizeof($quantity)) {
+
+                                $availableOrNot = $objProducts->seperateTheProductsByQuantityAvailablity($product_id, $quantity);
+
+                                if (is_array($availableOrNot) && !empty($availableOrNot)) {
+
+                                    if (array_key_exists('success', $availableOrNot)) {
+
+                                        $updatedAndInsertedProduct = $Addtocart->insertUpdateProductInCart($user_id, $hotel_id, $availableOrNot['success'], $availableOrNot['quantity']);
+
+                                        if (is_array($updatedAndInsertedProduct) && !empty($updatedAndInsertedProduct)) {
+
+                                            $availableOrNot['success'] = $updatedAndInsertedProduct;
+                                            unset($availableOrNot['quantity']);
+
+                                            $response->message = 'Successfully inserted or updated the product in cart.';
+                                            $response->code = 200;
+                                            $response->data = $availableOrNot;
+                                        } else {
+                                            $response->message = $updatedAndInsertedProduct;
+                                            $response->code = 198;
+                                            $response->data = Null;
+                                        }
+                                    } else {
+
+                                        $response->message = 'All requested product has been out of stocks.';
+                                        $response->code = 200;
+                                        $response->data = $availableOrNot;
+                                    }
+                                } else {
+                                    $response->message = $availableOrNot;
+                                    $response->code = 198;
+                                    $response->data = Null;
+                                }
+                            } else {
+                                $response->message = 'The number of product and quantity in array should be same.';
+                                $response->code = 195;
+                                $response->data = NULL;
+                            }
+                        } else {
+                            $response->message = 'You should enter all params.';
+                            $response->code = 195;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'You should use the post method';
+                        $response->code = 195;
+                        $response->data = Null;
+                    }
+
+                    echo json_encode($response, true);
+                    die;
+                    break;
+
+
                 case 'BulkInsertOrdersToCart':
                     if ($this->getRequest()->isPost()) {
 
@@ -825,14 +895,18 @@ class OrdersController extends Zend_Controller_Action {
                         die;
                     }
                     break;
-
-
+                /*
+                * Modyfied By : Nitin Kumar Gupta
+                * Modyfied Date : 20 FEB 2016
+                */
                 case 'getOrderToCart':
 
                     if ($this->getRequest()->isPost()) {
                         $user_id = $this->getRequest()->getPost('user_id');
-                        if ($user_id) {
-                            $getaddtocartdetails = $Addtocart->getaddtocart($user_id);
+                        $hotel_id = $this->getRequest()->getPost('hotel_id');
+                        
+                        if ($user_id && $hotel_id) {
+                            $getaddtocartdetails = $Addtocart->getaddtocart($user_id, $hotel_id);
 
                             if ($getaddtocartdetails) {
 
@@ -896,10 +970,10 @@ class OrdersController extends Zend_Controller_Action {
                     if ($this->getRequest()->isPost()) {
 
                         $addtocartSerialNo = $this->getRequest()->getPost('cart_id');
-                         $user_id = $this->getRequest()->getPost('user_id');
+                        $user_id = $this->getRequest()->getPost('user_id');
 
                         if ($addtocartSerialNo && $user_id) {
-                            $cartdetails = $Addtocart->RemoveAddtocartorder($addtocartSerialNo,$user_id);
+                            $cartdetails = $Addtocart->RemoveAddtocartorder($addtocartSerialNo, $user_id);
 
                             if ($cartdetails) {
 

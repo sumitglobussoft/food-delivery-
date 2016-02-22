@@ -28,7 +28,10 @@ class ProductController extends Zend_Controller_Action {
 
         if ($method) {
             switch ($method) {
-
+            /*
+            * Modyfied By : Nitin Kumar Gupta
+            * Modyfied Date : 15 FEB 2016
+            */
                 case'GetMenu':
 
                     if ($this->getRequest()->isPost()) {
@@ -210,30 +213,35 @@ class ProductController extends Zend_Controller_Action {
 
                     break;
 
+                    /*
+                    * Modyfied By : Nitin Kumar Gupta
+                    * Modyfied Date : 16 FEB 2016
+                    */
                 case'getproductbycategoryId':
                     if ($this->getRequest()->isPost()) {
 
                         $category_id = $this->getRequest()->getPost('category_id');
+                        $category_type = $this->getRequest()->getPost('category_type');
 
-                        if ($category_id) {
-                            $proddetails = $productsummaryModel->getProductBycategoryID($category_id);
+                        if ($category_id && $category_type) {
+                            $proddetails = $productsummaryModel->getProductBycategoryID($category_id, $category_type);
 
                             if ($proddetails) {
                                 $response->message = 'successfull';
                                 $response->code = 200;
-                                $response->data['products'] = $proddetails;
+                                $response->data = $proddetails;
                             } else {
-                                $response->message = 'Could Not Serve The Request';
+                                $response->message = 'There are no product available inside this category.';
                                 $response->code = 197;
                                 $response->data = null;
                             }
                         } else {
-                            $response->message = 'Could Not Serve The Request';
+                            $response->message = 'You should be send all parameters.';
                             $response->code = 401;
                             $response->data = NULL;
                         }
                     } else {
-                        $response->message = 'Invalid Request';
+                        $response->message = 'Request should be through post method';
                         $response->code = 401;
                         $response->data = Null;
                     }

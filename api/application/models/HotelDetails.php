@@ -266,7 +266,12 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
             
         }
     }
-
+    
+    /*
+     * Dev : Priyanka Varanasi
+     * Modyfied By : Nitin Kumar Gupta
+     * Modyfied Date : 15 FEB 2016
+     */
     public function getcategoriesByHotelId() {
 
         if (func_num_args() > 0) {
