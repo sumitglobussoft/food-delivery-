@@ -68,6 +68,7 @@ class Web_HomeController extends Zend_Controller_Action {
         $method = $this->getRequest()->getParam('methodtype');
 
         switch ($method) {
+
             case 'getlocations':
                 $locationid = $this->getRequest()->getParam('locationid');
                 $url = $this->_appSetting->apiLink . '/get-locations?method=getlocations';
@@ -150,7 +151,10 @@ class Web_HomeController extends Zend_Controller_Action {
 
                 break;
 
-
+            /////adding product item to db///////
+//            case 'AddtoCartDb':
+//                break;
+//                
             default :
                 break;
         }
@@ -234,6 +238,10 @@ class Web_HomeController extends Zend_Controller_Action {
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
         $objCore = Engine_Core_Core::getInstance();
         $objSecurity = Engine_Vault_Security::getInstance();
+
+        $response = new stdClass();
+        $method = $this->getrequest()->getParam('method');
+
         $this->_appSetting = $objCore->getAppSetting();
         if (isset($this->view->session->storage->user_id)) {
             $user_id = $this->view->session->storage->user_id;
@@ -252,18 +260,16 @@ class Web_HomeController extends Zend_Controller_Action {
             /*             * **** Display of restaurant menu details and products***** */
             $url = $this->_appSetting->apiLink . '/restaurant-info-card?method=getmenulist';
             $Response = $objCurlHandler->curlUsingPost($url, $loc);
-  //       echo"<pre>";print_r($Response);die;
+
             if ($Response->code == 200) {
                 $this->view->hotelmenu = $Response->data;
             }
-
 
             ////////// add to cart products display of logged user
             if (isset($_COOKIE['user_cartitems_cookie'])) {
                 $cartitems = $_COOKIE['user_cartitems_cookie'];
                 $cartitems = stripslashes($cartitems);
                 $saved_cart_items = json_decode($cartitems, true);
-
                 $ar['cookies_values'] = json_encode($saved_cart_items, true);
                 $ar['hotel_id'] = $hotel_id;
                 $url = $this->_appSetting->apiLink . '/restaurent-menu-card?method=getproductsByCookie';
@@ -274,10 +280,20 @@ class Web_HomeController extends Zend_Controller_Action {
                     foreach ($Respo->data as $value) {
                         $data['subtotal']+= $value['cost'];
                     }
-                  $this->view->addtocartproducts = $Respo->data;
+                    $this->view->addtocartproducts = $Respo->data;
                     $this->view->total = $data['subtotal'];
                 }
             }
+//            $method = $this->getRequest()->getParam('methodType');
+//            switch ($method) {
+//                //////////////add to db products display of logged user/////////////
+//                case 'Addproductstodb':
+//                    if(isset())
+//                    
+//            }
+
+
+//            
         }
     }
 

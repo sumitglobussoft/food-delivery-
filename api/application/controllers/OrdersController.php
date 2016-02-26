@@ -803,8 +803,8 @@ class OrdersController extends Zend_Controller_Action {
                         $quantity = (array) json_decode($this->getrequest()->getPost('quantity'), true);
 
                         if ($user_id && $hotel_id && !empty($product_id) && !empty($quantity)) {
-
-                            if (sizeof($product_id) == sizeof($quantity)) {
+                            
+                               if (sizeof($product_id) == sizeof($quantity)) {
 
                                 $availableOrNot = $objProducts->seperateTheProductsByQuantityAvailablity($product_id, $quantity);
 

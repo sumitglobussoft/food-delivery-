@@ -28,10 +28,11 @@ class ProductController extends Zend_Controller_Action {
 
         if ($method) {
             switch ($method) {
-            /*
-            * Modyfied By : Nitin Kumar Gupta
-            * Modyfied Date : 15 FEB 2016
-            */
+
+                /*
+                 * Modyfied By : Nitin Kumar Gupta
+                 * Modyfied Date : 15 FEB 2016
+                 */
                 case'GetMenu':
 
                     if ($this->getRequest()->isPost()) {
@@ -213,10 +214,10 @@ class ProductController extends Zend_Controller_Action {
 
                     break;
 
-                    /*
-                    * Modyfied By : Nitin Kumar Gupta
-                    * Modyfied Date : 16 FEB 2016
-                    */
+                /*
+                 * Modyfied By : Nitin Kumar Gupta
+                 * Modyfied Date : 16 FEB 2016
+                 */
                 case'getproductbycategoryId':
                     if ($this->getRequest()->isPost()) {
 
@@ -357,9 +358,6 @@ class ProductController extends Zend_Controller_Action {
 
 
                     break;
-
-
-                    
             }
         } else {
             $response->message = 'Invalid Request';
