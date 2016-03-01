@@ -22,10 +22,10 @@
                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/plugins/materialize/css/materialize.css')
                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/css/animate.css')
                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/plugins/font-awesome/css/font-awesome.min.css')
-                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/plugins/owl.carousel.2.0.0-beta.2.4/assets/owl.carousel.css')
+                ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/plugins/owl.carousel.2.0.0-beta.2.4/assets/owl.carousel.css')
                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/plugins/font-awesome/css/font-awesome.min.css')
                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/plugins/raty-jquery/jquery.raty.css')
-                  ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/plugins/sweetAlert/sweetalert.css')
+                ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/plugins/sweetAlert/sweetalert.css')
                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/css/ziingo-style.css');
 
         //      # Javascript
@@ -33,14 +33,14 @@
                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery-2.1.4.min.js', 'text/javascript')
                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/materialize/js/materialize.min.js', 'text/javascript')
                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/countUp/countUp.js', 'text/javascript')
-                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/owl.carousel.2.0.0-beta.2.4/owl.carousel.js', 'text/javascript')
-                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/raty-jquery/jquery.raty.js', 'text/javascript')
+                ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/owl.carousel.2.0.0-beta.2.4/owl.carousel.js', 'text/javascript')
+                ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/raty-jquery/jquery.raty.js', 'text/javascript')
                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/moment.js', 'text/javascript')
-                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/sweetAlert/sweetalert.min.js', 'text/javascript')
+                ->appendFile($this->baseUrl() . $this->theme_base_path . '/plugins/sweetAlert/sweetalert.min.js', 'text/javascript')
                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/ziingo-script.js', 'text/javascript')
                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/isotope.pkgd.min.js', 'text/javascript')
-                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery.validate.min.js', 'text/javascript')
-                 ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/validate.settings.js', 'text/javascript');
+                ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery.validate.min.js', 'text/javascript')
+                ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/validate.settings.js', 'text/javascript');
         ?>
     </head>
     <body class="">
@@ -52,23 +52,26 @@
                         <img src="/assets/images/logo.png" class="logo" style="margin-top: 4%;" />
                     </a>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
-   <li>
-						<a href="/cart">
-							<i class="material-icons">shopping_cart</i>
-							<div class="cart-icon">
-                                                          
-                                                            <span class="badge cart-count"><?php   if (isset($_COOKIE['user_cartitems_cookie'])) {
-            $cartitems = $_COOKIE['user_cartitems_cookie'];
+                        <li>
+                            <a href="/cart">
+                                <i class="material-icons">shopping_cart</i>
+                                <div class="cart-icon">
 
-            $cartitems = stripslashes($cartitems);
-            $saved_cart_items = json_decode($cartitems, true);
-                                                            echo count($saved_cart_items);}?></span>
-                             
-							</div>
-						</a>
-					</li>
+                                    <span class="badge cart-count"><?php
+                                        if (isset($_COOKIE['user_cartitems_cookie'])) {
+                                            $cartitems = $_COOKIE['user_cartitems_cookie'];
+
+                                            $cartitems = stripslashes($cartitems);
+                                            $saved_cart_items = json_decode($cartitems, true);
+                                            echo count($saved_cart_items);
+                                        }
+                                        ?></span>
+
+                                </div>
+                            </a>
+                        </li>
                         <?php if ($this->auth->hasIdentity()) { ?>
-                        	
+
                             <li class="profile-dropdown">
                                 <a class="dropdown-button" href="javascript:;"
                                    data-activates="myAccount"
@@ -80,10 +83,10 @@
                                     <li class="user">
                                         <img src="/assets/images/profile/avatar-7.jpg" class="profile-pic">
                                         <p class="name"> <?php
-                            if (isset($this->session->storage->uname)) {
-                                echo $this->session->storage->uname;
-                            }
-                            ?></p>
+                                            if (isset($this->session->storage->uname)) {
+                                                echo $this->session->storage->uname;
+                                            }
+                                            ?></p>
                                     </li>
                                     <li class="divider"></li>
                                     <li><a href="#">Activity</a></li>
@@ -95,13 +98,13 @@
                                 </ul>
 
                             </li>
-<?php } else { ?>
-                      
+                        <?php } else { ?>
+
                             <li><a class="modal-trigger" href="#loginModal">Login</a></li>
 
                             <li><a href="/signup">Sign Up</a></li>
 
-<?php } ?>
+                        <?php } ?>
                     </ul>
                 </div>
             </nav>

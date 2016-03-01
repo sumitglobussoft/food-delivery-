@@ -13,8 +13,8 @@
                 <div class="container w85">
                     <div class="card-panel">
                         <div class="row">
-                            
-                            
+
+
                             <div class="col s12">
                                 <div id="cart" class="row">
                                     <h4 style="margin-left: 1%;">Shopping Cart</h4>
@@ -96,14 +96,14 @@
                                                     <div class="product_quantity">
                                                         <div class="quantity_button" style="background-color: transparent;">
                                                             <a href="javascript:;" data-prod="<?php
-                                                                if (isset($val['product_id'])) {
-                                                                    echo $val['product_id'];
-                                                                }
-                                                                ?>"data-hid="<?php
-                                                                if (isset($val['hotel_id'])) {
-                                                                    echo $val['hotel_id'];
-                                                                }
-                                                                ?>"  class="text-danger deleteitem"   data-unitcost="<?php echo $val['unit_cost']; ?>">
+                                                            if (isset($val['product_id'])) {
+                                                                echo $val['product_id'];
+                                                            }
+                                                            ?>"data-hid="<?php
+                                                               if (isset($val['hotel_id'])) {
+                                                                   echo $val['hotel_id'];
+                                                               }
+                                                               ?>"  class="text-danger deleteitem"   data-unitcost="<?php echo $val['unit_cost']; ?>">
                                                                 <i style='font-size: 23px;'class="fa fa-trash"></i>
                                                             </a>
                                                         </div>
@@ -159,27 +159,28 @@
                 </div>
             </div>  
 
- <?php
+            <?php
         }
-    }else{ ?>
-        
-     	<div class="red lighten-5 paddingTB-md">
-				<div class="container w85">
-					<div class="card-panel">
-						<div class="row">
-							<div class="col s12">
-								<h4 style="margin-left: 1%;">Shopping Cart</h4>
-								<img src="assets/images/cart.jpg" class="responsive-img" />
-							</div>
-							<div class="col s12 center">
-								<a href="#changePlaceModal" class="btn btn-alt lime-text waves-effect waves-light top5px modal-trigger" href="">Find Restaurant<span class="m-left-sm"><i class="fa fa-shopping-bag"></i></span></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>   
-        
- <?php   }
+    } else {
+        ?>
+
+        <div class="red lighten-5 paddingTB-md">
+            <div class="container w85">
+                <div class="card-panel">
+                    <div class="row">
+                        <div class="col s12">
+                            <h4 style="margin-left: 1%;">Shopping Cart</h4>
+                            <img src="assets/images/cart.jpg" class="responsive-img" />
+                        </div>
+                        <div class="col s12 center">
+                            <a href="#changePlaceModal" class="btn btn-alt lime-text waves-effect waves-light top5px modal-trigger" href="">Find Restaurant<span class="m-left-sm"><i class="fa fa-shopping-bag"></i></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>   
+
+    <?php }
     ?>
 </section>
 

@@ -59,17 +59,15 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
                         ->where('uname = ?', $userName);
 
                 $result = $this->getAdapter()->fetchRow($select);
-                
-            if ($result) {
-                return $result;
-            }else{
-                return null;
-                
-            }
+
+                if ($result) {
+                    return $result;
+                } else {
+                    return null;
+                }
             } catch (Exception $e) {
                 throw new Exception('Unable To Insert Exception Occured :' . $e);
             }
-
         } else {
             throw new Exception('Argument Not Passed');
         }
@@ -92,16 +90,15 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
                         ->where('email = ?', $userEmail);
 
                 $result = $this->getAdapter()->fetchRow($select);
-                
-            if ($result) {
-                return $result;
-            } else{
-                return null;
-            }
+
+                if ($result) {
+                    return $result;
+                } else {
+                    return null;
+                }
             } catch (Exception $e) {
                 throw new Exception('Unable to access data :' . $e);
             }
-
         } else {
             throw new Exception('Argument Not Passed');
         }
@@ -137,13 +134,24 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
         if (func_num_args() > 0) {
             $email = func_get_arg(0);
             $password = func_get_arg(1);
+          
            
+//
+//            $result = $this->_db_table->select()
+//                    ->where('email=?', $email)
+//                    ->where('password=?', $password)->query()
+//                    ->fetchAll();
+//
+//            return $result;
+
             try {
                 $select = $this->select()
                         ->from($this)
-                        ->where("email = '" . $email . "'")
+                        ->where('email = ?', $email)
                         ->where('password = ?', $password);
+//                       
                 $result = $this->getAdapter()->fetchRow($select);
+                
                 if ($result) {
                     return $result;
                 } else {
@@ -177,7 +185,7 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
                 $result = $this->getAdapter()->fetchRow($select);
                 if ($result) {
                     return $result;
-                }else{
+                } else {
                     return null;
                 }
             } catch (Exception $e) {
@@ -203,21 +211,20 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
                         ->from($this)
                         ->where('fb_id = ?', $fbId);
                 $result = $this->getAdapter()->fetchRow($select);
-                 if ($result) {
-                return $result;
-            }else{
-                return null;
-            }
+                if ($result) {
+                    return $result;
+                } else {
+                    return null;
+                }
             } catch (Exception $exc) {
                 throw new Exception('Unable to update, exception occured' . $exc);
             }
-           
         } else {
             throw new Exception('Argument not passed');
         }
     }
 
-        public function checkTWTUserExist() {
+    public function checkTWTUserExist() {
         if (func_num_args() > 0) {
             $fbId = func_get_arg(0);
 
@@ -226,19 +233,17 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
                         ->from($this)
                         ->where('twt_id = ?', $fbId);
                 $result = $this->getAdapter()->fetchRow($select);
-                 if ($result) {
-                return $result;
-            }else{
-                return null;
-            }
+                if ($result) {
+                    return $result;
+                } else {
+                    return null;
+                }
             } catch (Exception $exc) {
                 throw new Exception('Unable to update, exception occured' . $exc);
             }
-           
         } else {
             throw new Exception('Argument not passed');
         }
     }
-  
 
 }

@@ -35,32 +35,37 @@ class Web_AuthenticationController extends Zend_Controller_Action {
             $username = $this->getRequest()->getPost('name');
             $email = $this->getRequest()->getPost('email');
             $password = $this->getRequest()->getPost('password');
+            $confirmpassword = $this->getRequest()->getPost('ConfirmPassword');
             $agreeterms = $this->getRequest()->getPost('agreeterms');
             if ($agreeterms == 'on') {
-                if (isset($username) && isset($email) && isset($password)) {
-
-                    $data = array('uname' => $username,
+                if (isset($username) && isset($email) && isset($password) && isset($confirmpassword)) {
+                    $data = array(
+                        'uname' => $username,
                         'password' => sha1(md5($password)),
+//                        'confirmPaswword' =>$confirmpassword,
                         'email' => $email,
                         'reg_date' => date('Y-m-d H-i-s'),
                         'status' => 1,
                         'role' => 1,
                     );
+                    
 
                     $agentdata['userdata'] = json_encode($data);
 
                     $url = $this->_appSetting->apiLink . '/web-authentication?method=usersignup';
-
+                
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $agentdata);
+//                    echo $curlResponse;die("hff");
 
                     if ($curlResponse->code === 200) {
+//                        echo"hello world";
                         //////////////////SEND EMAIL /////////////////////////////
 
                         $authStatus = $objSecurity->authenticate($email, sha1(md5($password)));
                     }
                     if ($authStatus) {
-                           $this->_redirect('/');
-                        
+                        $this->_redirect('/');
+
 
 //                        if ($authStatus->code === 200) {
 //                            if (isset($_COOKIE['user_cartitems_cookie'])) {

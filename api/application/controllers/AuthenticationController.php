@@ -191,9 +191,14 @@ class AuthenticationController extends Zend_Controller_Action {
 
                                 case 1 : // Normal login
                                     $email = $this->getRequest()->getPost('email');
+
                                     $password = $this->getRequest()->getPost('password');
+
                                     if (!empty($email)) {
-                                        $userData = $users->authenticateByEmail($email, md5(sha1($password)));
+
+                                        $userData = $users->authenticateByEmail($email, sha1(md5($password)));
+                                       
+
                                         if ($userData) {
                                             $response->message = 'Authentication successful';
                                             $response->code = 200;
@@ -460,12 +465,15 @@ class AuthenticationController extends Zend_Controller_Action {
             switch ($method) {
                 case'usersignup':
                     if ($this->getRequest()->isPost()) {
+
                         $data = $this->getRequest()->getPost('userdata');
                         $dearr = json_decode($data, true);
                         $arrayinobject = (array) $dearr;
+//                        $arrayinobject = $data;
                         $insertId = $users->insertUser($arrayinobject);
+
                         if ($insertId) {
-                            $response->message = 'Successfull';
+                            $response->message = 'Successfully Register.Please check your email for Confirm Email';
                             $response->code = 200;
                             $response->data = $insertId;
                         } else {

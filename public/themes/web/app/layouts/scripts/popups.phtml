@@ -23,9 +23,10 @@
                     </div>
                     <div class="row">
                         <div class="col s12 right-align">
-                            <a id="forgotBtn" href="javascript:;">Forgot Password?</a>
+                            <a class="btn waves-light waves-effect " data-toggle="modal" data-target="#myModal" id="forgotBtn"  >Forgot Password?</a>
                         </div>
                     </div>
+                    <span class="error" style="text-align:center "></span>
                     <div class="row">
                         <div class="col s12 center">
                             <button  name="userform" value="ziingologin" class="btn waves-light waves-effect ziingologin">Login</button>
@@ -39,7 +40,27 @@
                     </div>
 
                 </div>
-            </form>         
+            </form>     
+
+
+            <!--            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Forgot Password</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" name="user" class="form-control foremail" placeholder="Email">
+                                        <br>
+                                        <input type="button" name="login" class="btn btn-primary forgot-password" value="Send">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <div class="inline-block forwarning text-danger"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
 
             <div id="passwordResetContent" class="row no-m-bot hide">
                 <div class="col s12 center marginTB-sm">
@@ -59,8 +80,9 @@
                     </div>
                     <div class="row">
                         <div class="col s12 center">
-                            <button  name="userform" value="ziingoreset" class="btn waves-light waves-effect ziingologin">Reset Password</button>
+                            <button  name="userform" value="ziingoreset" class="btn waves-light waves-effect ziingoforgotpassword">Reset Password</button>
                         </div>
+                        <div class="inlike-block forwarning text-danger"></div>
                     </div>
                 </form>
             </div>
@@ -84,16 +106,17 @@
                             <div class="title city1">Choose your City</div>
                             <input type="hidden" value="" class="thiscity" name="city">
                             <ul id="cityslist" class="city2">
-                                            <?php
-                                                 $this->citysinfo = json_decode($_COOKIE['citys'],true);
-                                                    if ($this->citysinfo) {
-                                                        foreach ($this->citysinfo as $value) {
-                                                            ?>
-                                                            <li><span value="<?php echo $value['location_id']; ?>"><?php echo $value['name']; ?></span></li>
-                                                                       
-                                                        <?php
-                                                        } }
-                                                    ?>
+                                <?php
+                                $this->citysinfo = json_decode($_COOKIE['citys'], true);
+                                if ($this->citysinfo) {
+                                    foreach ($this->citysinfo as $value) {
+                                        ?>
+                                        <li><span value="<?php echo $value['location_id']; ?>"><?php echo $value['name']; ?></span></li>
+
+                                        <?php
+                                    }
+                                }
+                                ?>
                             </ul>
                         </div>
 
@@ -105,7 +128,7 @@
                             <div class="title location1">Choose your nearest Location</div>
                             <input type="hidden" value="" class="thislocation" name="location">
                             <ul id="locationList" class="city2">
-                            
+
                             </ul>
                         </div>
 
