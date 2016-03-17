@@ -16,7 +16,8 @@ class OrdersController extends Zend_Controller_Action {
      */
 
     public function userDeliverySettingsAction() {
-        $userdeliveryaddrmodal = Application_Model_UserDeliveryAddr::getInstance();
+//        $userdeliveryaddrmodal = Application_Model_UserDeliveryAddr::getInstance();
+        $userdeliveryaddrmodal = Application_Model_UserDeliveryAddress::getInstance();
         $response = new stdClass();
         $method = $this->getRequest()->getParam('method');
         if ($method) {
@@ -26,17 +27,21 @@ class OrdersController extends Zend_Controller_Action {
 
                     if ($this->getRequest()->isPost()) {
 
-                        $data['user_id'] = $this->getRequest()->getPost('userid');
-                        $data['city'] = $this->getRequest()->getPost('city');
+                        $data['first_name'] = $this->getRequest()->getPost('firstname');
+                        $data['last_name'] = $this->getRequest()->getPost('lastname');
+                        $data['contact_country_code'] = $this->getRequest()->getPost('contact_country_code');
+                        $data['contact_number'] = $this->getRequest()->getPost('contact_number');
+                        $data['address_line1'] = $this->getRequest()->getPost('address');
+                        $data['address_line2'] = $this->getRequest()->getPost('optional_address');
+                        $data['district'] = $this->getRequest()->getPost('district');
                         $data['state'] = $this->getRequest()->getPost('state');
                         $data['country'] = $this->getRequest()->getPost('country');
-                        $data['landmark'] = $this->getRequest()->getPost('landmark');
-                        $data['delivery_addr'] = $this->getRequest()->getPost('address');
-                        $data['order_id'] = $this->getRequest()->getPost('order_id');
-                        $data['delivery_time'] = $this->getRequest()->getPost('deliverytime');
+                        $data['pin'] = $this->getRequest()->getPost('pin');
+                        $data['user_id'] = $this->getRequest()->getPost('userid');
                         if ([$data['user_id']]) {
 
                             $userdelid = $userdeliveryaddrmodal->insertUserDeliveryAddress($data);
+
                             if ($userdelid) {
                                 $response->message = 'Successfull';
                                 $response->code = 200;
@@ -66,44 +71,87 @@ class OrdersController extends Zend_Controller_Action {
                     if ($this->getRequest()->isPost()) {
 
 
-                        $landmark = $this->getRequest()->getPost('landmark');
-                        if (!empty($landmark)) {
-                            $data['landmark'] = $landmark;
+                        $firstname = $this->getRequest()->getPost('firstname');
+                        if (!empty($firstname)) {
+                            $data['first_name'] = $firstname;
                         }
-
-                        $orderid = $this->getRequest()->getPost('order_id');
-                        if (!empty($orderid)) {
-                            $data['order_id'] = $orderid;
+                        $lastname = $this->getRequest()->getPost('lastname');
+                        if (!empty($lastname)) {
+                            $data['last_name'] = $lastname;
                         }
-
-                        $deliverytime = $this->getRequest()->getPost('deliverytime');
-                        if (!empty($deliverytime)) {
-                            $data['delivery_time'] = $deliverytime;
+                        $contact_country_code = $this->getRequest()->getPost('contact_country_code');
+                        if (!empty($contact_country_code)) {
+                            $data['contact_country_code'] = $contact_country_code;
                         }
-
-                        $city = $this->getRequest()->getPost('city');
-                        if (!empty($city)) {
-                            $data['city'] = $city;
+                        $contact_number = $this->getRequest()->getPost('contact_number');
+                        if (!empty($contact_number)) {
+                            $data['contact_number'] = $contact_number;
                         }
-
-                        $state = $this->getRequest()->getPost('state');
-                        if (!empty($state)) {
-                            $data['state'] = $state;
+                        $address = $this->getRequest()->getPost('address');
+                        if (!empty($address)) {
+                            $data['address_line1'] = $address;
                         }
-
+                        $optional_address = $this->getRequest()->getPost('optional_address');
+                        if (!empty($optional_address)) {
+                            $data['address_line2'] = $optional_address;
+                        }
                         $country = $this->getRequest()->getPost('country');
                         if (!empty($country)) {
                             $data['country'] = $country;
                         }
-
-                        $address = $this->getRequest()->getPost('address');
-                        if (!empty($address)) {
-                            $data['delivery_addr'] = $address;
+                        $district = $this->getRequest()->getPost('district');
+                        if (!empty($district)) {
+                            $data['district'] = $district;
                         }
-                        $addressid = $this->getRequest()->getPost('addressid');
+                        $state = $this->getRequest()->getPost('state');
+                        if (!empty($state)) {
+                            $data['state'] = $state;
+                        }
+                        $pin = $this->getRequest()->getPost('pin');
+                        if (!empty($pin)) {
+                            $data['pin'] = $pin;
+                        }
                         $userid = $this->getRequest()->getPost('userid');
+
+                        if ($userid) {
+
+                            $update = $userdeliveryaddrmodal->updateUserDeliveryAddress($userid, $data);
+
+                            if ($update) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $update;
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'Could Not Serve The Request';
+                            $response->code = 401;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                        $response->data = Null;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+
+                case 'fetchdeliveryaddress':
+
+                    if ($this->getRequest()->isPost()) {
+
+                        $addressid = $this->getRequest()->getPost('addressid');
+
+                        $userid = $this->getRequest()->getPost('userid');
+
                         if ($userid && $addressid) {
-                            $update = $userdeliveryaddrmodal->updateUserDeliveryAddress($userid, $addressid, $data);
+
+                            $update = $userdeliveryaddrmodal->fetchUserDeliveryAddress($userid, $addressid);
+
                             if ($update) {
                                 $response->message = 'successfull';
                                 $response->code = 200;
@@ -803,8 +851,8 @@ class OrdersController extends Zend_Controller_Action {
                         $quantity = (array) json_decode($this->getrequest()->getPost('quantity'), true);
 
                         if ($user_id && $hotel_id && !empty($product_id) && !empty($quantity)) {
-                            
-                               if (sizeof($product_id) == sizeof($quantity)) {
+
+                            if (sizeof($product_id) == sizeof($quantity)) {
 
                                 $availableOrNot = $objProducts->seperateTheProductsByQuantityAvailablity($product_id, $quantity);
 
@@ -896,15 +944,15 @@ class OrdersController extends Zend_Controller_Action {
                     }
                     break;
                 /*
-                * Modyfied By : Nitin Kumar Gupta
-                * Modyfied Date : 20 FEB 2016
-                */
+                 * Modyfied By : Nitin Kumar Gupta
+                 * Modyfied Date : 20 FEB 2016
+                 */
                 case 'getOrderToCart':
 
                     if ($this->getRequest()->isPost()) {
                         $user_id = $this->getRequest()->getPost('user_id');
                         $hotel_id = $this->getRequest()->getPost('hotel_id');
-                        
+
                         if ($user_id && $hotel_id) {
                             $getaddtocartdetails = $Addtocart->getaddtocart($user_id, $hotel_id);
 

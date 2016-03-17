@@ -41,8 +41,7 @@ class Engine_Utilities_CurlRequestHandler {
         }
     }
 
-    public function curlUsingPost($url,$data) {
-
+    public function curlUsingPost($url, $data) {
 
         $response = new stdClass();
 
@@ -53,7 +52,7 @@ class Engine_Utilities_CurlRequestHandler {
         }
         //url-ify the data for the POST
         $fields_string = '';
-        
+
         foreach ($data as $key => $value) {
 
             $fields_string .= $key . '=' . $value . '&';
@@ -75,11 +74,12 @@ class Engine_Utilities_CurlRequestHandler {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         //execute post
         $result = curl_exec($ch);
-       
+  
         $result = json_decode($result, true);
 
+
         //close connection
-//        echo '<pre>'; print_r($result); die;
+
         curl_close($ch);
         if ($result) {
             @$response->message = $result['message'];
@@ -113,7 +113,11 @@ class Engine_Utilities_CurlRequestHandler {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         //execute post
         $result = curl_exec($ch);
+//        echo"<pre>";
+//        print_r($result);
+//        die("dhgd");
         $result = json_decode($result, true);
+
         //close connection
         curl_close($ch);
         if ($result) {

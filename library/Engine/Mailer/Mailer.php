@@ -20,7 +20,6 @@ class Engine_Mailer_Mailer {
 //Prevent any copy of this object
     ///Condition 4 - Have a single globally accessible static method
     public static function getInstance() {
-        //die("hello");
         if (!is_object(self::$_instance)){          //or if( is_null(self::$_instance) ) or if( self::$_instance == null )
             $objCore = Engine_Core_Core::getInstance();
             $appSetting = $objCore->getAppSetting();

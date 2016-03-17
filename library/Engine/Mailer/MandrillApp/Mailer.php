@@ -57,6 +57,9 @@ class Engine_Mailer_MandrillApp_Mailer {
                     ),
                 );
 
+
+
+
                 $async = false;
                 $ip_pool = 'Main Pool';
                 $result = $this->objMandrill->messages->send($message, $async, $ip_pool);
@@ -72,8 +75,17 @@ class Engine_Mailer_MandrillApp_Mailer {
         }
     }
 
+    /*
+     * Name: Abhinish Kumar Singh
+     * Date: 22/07/2014
+     * Description: This function accepts five mail related parameters and uses 
+     *              them to send mail to provided email address using specified 
+     *              template.
+     */
+
     public function sendtemplate() {
 
+        // die('test');
         if (func_num_args() >= 5) {
 
             $template_name = func_get_arg(0);
@@ -87,15 +99,15 @@ class Engine_Mailer_MandrillApp_Mailer {
                     'html' => null,
                     'text' => null,
                     'subject' => $subject,
-                    'from_email' => 'support@fansport.com',
-                    'from_name' => 'Fansport Support',
+                    'from_email' => 'support@jewelspark.com',
+                    'from_name' => 'Jewelspark Support',
                     'to' => array(
                         array(
                             'email' => $email,
                             'name' => $username
                         )
                     ),
-                    'headers' => array('Reply-To' => 'support@fansport.com'),
+                    'headers' => array('Reply-To' => 'support@jewelspark.com'),
                     'important' => false,
                     'track_opens' => null,
                     'track_clicks' => null,

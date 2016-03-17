@@ -1,10 +1,10 @@
 <?php
-  /*
-   * Dev : Priyanka Varanasi
-   * Date: 3/12/2015
-   * Desc: User delivery address Modal Design
-   */
 
+/*
+ * Dev : Priyanka Varanasi
+ * Date: 3/12/2015
+ * Desc: User delivery address Modal Design
+ */
 
 class Application_Model_UserDeliveryAddr extends Zend_Db_Table_Abstract {
 
@@ -16,58 +16,81 @@ class Application_Model_UserDeliveryAddr extends Zend_Db_Table_Abstract {
             self::$_instance = new Application_Model_UserDeliveryAddr();
         return self::$_instance;
     }
-   /*
+
+    /*
      * Dev :- Priyanka Varanasi
      * date :- 3/12/2015
      * Desc :- To insert user delivery address in db while orders
-   */
-      public function insertUserDeliveryAddress() {
-        
-        if(func_num_args() > 0){
+     */
+
+    public function insertUserDeliveryAddress() {
+
+        if (func_num_args() > 0) {
             $data = func_get_arg(0);
-            
-            try{
+
+            try {
                 $responseId = $this->insert($data);
-                
-            if($responseId){
-                return $responseId;
-            }else{
-                    
-                 return null;   
+
+                if ($responseId) {
+                    return $responseId;
+                } else {
+
+                    return null;
                 }
-            }catch(Exception $e){  
-               
-                 return $e->getMessage(); 
+            } catch (Exception $e) {
+
+                return $e->getMessage();
             }
-           
-        }else{
+        } else {
             throw new Exception('Argument Not Passed');
         }
-        
-        
-   }
-   
-         public function updateUserDeliveryAddress() {
-        
-         if(func_num_args()>0){
+    }
+
+    public function updateUserDeliveryAddress() {
+
+        if (func_num_args() > 0) {
             $userid = func_get_arg(0);
             $addressid = func_get_arg(1);
             $data = func_get_arg(2);
             $where = array();
-            $where[] = $this->getAdapter()->quoteInto('user_id = ?', $userid);
-            $where[] = $this->getAdapter()->quoteInto('user_del_addr_id = ?', $addressid);          
-            $update  =  $this->update($data,$where);
-            if($update){
+            $where[] = $this->getAdapter()->quoteInto('ordered_user_id = ?', $userid);
+            $where[] = $this->getAdapter()->quoteInto('user_del_addr_id = ?', $addressid);
+            $update = $this->update($data, $where);
+            if ($update) {
                 return $update;
-            }else{
-                
+            } else {
+
                 return null;
             }
-        }else{
+        } else {
             throw new Exception("Argument not passed");
         }
     }
-        
-   
+
+    public function fetchUserDeliveryAddress() {
+
+        if (func_num_args() > 0) {
+            $userid = func_get_arg(0);
+            $addressid = func_get_arg(1);
+            try {
+
+                $select = $this->select()
+                        ->from($this, ['first_name', 'last_name', 'Contact_address', 'Contact_email', 'Contact_no', 'delivery_addr', 'order_id', 'delivery_time','city'])
+                        ->where('ordered_user_id = ?', $userid)
+                        ->where('user_del_addr_id= ?', $addressid);
+
+                $result = $this->getAdapter()->fetchRow($select);
+
+                return $result;
+            } catch (Exception $e) {
+                throw new Exception('Unable To Insert Exception Occured :' . $e);
+            }
+        }
+    }
 
 }
+?>
+    
+
+
+

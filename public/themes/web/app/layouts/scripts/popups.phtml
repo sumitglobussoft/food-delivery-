@@ -11,8 +11,23 @@
         <div id="loginContent" class="row no-m-bot">
             <form class="col s12 loginForm" method="post">
                 <div class="row">
+                    <div class="col s12">
+                        <ul class="signup-social-list">
+                            <li>
+                                <button class="btn waves-effect waves-light fbc-login-button">
+                                    <span><i class="fa fa-facebook"></i></span>FACEBOOK
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn waves-effect waves-light btn-twitter">
+                                    <span><i class="fa fa-twitter"></i></span>
+                                    TWITTER
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="input-field col s12">
-                        <input id="loginname" name="loginname" class="validate" type="text">
+                        <input id="loginname" name="loginname" class="validate" type="email">
                         <label for="loginname">Email</label>
                     </div>
                     <div class="row">
@@ -22,70 +37,75 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col s12 right-align">
-                            <a class="btn waves-light waves-effect " data-toggle="modal" data-target="#myModal" id="forgotBtn"  >Forgot Password?</a>
+                        <!--                        <div class="col s6 left-align">
+                                                    <a class="btn waves-light waves-effect " data-toggle="modal" data-target="#myModal" id="forgotBtn"  >Forgot Password</a>
+                                                </div>-->
+                        <div class="pull-right">
+                            <a onClick="forgotpd()" class="btn waves-light waves-effect ziingoForgotpassword" href="javascript:void(0);" >Forgot password?
+                            </a>
+                            <!--class="forgot_pass "-->
                         </div>
-                    </div>
-                    <span class="error" style="text-align:center "></span>
-                    <div class="row">
-                        <div class="col s12 center">
+                        <div class="col s6 right-align">
                             <button  name="userform" value="ziingologin" class="btn waves-light waves-effect ziingologin">Login</button>
                         </div>
                     </div>
-                    <span class="error" style="text-align: center"></span>
+                    <span class="error" style="text-align:center "></span>
+                    <span class="error" style="text-align:center"></span>
                     <div class="row no-m-bot">
                         <div class="col s12">
-                            <p class="center">New User ? <a href="/signup">Signup</a></p>
+                            <p class="center">New User?<a href="/signup">Signup</a></p>
                         </div>
                     </div>
-
                 </div>
             </form>     
+        </div>
 
 
-            <!--            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                                aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">Forgot Password</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <input type="text" name="user" class="form-control foremail" placeholder="Email">
-                                        <br>
-                                        <input type="button" name="login" class="btn btn-primary forgot-password" value="Send">
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <div class="inline-block forwarning text-danger"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-
-            <div id="passwordResetContent" class="row no-m-bot hide">
-                <div class="col s12 center marginTB-sm">
-                    <h4 class="font-DancingScript bold ">Forgot Password</h4>
-                </div>
-                <form class="col s12 passwordResetForm">
-                    <div class="row">
-                        <div class="col s12">
-                            <p>Enter Your Email Address, We'll Send you Password Reset Link to Your Email Address</p>
-                        </div>
+        <div class="my_account_block forgotpd clearfix hide">
+            <div class="login">
+                <h2>Forgot Password</h2>
+                <form class="forgotpd_form" action="javascript:;" method="post" id="forgotpasswordform">
+                    <p>
+                        Enter your e-mail address below to reset your password.
+                    </p>
+                    <input type="email" name="loginname" placeholder="Email" id="loginname" />
+                    <span class="suc-err"></span>
+                    <div class="resetcode hide" id="resetCode">
+                        <p>
+                            Check Mail and Enter your reset code below to Reset password
+                        </p>
+                        <input type="text" name="resetcode" placeholder="Reset Code" id="resetcode"/>
+                        <span class="code-suc-err"></span><br>
                     </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="emailForgot" type="email" class="validate">
-                            <label for="emailForgot">Email</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12 center">
-                            <button  name="userform" value="ziingoreset" class="btn waves-light waves-effect ziingoforgotpassword">Reset Password</button>
-                        </div>
-                        <div class="inlike-block forwarning text-danger"></div>
+                    <div class="center">
+                        <input type="button" onClick="login()" value="Back">
+                        <input type="submit"  value="Send">
                     </div>
                 </form>
-            </div>
+            </div>                    
+        </div>
+
+
+        <div class="my_account_block enternewpw clearfix hide">
+            <div class="login">
+                <h2>Enter New Password</h2>
+                <form class="EnterNewPw_form" action="javascript:void(0);" method="post" id="EnterNewPWform">
+                    <p>
+                        Enter new Password to reset your password.
+                    </p>
+                    <label for="pwd">New Password</label>
+                    <input type="password" name="pwd" class="form-control" id="pwd" autocomplete="off" placeholder="Password">
+                    <br><label for="repwd">Re-enter password</label>
+                    <input type="password" name="repwd" class="form-control" id="repwd" autocomplete="off" placeholder="Re-enter Password">
+
+                    <span class="pw-suc-err"></span><br>
+
+                    <div class="center">
+                        <input type="button" onClick="login()" value="Back">
+                        <input type="submit"  value="Send">
+                    </div>
+                </form>
+            </div>                    
         </div>
     </div>
 </div>
@@ -119,7 +139,6 @@
                                 ?>
                             </ul>
                         </div>
-
                     </div>
                 </div>
                 <div class="row">
@@ -128,10 +147,8 @@
                             <div class="title location1">Choose your nearest Location</div>
                             <input type="hidden" value="" class="thislocation" name="location">
                             <ul id="locationList" class="city2">
-
                             </ul>
                         </div>
-
                     </div>
                 </div>
                 <div class="row m-top-md">
@@ -139,7 +156,6 @@
                         <a href='' id = "addlocid" class="btn btn-alt waves-effect teal-text  waves-teal top5px" >Find Restaurants</a>
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
@@ -166,8 +182,187 @@
     .city1, .location1 {
         color: rgba(0,0,0,0.7);
     }
-    body .lean-overlay:last-child {
-        display: none !important;
-    }
-</style>
+    /*    body .lean-overlay:last-child {
+            display: none !important;*/
 
+</style>
+<script type="text/javascript">
+    function forgotpd() {
+        $('.forgotpd').removeClass('hide');
+        $('.logind').addClass('hide');
+        $('.enternewpw').addClass('hide'); //emailID resetcode password1 password2
+        $('.loginForm').addClass('hide');
+        $('#loginname').prop('disabled', false);
+        $('#resetCode').addClass('hide');
+    }
+    function login() {
+        $('.logind').removeClass('hide');
+        $('.forgotpd').addClass('hide');
+        $('.enternewpw').addClass('hide');
+        $('.loginForm').addClass('hide');
+        $('#loginname').val('');
+        $('#resetcode').val('');
+        $('#pwd').val('');
+        $('#repwd').val('');
+        $('#loginname').prop('disabled', false);
+    }
+    function enternewpw() {
+        $('.enternewpw').removeClass('hide');
+        $('.forgotpd').addClass('hide');
+        $('.logind').addClass('hide');
+        $('.loginForm').addClass('hide');
+        $('#pwd').val('');
+        $('#repwd').val('');
+        $('#loginname').prop('disabled', false);
+    }
+   
+    $('#EnterNewPWform').validate({
+        rules: {
+            pwd: {
+                required: true,
+//                    passwordregex: true
+            },
+            repwd: {
+                required: true,
+                equalTo: "#pwd"
+            }
+        },
+        messages: {
+            pwd: {
+                required: "Please Enter Password"
+            },
+            repwd: {
+                required: "Please Re-enter Password"
+            }
+        }
+    });
+//        $("#forgotpasswordform").submit(function(e) {
+//        submitHandler: function(form) {
+//        $(document.body).on('click', '#forgotpasswordform', function() {
+
+    $('#forgotpasswordform').validate({
+        rules: {
+            loginname: {
+                required: true,
+            },
+            resetcode: {
+                required: true,
+            }
+        },
+        messages: {
+            loginname: {
+                required: "Email cannot be empty"
+            },
+            resetcode: {
+                required: "Reset Code cannot be empty"
+            }
+        }
+    });
+
+    $('#forgotpasswordform').click(function(e) {
+        e.preventDefault();
+        var fpdemail = $('#loginname').val();
+        console.log(fpdemail);
+        var resetcode = $('#resetcode').val();
+        console.log(resetcode);
+        if ($("#forgotpasswordform").valid()) {
+            if (resetcode == '' && fpdemail != '') {
+                $.ajax({
+                    url: '/authentication-ajax-handler',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        method: 'forgotpw',
+                        loginname: fpdemail
+                    },
+                    success: function(response) {
+
+//                            if (response['code'] == 200) {
+                        if (response.code == 200) {
+                            $('.suc-err').show();
+                            $('.suc-err').html(response['message']);
+                            $('.suc-err').css('color', 'green');
+                            $('.suc-err').delay(4000).hide('slow');
+                            $('#resetCode').removeClass('hide');
+                            $('#loginname').prop('disabled', true);
+                        } else {
+                            $('.suc-err').show();
+                            $('.suc-err').html(response);
+                            $('.suc-err').css('color', 'red');
+                            $('.suc-err').delay(4000).hide('slow');
+                        }
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: '/authentication-ajax-handler',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        method: 'verifyResetCode',
+                        loginname: fpdemail,
+                        resetcode: resetcode
+                    },
+                    success: function(response) {
+//                            if (response['code'] == 200) {
+                        if (response.code == 200) {
+                            $('.code-suc-err').show();
+                            $('.code-suc-err').html(response['message']);
+                            $('.code-suc-err').css('color', 'green');
+                            $('.code-suc-err').delay(4000).hide('slow');
+                            enternewpw();
+                        } else {
+                            $('.code-suc-err').show();
+                            $('.code-suc-err').html(response);
+                            $('.code-suc-err').css('color', 'red');
+                            $('.code-suc-err').delay(4000).hide('slow');
+                        }
+                    }
+                });
+            }
+        }
+    });
+//        $("#EnterNewPWform").submit(function(e) {
+//        $(document.body).on('click', '#EnterNewPWform', function() {
+    $('#EnterNewPWform').click(function(e) {
+        e.preventDefault();
+        var fpdemail = $('#loginname').val();
+        var resetcode = $('#resetcode').val();
+        var password1 = $('#pwd').val();
+        var password2 = $('#repwd').val();
+        if ($("#EnterNewPWform").valid()) {
+            if (resetcode != '' && fpdemail != '' && password1 != '' && password2 != '') {
+                $.ajax({
+                    url: '/authentication-ajax-handler',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        method: 'resetPassword',
+                        loginname: fpdemail,
+                        pwd: password1,
+                        repwd: password2,
+                        resetcode: resetcode
+                    },
+                    success: function(response) {
+//                            if (response['code'] == 200) {
+                        if (response.code == 200) {
+                            $('.pw-suc-err').show();
+                            $('.pw-suc-err').html(response['message']);
+                            $('.pw-suc-err').css('color', 'green');
+                            $('.pw-suc-err').delay(4000).hide('slow');
+                            $('#pwd').val('');
+                            $('#repwd').val('');
+                        } else {
+                            $('.pw-suc-err').show();
+                            $('.pw-suc-err').html(response);
+                            $('.pw-suc-err').css('color', 'red');
+                            $('.pw-suc-err').delay(4000).hide('slow');
+                            $('#pwd').val('');
+                            $('#repwd').val('');
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>

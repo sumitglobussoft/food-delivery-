@@ -45,13 +45,17 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->add(new Zend_Acl_Resource('web::authentication::ziingo-login'), 'web::authentication')
                 ->add(new Zend_Acl_Resource('web::authentication::welcome'), 'web::authentication')
                 ->add(new Zend_Acl_Resource('web::authentication::logout'), 'web::authentication')
-                ->add(new Zend_Acl_Resource('web::authentication::ajax-handler-auth'), 'web::authentication');
+                ->add(new Zend_Acl_Resource('web::authentication::ajax-handler-auth'), 'web::authentication')
+                ->add(new Zend_Acl_Resource('web::authentication::authentication-ajax-handler'), 'web::authentication')
+                ->add(new Zend_Acl_Resource('web::authentication::activate-account'), 'web::authentication');
 
         $this->allow('guest', 'web::authentication::signup')
                 ->allow('user', 'web::authentication::welcome')
                 ->allow('guest', 'web::authentication::logout')
                 ->allow('guest', 'web::authentication::ziingo-login')
-                ->allow('guest', 'web::authentication::ajax-handler-auth');
+                ->allow('guest', 'web::authentication::ajax-handler-auth')
+                ->allow('guest', 'web::authentication::authentication-ajax-handler')
+                ->allow('guest', 'web::authentication::activate-account');
 
         $this->add(new Zend_Acl_Resource('web::order'), 'web')
                 ->add(new Zend_Acl_Resource('web::order::order-confirmation'), 'web::home')

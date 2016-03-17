@@ -27,16 +27,27 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
 
         if (func_num_args() > 0) {
             $data = func_get_arg(0);
+
             try {
                 $responseId = $this->insert($data);
-                if ($responseId) {
-                    return $responseId;
-                } else {
-                    return null;
-                }
+                return $responseId;
             } catch (Exception $e) {
                 return $e->getMessage();
             }
+        } else {
+            throw new Exception('Argument Not Passed');
+        }
+    }
+
+    public function insertNewUsercreds() {
+        if (func_num_args() > 0) {
+            $data = func_get_arg(0);
+            try {
+                $result = $this->insert($data);
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+            return $result;
         } else {
             throw new Exception('Argument Not Passed');
         }
@@ -134,8 +145,8 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
         if (func_num_args() > 0) {
             $email = func_get_arg(0);
             $password = func_get_arg(1);
-          
-           
+
+
 //
 //            $result = $this->_db_table->select()
 //                    ->where('email=?', $email)
@@ -149,9 +160,9 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
                         ->from($this)
                         ->where('email = ?', $email)
                         ->where('password = ?', $password);
-//                       
+//              echo  $select;die("dhjg");        
                 $result = $this->getAdapter()->fetchRow($select);
-                
+//echo $result;die("djhg");
                 if ($result) {
                     return $result;
                 } else {
@@ -246,4 +257,177 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
         }
     }
 
+    /*
+     * Dev :- Sibani Mishra
+     * date :- 7/3/2016
+     * Desc :- fetch email
+     */
+
+    public function getUserExits() {
+        if (func_num_args() > 0) {
+            $email = func_get_arg(0);
+
+            try {
+
+                $select = $this->select()
+                        ->from($this)
+                        ->where('email = ?', $email);
+                $result = $this->getAdapter()->fetchRow($select);
+
+
+                if ($result) {
+                    return $result;
+                } else {
+                    return null;
+                }
+            } catch (Exception $ex) {
+                throw new Exception('Unable To Insert Exception Occured :' . $ex);
+            }
+        } else {
+            throw new Exception('Argument not passed');
+        }
+    }
+
+    /*
+     * Dev :- Sibani Mishra
+     * date :- 11/3/2016
+     * Desc :- Forgot Password
+     */
+
+    public function checkMail() {
+        if (func_num_args() > 0) {
+            $fpdemail = func_get_arg(0);
+            $resetcode = func_get_arg(1);
+            $time = time();
+            $data = array(
+                'reset_code' => $resetcode
+            );
+            $select = $this->select()
+                    ->from($this)
+                    ->where('email = ?', $fpdemail);
+//            echo $select;die;
+            $row = $this->getAdapter()->fetchRow($select);
+
+            if ($row) {
+                //if ($resetcode != "") {
+                try {
+                    $updated = $this->update($data, "email = '" . $fpdemail . "'");
+                } catch (Exception $exc) {
+                    throw new Exception('Unable to update, exception occured' . $exc);
+                }
+                if ($updated)
+                    return $updated;
+            } else {
+                return false;
+            }
+        } else {
+            throw new Exception('Argument not passed');
+        }
+    }
+
+    public function verifyResetCode() {
+        if (func_num_args() > 0) {
+            $fpwemail = func_get_arg(0);
+            $resetcode = func_get_arg(1);
+            $select = $this->select()
+                    ->from($this)
+                    ->where('reset_code = ?', $resetcode)
+                    ->where('email = ?', $fpwemail);
+
+            $row = $this->getAdapter()->fetchRow($select);
+            if ($row) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            throw new Exception('Argument not passed');
+        }
+    }
+
+    public function resetPassword() {
+        if (func_num_args() > 0) {
+            $fpwemail = func_get_arg(0);
+            $fpwresetcode = func_get_arg(1);
+            $password = func_get_arg(2);
+
+            $select = $this->select()
+                    ->from($this)
+                    ->where('reset_code = ?', $fpwresetcode)
+                    ->where('email = ?', $fpwemailresetcode)
+                    ->where();
+            $row = $this->getAdapter()->fetchRow($select);
+            if ($row) {
+                try {
+                    $data = array('password' => sha1(md5($password)), 'reset_code' => '');
+                    $updated = $this->update($data, "email = '" . $fpwemail . "'");
+                } catch (Exception $exc) {
+                    throw new Exception('Unable to update, exception occured' . $exc);
+                }
+                if ($updated) {
+                    return $updated;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            throw new Exception('Argument not passed');
+        }
+    }
+
+    /*
+     * Dev :- Sibani Mishra
+     * date :- 14/3/2016
+     * Desc :- update Activation Link 
+     */
+
+    function updateActivationToken() {
+        if (func_num_args() > 0) {
+            $data = func_get_arg(0);
+
+            $where = func_get_arg(1);
+            try {
+                $result = $this->update($data, "$where");
+            } catch (Exception $e) {
+                throw new Exception('Unable To Select Exception Occured :' . $e);
+            }
+            if ($result) {
+                return $result;
+            } else {
+                return 0;
+            }
+        } else {
+            throw new Exception('Argument Not Passed');
+        }
+    }
+
+    public function getUsercredsWhere() {
+        if (func_num_args() > 0) {
+            $activationlink = func_get_arg(0);
+
+            try {
+
+                $select = $this->select()
+                        ->from($this)
+                        ->where('ActivationToken = ?', $activationlink);
+             
+                $result = $this->getAdapter()->fetchRow($select);
+
+                if ($result) {
+                    return $result;
+                } else {
+                    return null;
+                }
+            } catch (Exception $ex) {
+                throw new Exception('Unable To Insert Exception Occured :' . $ex);
+            }
+        } else {
+            throw new Exception('Argument not passed');
+        }
+    }
+
 }
+
+?>

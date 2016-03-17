@@ -257,7 +257,7 @@ class Web_HomeController extends Zend_Controller_Action {
             if ($curlResponse->code == 200) {
                 $this->view->hoteldata = $curlResponse->data;
             }
-            /*             * **** Display of restaurant menu details and products***** */
+            /****** Display of restaurant menu details and products***** */
             $url = $this->_appSetting->apiLink . '/restaurant-info-card?method=getmenulist';
             $Response = $objCurlHandler->curlUsingPost($url, $loc);
 
@@ -284,16 +284,7 @@ class Web_HomeController extends Zend_Controller_Action {
                     $this->view->total = $data['subtotal'];
                 }
             }
-//            $method = $this->getRequest()->getParam('methodType');
-//            switch ($method) {
-//                //////////////add to db products display of logged user/////////////
-//                case 'Addproductstodb':
-//                    if(isset())
-//                    
-//            }
-
-
-//            
+      
         }
     }
 

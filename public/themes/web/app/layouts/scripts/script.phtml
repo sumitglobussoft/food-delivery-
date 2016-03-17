@@ -68,7 +68,7 @@
                         type: "post",
                         dataType: "json",
                         data: {
-                            username: function() {
+                            name: function() {
                                 return $("#name").val();
                             },
                             ajaxMethod: 'validateUsername'
@@ -93,12 +93,11 @@
 
                     },
                     email: true
-
                 },
                 password: {
                     required: true,
                     minlength: 5,
-                    maxlength: 10
+                    maxlength: 15
                 },
                 ConfirmPassword: {
                     required: true,
@@ -114,9 +113,7 @@
                     regex: "Invalid Format",
                     remote: "Username already exits"
                 },
-                email: {
-                    required: "Email is required Field",
-                    email: "Invalid Email Format",
+                email: {required: "Email is required Field", email: "Invalid Email Format",
                     remote: "Email already exists"
                 },
                 password: {
@@ -127,49 +124,64 @@
                 confirmpassword: {
                     required: "Password is required Field",
                     equalTo: "Password didnot match"
-//                    
+                            //                    
                 },
                 agreeterms: {
                     required: "You Must Agree to term and condition"
                 },
-            }
+            }});
 
+        $('.signupForm').click(function() {
+            $('.error').html('');
+            $('.success').hide;
         });
-        $('.ziingoforgotpassword').validate({
-            rules: {
-                EmailId: {
-                    required: true,
-                }
-            },
-            messages: {
-                Emailid: {
-                    required: 'Please enter your Email'
-                }
-            },
-            submitHandler: function(form) {
-                var methodtype = $('.ziingoforgorpassword').val();
-                var EmailId = $('#emailForgot').val();
-                $.ajax({
-                    url: '/ziingo-forgotpassword',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        methodtype: methodtype,
-                        Email: EmailId
-                    },
-                    success: function(response) {
-                        var obj = json.parse(response);
-                        console.log(response);
-                        if (response.code == 200) {
-                            window.location.reload(true);
-                        } else {
-                            $('.error').css('display', 'block');
-                            $('.error').text('please enter valid Email ID');
-                        }
-                    }
-                });
-            }
-        });
+
+        /*
+         DEV :Sibani Mishra
+         DESC: Forgot Password 
+         Design Date : 5/3/2016
+         */
+
+
+        //        $('.passwordResetForm').validate({
+//            rules: {
+        //                emailForgot: {
+//                    required: true,
+//                }
+//            },
+//            messages: {
+//                emailForgot: {
+//                    required: 'Please enter your Email'
+//                }
+//            },
+//            submitHandler: function(form) {
+//
+//                var emailForgot = $('#emailForgot').val();
+//                $.ajax({
+//                    url: '/ajax-handler-auth',
+//                    type: 'POST',
+//                    dataType: 'json',
+//                    data: {
+//                        ajaxMethod: 'forgotpassword',
+//                        Email: emailForgot
+//                    },
+//                    success: function(response) {
+//
+//                        if (response == true) {
+//                            alert("Password reset Link Sent to your Mail.")
+//                            window.location.reload(true);
+//                        } else {
+//                            $('.error').css('display', 'block');
+//                            $('.error').text('Please enter valid login credentials');
+//                        }
+//
+//                    }
+//                });
+//            }
+//        });
+
+
+
         $('#cityslist li').click(function(e) {
             e.preventDefault();
             var locationid = $(this).children().attr('value');
@@ -342,7 +354,7 @@
             var currenttarget = $(this);
             var cookies = document.cookie.split(';');
             var productid = $(this).attr('data-prod');
-//            console.log(productid);
+            //            console.log(productid);
             var totalprice = $(this).closest('.tdel').siblings('.tcost').children().children().html();
             var userbagdata = '';
             var allcookies = '';
@@ -397,7 +409,7 @@
             }
 
         });
-        // change quantity from cart cookies in RESTAURANT DETAILS PAGE and ORDER CONFIRMATION PAGE///////////
+// change quantity from cart cookies in RESTAURANT DETAILS PAGE and ORDER CONFIRMATION PAGE///////////
         $(document.body).on('click', '.changecartquantity', function() {
 
             var currentTarget = $(this);
@@ -475,7 +487,7 @@
                                 document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
                             } else {
 
-                                // if product count is equal to 1 do something 
+// if product count is equal to 1 do something 
                             }
                             document.cookie = "user_cartitems_cookie=" + JSON.stringify(userbagdata) + ";path=/";
                         }
@@ -590,7 +602,7 @@
                 console.log("userbagdata not found");
             }
         });
-///////////// to update the order  cod  status///////////
+        ///////////// to update the order  cod  status///////////
         $(document.body).on('click', '#confirmOrder', function() {
 
             var cod = $('#cod').val();
@@ -618,19 +630,11 @@
                                 confirmButtonColor: "#009688",
                             });
                         }
-
-
                     }
                 });
             }
-
-
         });
-//////////////////////////////////////code ends /////////////////////////////////////////////
-
-
-
-////////scripts ends here ///////
 
     });
 </script>
+

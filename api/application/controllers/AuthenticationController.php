@@ -22,45 +22,90 @@ class AuthenticationController extends Zend_Controller_Action {
       case 1 : Facebook  signup
      * case 2 : twitter signup
      */
+    /*
+     * Dev : Sibani Mishra
+     * Date : 3/15/2015
+     * Desc : Signup Activation Token
+
+     */
 
     public function userAuthenticationAction() {
 
         $users = Application_Model_Users::getInstance();
         $usermeta = Application_Model_Usermeta::getInstance();
+        $mailer = Engine_Mailer_MandrillApp_Mailer::getInstance();
         $response = new stdClass();
         $method = $this->getRequest()->getParam('method');
-
+        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+        $objCore = Engine_Core_Core::getInstance();
+        $this->_appSetting = $objCore->getAppSetting();
         if ($method) {
+
             switch ($method) {
 
                 case 'signup':
+
                     if ($this->getRequest()->isPost()) {
+
                         $type = $this->getRequest()->getPost('type');
                         $name = $this->getRequest()->getPost('name');
                         $email = $this->getRequest()->getPost('email');
 
                         //if type= 1, normal signup
+
                         if ($type == 1) {
+
                             $password = $this->getRequest()->getPost('password');
+
+                            $signupTokenStrng = time() . $email;
+                            $signupToken = md5($signupTokenStrng);
+
+
                             if ($email) {
                                 $checkEmail = $users->validateUserEmail($email);
+
                                 if (empty($checkEmail)) {
                                     $insertData['uname'] = $name;
                                     $insertData['email'] = $email;
                                     $insertData['password'] = md5(sha1($password));
-                                    $insertData['status'] = 1;
                                     $insertData['role'] = 1;
                                     $insertData['reg_date'] = date('Y-m-d H:i:s');
+                                    $insertData['ActivationToken'] = $signupToken;
+
                                     $insertId = $users->insertUser($insertData);
-                                    //send welcome email //
 
                                     if ($insertId) {
+
+                                        $signupTokenlink = $this->_appSetting->hostLink . '/activate-account/?token=' . $signupToken;
+
+                                        $to = $email;
+                                        $subject = 'Activate Your Account';
+                                        $template_name = 'Activation User Account';
+                                        $username = "Ziingo Support";
+                                        $mergevars = array(
+                                            array(
+                                                'name' => 'UserNickName',
+                                                'content' => $name
+                                            ),
+                                            array(
+                                                'name' => 'signuptokenlink',
+                                                'content' => $signupTokenlink
+                                            ),
+                                            array(
+                                                'name' => 'userEmail',
+                                                'content' => $email
+                                            )
+                                        );
+                                        $result = $mailer->sendtemplate($template_name, $to, $username, $subject, $mergevars);
+                                    }
+
+                                    if ($result[0]['status'] == "sent") {
                                         $metaData['user_id'] = $insertId;
                                         $usermetaid = $usermeta->insertUserMeta($metaData);
                                         $return = $insertId;
 
                                         $response->code = 200;
-                                        $response->message = "signup Success";
+                                        $response->message = "Successfully Register.Please check your email for Confirm Email";
                                         $response->data['user_id'] = $return;
                                     } else {
                                         $response->code = 196;
@@ -75,7 +120,9 @@ class AuthenticationController extends Zend_Controller_Action {
                                 $response->message = "Email param doesn't exists";
                             }
                         } else if ($type == 2) {
-                            //if type=2 facebook signup
+
+//if type=2 facebook signup
+
                             $facebookId = $this->getRequest()->getPost('social_id');
                             if (isset($facebookId)) {
 
@@ -122,7 +169,9 @@ class AuthenticationController extends Zend_Controller_Action {
                                 $response->message = "Request Could Not Processed";
                             }
                         } else if ($type == 3) {
-                            // type=3  twitter signup
+
+
+// type=3  twitter signup
 
                             $twitterId = $this->getRequest()->getPost('social_id');
                             if (isset($twitterId)) {
@@ -182,11 +231,68 @@ class AuthenticationController extends Zend_Controller_Action {
                     die;
                     break;
 
+//                case 'userSignupActivationLink':
+//
+//                    $signupToken = $this->getRequest()->getParam('signuptoken');
+//                    $insertData['uname'] = $name;
+//                    $insertData['email'] = $email;
+////                    echo $email;die("dh");
+//
+//
+//                    $userData = $users->getUsercredsWhere($signupToken);
+//
+//                    if ($userData['role'] == 1) {
+//
+//                        $usercredsData = array('ActivationToken' => '', 'status' => "1");
+//                        $userCreds = "user_id = '" . $userData['user_id'] . "'";
+//                        $updated = $users->updateActivationToken($usercredsData, $userCreds);
+//
+//                        if (isset($updated)) {
+//
+//                            $to = $email;
+//                            $subject = 'Welcome To ZIINGO';
+//                            $template_name = 'Welcome Message';
+//                            $username = "Ziingo Support";
+//                            $mergevars = array(
+//                                array(
+//                                    'name' => 'UserNickName',
+//                                    'content' => $name
+//                                ),
+//                                array(
+//                                    'name' => 'userEmail',
+//                                    'content' => $email
+//                                )
+//                            );
+//                            $result = $mailer->sendtemplate($template_name, $to, $username, $subject, $mergevars);
+////                            echo '<pre>';
+////                            print_r($result);
+////                            die("Test");
+//                            if ($result[0]['status'] == "sent") {
+//                                $response->message = 'Authentication successful';
+//                                $response->code = 200;
+//                                $response->data = $userData;
+//                            } else {
+//                                $response->message = 'Something went wrong please try again';
+//                                $response->code = 100;
+//                                $response->data = NULL;
+//                            }
+//                        } else {
+//                            $response->message = 'Oops you are lost. Click <a>here</a> to go to home page.';
+//                            $response->code = 401;
+//                            $response->data = NULL;
+//                        }
+//                    }
+//                    echo json_encode($response);
+//                    die;
+//                    break;
+
                 case'login':
 
                     if ($this->getRequest()->isPost()) {
                         $typeofrequest = $this->getRequest()->getPost('type');
+
                         if (!empty($typeofrequest)) {
+
                             switch ($typeofrequest) {
 
                                 case 1 : // Normal login
@@ -196,15 +302,17 @@ class AuthenticationController extends Zend_Controller_Action {
 
                                     if (!empty($email)) {
 
-                                        $userData = $users->authenticateByEmail($email, sha1(md5($password)));
-                                       
+                                        $userData = $users->authenticateByEmail($email, md5(sha1($password)));
 
-                                        if ($userData) {
+
+                                        if ($userData['status'] == 1) {
                                             $response->message = 'Authentication successful';
                                             $response->code = 200;
                                             $response->data['user_id'] = $userData['user_id'];
+                                            $response->data['uname'] = $userData['uname'];
+                                            $response->data['email'] = $userData['email'];
                                         } else {
-                                            $response->message = 'Authentication Failed';
+                                            $response->message = 'Need to Activate Email 1st';
                                             $response->code = 197;
                                         }
                                     } else {
@@ -287,6 +395,38 @@ class AuthenticationController extends Zend_Controller_Action {
     }
 
     /*
+     * Dev : Sibani Mishra
+     * Date : 15th March 2016
+     * Desc : Activation Email
+     * 
+     */
+
+    public function activateAccountAction() {
+
+        $token = $this->getRequest()->getParam('token');
+
+        if ($token) {
+            $data = array('ActivationToken' => $token);
+            $mailer = Engine_Mailer_Mailer::getInstance();
+            $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+            $response = new stdClass();
+            $objCore = Engine_Core_Core::getInstance();
+
+//            $this->_appSetting = $objCore->getAppSetting();
+//            $url = $this->_appSetting->apiLink . '/user-authentication?method=userSignupActivationLink';
+            $url = 'api.ziingo.com/user-authentication?method=userSignupActivationLink';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+            if ($curlResponse->code == 200) {
+                $this->view->successMsg = "Account Activation Successful...!!!";
+            } else if ($curlResponse->code == 100) {
+                $this->view->errorMsg = $curlResponse->message;
+            } else {
+                $this->_redirect('/'); //REDIRECT THIS TO 404 PAGE
+            }
+        }
+    }
+
+    /*
      * Dev : Priyanka Varanasi
      * Date : 2/12/2015
      * Desc : user profile registration and updation
@@ -343,6 +483,36 @@ class AuthenticationController extends Zend_Controller_Action {
                             if ($usermetaid) {
                                 $response->message = 'Successfull';
                                 $response->code = 200;
+                            } else {
+                                $response->message = 'Could not Serve the Request';
+                                $response->code = 197;
+                            }
+                        } else {
+                            $response->message = 'Invalid Request';
+                            $response->code = 401;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                    }
+                    echo json_encode($response, true);
+                    die();
+                    break;
+                case 'getuserprofileinfo':
+
+                    if ($this->getRequest()->isPost()) {
+
+                        $userid = $this->getRequest()->getPost('userid');
+
+                        if (!empty($userid)) {
+
+                            $usermetaid = $usermeta->fetchUserMeta($userid);
+
+                            if ($usermetaid) {
+
+                                $response->message = 'Successfull';
+                                $response->code = 200;
+                                $response->data = $usermetaid;
                             } else {
                                 $response->message = 'Could not Serve the Request';
                                 $response->code = 197;
@@ -455,24 +625,83 @@ class AuthenticationController extends Zend_Controller_Action {
      * 
      */
 
+
+    /*
+     * Dev : Sibani Mishra
+     * Date : 4th March 2016
+     * Desc : web users authentication through Normal user,Facebook,twitter
+     * Desc : Signup activation Link
+     * 
+     */
+
     public function webAuthenticationAction() {
 
 
         $users = Application_Model_Users::getInstance();
+
+        $mailer = Engine_Mailer_MandrillApp_Mailer::getInstance();
+
         $response = new stdClass();
+
+        $objCore = Engine_Core_Core::getInstance();
+
+        $this->_appSetting = $objCore->getAppSetting();
+
         $method = $this->getRequest()->getParam('method');
+
         if ($method) {
+
             switch ($method) {
+
                 case'usersignup':
+
                     if ($this->getRequest()->isPost()) {
 
-                        $data = $this->getRequest()->getPost('userdata');
-                        $dearr = json_decode($data, true);
-                        $arrayinobject = (array) $dearr;
-//                        $arrayinobject = $data;
-                        $insertId = $users->insertUser($arrayinobject);
+                        $type = $this->getRequest()->getPost('type');
+
+                        $name = $this->getRequest()->getPost('name');
+
+                        $email = $this->getRequest()->getPost('email');
+
+                        $password = $this->getRequest()->getPost('password');
+
+//                        $confirmpassword = $this->getRequest()->getPost('ConfirmPassword');
+
+                        $signupTokenStrng = time() . $email;
+                        $signupToken = md5($signupTokenStrng);
+
+                        $data = array_merge(['email' => $email], ['uname' => $name], ['password' => $password], ['ActivationToken' => $signupToken]);
+
+                        $insertId = $users->insertUser($data);
 
                         if ($insertId) {
+
+                            $signupTokenlink = $this->_appSetting->hostLink . '/activate-account/?token=' . $signupToken;
+
+                            $to = $email;
+                            $subject = 'Activate Your Account';
+                            $template_name = 'Activation User Account';
+                            $username = "Ziingo Support";
+                            $mergevars = array(
+                                array(
+                                    'name' => 'UserNickName',
+                                    'content' => $name
+                                ),
+                                array(
+                                    'name' => 'signuptokenlink',
+                                    'content' => $signupTokenlink
+                                ),
+                                array(
+                                    'name' => 'userEmail',
+                                    'content' => $email
+                                )
+                            );
+
+                            $result = $mailer->sendtemplate($template_name, $to, $username, $subject, $mergevars);
+                        }
+
+
+                        if ($result[0]['status'] == "sent") {
                             $response->message = 'Successfully Register.Please check your email for Confirm Email';
                             $response->code = 200;
                             $response->data = $insertId;
@@ -480,6 +709,12 @@ class AuthenticationController extends Zend_Controller_Action {
                             $response->message = 'Could not Serve the Request';
                             $response->code = 197;
                         }
+
+//Facebook User//
+//                        } else if ($type == 2) {
+//Twitter user//
+//                        } else if ($type == 3) {
+//                        }
                     } else {
                         $response->message = 'Invalid Request';
                         $response->code = 401;
@@ -488,7 +723,59 @@ class AuthenticationController extends Zend_Controller_Action {
                     die();
                     break;
 
+                case 'userSignupActivationLink':
+
+
+                    $signupToken = $this->getRequest()->getParam('ActivationToken');
+                    $userData = $users->getUsercredsWhere($signupToken);
+                    $email = $userData['email'];
+                    $name = $userData['uname'];
+
+
+                    if ($userData['role'] == 1) {
+
+                        $usercredsData = array('ActivationToken' => '', 'status' => "1");
+                        $userCreds = "user_id = '" . $userData['user_id'] . "'";
+                        $updated = $users->updateActivationToken($usercredsData, $userCreds);
+
+                        if (isset($updated)) {
+
+                            $to = $email;
+                            $subject = 'Welcome To ZIINGO';
+                            $template_name = 'Welcome Message';
+                            $username = "Ziingo Support";
+                            $mergevars = array(
+                                array(
+                                    'name' => 'UserNickName',
+                                    'content' => $name
+                                ),
+                                array(
+                                    'name' => 'userEmail',
+                                    'content' => $email
+                                )
+                            );
+                            $result = $mailer->sendtemplate($template_name, $to, $username, $subject, $mergevars);
+                            if ($result[0]['status'] == "sent") {
+                                $response->message = 'Authentication successful';
+                                $response->code = 200;
+                                $response->data = $updated;
+                            } else {
+                                $response->message = 'Something went wrong please try again';
+                                $response->code = 100;
+                                $response->data = NULL;
+                            }
+                        } else {
+                            $response->message = 'Oops you are lost. Click <a>here</a> to go to home page.';
+                            $response->code = 401;
+                            $response->data = NULL;
+                        }
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+
                 case'userlogin':
+
 
                     $response = new stdClass();
                     if ($this->getRequest()->isPost()) {
@@ -522,9 +809,10 @@ class AuthenticationController extends Zend_Controller_Action {
 
                 case'validateusername':
 
-                    $response = new stdClass();
+
                     if ($this->getRequest()->isPost()) {
                         $username = $this->getRequest()->getPost('uname');
+//                        echo $username;die("dghf");
                         if ($username) {
                             $userData = $users->validateUserName($username);
                             if ($userData) {
@@ -547,8 +835,9 @@ class AuthenticationController extends Zend_Controller_Action {
                     die();
 
                     break;
+
                 case'validateemail':
-                    $response = new stdClass();
+
                     if ($this->getRequest()->isPost()) {
                         $email = $this->getRequest()->getPost('email');
                         if ($email) {
@@ -581,6 +870,203 @@ class AuthenticationController extends Zend_Controller_Action {
 
             echo json_encode($response, true);
             die();
+        }
+    }
+
+    /*
+     * Dev : Sibani Mishra
+     * Date : 11th March 2016
+     * Desc : Forgot Password
+     * 
+     */
+
+    public function forgotPasswordAction() {
+        $response = new stdClass();
+        if ($this->getRequest()->isPost()) {
+            $users = Application_Model_Users::getInstance();
+            $mailer = Engine_Mailer_MandrillApp_Mailer::getInstance();
+            $method = $this->getRequest()->getPost('method');
+
+            switch ($method) {
+                case "EnterEmailId":
+
+                    if ($this->getRequest()->isPost()) {
+
+                        $postData = $this->getRequest()->getParams();
+
+
+                        $fpwemail = '';
+                        if (isset($postData['EmailId'])) {
+                            $fpwemail = $postData['EmailId'];
+                        }
+
+                        if ($fpwemail != '') {
+                            $resetcode = mt_rand(100000, 999999);
+
+                            $exists = $users->checkMail($fpwemail, $resetcode);
+//echo"<pre>";print_r($exists);die("dhv");
+                            if ($exists) {
+//Mandrill mail
+                                $template_name = 'ResetPW';
+                                $to = $fpwemail;
+                                $username = "Ziingo Support";
+                                $subject = "Ziingo Reset password";
+                                $mergevars = array(
+                                    array(
+                                        'name' => 'resetcode',
+                                        'content' => $resetcode
+                                    ),
+                                    array(
+                                        'name' => 'usermail',
+                                        'content' => $fpwemail
+                                    ),
+                                    array(
+                                        'name' => 'support',
+                                        'content' => "Ziingo Support"
+                                    )
+                                );
+                                $result = $mailer->sendtemplate($template_name, $to, $username, $subject, $mergevars);
+//                                echo"<pre>";
+//                                print_r($result);
+//                                die("hvhf");
+//Mandrill mail ends
+                                if ($result[0]['status'] == "sent") {
+                                    $response->code = 200;
+                                    $response->message = "Mail Sent with Reset code";
+                                    $response->data = 1;
+                                }
+                            } else {
+                                $response->code = 100;
+                                $response->message = "Email Doesnt Exist. Enter correct Email.";
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->code = 100;
+                            $response->message = "You missed something";
+                            $response->data = null;
+                        }
+//                        } else {
+//                            $response->code = 401;
+//                            $response->message = "Access Denied";
+//                            $response->data = null;
+//                        }
+                    } else {
+                        $response->code = 401;
+                        $response->message = "Invalid request";
+                        $response->data = null;
+                    }
+                    echo json_encode($response, true);
+                    break;
+                case "verifyResetCode":
+                    if ($this->getRequest()->isPost()) {
+                        $postData = $this->getRequest()->getParams();
+                        $fpwemail = '';
+                        if (isset($postData['EmailId'])) {
+                            $fpwemail = $postData['EmailId'];
+                        }
+                        $resetcode = '';
+                        if (isset($postData['resetcode'])) {
+                            $resetcode = $postData['resetcode'];
+                        }
+
+//                        $mytoken = 0;
+//                        if (isset($postData['mytoken'])) {
+//                            $mytoken = $postData['mytoken'];
+//                        }
+//                        if ($mytoken == "123456") {
+                        if ($fpwemail != '' && $resetcode != '') {
+
+                            $exists = $users->verifyResetCode($fpwemail, $resetcode);
+
+                            if ($exists) {
+                                $response->code = 200;
+                                $response->message = "Reset Code Verified Successfully.";
+                                $response->data = $exists;
+                            } else {
+                                $response->code = 100;
+                                $response->message = "Reset Code Didnt Matched, Enter Correct Reset Code.";
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->code = 100;
+                            $response->message = "You missed something";
+                            $response->data = null;
+                        }
+//                        } else {
+//                            $response->code = 401;
+//                            $response->message = "Access Denied";
+//                            $response->data = null;
+//                        }
+                    } else {
+                        $response->code = 401;
+                        $response->message = "Invalid request";
+                        $response->data = null;
+                    }
+                    echo json_encode($response, true);
+                    break;
+                case "resetPassword":
+                    if ($this->getRequest()->isPost()) {
+                        $postData = $this->getRequest()->getParams();
+                        $fpwemail = '';
+                        if (isset($postData['EmailId'])) {
+                            $fpwemail = $postData['EmailId'];
+                        }
+                        $resetcode = '';
+                        if (isset($postData['resetcode'])) {
+                            $resetcode = $postData['resetcode'];
+                        }
+                        $password = ''; //Send Password in md5 format
+                        if (isset($postData['Password'])) {
+                            $password = $postData['Password'];
+                        }
+                        $re_password = '';
+                        if (isset($postData['rePassword'])) {
+                            $re_password = $postData['rePassword'];
+                        }
+//                        $mytoken = 0;
+//                        if (isset($postData['mytoken'])) {
+//                            $mytoken = $postData['mytoken'];
+//                        }
+//                        if ($mytoken == "123456") {
+                        if ($fpwemail != '' && $resetcode != '' && $password != '' && $re_password != '') {
+
+                            if ($password == $re_password) {
+
+                                $exists = $users->resetPassword($fpwemail, $resetcode, $password);
+                                if ($exists) {
+                                    $response->code = 200;
+                                    $response->message = "Password Changed Successfully.";
+                                    $response->data = $exists;
+                                } else {
+                                    $response->code = 100;
+                                    $response->message = "Something went Wrong. Provide Correct Input.";
+                                    $response->data = null;
+                                }
+                            } else {
+                                $response->code = 100;
+                                $response->message = "Password Didnt match";
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->code = 100;
+                            $response->message = "You missed something";
+                            $response->data = null;
+                        }
+//                        } else {
+//                            $response->code = 401;
+//                            $response->message = "Access Denied";
+//                            $response->data = null;
+//                        }
+                    } else {
+                        $response->code = 401;
+                        $response->message = "Invalid request";
+                        $response->data = null;
+                    }
+                    echo json_encode($response, true);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
