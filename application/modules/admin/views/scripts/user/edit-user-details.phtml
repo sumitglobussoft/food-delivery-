@@ -21,7 +21,7 @@ $alluserdetailsArray = $this->alluserdetails;
                                                 <label class="control-label">User Name</label>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" name="uname" id="uname" value="<?php echo $alluserdetailsArray['uname'] ?>" placeholder="" required />
+                                                <input type="text" class="form-control" name="uname" id="uname" value="<?php echo $alluserdetailsArray['uname']; ?>" placeholder="" required />
                                             </td>
                                         </tr>
                                         <tr>
@@ -29,7 +29,7 @@ $alluserdetailsArray = $this->alluserdetails;
                                                 <label class="control-label">Email</label>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" type="text" name="email"  id="email" value="<?php echo $alluserdetailsArray['email'] ?>" placeholder="" required />
+                                                <input type="text" class="form-control" type="text" name="email"  id="email" value="<?php echo $alluserdetailsArray['email']; ?>" placeholder="" required />
                                             </td>
                                         </tr>
 
@@ -38,7 +38,7 @@ $alluserdetailsArray = $this->alluserdetails;
                                                 <label class="control-label">First Name</label>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control"  name="first_name" value="<?php echo $alluserdetailsArray['first_name'] ?>" placeholder="" required />
+                                                <input type="text" class="form-control"  name="first_name" value="<?php echo $alluserdetailsArray['first_name']; ?>" placeholder="" required />
                                             </td>
                                         </tr>
 
@@ -47,12 +47,16 @@ $alluserdetailsArray = $this->alluserdetails;
                                                 <label class="control-label">Last Name</label>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" name="last_name"  id="last_name" value="<?php echo $alluserdetailsArray['last_name'] ?>" placeholder="" required />
+                                                <input type="text" class="form-control" name="last_name"  id="last_name" value="<?php echo $alluserdetailsArray['last_name']; ?>" placeholder="" required />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <label class="control-label">Phone</label>
+                                            </td>
+                     <td>
+                                                <input type="text" placeholder=""  type="text" name="contact_country_code"  id="contact_country_code" value="<?php echo $alluserdetailsArray['contact_country_code'] ?>"class="form-control" />
+
                                             </td>
                                             <td>
                                                 <input type="text" placeholder=""  type="text" name="phone"  id="phone" value="<?php echo $alluserdetailsArray['phone'] ?>"class="form-control" />
@@ -102,7 +106,7 @@ $alluserdetailsArray = $this->alluserdetails;
                                             </td>
                                             <td>
                                                 <div class="input-group">
-                                                    <input type="text" placeholder="" type="text" name="city"  id="city" value="<?php echo $alluserdetailsArray['city'] ?>" class="form-control" />
+                                                    <input type="text" placeholder="" type="text" name="city"  id="city" value="<?php echo $alluserdetailsArray['city']; ?>" class="form-control" />
                                                 </div>
                                             </td>
                                         </tr>
@@ -111,7 +115,7 @@ $alluserdetailsArray = $this->alluserdetails;
                                                 <label class="control-label">State</label>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" name="state"  id="state" value="<?php echo $alluserdetailsArray['state'] ?>"  placeholder="" required />
+                                                <input type="text" class="form-control" name="state"  id="state" value="<?php echo $alluserdetailsArray['state']; ?>"  placeholder="" required />
                                             </td>
                                         </tr>
                                         <tr>
@@ -119,17 +123,17 @@ $alluserdetailsArray = $this->alluserdetails;
                                                 <label class="control-label">Country</label>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" name="country"  id="country" value="<?php echo $alluserdetailsArray['country'] ?>" placeholder="" required />
+                                                <input type="text" class="form-control" name="country"  id="country" value="<?php echo $alluserdetailsArray['country']; ?>" placeholder="" required />
                                             </td>
                                         </tr>
-                                        <tr>
+<!--                                        <tr>
                                             <td>
                                                 <label class="control-label">Address</label>
                                             </td>
                                             <td>
-                                                <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ><?php echo $alluserdetailsArray['address'] ?></textarea>
+                                                <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ><?php echo $alluserdetailsArray['address']; ?></textarea>
                                             </td>
-                                        </tr>
+                                        </tr>-->
                                     </tbody>
                                 </table>
                                 <div class="form-group pull-right">

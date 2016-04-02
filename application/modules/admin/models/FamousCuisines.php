@@ -50,5 +50,23 @@ class Admin_Model_FamousCuisines extends Zend_Db_Table_Abstract {
             return null;
         }
     }
+    /*
+     * Dev : Sowmya
+     * Date: 28/3/2016
+     * Desc: To fetch the name of cuisines
+     */
+    function getcusinesById($string2) {
+         $select = $this->select()
+                ->from($this)
+                ->where('cuisine_id=?', $string2);
+
+        $result = $this->getAdapter()->fetchAll($select);
+
+        if ($result) {
+            return $result;
+        } else {
+            return null;
+        }
+    }
 
 }

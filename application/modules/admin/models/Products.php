@@ -59,6 +59,7 @@ class Admin_Model_Products extends Zend_Db_Table_Abstract {
                         ->setIntegrityCheck(false)
                         ->from(array('p' => 'products'))
                         ->joinLeft(array('hd' => 'hotel_details'), 'p.hotel_id= hd.id')
+                        ->joinLeft(array('a' => 'agents'), 'p.agent_id= a.agent_id')
                         ->where('p.product_id=?', $productId);
                 $result = $this->getAdapter()->fetchRow($select);
             } catch (Exception $e) {
@@ -109,8 +110,9 @@ class Admin_Model_Products extends Zend_Db_Table_Abstract {
             }
         }
     }
- public function changeProductStatus() {
-         if (func_num_args() > 0):
+
+    public function changeProductStatus() {
+        if (func_num_args() > 0):
             $productid = func_get_arg(0);
             try {
                 $data = array('prod_status' => new Zend_DB_Expr('IF(prod_status=1, 0, 1)'));
@@ -126,13 +128,12 @@ class Admin_Model_Products extends Zend_Db_Table_Abstract {
         else:
             throw new Exception('Argument Not Passed');
         endif;
-        
     }
-    
-        //dev:priyanka varanasi
+
+    //dev:priyanka varanasi
     //desc: to delete products
     //date:29/1/2016
-    
+
     public function productDelete() {
         if (func_num_args() > 0):
             $productid = func_get_arg(0);
@@ -148,5 +149,6 @@ class Admin_Model_Products extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         endif;
     }
+
     ///////////////////////////code ends ////////////////////////
 }

@@ -1,10 +1,9 @@
 <?php
-  /*
-   * Dev : Priyanka Varanasi
-   * Date: 10/10/2015
-   * Desc: Products Modal
-   */
-
+/*
+ * Dev : Priyanka Varanasi
+ * Date: 10/10/2015
+ * Desc: Products Modal
+ */
 
 class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
 
@@ -16,31 +15,54 @@ class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
             self::$_instance = new Admin_Model_HotelDetails();
         return self::$_instance;
     }
-     /*
-   * Dev : Priyanka Varanasi
-   * Date: 10/10/2015
-   * Desc: TO select all products in db
-   */
-    public function selectAllHotels(){
-         
-            try {
+    /*
+     * Dev : Priyanka Varanasi
+     * Date: 10/10/2015
+     * Desc: TO select all products in db
+     */
 
-                $select = $this->select()
-                        ->from($this);
-                 $result = $this->getAdapter()->fetchAll($select);
-               
+    public function selectAllHotels() {
+        try {
+
+            $select = $this->select()
+                    ->from($this);
+            $result = $this->getAdapter()->fetchAll($select);
+
             if ($result) {
                 return $result;
-            }else{
-                
+            } else {
+
                 return null;
-            } 
+            }
+        } catch (Exception $e) {
+            throw new Exception('Unable to access data :' . $e);
+        }
+    }
+
+    /*
+     * Dev : Sowmya
+     * Date: 18/3/2015
+     * Desc: TO get all hotels based on Agent
+     */
+
+    public function getAllHotelsBasedOnAgent() {
+             if (func_num_args() > 0) {
+            $agentId = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->from($this)
+                        ->where('agent_Id = ?', $agentId);
+                $result = $this->getAdapter()->fetchAll($select);
             } catch (Exception $e) {
-                throw new Exception('Unable to access data :' . $e);
+                throw new Exception('Unable To retrieve data :' . $e);
             }
 
-      
+            if ($result) {
+                return $result;
+            }
+        }
     }
 
 }
+
 ?>

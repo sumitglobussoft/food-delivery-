@@ -88,16 +88,17 @@
 
                                     <div class="form-group">
                                         <label class="control-label">Select Cuisine</label>
-                                        <select class="form-control selectpicker width-full" value="<?php echo $this->cuisine; ?>" multiple="" name="selectcuisine[]" data-size="10" data-live-search="true">
+                                        <select class="form-control selectpicker width-full" value="<?php echo $this->cuisine123; ?>" multiple="" name="selectcuisine[]" data-size="10" data-live-search="true">
                                             <optgroup label="Select Cuisine">
                                                 <?php
-                                                if (isset($this->cuisineslist)) {
-                                                    foreach ($this->cuisineslist as $value) {
+//                                                                                        echo $this->cuisine123 ;die;
+                                                if (isset($this->cuisine123)) {
+//                                                    foreach ($this->cuisine123 as $value) {
                                                         ?>
-                                                        <option value="<?php echo $value['cuisine_id']; ?>"><?php echo $value['Cuisine_name']; ?></option>
+                                                        <option value="<?php echo $this->cuisine123; ?>"><?php echo $this->cuisine123; ?></option>
                                                         <?php
                                                     }
-                                                }
+//                                                }
                                                 ?>
                                             </optgroup>
                                         </select>

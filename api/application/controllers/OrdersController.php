@@ -651,8 +651,6 @@ class OrdersController extends Zend_Controller_Action {
 
                 case'updatehoteldetails':
                     if ($this->getRequest()->isPost()) {
-
-
                         $hotel_id = $this->getRequest()->getPost('id');
                         $ownername = $this->getRequest()->getPost('owner_fname');
                         if (!empty($ownername)) {
@@ -700,6 +698,19 @@ class OrdersController extends Zend_Controller_Action {
                             $data['hotel_image'] = $hotel_image;
                         }
 
+                        $deliverycharge = $this->getRequest()->getPost('deliverycharge');
+                        if (!empty($deliverycharge)) {
+                            $data['deliverycharge'] = $deliverycharge;
+                        }
+
+                        $minorder = $this->getRequest()->getPost('minorder');
+                        if (!empty($minorder)) {
+                            $data['minorder'] = $minorder;
+                        }
+                        $address = $this->getRequest()->getPost('address');
+                        if (!empty($address)) {
+                            $data['address'] = $address;
+                        }
                         if ($hotel_id) {
                             $updatestatus = $hotelssummaryModel->updateHotelDetails($hotel_id, $data);
                             if ($updatestatus) {
@@ -728,7 +739,6 @@ class OrdersController extends Zend_Controller_Action {
 
                 case'addhoteldetails':
                     if ($this->getRequest()->isPost()) {
-
                         $data['primary_phone'] = $this->getRequest()->getPost('primary_phone');
                         $data['secondary_phone'] = $this->getRequest()->getPost('secondary_phone');
                         $data['hotel_name'] = $this->getRequest()->getPost('hotel_name');
@@ -772,7 +782,6 @@ class OrdersController extends Zend_Controller_Action {
             $response->code = 401;
             $response->data = "No Method Passed";
             echo json_encode($response, true);
-            die();
         }
     }
 

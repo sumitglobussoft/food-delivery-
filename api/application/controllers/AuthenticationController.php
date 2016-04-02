@@ -10,7 +10,7 @@ class AuthenticationController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-        
+                
     }
 
     /*
@@ -554,7 +554,7 @@ class AuthenticationController extends Zend_Controller_Action {
         $method = $this->getRequest()->getParam('method');
         if ($method) {
             switch ($method) {
-                case'agentsignup':
+                 case'agentsignup':
                     if ($this->getRequest()->isPost()) {
                         $data = $this->getRequest()->getPost('agentdata');
                         $dearr = json_decode($data, true);
@@ -584,9 +584,9 @@ class AuthenticationController extends Zend_Controller_Action {
                         $password = $this->getRequest()->getPost('password');
 
                         if (stripos($data, '@')) {
-                            $userData = $agentsModal->authenticateByEmail($data, sha1(md5($password)));
+                            $userData = $agentsModal->authenticateByEmail($data, md5($password));
                         } else {
-                            $userData = $agentsModal->authenticateByUsername($data, sha1(md5($password)));
+                            $userData = $agentsModal->authenticateByUsername($data, md5($password));
                         }
                         if ($userData) {
                             $response->message = 'Authentication successful';

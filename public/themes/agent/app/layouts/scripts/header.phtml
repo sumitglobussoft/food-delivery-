@@ -60,6 +60,12 @@
                     ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/bootstrap.min.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery.slimscroll.min.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery.cookie.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/switchery.min.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery.dataTables.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/dataTables.bootstrap.min.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/dataTables.responsive.min.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/select2.min.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jasny-bootstrap.min.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/apps.min.js', 'text/javascript');
         }
         ?>   
@@ -114,7 +120,7 @@
                                         </li>
                                         <li class="notification-item">
                                             <a href="javascript:;">
-                                                <div class="media"><img src="<?php echo $this->baseUrl() . $this->theme_base_path ?>/img/user_1.jpg" alt="" /></div>
+                                                <div class="media"><img src="<?php echo $this->baseUrl() . $this->theme_base_path ?>/images/pic.jpg" alt="" /></div>
                                                 <div class="message">
                                                     <h6 class="title">Solvia Smith</h6>
                                                     <p class="desc">Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
@@ -127,7 +133,7 @@
                                         </li>
                                         <li class="notification-item">
                                             <a href="javascript:;">
-                                                <div class="media"><img src="<?php echo $this->baseUrl() . $this->theme_base_path ?>/img/user_2.jpg" alt="" /></div>
+                                                <div class="media"><img src="<?php echo $this->baseUrl() . $this->theme_base_path ?>/images/pic.jpg" alt="" /></div>
                                                 <div class="message">
                                                     <h6 class="title">Olivia</h6>
                                                     <p class="desc">Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
@@ -171,10 +177,10 @@
                                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                                         <span class="image"><img src="<?php echo $this->baseUrl() . $this->theme_base_path ?>/images/pic.jpg" alt="" /></span>
                                         <span class="hidden-xs">  <?php
-        if (isset($this->session->storage->loginname)) {
-            echo $this->session->storage->loginname;
-        }
-                ?>
+                                            if (isset($this->session->storage->loginname)) {
+                                                echo $this->session->storage->loginname;
+                                            }
+                                            ?>
                                         </span> <b class="caret"></b>
                                     </a>
                                     <ul class="dropdown-menu pull-right">
@@ -222,7 +228,7 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li><a href="/agent/restuarent-orders">Order Details</a></li>
-<!--                                        <li><a href="/agent/add-hotel-details">Add New Hotel</a></li>-->
+                                        <!--                                        <li><a href="/agent/add-hotel-details">Add New Hotel</a></li>-->
                                     </ul>
                                 </li>
 
@@ -244,7 +250,7 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li><a href="#">Payment Details</a></li>
-<!--                                        <li><a href="javascript:;">Add New Hotel</a></li>-->
+                                        <!--                                        <li><a href="javascript:;">Add New Hotel</a></li>-->
                                     </ul>
                                 </li>
 

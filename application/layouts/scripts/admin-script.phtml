@@ -3,8 +3,8 @@
     eval(mod_pagespeed_ao7FkmdxcI);
     eval(mod_pagespeed_mIkonhgi7n);
     $(document).ready(function() {
-        
-        
+
+
         $('.datatable-responsive').DataTable({
             responsive: true
         });
@@ -573,9 +573,9 @@
 
             },
             success: function(response) {
-           var res = jQuery.parseJSON(response);
-                if (res.code===200) {
-             
+                var res = jQuery.parseJSON(response);
+                if (res.code === 200) {
+
                     $('#cuisine').html('');
                     $('#cuisine').append('<option disabled selected>Select Cusine</option>');
                     $.each(res.data, function(i, a) {
@@ -603,13 +603,13 @@
 
             },
             success: function(response) {
-                 var res = jQuery.parseJSON(response);
-                if (res.code===200) {
+                var res = jQuery.parseJSON(response);
+                if (res.code === 200) {
 
                     $('#category').html('');
                     $('#category').append('<option disabled selected>Select category</option>');
                     $.each(res.data, function(i, a) {
-                        $('#category').append('<option value="' + a.category_id + '">'+ a.cat_name + '</option>');
+                        $('#category').append('<option value="' + a.category_id + '">' + a.cat_name + '</option>');
                     });
                     $('.show-category').show();
                     $('.show-cusine').hide();
@@ -693,10 +693,10 @@
         });
 
     });
-    
-    
-    
-       /*
+
+
+
+    /*
      * DEV :priyanka varanasi
      * Desc : Delete delivery guy
      * Date : 9/2/2016
@@ -730,4 +730,123 @@
             });
         }
     });
+
+
+    /*
+     * DEV :Sowmya
+     * Desc : add hotel name in add new products
+     * Date : 18/3/2016
+     */
+
+    $(document.body).on('change', '#agent_id', function() {
+        var hotel_id = $(this).val();
+
+        $.ajax({
+            url: './product-ajax-handler',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                method: 'hotelsbasedonagent',
+                hotel_id: hotel_id
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                $('#hotel_id').empty();
+                var res = jQuery.parseJSON(response);
+                console.log(res);
+                if (res['code'] === 200) {
+                    $('#hotel_id').append('<option disabled selected>Select Hotel</option>');
+                    var toAppend = '';
+                    $.each(res['data'], function(i, a) {
+                        toAppend += '<option value="' + a['id'] + '">' + a['hotel_name'] + '</option>';
+                    });
+                    $('#hotel_id').append(toAppend);
+                    $('.show-hotel').show();
+                    $('.show-agent').show();
+                } else {
+                    $('#hotel_id').append('<option disabled selected>No hotel details found</option>');
+                }
+
+
+            }
+        });
+    });
+    
+     /*
+     * DEV :sowmya
+     * Desc : Delete transaction
+     * Date : 30/3/2016
+     */
+
+    $(document.body).on('click', '.deletetrans', function() {
+        var transid = $(this).attr('id');
+        var deleteid = transid.replace("transdelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './user-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'transdelete',
+                    transid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var tid = response.replace(/ /g, '');
+
+                        $('#' + "transdelete_" + tid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Delete orders
+     * Date : 30/3/2016
+     */
+
+    $(document.body).on('click', '.deleteorder', function() {
+        var orderid = $(this).attr('id');
+        var deleteid = orderid.replace("orderdelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './user-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'orderdelete',
+                    orderid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var oid = response.replace(/ /g, '');
+
+                        $('#' + "orderdelete_" + oid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+
+    });
+</script>
+<script>
+$('.trigger').change(function(){
+   
+});
 </script>

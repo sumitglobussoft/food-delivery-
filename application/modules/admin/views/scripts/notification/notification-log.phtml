@@ -1,0 +1,120 @@
+<link href="/assets/global/css/plugins.css" media="screen" rel="stylesheet" type="text/css" >
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/bootstrap-datepicker/css/datepicker.css"/>
+<link href="/assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light bordered">
+                    <!--             Widget heading -->
+                    <div class="widget-head">
+                        <h3 class="heading glyphicons list">Notification Log:</h3>
+                    </div>
+                    <!--             // Widget heading END -->
+                    <div class="widget-body">
+                    </div>
+                    <h3>Notification Table:</h3></br></br>                
+                    <table class="dynamicTable table table-striped table-bordered table-condensed notificationtable" >
+                        <thead>
+                            <tr>   
+                                <th style="width: 10%;" class="center">Sr No.</th>
+                                <th style="width: 15%;">Receiver Name</th>
+                                <th style="width: 15%;" class="center">Sender Name</th> 
+                                <th style="width: 20%;">Message</th>                              
+                                <th style="width: 15%;">Send Date</th>                            
+                                <th class="center" >Status</th>
+                                <th class="center" >Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if (isset($this->data)) {
+                                $row = 0;
+                                foreach ($this->data as $collectionData) {
+                                    ?>
+                                    <tr class="selectable" height='10px' >
+                                        <td class="center"><?php echo ++$row; ?></td>
+                                        <td><?php
+                                            echo $collectionData['receiver_fname'];
+                                            echo ' ';
+                                            echo $collectionData['receiver_lname'];
+                                            ?></td>
+
+                                        <td><?php
+                                            echo $collectionData['sender_fname'];
+                                            echo ' ';
+                                            echo $collectionData['sender_lname'];
+                                            ?>
+                                        </td>
+                                        <td><?php echo $collectionData['notification_message']; ?></td>                                  
+                                        <td class="center"><span class="small">(<?php echo gmdate("F d, Y h:mA", $collectionData['sent_date']); ?>)</span></td>
+                                        <td class="center">
+                                            <?php
+                                            if ($collectionData['status'] == 0) {
+                                                echo "Unseen";
+                                            }
+                                            if ($collectionData['status'] == 1) {
+                                                echo "Seen";
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <span class="tooltips" title="Delete Notification" data-placement="top">
+                                                <button id="<?php echo $collectionData['notification_id']; ?>" class="btn btn-danger remove1" ><i></i>Delete</button>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            ?>	
+                        </tbody>
+                    </table>                 
+                </div>
+            </div>
+        </div>
+        <!--Widget END--> 
+    </div>	
+</div>
+<!-- // Content END -->
+
+<script>
+    jQuery(document).ready(function () {
+        $(document).ready(function () {
+            $('.notificationtable').DataTable();
+        });
+
+        $(document.body).on("click", ".modaldescription", function () {
+            var desc = $(this).attr('data-desc');
+            $('#message').val(desc);
+        });
+
+        $(document.body).on("click", ".remove1", function () {
+
+            var notificationid = $(this).attr('id');
+            var w = $(this);
+            if (confirm("Do you want to Delete this Notification!") == true) {
+                $.ajax({
+                    url: '/admin/notification-ajax-handler',
+                    type: 'POST',
+                    datatype: 'HTML',
+                    data: {
+                        method: 'deletenotification',
+                        notificationId: notificationid
+                    },
+                    beforeSend: function () {
+
+                    },
+                    success: function (response) {
+                        w.parent().parent().hide();
+                    }
+                });
+            }
+
+        });
+
+    });
+
+</script>

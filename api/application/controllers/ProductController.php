@@ -335,10 +335,11 @@ class ProductController extends Zend_Controller_Action {
                     break;
 
                 case'getcuisinesofHotel':
+                 
                     if ($this->getRequest()->isPost()) {
-
                         $hotel_id = $this->getRequest()->getPost('hotel_id');
                         $cuisinesdetails = $hotelcuisinesModel->getCuisinesByHotelId($hotel_id);
+                  
                         if ($cuisinesdetails) {
                             $response->message = 'successfull';
                             $response->code = 200;
@@ -365,7 +366,6 @@ class ProductController extends Zend_Controller_Action {
             $response->data = 'No Method';
 
             echo json_encode($response);
-            die();
         }
     }
 
@@ -391,9 +391,31 @@ class ProductController extends Zend_Controller_Action {
             $response->data = NUll;
         }
         echo json_encode($response, true);
-        die();
     }
-
+//added by sowmya 21 march 2016
+      public function editOrderProductsAction() {
+        $hotelssummaryModel = Application_Model_HotelDetails::getInstance();
+        $deliverystatusmodal = Application_Model_DeliveryStatusLog::getInstance();
+        $productsummaryModel = Application_Model_Products::getInstance();
+        $categorysModel = Application_Model_MenuCategory::getInstance();
+        $orderproductsModel = Application_Model_OrderProducts::getInstance();
+        $ordersModels= Application_Model_Orders::getInstance();
+        $response = new stdClass();
+        if ($this->getRequest()->isPost()) {
+            $order_id = $this->getRequest()->getPost('order_id');
+        }
+        $orderproductsdetails = $ordersModels->GetAgentProduct($order_id);
+        if ($orderproductsdetails) {
+            $response->message = 'Successfull';
+            $response->code = 200;
+            $response->data = $orderproductsdetails;
+        } else {
+            $response->message = 'Could not Serve the Response';
+            $response->code = 197;
+            $response->data = NUll;
+        }
+        echo json_encode($response, true);
+    }
 }
 
 ?>

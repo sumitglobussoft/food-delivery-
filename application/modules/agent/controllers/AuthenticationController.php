@@ -51,41 +51,41 @@ class Agent_AuthenticationController extends Zend_Controller_Action {
                 $email = $this->getRequest()->getPost('email');
                 $password = $this->getRequest()->getPost('password');
                 $city = $this->getRequest()->getPost('city');
-                
+             
 
     
-                if ( isset($first_name) && isset($last_name) && isset($username) && isset($email) && isset($password) && isset($city)) {
+                if (isset($first_name) && isset($last_name) && isset($username) && isset($email) && isset($password) && isset($city)) {
                   
                     $data = array('loginname' => $username,
                         'first_name' => $first_name,
                         'last_name' => $last_name,
-                           'password' => sha1(md5($password)),
+                           'password' => md5($password),
                             'email' => $email,
                             'city' => $city,
                             'reg_date' => date('Y-m-d H-i-s'),
                             'role' => 1,
-                            'agent_status' => 1,
+                            'agent_status' => 1,'membership'=>1
                          );
-                    
                     $agentdata['agentdata']  = json_encode($data);
-       
+           
            $url = $this->_appSetting->apiLink . '/agent-authentication?method=agentsignup';
             
            $curlResponse = $objCurlHandler->curlUsingPost($url,$agentdata);
-          
+
                         if ($curlResponse->code===200) {
                            //////////////////SEND EMAIL /////////////////////////////
                             
-                            $authStatus = $objSecurity->agentAuthenticate($email, sha1(md5($password)));
-                      
-                            }
-                          
-                            if ($authStatus) {
+                            $authStatus = $objSecurity->agentAuthenticate($email,md5($password));
+                           
+                        }
+                            if ($authStatus->message  == 'Authentication Successful') {
+//                                die('fdg');
                                 $this->_redirect('/agent/dashboard');
                             }
                         }
                     }else if($methodSelector == 'agentlogin'){
-                   
+                    
+                      
                     $loginData = $this->getRequest()->getPost('loginname');
 
                     $password = $this->getRequest()->getPost('pwd');
@@ -99,7 +99,8 @@ class Agent_AuthenticationController extends Zend_Controller_Action {
                         $curlResponse = $objCurlHandler->curlUsingPost($url,$data);
                        
                         if ($curlResponse->code == 200) {
-                            $authStatus = $objSecurity->agentAuthenticate($loginData,sha1(md5($password)));
+                            $authStatus = $objSecurity->agentAuthenticate($loginData,md5($password));
+                           
                             if ($authStatus) {
                                $this->_redirect('/agent/dashboard');
                             }

@@ -47,7 +47,11 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         }
     }
-
+            /*
+     * DEV :sowmya
+     * Desc : get All Orders By ID
+     * Date : 21/3/2016
+     */
     public function GetOrderProducts() {
         if (func_num_args() > 0) {
             $agent_id = func_get_arg(0);
@@ -57,12 +61,9 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
                         ->setIntegrityCheck(false)
                         ->from(array('o' => 'orders'))
                          ->join(array('u' => 'users'),'o.user_id=u.user_id')
-                        ->join(array('hd' => 'hotel_details'), 'o.order_from_hotel=hd.id',array('hd.id','hd.hotel_name','hd.agent_id'))
-                        ->join(array('dsl' => 'delivery_status_log'), 'o.order_id= dsl.order_id')
-                        ->join(array('dg' => 'delivery_guys'), 'dsl.delivery_guy_id=dg.del_guy_id')
-                        ->where('hd.agent_id=?', $agent_id);
+                        ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id',array('hd.id','hd.hotel_name','hd.agent_id'))                    
+                        ->where('hd.agent_id=?', $agent_id);     
                 $result = $this->getAdapter()->fetchAll($select);
-
                 if ($result) {
                     return $result;
                 } else {
@@ -98,7 +99,32 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
             throw new Exception("Argument not passed");
         }
     }
+    /*
+     * DEV :sowmya
+     * Desc : get All Orders By ID
+     * Date : 21/3/2016
+     */
 
+    public function GetAgentProduct() {
+        if (func_num_args() > 0) {
+            $order_id = func_get_arg(0);
+            try {
+                $select = $this->select()
+                ->from(array('o' => 'orders'))
+                ->setIntegrityCheck(false)
+                ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname', 'u.email'))
+               ->joinLeft(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id',array('hd.id','hd.hotel_name','hd.agent_id'))   
+                ->where('order_id = ?', $order_id);
+                $result = $this->getAdapter()->fetchRow($select);
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+        
+            if ($result) {
+                return $result;
+            }
+        }
+    }
 }
 ?>
 

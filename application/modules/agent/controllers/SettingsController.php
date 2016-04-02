@@ -63,7 +63,7 @@ class Agent_SettingsController extends Zend_Controller_Action {
                $array[$i] =  $value['Cuisine_name'];
                $i++;
             }
-         $this->view->cuisine  =  implode ($array,',');
+         $this->view->cuisine123  =  implode($array,',');
         }
         
         if ($this->getRequest()->isPost()) {
@@ -79,7 +79,6 @@ class Agent_SettingsController extends Zend_Controller_Action {
             $data['address'] = $this->getRequest()->getPost('address');
             $data['deliverycharge'] = $this->getRequest()->getPost('deliverycharge');
             $data['minorder'] = $this->getRequest()->getPost('minorder');
-
             $coverphoto = $_FILES["fileToUpload"]["name"];
 
             $dirpath = getcwd() . "/themes/agent/skin/hotelimages/$agentid/$hotel_id/";
@@ -102,14 +101,13 @@ class Agent_SettingsController extends Zend_Controller_Action {
                         $data['hotel_image'] = $link . $savepath;
                         $url = $this->_appSetting->apiLink . '/hoteldetails?method=updatehoteldetails';
                         $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
-
+                        
                         if ($curlResponse->code == 200) {
                             $this->redirect('/agent/hotel-details');
                         }
                     } else {
 
-                        echo "DIE HERE";
-                        die;
+                        echo "DIE HERE";                     
                     }
                 }
             } else {
@@ -172,14 +170,17 @@ class Agent_SettingsController extends Zend_Controller_Action {
             $data['open_time'] = $this->getRequest()->getPost('open_time');
             $data['closing_time'] = $this->getRequest()->getPost('closing_time');
             $data['notice'] = $this->getRequest()->getPost('notice');
-            $data['address'] = $this->getRequest()->getPost('address');
+            $data['address'] =$this->getRequest()->getPost('address');
             $data['minorder'] = $this->getRequest()->getPost('minorder');
             $data['deliverycharge'] = $this->getRequest()->getPost('deliverycharge');
             $data['hotel_status'] = $this->getRequest()->getPost('hotel_status');
             $data['agent_id'] = $agentid;
+         
+            
             $cuisines = $this->getRequest()->getPost('selectcuisine');
+               
             $hotellocation = $this->getRequest()->getPost('selectlocation');
-             
+
             if (!empty($hotellocation)) {
                
                 $data['hotel_location'] = $hotellocation;

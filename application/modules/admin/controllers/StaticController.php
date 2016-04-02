@@ -23,7 +23,7 @@ class Admin_StaticController extends Zend_Controller_Action {
             echo 'controller error occured';
         }
    }
-
+//alter by sowmya 18 march 2016
     public function addDeliveryGuyAction() {
         $deliveryGuysModel = Admin_Model_DeliveryGuys::getInstance();
 
@@ -32,7 +32,7 @@ class Admin_StaticController extends Zend_Controller_Action {
             $deliverydata['firstname'] = $this->getRequest()->getPost('firstname');
             $deliverydata['lastname'] = $this->getRequest()->getPost('lastname');
             $deliverydata['email'] = $this->getRequest()->getPost('email');
-            $deliverydata['password'] = md5(sha1($this->getRequest()->getPost('password')));
+            $deliverydata['password'] = md5($this->getRequest()->getPost('password'));
             $deliverydata['phone'] = $this->getRequest()->getPost('phone');
             $deliverydata['city'] = $this->getRequest()->getPost('city');
             $deliverydata['state'] = $this->getRequest()->getPost('state');
@@ -47,17 +47,18 @@ class Admin_StaticController extends Zend_Controller_Action {
             }
         }
     }
-
+//alter by sowmya 18 march 2016
     public function editDeliveryguyDetailsAction() {
      
         $deliveryGuysModel = Admin_Model_DeliveryGuys::getInstance();
          $delguyid = $this->getRequest()->getParam('delguyid');
          if ($this->_request->isPost()) {
+             $delguyid=$delguyid;
             $deliverydata['login_name'] = $this->getRequest()->getPost('login_name');
             $deliverydata['firstname'] = $this->getRequest()->getPost('firstname');
             $deliverydata['lastname'] = $this->getRequest()->getPost('lastname');
             $deliverydata['email'] = $this->getRequest()->getPost('email');
-            $deliverydata['password'] = md5(sha1($this->getRequest()->getPost('password')));
+            $deliverydata['password'] = md5($this->getRequest()->getPost('password'));
             $deliverydata['phone'] = $this->getRequest()->getPost('phone');
             $deliverydata['city'] = $this->getRequest()->getPost('city');
             $deliverydata['state'] = $this->getRequest()->getPost('state');

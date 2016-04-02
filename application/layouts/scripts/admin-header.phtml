@@ -43,11 +43,19 @@
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-core.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-ui-core.js', 'text/javascript')
 //                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/bootstrap.min.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/dropdown.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/tooltip.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/collapse.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/superclick.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/slimscroll.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/slidebars.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/material.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/ripples.js', 'text/javascript')
-                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/layout.js', 'text/javascript');
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/select2.full.min.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jasny-bootstrap.min.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/custom.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/layout.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/datatable-bootstrap.js', 'text/javascript');
         }
         ?>  
         <script>
@@ -108,7 +116,7 @@
                                         </div>
                                     </li>
                                     <li>
-                                        <a href="/admin/transaction" title="Transaction Details">
+                                        <a href="javascript:void(0);" title="Transaction Details">
                                             <i class="glyph-icon icon-linecons-money"></i> <span>Transaction Details</span>
                                         </a>
                                         <div class="sidebar-submenu">
@@ -119,9 +127,15 @@
                                         </div>
                                     </li>
                                     <li>
-                                        <a href="/admin/order-details" title="Order Details">
+                                        <a href="javascript:void(0);" title="Order Details">
                                             <i class="glyph-icon icon-linecons-note"></i> <span>Order Details</span>
                                         </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li><a href="/admin/order-details" title="Order Details"><span>Order Details</span></a></li>
+                                                <li><a href="/admin/refund-request" title="Test Order Details"><span>Test Order Details</span></a></li>
+                                            </ul>
+                                        </div>
                                     </li>
                                     <li>
                                         <a href="javascript:void(0);" title="Products">
@@ -153,6 +167,19 @@
                                             <ul>
                                                 <li><a href="/admin/agent-details" title="Agent Details"><span>Agent Details</span></a></li>
                                                 <li><a href="/admin/add-agents" title="Add New Agent"><span>Add New Agent</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Notification">
+                                            <i class="glyph-icon icon-linecons-cog"></i> <span>Notification</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li><a href="/admin/notification-log" title="Notification Log"><span>Notification Log</span></a></li>
+                                                <li><a href="/admin/send-user-notification" title="Send User Notification"><span>Send User Notification</span></a></li>
+                                                <li><a href="/admin/send-agent-notification" title="Send Agent Notification"><span>Send Agent Notification</span></a></li>
+
                                             </ul>
                                         </div>
                                     </li>

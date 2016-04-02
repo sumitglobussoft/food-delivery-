@@ -1,0 +1,185 @@
+<link href="/assets/global/css/plugins.css" media="screen" rel="stylesheet" type="text/css" >
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/bootstrap-datepicker/css/datepicker.css"/>
+<link href="/assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+<style>
+    .login .content label {
+        color: #000;
+    }
+    input.error{border:1px solid #FF0000 !important; }
+    label.error,div.error{
+        font-weight:normal;
+        color:#FF0000 !important;
+    }
+</style>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light bordered">
+                    <!-- BEGIN LOGIN FORM -->
+                    <h3 class="form-title" style="color: black" >Send Notification:</h3>
+                    <p style="float:right">
+                        <button  class="btn blue pull-right" id="sendbtn">
+                            Send <i class="m-icon-swapright m-icon-white"></i>
+                        </button></p>
+                    <span class="notification-suc-err"></span></br></br>
+
+                    <div class="form-group" style="width: 400px ">
+                        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                        <label class="control-label visible-ie8 visible-ie9"> Message</label>
+                        <div class="input-icon">
+                            <i class="fa fa-user"></i>
+                            <textarea class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="message" name="message" id="messagecontent"></textarea>
+                        </div>
+                        <!--                        <div class="input-icon">
+                                                    <i class="fa fa-user"></i>
+                                                    <textarea class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="description" name="description" id="descriptioncontent"></textarea>
+                                                </div>-->
+                    </div></br>
+                    <table class="dynamicTable table table-striped table-bordered table-condensed" id="sendnotificationtable"  >
+                        <thead>
+                            <tr>
+<!--                                        <th style="width: 1%;" ><input id="collectioncheckcall" type="checkbox" /></th>-->
+                                <th style="width: 1%;" class="center">No</th>                            
+                                <th style="width: 20%;"><input type="checkbox" id="selectall"/>Agent name</th>  
+                                <th style="width: 20%;">Agent Email</th>
+                                <th style="width: 20%;">Registration Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if (isset($this->data)) {
+                                $row = 0;
+                                foreach ($this->data as $collectionData) {     // echo '<pre>';print_r($collectionData);die;
+                                    ?>
+                                    <tr class="selectable">
+                                        <td class="center"><?php echo ++$row; ?></td>
+                                        <td><input class="case" type="checkbox" name="case" id="<?php echo $collectionData['agent_id']; ?>"/><?php
+                                            echo $collectionData['first_name'];
+                                            echo ' ';
+                                            echo $collectionData['last_name'];
+                                            ?></td>                                 
+                                        <td class="center"><?php echo $collectionData['email']; ?></td>
+                                        <td class="center"><?php echo $collectionData['reg_date']; ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            ?>	
+                        </tbody>
+                    </table> 
+                    <div style="padding-bottom: 50px;">
+                    </div>
+                    <!--</form>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    jQuery(document).ready(function() {
+
+        var table = $('#sendnotificationtable');
+        var oTable = table.dataTable({
+//            "lengthMenu": [
+//                [10, 20, 100, -1],
+//                [10, 20, 100, "All"]
+//            ],
+            "bAutoWidth": false,
+            "scrollY": "800px",
+            "scrollCollapse": true,
+            "paging": false,
+            "bSort": false
+
+        });
+
+
+        var sel = [];
+//        $('#selectall').click(function (event) {
+//            if (this.checked) { // check select status
+//                $('.case').each(function () {
+//                    $(this).parent().addClass('checked');
+//                });
+//                var i = 0;
+//                $('.checked').each(function () {
+//                    var obj = $(this).children()[0];
+//                    sel.push($(obj).attr('id'));
+//                    if (i === 0)
+//                        sel.pop();
+//                    i++;
+//                });
+//            } else {
+//                $('.case').each(function () {
+//                    $(this).parent().removeClass('checked');
+//                });
+//                while (sel.length)
+//                    sel.pop();
+//            }
+//        });
+//
+        $('#selectall').click(function(event) {  //on click
+            if (this.checked) { // check select status
+                $('.case').each(function() { //loop through each checkbox
+                    $(this).parent().addClass('checked');
+                    this.checked = true;  //select all checkboxes with class "checkbox1"              
+                });
+            } else {
+                $('.case').each(function() { //loop through each checkbox
+                    $(this).parent().removeClass('checked');
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"                      
+                });
+            }
+        });
+
+        $(document.body).on("click", "#sendbtn", function() {
+            var obj = $(this);
+//            $('.case:checked').each(function() {
+//                console.log($(this));
+//                sel.push($(this).attr('id'));
+//            });
+            ($('.case').parent('td')).each(function() {
+                console.log($(this));
+                sel.push($(this).find('.case').attr('id'));
+            });
+              console.log(sel);
+            var message = $('#messagecontent').val();
+            if (($('#messagecontent').val() != "") && (sel != "")) {
+                $.ajax({
+                    url: '/admin/notification-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'agentNotification',
+                        AgentID: sel,
+                        Message: message
+                    },
+                    success: function(response) {
+                        if (response) {
+                            while (sel.length)
+                                sel.pop();
+                            $('.case').removeAttr('checked');
+                            $('.case').parent().removeClass('checked');
+                            $('#selectall').removeAttr('checked');
+                            $('#selectall').parent().removeClass('checked');
+                            $('#messagecontent').val('');
+                            $('#descriptioncontent').val('');
+                            $('.notification-suc-err').show();
+                            $('.notification-suc-err').html(response);
+                            $('.notification-suc-err').css('color', 'green');
+                            $('.notification-suc-err').delay(3000).hide('slow');
+                        }
+                    }
+                });
+            } else {
+                $('.notification-suc-err').show();
+                $('.notification-suc-err').html('Please provide Message and select Checkbox');
+                $('.notification-suc-err').css('color', 'red');
+                $('.notification-suc-err').delay(3000).hide('slow');
+            }
+        });
+
+    });
+</script>

@@ -4,21 +4,11 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-3"><a href="#" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-danger"><span class="bs-badge badge-absolute">1</span><div class="tile-header">Users</div><div class="tile-content-wrapper"><i class="glyph-icon icon-file-photo-o"></i></div></a></div>
-            <div class="col-md-3">
-                <a href="#" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-success">
-                    <div class="tile-header">Products</div>
-                    <div class="tile-content-wrapper"><i class="glyph-icon icon-desktop"></i></div>
-                </a>
-            </div>
-            <div class="col-md-3"><a href="#" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-info"><span class="bs-badge badge-absolute">2</span><div class="tile-header">Orders</div><div class="tile-content-wrapper"><i class="glyph-icon icon-download"></i></div></a></div>
-            <div class="col-md-3">
-                <a href="#" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-warning">
-                    <div class="tile-header">Agents</div>
-                    <div class="tile-content-wrapper"><i class="glyph-icon icon-code-fork"></i></div>
-                </a>
-            </div>
+        <div class="row"><!--added by sowmya 28/3/2016-->
+            <div class="col-md-3"><a href="/admin/userdetails" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-danger"><span class="bs-badge badge-absolute"><?php echo $this->userdetails;?></span><div class="tile-header">Users</div><div class="tile-content-wrapper"><i class="glyph-icon icon-file-photo-o"></i></div></a></div>
+            <div class="col-md-3"><a href="/admin/product-details" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-success"><span class="bs-badge badge-absolute"><?php echo $this->productsdetails;?></span><div class="tile-header">Products</div><div class="tile-content-wrapper"><i class="glyph-icon icon-desktop"></i></div></a></div>
+            <div class="col-md-3"><a href="/admin/order-details" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-info"><span class="bs-badge badge-absolute"><?php echo $this->orderdetails;?></span><div class="tile-header">Orders</div><div class="tile-content-wrapper"><i class="glyph-icon icon-download"></i></div></a></div>
+            <div class="col-md-3"><a href="/admin/agent-details" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-warning"><span class="bs-badge badge-absolute"><?php echo $this->agentsdetails;?></span><div class="tile-header">Agents</div><div class="tile-content-wrapper"><i class="glyph-icon icon-code-fork"></i></div></a></div>
         </div>
     </div>
 </div>

@@ -8,7 +8,9 @@
 <script type="text/javascript">
     $(document).ready(function() {
         App.init();
-        
+    });
+
+    $(document).ready(function() {
         $('#login').click(function() {
             $('.login').show();
             $('.register').hide();
@@ -24,8 +26,8 @@
         $('#register').click(function() {
             $('.login').hide();
             $('.register').show();
-        });   
-        
+        });
+
         $(".selectpicker").select2();
         $(".add-loc").click(function() {
             $(".new-location").show();
@@ -131,8 +133,8 @@
      */
     $(document.body).on('change', '.productdeactive', function() {
         var productid = $(this).attr('id');
-         productid = productid.replace("product_", "");
-       
+        productid = productid.replace("product_", "");
+
         console.log('deactivate called');
         $.ajax({
             url: './agent-ajax-handler',
@@ -146,30 +148,30 @@
 
             },
             success: function(response) {
-             var response =  JSON.parse(response) ;
-                if(response.code=="200"){
-                var uid  = response['data'].replace(/ /g,'');
-                        $('#' + "activeclass_" + uid).html("SUSPENDED");
-                        $('#' + "activeclass_" + uid).removeClass('label label-success');
-                        $('#' + "activeclass_" + uid).addClass('label label-danger');
-                        $('#product_' + uid).removeClass('productdeactive');
-                        $('#product_' + uid).addClass('productactive');
+                var response = JSON.parse(response);
+                if (response.code == "200") {
+                    var uid = response['data'].replace(/ /g, '');
+                    $('#' + "activeclass_" + uid).html("SUSPENDED");
+                    $('#' + "activeclass_" + uid).removeClass('label label-success');
+                    $('#' + "activeclass_" + uid).addClass('label label-danger');
+                    $('#product_' + uid).removeClass('productdeactive');
+                    $('#product_' + uid).addClass('productactive');
 
-            }else{
-                alert('Request could not served');
+                } else {
+                    alert('Request could not served');
+                }
             }
-        }
         });
 
     });
- /*
+    /*
      * DEV :priyanka varanasi
      * Desc : Activate hotel
      * Date : 18/12/2015
      */
     $(document.body).on('change', '.productactive', function() {
         var productid = $(this).attr('id');
-         productid = productid.replace("product_", "");
+        productid = productid.replace("product_", "");
         console.log('activate called');
         $.ajax({
             url: './agent-ajax-handler',
@@ -183,180 +185,180 @@
 
             },
             success: function(response) {
-          var response =  JSON.parse(response) ;
-                 if(response.code=="200"){
-                var uid  = response['data'].replace(/ /g,'');
-                   $('#' + "activeclass_" + uid).html("ACTIVE");
-                        $('#' + "activeclass_" + uid).removeClass('label label-danger');
-                        $('#' + "activeclass_" + uid).addClass('label label-success');
-                        $('#product_' + uid).removeClass('productactive');
-                        $('#product_' + uid).addClass('productdeactive');
+                var response = JSON.parse(response);
+                if (response.code == "200") {
+                    var uid = response['data'].replace(/ /g, '');
+                    $('#' + "activeclass_" + uid).html("ACTIVE");
+                    $('#' + "activeclass_" + uid).removeClass('label label-danger');
+                    $('#' + "activeclass_" + uid).addClass('label label-success');
+                    $('#product_' + uid).removeClass('productactive');
+                    $('#product_' + uid).addClass('productdeactive');
 
-            
-        }else{
-         
-                alert('Request could not served');
-             
-        }
+
+                } else {
+
+                    alert('Request could not served');
+
+                }
             }
 
         });
 
     });
-    
-     /*
+
+    /*
      * DEV :priyanka varanasi
      * Desc : Delete hotel
      * Date : 18/12/2015
      */
 
     $(document.body).on('click', '.deleteproduct', function() {
-         var productid = $(this).attr('id');
-       var deleteid = productid.replace("productdelete_", "");
-         if (deleteid) {
-                $.ajax({
-                    url: './agent-ajax-handler',
-                    type: 'POST',
-                    datatype: 'json',
-                    data: {
-                        method: 'productdelete',
-                        productid: deleteid
-                    },
-                    beforeSend: function() {
+        var productid = $(this).attr('id');
+        var deleteid = productid.replace("productdelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'productdelete',
+                    productid: deleteid
+                },
+                beforeSend: function() {
 
-                    },
-                    success: function(response) {
-                        
-                        var response =  JSON.parse(response) ;
-                        if (response) {
-                          var uid  = response['data'].replace(/ /g,'');
-                          
-                            $('#' + "productdelete_" +uid).parent().parent().remove();
+                },
+                success: function(response) {
 
-                        }
+                    var response = JSON.parse(response);
+                    if (response) {
+                        var uid = response['data'].replace(/ /g, '');
+
+                        $('#' + "productdelete_" + uid).parent().parent().remove();
+
                     }
+                }
 
 
-        });
-            }
+            });
+        }
     });
 
-     /*
+    /*
      * DEV :priyanka varanasi
      * Desc : slect states based on country id
      * Date : 18/12/2015
      */
 
     $(document.body).on('change', '.selectcountry', function() {
-         var id = $(this).val();
-      
-         if (id) {
-                $.ajax({
-                    url: './agent-ajax-handler',
-                    type: 'POST',
-                    datatype: 'json',
-                    data: {
-                        method: 'findstates',
-                        countryid: id
-                    },
-                    beforeSend: function() {
+        var id = $(this).val();
 
-                    },
-                    success: function(response) {
-                        
-                        var response =  JSON.parse(response) ;
-                        if (response.code==200) {
-                         $.each(response.data,function(i,a){
-                               $('#state').append('<option value="'+a.location_id+'">'+a.name+'</option>');
-                            });
+        if (id) {
+            $.ajax({
+                url: './agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'findstates',
+                    countryid: id
+                },
+                beforeSend: function() {
 
-                        }
+                },
+                success: function(response) {
+
+                    var response = JSON.parse(response);
+                    if (response.code == 200) {
+                        $.each(response.data, function(i, a) {
+                            $('#state').append('<option value="' + a.location_id + '">' + a.name + '</option>');
+                        });
+
                     }
+                }
 
 
-        });
-            }
+            });
+        }
     });
-    
-    
-    
-     /*
+
+
+
+    /*
      * DEV :priyanka varanasi
      * Desc : slect citys based on state id
      * Date : 18/12/2015
      */
 
     $(document.body).on('change', '.selectstate', function() {
-         var id = $(this).val();
-      
-         if (id) {
-                $.ajax({
-                    url: './agent-ajax-handler',
-                    type: 'POST',
-                    datatype: 'json',
-                    data: {
-                        method: 'findcitys',
-                        stateid: id
-                    },
-                    beforeSend: function() {
+        var id = $(this).val();
 
-                    },
-                    success: function(response) {
-                        
-                        var response =  JSON.parse(response) ;
-                        if (response.code==200) {
-                      $.each(response.data,function(i,a){
-                               $('#city').append('<option value="'+a.location_id+'">'+a.name+'</option>');
-                            });
+        if (id) {
+            $.ajax({
+                url: './agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'findcitys',
+                    stateid: id
+                },
+                beforeSend: function() {
 
-                        }
+                },
+                success: function(response) {
+
+                    var response = JSON.parse(response);
+                    if (response.code == 200) {
+                        $.each(response.data, function(i, a) {
+                            $('#city').append('<option value="' + a.location_id + '">' + a.name + '</option>');
+                        });
+
                     }
+                }
 
 
-        });
-            }
+            });
+        }
     });
 
-     /*
+    /*
      * DEV :priyanka varanasi
      * Desc : slect locations based on city id
      * Date : 18/12/2015
      */
 
     $(document.body).on('change', '.selectcity', function() {
-         var id = $(this).val();
-      
-         if (id) {
-                $.ajax({
-                    url: './agent-ajax-handler',
-                    type: 'POST',
-                    datatype: 'json',
-                    data: {
-                        method: 'findlocations',
-                        locationid: id
-                    },
-                    beforeSend: function() {
+        var id = $(this).val();
 
-                    },
-                    success: function(response) {
-                        
-                        var response =  JSON.parse(response) ;
-                        if (response.code==200) {
-                            $.each(response.data,function(i,a){
-                               $('#location').append('<option value="'+a.location_id+'">'+a.name+'</option>');
-                            });
-                         
+        if (id) {
+            $.ajax({
+                url: './agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'findlocations',
+                    locationid: id
+                },
+                beforeSend: function() {
 
-                        }
+                },
+                success: function(response) {
+
+                    var response = JSON.parse(response);
+                    if (response.code == 200) {
+                        $.each(response.data, function(i, a) {
+                            $('#location').append('<option value="' + a.location_id + '">' + a.name + '</option>');
+                        });
+
+
                     }
+                }
 
 
-        });
-            }
+            });
+        }
     });
-    
-    
-        $('#type_cusine').change(function() {
+
+
+    $('#type_cusine').change(function() {
         var typevalue = $(this).val();
         $.ajax({
             url: './agent-ajax-handler',
@@ -370,9 +372,9 @@
 
             },
             success: function(response) {
-           var res = jQuery.parseJSON(response);
-                if (res.code===200) {
-             
+                var res = jQuery.parseJSON(response);
+                if (res.code === 200) {
+
                     $('#cuisine').html('');
                     $('#cuisine').append('<option disabled selected>Select Cusine</option>');
                     $.each(res.data, function(i, a) {
@@ -400,13 +402,13 @@
 
             },
             success: function(response) {
-                 var res = jQuery.parseJSON(response);
-                if (res.code===200) {
+                var res = jQuery.parseJSON(response);
+                if (res.code === 200) {
 
                     $('#category').html('');
                     $('#category').append('<option disabled selected>Select category</option>');
                     $.each(res.data, function(i, a) {
-                        $('#category').append('<option value="' + a.category_id + '">'+ a.cat_name + '</option>');
+                        $('#category').append('<option value="' + a.category_id + '">' + a.cat_name + '</option>');
                     });
                     $('.show-category').show();
                     $('.show-cusine').hide();

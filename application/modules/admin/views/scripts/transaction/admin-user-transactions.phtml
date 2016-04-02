@@ -7,7 +7,7 @@
     <div class="col-md-12">
         <div class="panel">
             <div class="panel-body">
-                <h3 class="title-hero">View Admin-User Transactions</h3>
+                <h3 class="title-hero">View/Delete Admin -User Transactions</h3>
                 <div class="example-box-wrapper" id="user-transaction">
                     <!-- Nav tabs -->
                     <ul class="nav nav-pills" role="tablist">
@@ -39,6 +39,7 @@
                                         <th>Trans. Amount</th>
                                         <th>Trans. Code</th>
                                         <th>Trans. Date</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -50,6 +51,7 @@
                                         <th>Trans. Amount</th>
                                         <th>Trans. Code</th>
                                         <th>Trans. Date</th>
+                                        <th>Delete</th>
 
                                     </tr>
                                 </tfoot>
@@ -73,9 +75,12 @@
                                                     ?></td>                              <td><?php echo $value['tx_amount']; ?></td>
                                                 <td><?php echo $value['tx_code']; ?></td>
                                                 <td><?php echo date("j F , Y h:i:s A", strtotime($value['tx_date'])); ?></td>
+                                                <td class="text-center">                                             
+                                                    <a href="javascript:;" id="<?php echo "transdelete_" . $value['user_tx_id']; ?>" class="btn btn-default deletetrans"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                                </td>
                                             </tr>   
 
-                                        <?php
+                                            <?php
                                         }
                                     }
                                     ?>
@@ -95,6 +100,7 @@
                                         <th>Trans. Amount</th>
                                         <th>Trans. Code</th>
                                         <th>Trans. Date</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -106,6 +112,7 @@
                                         <th>Trans. Amount</th>
                                         <th>Trans. Code</th>
                                         <th>Trans. Date</th>
+                                        <th>Delete</th>
 
                                     </tr>
                                 </tfoot>
@@ -129,12 +136,15 @@
                                                     ?></td>                              <td><?php echo $value['tx_amount']; ?></td>
                                                 <td><?php echo $value['tx_code']; ?></td>
                                                 <td><?php echo date("j F , Y h:i:s A", strtotime($value['tx_date'])); ?></td>
+                                                <td class="text-center">                                             
+                                                      <a href="javascript:;" id="<?php echo "transdelete_" . $value['user_tx_id']; ?>" class="btn btn-default deletetrans"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                                </td>
                                             </tr>   
 
-    <?php
-    }
-}
-?> 
+                                            <?php
+                                        }
+                                    }
+                                    ?> 
                                 </tbody>
                             </table>
                         </div>
@@ -150,6 +160,7 @@
                                         <th>Trans. Amount</th>
                                         <th>Trans. Code</th>
                                         <th>Trans. Date</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -161,14 +172,15 @@
                                         <th>Trans. Amount</th>
                                         <th>Trans. Code</th>
                                         <th>Trans. Date</th>
+                                        <th>Delete</th>
 
                                     </tr>
                                 </tfoot>
                                 <tbody>
-<?php
-if (isset($this->failedStatus)) {
-    foreach ($this->failedStatus as $value) {
-        ?>
+                                    <?php
+                                    if (isset($this->failedStatus)) {
+                                        foreach ($this->failedStatus as $value) {
+                                            ?>
                                             <tr>
                                                 <td><?php echo $value['uname']; ?></td>
                                                 <td><?php echo $value['email']; ?></td>
@@ -184,12 +196,15 @@ if (isset($this->failedStatus)) {
                                                     ?></td>                              <td><?php echo $value['tx_amount']; ?></td>
                                                 <td><?php echo $value['tx_code']; ?></td>
                                                 <td><?php echo date("j F , Y h:i:s A", strtotime($value['tx_date'])); ?></td>
+                                                <td class="text-center">                                             
+                                                      <a href="javascript:;" id="<?php echo "transdelete_" . $value['user_tx_id']; ?>" class="btn btn-default deletetrans"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                                </td>
                                             </tr>   
 
-    <?php
-    }
-}
-?> 
+                                            <?php
+                                        }
+                                    }
+                                    ?> 
                                 </tbody>
                             </table>
                         </div>
@@ -205,6 +220,7 @@ if (isset($this->failedStatus)) {
                                         <th>Trans. Amount</th>
                                         <th>Trans. Code</th>
                                         <th>Trans. Date</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -216,14 +232,15 @@ if (isset($this->failedStatus)) {
                                         <th>Trans. Amount</th>
                                         <th>Trans. Code</th>
                                         <th>Trans. Date</th>
+                                        <th>Delete</th>
 
                                     </tr>
                                 </tfoot>
                                 <tbody>
-<?php
-if (isset($this->cancelStatus)) {
-    foreach ($this->cancelStatus as $value) {
-        ?>
+                                    <?php
+                                    if (isset($this->cancelStatus)) {
+                                        foreach ($this->cancelStatus as $value) {
+                                            ?>
                                             <tr>
                                                 <td><?php echo $value['uname']; ?></td>
                                                 <td><?php echo $value['email']; ?></td>
@@ -239,12 +256,15 @@ if (isset($this->cancelStatus)) {
                                                     ?></td>                              <td><?php echo $value['tx_amount']; ?></td>
                                                 <td><?php echo $value['tx_code']; ?></td>
                                                 <td><?php echo date("j F , Y h:i:s A", strtotime($value['tx_date'])); ?></td>
+                                                <td class="text-center">                                             
+                                                      <a href="javascript:;" id="<?php echo "transdelete_" . $value['user_tx_id']; ?>" class="btn btn-default deletetrans"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                                </td>
                                             </tr>   
 
-    <?php
-    }
-}
-?>  
+                                            <?php
+                                        }
+                                    }
+                                    ?>  
                                 </tbody>
                             </table>
                         </div>

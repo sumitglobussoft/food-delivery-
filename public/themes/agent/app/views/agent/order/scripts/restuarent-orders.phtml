@@ -2,36 +2,33 @@
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li><a href="index.html">Home</a></li>
-        <li><a href="javascript:;">Product</a></li>
-        <li class="active">Product Details</li>
+        <li><a href="javascript:;">Order</a></li>
+        <li class="active">Order Details</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Product Details <small>header small text goes here...</small></h1>
+    <h1 class="page-header">Order Details <small>header small text goes here...</small></h1>
     <!-- end page-header -->
 
     <!-- begin row -->
     <div class="row">
         <!-- begin col-12 -->
         <div class="col-md-12">
-            <!--            <div class="text-right m-b-15">
-                            <a href="/agent/add-product-details" class="btn btn-primary"> <i class="fa fa-plus-circle"></i> Add Product </a>
-                        </div>
-                         begin panel -->
+            <!--  begin panel -->
             <div class="panel pagination-theme clearfix m-b-0">
                 <div class="table-responsive">
                     <table id="data-table" data-order='[[1,"asc"]]' class="table table-bordered table-hover">
                         <thead>
                             <tr class="default">
-                                <th> Email</th>
-                                <th>Hotel</th>
-                                <th>Date</th>
-                                <th>Status</th>
+                                <th>Email</th>
+                                <th>Hotel Name</th>
+                                <th>Order Date</th>
+                                <th>Order Status</th>
                                 <th>Pay Type</th>
                                 <th>Amount</th>
                                 <th>Pay Status</th>
-                                <th>Delivery Status</th>
-                                <th>Delivery Type</th>
+<!--                                <th>Delivery Status</th>
+                                <th>Delivery Type</th>-->
                                 <th>View</th>
                             </tr>
                         </thead>
@@ -41,7 +38,7 @@
                                 $i = 0;
                                 foreach ($this->orderedproducts as $value) {
                                     ?>
-                                    <tr id="<?php echo $value['order_id']; ?>">
+                                    <tr>
                                         <td><?php echo $value['email']; ?></td>
                                         <td><?php echo $value['hotel_name']; ?></td>
                                         <td><?php echo date("j F , Y h:i:s A", strtotime($value['order_date'])); ?></td>
@@ -79,29 +76,34 @@
                                                 echo 'No Acknowledgement';
                                             }
                                             ?></td>
+        <!--                                        <td><?php
+//                                            if ($value['delivery_status'] == 0) {
+//                                                echo 'Pending';
+//                                            } else if ($value['delivery_status'] == 1) {
+//                                                echo 'completed';
+//                                            } else if ($value['delivery_status'] == 2) {
+//                                                echo 'Return/Cancelled';
+//                                            } else if ($value['delivery_status'] == 3) {
+//                                                echo 'Unable to Reach';
+//                                            } else {
+//                                                echo 'No Acknowledgement';
+//                                            }
+                                        ?></td>
                                         <td><?php
-                                            if ($value['delivery_status'] == 0) {
-                                                echo 'Pending';
-                                            } else if ($value['delivery_status'] == 1) {
-                                                echo 'completed';
-                                            } else if ($value['delivery_status'] == 2) {
-                                                echo 'Return/Cancelled';
-                                            } else if ($value['delivery_status'] == 3) {
-                                                echo 'Unable to Reach';
-                                            } else {
-                                                echo 'No Acknowledgement';
-                                            }
-                                            ?></td>
-                                        <td><?php
-                                            if ($value['delivery_type'] == 1) {
-                                                echo 'Delivery to address';
-                                            } else if ($value['delivery_type'] == 2) {
-                                                echo 'pick up';
-                                            } else {
-                                                echo 'None of way choosen';
-                                            }
-                                            ?></td><td class="text-center">
-                                            <a href="/agent/order-details/<?php echo $value['order_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-eye"></i></a><td>
+//                                            if ($value['delivery_type'] == 1) {
+//                                                echo 'Delivery to address';
+//                                            } else if ($value['delivery_type'] == 2) {
+//                                                echo 'pick up';
+//                                            } else {
+//                                                echo 'None of way choosen';
+//                                            }
+                                        ?></td>-->
+                                        <td class="text-center">
+                                            <a data-id="<?php echo $value['hotel_name']; ?>" href="/agent/edit-restuarent-orders/<?php echo $value['order_id'];?>" class="btn btn-purple btn-icon btn-circle btn-sm">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                        </td>
+                                               
                                     </tr> 
                                     <?php
                                 }

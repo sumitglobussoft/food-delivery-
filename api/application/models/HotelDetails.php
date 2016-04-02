@@ -145,7 +145,7 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
 
         if (func_num_args() > 0) {
             $hotelid = func_get_arg(0);
-            $data = func_get_arg(1);
+            $data = func_get_arg(1);        
             try {
                 $result = $this->update($data, 'id =' . $hotelid);
                 if ($result) {

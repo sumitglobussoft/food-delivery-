@@ -9,7 +9,7 @@
             <div class="panel-body">
                 <h3 class="title-hero">View/Edit/Remove Products</h3>
                 <div class="example-box-wrapper">
-                    <table id="datatable-responsive" class="table table-striped table-bordered responsive no-wrap" cellspacing="0" width="100%">
+                    <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th> User Name </th>
@@ -52,26 +52,27 @@
                                             <?php if ($value['status'] == 1): ?>
                                                 <td id="activeuser_<?php echo $value['user_id']; ?>" class="useractive">Active</td>
                                                 <td class="center"><a style="cursor:pointer"  id="<?php
-                                if (isset($value['user_id'])): echo "user_" . $value['user_id'];
-                                endif;
-                                                ?>" class="userdeactive">
+                                                    if (isset($value['user_id'])): echo "user_" . $value['user_id'];
+                                                    endif;
+                                                    ?>" class="userdeactive">
                                                         <span id="activeclass_<?php echo $value['user_id']; ?>" class="bs-label label-danger">Deactivate</span></a></td>
                                             <?php else: ?>
                                                 <td id="activeuser_<?php echo $value['user_id']; ?>" class="userdeactive">Suspended</td>
                                                 <td class="center" ><a style="cursor:pointer" id="<?php
-                                if (isset($value['user_id'])): echo "user_" . $value['user_id'];
-                                endif;
-                                                ?>" class="useractive">
+                                                    if (isset($value['user_id'])): echo "user_" . $value['user_id'];
+                                                    endif;
+                                                    ?>" class="useractive">
                                                         <span id="activeclass_<?php echo $value['user_id']; ?>"  class="bs-label label-success">Activate</span></a></td>
                                             <?php endif; ?> 
 
 
                                             <td class="text-center">
                                                 <a href="/admin/edit-user-details/<?php echo $value['user_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-eye"></i></a>
-                                                <a href="javascript:;" id="<?php echo "userdelete_".$value['user_id']; ?>" class="btn btn-default deleteuser"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                                <a href="javascript:;" id="<?php echo "userdelete_" . $value['user_id']; ?>" class="btn btn-default deleteuser"><i class="glyph-icon icon-linecons-trash"></i></a>
                                             </td>
                                         </tr>
-                                    <?php }
+                                    <?php
+                                    }
                                 }
                             }
                             ?>

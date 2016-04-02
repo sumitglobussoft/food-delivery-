@@ -1,0 +1,261 @@
+<link href="/assets/global/css/plugins.css" media="screen" rel="stylesheet" type="text/css" >
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/global/plugins/bootstrap-datepicker/css/datepicker.css"/>
+<link href="/assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12">
+                <?php if ($this->orderErrorMsg) { ?>
+                    <div class="msg" align="center">
+                        <h2 class="text-danger"><?php echo $this->orderErrorMsg; ?></h2>
+                          <a href="/admin/refund-request" class="btn btn-default btn-circle" id="back_button"><i class="fa fa-angle-left"></i> Back To All Orders</a>
+                    </div>
+                <?php } else { ?>
+                    <!-- Begin: life time stats -->
+                    <div class="portlet light">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="icon-basket font-green-sharp"></i>
+                                <span class="caption-subject font-green-sharp bold uppercase">
+                                    Order #<?php echo $this->orderDetails['order_id']; ?> </span>
+                                <span class="caption-helper"><?php echo $this->orderDetails['order_date']; ?></span>
+                            </div>
+                            <div class="actions">
+                                <a href="/admin/refund-request" class="btn btn-default btn-circle" id="back_button">
+                                    <i class="fa fa-angle-left"></i>
+                                    <span class="hidden-480">Back</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="tabbable">                      
+                                <?php
+                                $userDetails = json_decode($this->orderDetails['uname'], true);
+                                ?>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab_1">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="portlet yellow-crusta box">
+                                                    <div class="portlet-title"><div class="caption"><i class="fa fa-cogs"></i>Order Details</div></div>
+                                                    <div class="portlet-body">
+                                                        <div class="row static-info">
+                                                            <div class="col-md-5 name">Order #:</div>
+                                                            <div class="col-md-7 value"><?php echo $this->orderDetails['order_id']; ?></div>
+                                                        </div>
+                                                        <div class="row static-info">
+                                                            <div class="col-md-5 name">Order Date & Time:</div>
+                                                            <div class="col-md-7 value"><?php echo $this->orderDetails['order_date']; ?></div>
+                                                        </div>
+                                                        <div class="row static-info">
+                                                            <div class="col-md-5 name">Order Status:</div>
+                                                            <div class="col-md-7 value"><span class="label label-<?php echo $this->orderDetails['status_class']; ?>"><?php echo $this->orderDetails['status']; ?> </span></div>
+                                                        </div>
+                                                        <div class="row static-info">
+                                                            <div class="col-md-5 name">Grand Total:</div>
+                                                            <div class="col-md-7 value"><i class="fa fa-rupee"></i>&nbsp;<?php echo $this->orderDetails['total_amount']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Pay Status:</div>
+                                                                <div class="col-md-7 value"><span class="label label-<?php echo $this->orderDetails['pay_status_class']; ?>"><?php echo $this->orderDetails['pay_status']; ?> </span></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Delivery_Status:</div>
+                                                                <div class="col-md-7 value"><span class="label label-<?php echo $this->orderDetails['delivery_status_class']; ?>"><?php echo $this->orderDetails['delivery_status']; ?> </span></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Delivery_Type:</div>
+                                                                <div class="col-md-7 value"><?php   if ($this->orderDetails['delivery_type'] = 1) {
+                                                                        echo 'Delivery to address';
+                                                                    } else {
+                                                                        echo 'Pickup';
+                                                                    } ?> </div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Quantity:</div>
+                                                                <div class="col-md-7 value"><i class="fa fa-rupee"></i><?php echo $this->orderDetails['quantity']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Product_Amount:</div>
+                                                                <div class="col-md-7 value"><i class="fa fa-rupee"></i><?php echo $this->orderDetails['product_amount']; ?> </span></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">User_Message:</div>
+                                                                <div class="col-md-7 value"><i class="fa fa-rupee"></i><?php echo $this->orderDetails['user_message']; ?> </span></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Delivery_Charge:</div>
+                                                                <div class="col-md-7 value"><i class="fa fa-rupee"></i><?php echo $this->orderDetails['delivery_charge']; ?> </span></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Payment Information:</div>
+                                                                <div class="col-md-7 value">
+                                                                    <?php
+                                                                    if ($this->orderDetails['pay_type'] = 1) {
+                                                                        echo 'COD';
+                                                                    } else {
+                                                                        echo 'Paypal';
+                                                                    }
+                                                                    ?>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="portlet red-sunglo box">
+                                                        <div class="portlet-title"><div class="caption"><i class="fa fa-cogs"></i>Shipping Address</div></div>
+                                                        <div class="portlet-body">
+                                                            <div class="row static-info">
+                                                                <div class="col-md-12 value">
+                                                                    <?php
+                                                                    echo $this->orderDetails['user_name'] . '<br>';
+                                                                    echo $this->orderDetails['landmark'] . ',<br>';
+                                                                    echo $this->orderDetails['Location'] . ',<br>';
+                                                                    echo $this->orderDetails['contact_number'] . ',<br>';
+                                                                    echo $this->orderDetails['address_line1'] . ',<br>';
+                                                                    echo $this->orderDetails['address_line2'] . ',<br>';
+                                                                    echo $this->orderDetails['district'] . ',<br>';
+                                                                    echo $this->orderDetails[' 	state'] . ',<br>';
+                                                                    echo $this->orderDetails[' 	country'] . ',<br>';
+                                                                    echo $this->orderDetails[' pin'] . ',<br>';
+                                                                    ?>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="portlet blue-hoki box">
+                                                        <div class="portlet-title"><div class="caption"><i class="fa fa-cogs"></i>Product Details</div></div>
+                                                        <div class="portlet-body">
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Product_Id:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['product_id']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Hotel Name:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['hotel_name']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Product Name:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['name']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Ordered_Cart_Id:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['ordered_cart_id']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Product_Cost:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['product_cost']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Pay Amount:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['pay_amount']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Coupon_Id:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['coupon_id']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Product Discount:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['product_discount']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Quantity:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['quantity']; ?></div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="portlet green-meadow box">
+                                                        <div class="portlet-title"><div class="caption"><i class="fa fa-cogs"></i>Customer Information</div></div>
+                                                        <div class="portlet-body">
+
+
+
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Customer Name:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['first_name'] . " " . $this->orderDetails['last_name']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Email:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['email']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Phone Number:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['phone']; ?></div>
+                                                            </div>
+                                                            <div class="row static-info">
+                                                                <div class="col-md-5 name">Address:</div>
+                                                                <div class="col-md-7 value"><?php echo $this->orderDetails['city'] . " , " . $this->orderDetails['state'] . " , " . $this->orderDetails['country']; ?></div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="tab_2">
+                                            <div class="table-container">
+                                                <table class="table table-striped table-bordered table-hover"style="width:50%;">
+                                                    <thead>
+                                                        <tr role="row" class="heading">
+                                                            <th width="25%">Datetime</th>
+                                                            <th width="55%">Description</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $orderDateAndStatus = explode(',', $this->orderDetails['updated_date']);
+                                                        $statusWithDate = array();
+                                                        foreach ($orderDateAndStatus as $value) {
+                                                            
+                                                        }
+                                                        $status_list = array(
+                                                            0 => array("primary" => "Pending"),
+                                                            1 => array("primary" => "In-Process"),
+                                                            2 => array("success" => "Delivered"),
+                                                            3 => array("danger" => "Cancelled"),
+                                                            4 => array("primary" => "Dispatch"),
+                                                        );
+
+                                                        foreach ($statusWithDate as $key => $value) {
+                                                            ?>
+                                                            <tr>
+                                                                <td><?php echo date('M d, Y - h:i A', $value); ?></td>
+                                                                <td><?php echo current($status_list[$key]); ?></td>
+                                                            </tr>
+
+                                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End: life time stats -->
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            if (history.length > 1) {
+                $("#back_button").attr('href', document.referrer);
+            }
+        });
+    </script>

@@ -12,16 +12,17 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
         return self::$_instance;
     }
 
-    public function getAllOrders() {
-//        if (func_num_args() > 0) {
-        $role = 1;
+//added by sowmya 30.3.2016
+    public function getAllOrders($where = null, $order = null, $count = null, $offset = null) {
         try {
             $select = $this->select()
                     ->from(array('o' => 'orders'))
                     ->setIntegrityCheck(false)
-                    ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname','u.email'));
-                    //->where('u.role = ?', $role);
-
+                    ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname', 'u.email'))
+                    ->joinLeft(array('p' => 'products'), 'o.product_id = p.product_id', array('p.product_id', 'p.name'))
+                    ->where($where)
+                    ->order($order)
+                    ->limit($count, $offset);
             $result = $this->getAdapter()->fetchAll($select);
         } catch (Exception $e) {
             throw new Exception('Unable To retrieve data :' . $e);
@@ -30,13 +31,11 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
         if ($result) {
             return $result;
         }
-//        }
     }
 
     public function getallorderdetails() {
 
         if (func_num_args() > 0) {
-//            $role = 1;
             $orderId = func_get_arg(0);
             try {
                 $select = $this->select()
@@ -44,15 +43,13 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
                         ->from(array('o' => 'orders'))
                         ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname', 'u.email'))
                         ->joinLeft(array('um' => 'usermeta'), 'o.user_id= um.user_id', array('um.phone', 'um.city', 'um.state', 'um.country', 'um.address'))
-                        ->joinLeft(array('op' => 'order_products'), 'o.order_id= op.order_id', array('op.product_id','op.product_cost', 'op.product_discount', 'op.pay_amount', 'op.quantity', 'p.delivery_time'))
+                        ->joinLeft(array('op' => 'order_products'), 'o.order_id= op.order_id', array('op.product_id', 'op.product_cost', 'op.product_discount', 'op.pay_amount', 'op.quantity', 'p.delivery_time'))
                         ->joinLeft(array('p' => 'products'), 'op.product_id= p.product_id', array('p.item_type', 'p.name', 'p.prod_desc', 'p.imagelink', 'p.cost', 'p.delivery_time'))
-                        ->joinLeft(array('dsl' => 'delivery_status_log'), 'o.order_id= dsl.order_id', array('dsl.delivery_guy_id','dsl.status_id','dsl.status_type','dsl.time'))
+                        ->joinLeft(array('dsl' => 'delivery_status_log'), 'o.order_id= dsl.order_id', array('dsl.delivery_guy_id', 'dsl.status_id', 'dsl.status_type', 'dsl.time'))
                         ->joinLeft(array('dg' => 'delivery_guys'), 'dsl.delivery_guy_id= dg.del_guy_id')
-//                        ->where('u.role = ?',$role)
                         ->where('o.order_id = ?', $orderId);
 
                 $result = $this->getAdapter()->fetchAll($select);
-        
             } catch (Exception $e) {
                 throw new Exception('Unable To retrieve data :' . $e);
             }
@@ -60,6 +57,91 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
             if ($result) {
                 return $result;
             }
+        }
+    }
+
+    /*
+     * DEV :sowmya
+     * Desc : get All Orders By ID
+     * Date : 21/3/2016
+     */
+
+    public function getAllOrdersByID() {
+        if (func_num_args() > 0) {
+            $order_id = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->from(array('o' => 'orders'))
+                        ->setIntegrityCheck(false)
+                        ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname', 'u.email'))
+                        ->joinLeft(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.id', 'hd.hotel_name'))
+                        ->joinLeft(array('p' => 'products'), 'o.product_id=p.product_id', array('p.product_id', 'p.name'))
+                        ->where('order_id = ?', $order_id);
+                $result = $this->getAdapter()->fetchRow($select);
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+
+            if ($result) {
+                return $result;
+            }
+        }
+    }
+
+//dev:sowmya
+    //desc: to delete order details
+    //date:30/3/2016
+
+    public function orderDelete() {
+        if (func_num_args() > 0):
+            $order_id = func_get_arg(0);
+            try {
+                $db = Zend_Db_Table::getDefaultAdapter();
+                $where = (array('order_id = ?' => $order_id));
+                $db->delete('orders', $where);
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+            return $order_id;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
+    /// added by sowmya 31/3/2016
+    public function getOrderDetailsWhere() {
+        if (func_get_args() > 0) {
+            $where = func_get_arg(0);
+            $sql = $this->select()
+                    ->setIntegrityCheck(FALSE)
+                    ->from(array('o' => 'orders'))
+                    ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname', 'u.email'))
+                    ->joinLeft(array('um' => 'usermeta'), 'o.user_id= um.user_id', array('um.first_name', 'um.last_name', 'um.phone', 'um.city', 'um.state', 'um.country'))
+                    ->joinLeft(array('od' => 'order_address'), 'o.order_id= od.order_id', array('od.user_name', 'od.landmark', 'od.Location', 'od.contact_number', 'od.address_line1', 'od.address_line2', 'od.district', 'od. 	state', 'od. 	country', 'od. pin'))
+                    ->joinLeft(array('op' => 'order_products'), 'o.order_id= op.order_id', array('op.ordered_cart_id', 'op.product_cost', 'op.pay_amount', 'op.coupon_id', 'op.product_discount', 'op.quantity', 'op.hotel_id'))
+                    ->joinLeft(array('p' => 'products'), 'p.product_id=(' . new Zend_Db_Expr('SUBSTRING_INDEX(`o`.`product_id`, ",", 1)') . ')', array('p.product_id', 'p.hotel_id', 'p.name'))
+                    ->joinLeft(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.id', 'hd.hotel_name'))
+                    ->where($where)
+            ;
+            $result = $this->getAdapter()->fetchRow($sql);
+            return $result;
+        } else {
+            throw new Exception('Argument Not Passed');
+        }
+    }
+   /// added by sowmya 31/3/2016
+    public function updateOrderDetails() {
+        if (func_get_args() > 0) {
+            $data = func_get_arg(0);
+            $where = func_get_arg(1);
+            try {
+                $result = $this->update($data, $where);
+            } catch (Exception $exc) {
+                return $exc->getTraceAsString();
+            }
+            return $result;
+        } else {
+            throw new Exception('Argument Not Passed');
         }
     }
 

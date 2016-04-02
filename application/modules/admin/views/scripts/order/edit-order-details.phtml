@@ -1,0 +1,286 @@
+<?php
+$allorderdetailsArray = $this->orderdetails;
+?>
+<div id="page-title">
+    <h2>View/Edit Order Details</h2>
+    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal bordered-row" enctype="multipart/form-data" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User Name</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="uname" id="uname" value="<?php echo $allorderdetailsArray['uname'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User Email</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" type="text" name="email"  id="email" value="<?php echo $allorderdetailsArray['email'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+                                         <tr>
+                                            <td>
+                                                <label class="control-label">Hotel Name</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder=""  type="text" name="order_from_hotel"  id="order_from_hotel" value="<?php echo $allorderdetailsArray['hotel_name'] ?>"class="form-control" />
+
+                                            </td>
+                                        </tr>
+                                         <tr>
+                                            <td>
+                                                <label class="control-label">Product Name</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder=""  type="text" name="name"  id="name" value="<?php echo $allorderdetailsArray['name'] ?>"class="form-control" />
+
+                                            </td>
+                                        </tr>
+                                            <tr>
+                                            <td>
+                                                <label class="control-label">Product Amount</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder=""  type="text" name="product_amount"  id="product_amount" value="<?php echo $allorderdetailsArray['product_amount'] ?>"class="form-control" />
+                                            </td>
+                                        </tr>
+                                          <tr>
+                                            <td>
+                                                <label class="control-label">Quantity</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder=""  type="text" name="quantity"  id="quantity" value="<?php echo $allorderdetailsArray['quantity'] ?>"class="form-control" />
+                                            </td>
+                                        </tr>                                      
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Pay Type</label>
+                                            </td>
+                                            <td>
+                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="pay_type"> 
+                                                    <option value="1" <?php
+                                                            if ($allorderdetailsArray['pay_type'] == 0) {
+                                                                echo"selected";
+                                                            }
+                                                            ?>>
+                                                        COD
+                                                    </option>
+                                                    <option value="2" <?php
+                                                    if ($allorderdetailsArray['pay_type'] == 1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>> 
+                                                        Paypal
+                                                    </option>                                                 
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Pay Amount</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder=""  type="text" name="total_amount"  id="total_amount" value="<?php echo $allorderdetailsArray['total_amount'] ?>"class="form-control" />
+
+                                            </td>
+                                        </tr>
+                                      <tr>
+                                            <td>
+                                                <label class="control-label">Pay Status</label>
+                                            </td>
+                                            <td>
+                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="pay_status"> 
+                                                    <option value="1" <?php
+                                                    if ($allorderdetailsArray['pay_status'] == 0) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Pending
+                                                    </option>
+                                                    <option value="2" <?php
+                                                    if ($allorderdetailsArray['pay_status'] == 1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Completed
+                                                    </option>
+                                                    <option value="3" <?php
+                                                    if ($allorderdetailsArray['pay_status'] == 2) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Failed
+                                                    </option>
+                                                    <option value="4" <?php
+                                                    if ($allorderdetailsArray['pay_status'] == 3) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        COD
+                                                    </option>
+                                                </select>
+                                            </td> 
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>                                          
+                                         <tr>
+                                            <td>
+                                                <label class="control-label">Order Status</label>
+                                            </td>
+                                             <td>  
+                                                    <select  class="js-example-responsive js-example-basic-hide-search form-control" name="pay_status"> 
+                                                        <option value="1" <?php
+                                                        if ($allorderdetailsArray['order_status'] == 0) {
+                                                            echo"selected";
+                                                        }
+                                                        ?>>
+                                                            Pending
+                                                        </option>
+                                                        <option value="2" <?php
+                                                        if ($allorderdetailsArray['order_status'] == 1) {
+                                                            echo"selected";
+                                                        }
+                                                        ?>>
+                                                            In Process
+                                                        </option>
+                                                        <option value="3" <?php
+                                                        if ($allorderdetailsArray['order_status'] == 2) {
+                                                            echo"selected";
+                                                        }
+                                                        ?>>
+                                                            Delivered
+                                                        </option>
+                                                        <option value="4" <?php
+                                                        if ($allorderdetailsArray['order_status'] == 3) {
+                                                            echo"selected";
+                                                        }
+                                                        ?>>
+                                                            Canceled 
+                                                        </option>
+                                                        <option value="5" <?php
+                                                        if ($allorderdetailsArray['order_status'] == 4) {
+                                                            echo"selected";
+                                                        }
+                                                        ?>>
+                                                            Dispatch 
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Delivery Status</label>
+                                            </td>
+                                            <td>
+                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="delivery_status"> 
+                                                    <option value="1" <?php
+                                                    if ($allorderdetailsArray['delivery_status'] == 0) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Pending
+                                                    </option>
+                                                    <option value="2" <?php
+                                                    if ($allorderdetailsArray['delivery_status'] == 1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Return/Cancel
+                                                    </option>  
+                                                    <option value="3" <?php
+                                                    if ($allorderdetailsArray['delivery_status'] == 1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Unable to Reach
+                                                    </option>  
+                                                    <option value="4" <?php
+                                                    if ($allorderdetailsArray['delivery_status'] == 1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Pick up
+                                                    </option>  
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Delivery Type</label>
+                                            </td>
+                                            <td>
+                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="delivery_type"> 
+                                                    <option value="1" <?php
+                                                    if ($allorderdetailsArray['delivery_type'] == 0) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Delivery to address
+                                                    </option>
+                                                    <option value="2" <?php
+                                                    if ($allorderdetailsArray['delivery_type'] == 1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Pick up
+                                                    </option>                                                 
+                                                </select>
+                                            </td>
+                                        </tr>                                                                                                                                                  
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Delivery  Charge</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder=""  type="text" name="delivery_charge"  id="delivery_charge" value="<?php echo $allorderdetailsArray['delivery_charge'] ?>"class="form-control" />
+                                            </td>
+                                        </tr>
+                                          <tr>
+                                            <td>
+                                                <label class="control-label">User Message</label>
+                                            </td>
+                                            <td>
+                                                <textarea class="form-control" name="user_message" id="user_message" cols="20" rows="2"  ><?php echo $allorderdetailsArray['user_message'] ?></textarea>
+                                            </td>
+                                        </tr>                                     
+                                    </tbody>
+                                </table>
+                                   <div class="form-group pull-right">
+                                    <button type="submit" class="btn btn-alt btn-hover btn-primary">
+                                        <span>SAVE</span> <i class="glyph-icon icon-arrow-right"></i>
+                                        <div class="ripple-wrapper"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

@@ -98,11 +98,12 @@ class Engine_Vault_Acl extends Zend_Acl {
 
         $this->add(new Zend_Acl_Resource('agent::order'), 'agent')
                 ->add(new Zend_Acl_Resource('agent::order::order-ajax-handler'), 'agent::order')
-                ->add(new Zend_Acl_Resource('agent::order::restuarent-orders'), 'agent::order');
-
+                ->add(new Zend_Acl_Resource('agent::order::restuarent-orders'), 'agent::order')
+                ->add(new Zend_Acl_Resource('agent::order::edit-restuarent-orders'), 'agent::order');
 
         $this->allow('user', 'agent::order::order-ajax-handler')
-                ->allow('user', 'agent::order::restuarent-orders');
+                ->allow('user', 'agent::order::restuarent-orders')
+                ->allow('user', 'agent::order::edit-restuarent-orders');
 
         $this->add(new Zend_Acl_Resource('agent::product'), 'agent')
                 ->add(new Zend_Acl_Resource('agent::product::product-details'), 'agent::product')
@@ -132,6 +133,10 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->add(new Zend_Acl_Resource('admin::order::order-details'), 'admin::order')
                 ->add(new Zend_Acl_Resource('admin::order::order-product-details'), 'admin::order')
                 ->add(new Zend_Acl_Resource('admin::order::edit-order-details'), 'admin::order')
+                ->add(new Zend_Acl_Resource('admin::order::refund-request'), 'admin::order')
+                ->add(new Zend_Acl_Resource('admin::order::order-listing-ajax-handler'), 'admin::order')
+                ->add(new Zend_Acl_Resource('admin::order::order-ajax-handler'), 'admin::order')
+                ->add(new Zend_Acl_Resource('admin::order::view-order'), 'admin::order')
 
                 // admin delivery  panel///
                 ->add(new Zend_Acl_Resource('admin::static'), 'admin')
@@ -175,7 +180,14 @@ class Engine_Vault_Acl extends Zend_Acl {
                 // admin transactions panel///
                 ->add(new Zend_Acl_Resource('admin::transaction'), 'admin')
                 ->add(new Zend_Acl_Resource('admin::transaction::admin-user-transactions'), 'admin::transaction')
-                ->add(new Zend_Acl_Resource('admin::transaction::admin-agent-transactions'), 'admin::transaction');
+                ->add(new Zend_Acl_Resource('admin::transaction::admin-agent-transactions'), 'admin::transaction')
+                // admin notification panel///added by sowmya 1/4/2016
+                ->add(new Zend_Acl_Resource('admin::notification'), 'admin')
+                ->add(new Zend_Acl_Resource('admin::notification::notification-log'), 'admin::notification')
+                ->add(new Zend_Acl_Resource('admin::notification::send-user-notification'), 'admin::notification')
+                ->add(new Zend_Acl_Resource('admin::notification::send-agent-notification'), 'admin::notification')
+                ->add(new Zend_Acl_Resource('admin::notification::notification-ajax-handler'), 'admin::notification')
+                ->add(new Zend_Acl_Resource('admin::notification::notification'), 'admin::notification');
 
 
 
@@ -217,17 +229,28 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('admin', 'admin::transaction::admin-agent-transactions')
 
 
-                // admin order panel///
+                // admin order panel/// 
                 ->allow('admin', 'admin::order::order-details')
                 ->allow('admin', 'admin::order::edit-order-details')
                 ->allow('admin', 'admin::order::order-product-details')
+                ->allow('admin', 'admin::order::refund-request')
+                ->allow('admin', 'admin::order::order-ajax-handler')
+                ->allow('admin', 'admin::order::order-listing-ajax-handler')
+                ->allow('admin', 'admin::order::view-order')
 
 
                 // admin delivery panel///
                 ->allow('admin', 'admin::static::delivery-guys-details')
                 ->allow('admin', 'admin::static::edit-deliveryguy-details')
                 ->allow('admin', 'admin::static::add-delivery-guy')
-                ->allow('admin', 'admin::static::delivery-guy-orders');
+                ->allow('admin', 'admin::static::delivery-guy-orders')
+
+                // admin notification panel///added by sowmya 1/4/2016
+                ->allow('admin', 'admin::notification::notification-log')
+                ->allow('admin', 'admin::notification::send-user-notification')
+                ->allow('admin', 'admin::notification::send-agent-notification')
+                ->allow('admin', 'admin::notification::notification-ajax-handler')
+                ->allow('admin', 'admin::notification::notification');
 
 //====================end Admin module=======================  
     }

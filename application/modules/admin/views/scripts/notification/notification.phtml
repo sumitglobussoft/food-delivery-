@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="/assets/global/css/plugins.css" media="screen" rel="stylesheet" type="text/css" >
+        <link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
+        <link rel="stylesheet" type="text/css" href="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="/assets/global/plugins/bootstrap-datepicker/css/datepicker.css"/>
+        <link href="/assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+                <!--<title>Wish Notifications</title>-->
+        <style type="text/css">
+            .no-margin{margin:0;}
+            .m-top-xs{margin-top:5px;}
+            .m-top-sm{margin-top:10px;}
+            .no-p-left{padding-left:0;}
+            .square-50{height:50px;width:50px;}
+            .square-80{height:80px;width:80px;}
+            .notification-list > li{margin-top:20px;}
+            .fa-color1{color:#cfd0d1;}
+            .fa-color2{color:#222;}
+            .fa-xlg{font-size:2em;}
+            .d-block{display:block;}
+            .d-inline-block{display:inline-block;}
+            .font-12{font-size:12px;}
+
+        </style>
+
+    </head>
+
+    <body>
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-md-10 col-sm-offset-1">
+                        <div class="portlet light bordered">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="no-margin">My Notifications</h2>
+                                </div>
+                                <div class="panel-body" id="notificationdiv">
+
+                                </div>
+                                <button id='loadmore' class='btn btn-primary col-md-4 col-sm-offset-4 hide' >Load more</button><br><br>
+                            </div>
+                        </div>       
+                        <div class="modal fade" id="viewnotimessage">
+                            <div class="modal-dialog">
+                                <div class="modal-content text-center">
+                                    <div class="modal-header">
+
+                                        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                                        <h3 class="Descriptions" data-dismiss="modal"><span>Description</span></h3>
+
+                                        <h4 class="message"></h4>
+
+                                    </div>
+                                    <div class="modal-body">
+                                        <textarea class="form-control" id="description" disabled style="cursor: default"></textarea>
+                                        <br><br>                                        
+                                        <div align="right">
+                                            <a href="" type="button" class="btn btn-success hidden" id="notificationlink">View Details</a>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<script type="text/javascript">
+    var count = 0;
+    $(window).load(function() {
+        jQuery("#loadmore").trigger("click");
+        $("#loadmore").removeClass('hide');
+    });
+
+    $(document).ready(function() {
+
+        $(document.body).on("click", ".modaldesc", function() {
+            var obj = $(this);
+            var messagedescription = $(this).attr('data-message');
+            var notiurl = $(this).attr('data-url');
+            $('#notificationlink').attr('href', notiurl);
+            $('#notificationlink').addClass('hidden');
+            if (notiurl != '') {
+                $('#notificationlink').removeClass('hidden');
+                $('#notificationlink').attr('href', notiurl);
+            }
+            $('#description').html(messagedescription);
+            var notificationId = $(this).attr('data-id');
+            $.ajax({
+                url: '/admin/notification-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'changeNotificationStatus',
+                    NotificationId: notificationId
+                },
+                success: function(response) {
+                    if (response) {
+                        obj.parents('.list-unstyled').attr('style', 'background-color: white');
+                    }
+                }
+            });
+        });
+
+        $("#loadmore").click(function() {
+            $.ajax({
+                url: "/admin/notification-ajax-handler",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    method: 'adminNotificationWithLimit',
+                    start: count
+
+                },
+                success: function(response) {
+                    var noti = response
+                    if (noti != null) {
+                        $.each(noti, function(index, value) {
+                            var notiId = value['notification_id'];
+                            var message = value['notification_message'];
+                            var timestamp = value['sent_date'];
+                            var notiUrl = value['notification_url'];
+                            var time = '';
+                            if (timestamp != '')
+                                var time = time_ago(timestamp);
+                            if (value["status"] == 0) {
+                                var color = "azure";
+                            } else {
+                                var color = "white";
+                            }
+                            $("#notificationdiv").append('<ul class="list-unstyled notification-list" style="background-color:' + color + ' "> <li class="row"> <div class="col-sm-8 col-xs-10"> <p>' + message + '</p> <span>' + time + '</span></div> <div class="col-sm-3 text-center"> <button data-toggle="modal" data-target="#viewnotimessage" data-message="' + message + '" data-id="' + notiId + '" data-url="' + notiUrl + '" class="btn btn-primary m-top-xs modaldesc">View</button> </div> </li> <div style="color: black; background: lightgrey; width: 100%; height: 2px;"><hr></div> </ul>');
+                        });
+                    } else {
+                        $("#loadmore").hide();
+                        if (count == 0) {
+                            var Nonotification = "There are No Notification";
+                            $('#notificationdiv').append('<h1 style="float:left;position:relative;left:30%;color:red;padding:10% 0">' + Nonotification + '</h1>');
+                        }
+                    }
+                    count = count + 10;
+                },
+                error: function() {
+                }
+            });
+        });
+    });
+</script>

@@ -5,7 +5,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <form class="form-horizontal bordered-row" enctype="multipart/form-data" method="POST">
+        <form class="form-horizontal bordered-row" enctype="multipart/form-data" method="POST" autocomplete="off">
             <div class="row">
                 <div class="col-md-6">
                     <div class="panel">
@@ -29,7 +29,15 @@
                                                 <input type="text" class="form-control" type="text" name="email"  id="email" value="" placeholder="" required />
                                             </td>
                                         </tr>
-
+                                        <tr>
+                                            <!--added by sowmya 17 march 2016-->
+                                            <td>
+                                                <label class="control-label">Password</label>
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" type="text" name="password"  id="password" value="" placeholder="" required />
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td>
                                                 <label class="control-label">First Name</label>
@@ -111,14 +119,14 @@
                                                 <input type="text" class="form-control" name="country"  id="country" value="" placeholder="" required />
                                             </td>
                                         </tr>
-                                        <tr>
+<!--                                        <tr>
                                             <td>
                                                 <label class="control-label">Address</label>
                                             </td>
                                             <td>
                                                 <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ></textarea>
                                             </td>
-                                        </tr>
+                                        </tr>-->
                                     </tbody>
                                 </table>
                                 <div class="form-group pull-right">
