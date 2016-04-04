@@ -1,0 +1,31 @@
+
+<head>
+    <style>
+        .alert.alert-success.alert-dismissible.fade.in {
+            margin-left: 14%;
+            margin-top: 20%;
+        }
+    </style>
+</head>
+<section class="my_account parallax">
+
+    <div class="container">
+        <div class="my_account_block col-sm-10 col-sm-offset-1" style="height: 300px">
+            <div class="col-sm-8 col-sm-offset-1">
+                <div role="alert" class="alert alert-success alert-dismissible fade in">
+                    <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">Ã—</span></button>
+                    <strong>
+                        <?php
+                        if (isset($this->successMsg)) {
+                            echo $this->successMsg;
+                            ?> <br>You can now Login <a href="/"> click to Login</a> <?php
+                        } elseif (isset($this->errorMsg)) {
+                            echo $this->errorMsg;
+                        }
+                        ?> </strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

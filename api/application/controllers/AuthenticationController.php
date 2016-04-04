@@ -74,6 +74,7 @@ class AuthenticationController extends Zend_Controller_Action {
 
                                     $insertId = $users->insertUser($insertData);
 
+
                                     if ($insertId) {
 
                                         $signupTokenlink = $this->_appSetting->hostLink . '/activate-account/?token=' . $signupToken;
@@ -100,13 +101,15 @@ class AuthenticationController extends Zend_Controller_Action {
                                     }
 
                                     if ($result[0]['status'] == "sent") {
-                                        $metaData['user_id'] = $insertId;
-                                        $usermetaid = $usermeta->insertUserMeta($metaData);
-                                        $return = $insertId;
+//
+//                                        $metaData['userinfo_id'] = $insertId;
+//                                        $usermetaid = $usermeta->insertUserMeta($metaData);
+//                            
+//                                        $return = $insertId;
 
                                         $response->code = 200;
                                         $response->message = "Successfully Register.Please check your email for Confirm Email";
-                                        $response->data['user_id'] = $return;
+                                        $response->data['user_id'] = $insertId;
                                     } else {
                                         $response->code = 196;
                                         $response->message = "Error Occured : try again";
@@ -231,61 +234,6 @@ class AuthenticationController extends Zend_Controller_Action {
                     die;
                     break;
 
-//                case 'userSignupActivationLink':
-//
-//                    $signupToken = $this->getRequest()->getParam('signuptoken');
-//                    $insertData['uname'] = $name;
-//                    $insertData['email'] = $email;
-////                    echo $email;die("dh");
-//
-//
-//                    $userData = $users->getUsercredsWhere($signupToken);
-//
-//                    if ($userData['role'] == 1) {
-//
-//                        $usercredsData = array('ActivationToken' => '', 'status' => "1");
-//                        $userCreds = "user_id = '" . $userData['user_id'] . "'";
-//                        $updated = $users->updateActivationToken($usercredsData, $userCreds);
-//
-//                        if (isset($updated)) {
-//
-//                            $to = $email;
-//                            $subject = 'Welcome To ZIINGO';
-//                            $template_name = 'Welcome Message';
-//                            $username = "Ziingo Support";
-//                            $mergevars = array(
-//                                array(
-//                                    'name' => 'UserNickName',
-//                                    'content' => $name
-//                                ),
-//                                array(
-//                                    'name' => 'userEmail',
-//                                    'content' => $email
-//                                )
-//                            );
-//                            $result = $mailer->sendtemplate($template_name, $to, $username, $subject, $mergevars);
-////                            echo '<pre>';
-////                            print_r($result);
-////                            die("Test");
-//                            if ($result[0]['status'] == "sent") {
-//                                $response->message = 'Authentication successful';
-//                                $response->code = 200;
-//                                $response->data = $userData;
-//                            } else {
-//                                $response->message = 'Something went wrong please try again';
-//                                $response->code = 100;
-//                                $response->data = NULL;
-//                            }
-//                        } else {
-//                            $response->message = 'Oops you are lost. Click <a>here</a> to go to home page.';
-//                            $response->code = 401;
-//                            $response->data = NULL;
-//                        }
-//                    }
-//                    echo json_encode($response);
-//                    die;
-//                    break;
-
                 case'login':
 
                     if ($this->getRequest()->isPost()) {
@@ -304,20 +252,41 @@ class AuthenticationController extends Zend_Controller_Action {
 
                                         $userData = $users->authenticateByEmail($email, md5(sha1($password)));
 
+                                        if ($userData) {
+                                            if ($userData['status'] == 1) {
+                                                $userid = $userData['user_id'];
 
-                                        if ($userData['status'] == 1) {
-                                            $response->message = 'Authentication successful';
-                                            $response->code = 200;
-                                            $response->data['user_id'] = $userData['user_id'];
-                                            $response->data['uname'] = $userData['uname'];
-                                            $response->data['email'] = $userData['email'];
+                                                $usermeta = $users->checkuserid($userid);
+
+                                                if ($usermeta) {
+                                                    $response->message = 'Authentication successful';
+                                                    $response->code = 200;
+                                                    $response->data['user_id'] = $userData['user_id'];
+                                                    $response->data['uname'] = $userData['uname'];
+                                                    $response->data['email'] = $userData['email'];
+                                                    $response->data['status'] = 'Old User';
+                                                } else {
+
+                                                    $response->message = 'Authentication successful';
+                                                    $response->code = 200;
+                                                    $response->data['user_id'] = $userData['user_id'];
+                                                    $response->data['uname'] = $userData['uname'];
+                                                    $response->data['email'] = $userData['email'];
+                                                    $response->data['status'] = 'New User';
+                                                }
+                                            } else {
+
+                                                $response->message = 'Need to Activate Email 1st';
+                                                $response->code = 196;
+                                            }
                                         } else {
-                                            $response->message = 'Need to Activate Email 1st';
+                                            $response->message = 'Please check your Email or Password.It is Incorrect';
+
                                             $response->code = 197;
                                         }
                                     } else {
-                                        $response->message = 'Email Parameter required';
-                                        $response->code = 196;
+                                        $response->message = 'Email cannot be blank';
+                                        $response->code = 198;
                                     }
 
                                     echo json_encode($response, true);
@@ -333,6 +302,8 @@ class AuthenticationController extends Zend_Controller_Action {
                                             $response->message = 'Authentication successful';
                                             $response->code = 200;
                                             $response->data['user_id'] = $checkFb['user_id'];
+                                            $response->data['uname'] = $checkFb['uname'];
+                                            $response->data['EmailId'] = $checkFb['user_id'];
                                         } else {
                                             $response->message = 'Authentication Failed';
                                             $response->code = 197;
@@ -473,23 +444,52 @@ class AuthenticationController extends Zend_Controller_Action {
                             $data['country'] = $country;
                         }
 
-                        $address = $this->getRequest()->getPost('address');
-                        if (!empty($address)) {
-                            $data['address'] = $address;
+                        $contactcountrycode = $this->getRequest()->getPost('contactcountrycode');
+                        if (!empty($contactcountrycode)) {
+                            $data['contact_country_code'] = $contactcountrycode;
                         }
+
                         $userid = $this->getRequest()->getPost('userid');
                         if (!empty($userid)) {
-                            $usermetaid = $usermeta->updateUserMeta($userid, $data);
-                            if ($usermetaid) {
-                                $response->message = 'Successfull';
-                                $response->code = 200;
+                            $data['user_id'] = $userid;
+                        }
+
+                        $userinfodata = $users->checkUserData($userid);
+
+                        if ($userinfodata == 'update') {
+
+                            if (!empty($userid)) {
+
+                                $usermetaid = $usermeta->updateUserMeta($userid, $data);
+
+                                if ($usermetaid) {
+                                    $response->message = 'Successfully updated';
+                                    $response->code = 200;
+                                } else {
+                                    $response->message = 'Could not Serve the Request';
+                                    $response->code = 197;
+                                }
                             } else {
-                                $response->message = 'Could not Serve the Request';
-                                $response->code = 197;
+                                $response->message = 'Invalid Request';
+                                $response->code = 401;
                             }
                         } else {
-                            $response->message = 'Invalid Request';
-                            $response->code = 401;
+                            if ($userinfodata == 'insert') {
+
+                                $userinfo = $usermeta->insertUserMetainfo($data);
+
+                                if ($userinfo) {
+                                    $response->message = 'Successfully inserted';
+                                    $response->code = 200;
+                                    $response->data = $userinfo;
+                                } else {
+                                    $response->message = 'Could not Serve the Request';
+                                    $response->code = 197;
+                                }
+                            } else {
+                                $response->message = $userinfodata;
+                                $response->code = 401;
+                            }
                         }
                     } else {
                         $response->message = 'Invalid Request';
@@ -782,20 +782,45 @@ class AuthenticationController extends Zend_Controller_Action {
                         $data = $this->getRequest()->getPost('logindata');
                         $password = $this->getRequest()->getPost('password');
 
-                        if (stripos($data, '@')) {
+                        if (!empty($data)) {
+
                             $userData = $users->authenticateByEmail($data, sha1(md5($password)));
+
+                            if ($userData) {
+                                if ($userData['status'] == 1) {
+
+                                    $response->message = 'Authentication successful';
+                                    $response->code = 200;
+                                    $response->data['user_id'] = $userData['user_id'];
+                                } else {
+
+                                    $response->message = 'Need to Activate Email 1st';
+                                    $response->code = 196;
+                                }
+                            } else {
+                                $response->message = 'Please check your Email or Password.It is Incorrect';
+
+                                $response->code = 197;
+                            }
                         } else {
-                            $userData = $users->authenticateByUsername($data, sha1(md5($password)));
+                            $response->message = 'Email cannot be blank';
+                            $response->code = 198;
                         }
-                        if ($userData) {
-                            $response->message = 'Authentication successful';
-                            $response->code = 200;
-                            $response->data = $userData;
-                        } else {
-                            $response->message = 'No record found with this Credentials';
-                            $response->code = 197;
-                            $response->data = $userData;
-                        }
+
+//                        if (stripos($data, '@')) {
+//                            $userData = $users->authenticateByEmail($data, sha1(md5($password)));
+//                        } else {
+//                            $userData = $users->authenticateByUsername($data, sha1(md5($password)));
+//                        }
+//                        if ($userData) {
+//                            $response->message = 'Authentication successful';
+//                            $response->code = 200;
+//                            $response->data = $userData;
+//                        } else {
+//                            $response->message = 'No record found with this Credentials';
+//                            $response->code = 197;
+//                            $response->data = $userData;
+//                        }
                     } else {
 
                         $response->message = 'Request Could not served';
@@ -882,18 +907,20 @@ class AuthenticationController extends Zend_Controller_Action {
 
     public function forgotPasswordAction() {
         $response = new stdClass();
+
         if ($this->getRequest()->isPost()) {
+
             $users = Application_Model_Users::getInstance();
             $mailer = Engine_Mailer_MandrillApp_Mailer::getInstance();
             $method = $this->getRequest()->getPost('method');
 
             switch ($method) {
+
                 case "EnterEmailId":
 
                     if ($this->getRequest()->isPost()) {
 
                         $postData = $this->getRequest()->getParams();
-
 
                         $fpwemail = '';
                         if (isset($postData['EmailId'])) {
@@ -904,7 +931,8 @@ class AuthenticationController extends Zend_Controller_Action {
                             $resetcode = mt_rand(100000, 999999);
 
                             $exists = $users->checkMail($fpwemail, $resetcode);
-//echo"<pre>";print_r($exists);die("dhv");
+
+                            $uname = $exists['uname'];
                             if ($exists) {
 //Mandrill mail
                                 $template_name = 'ResetPW';
@@ -926,11 +954,10 @@ class AuthenticationController extends Zend_Controller_Action {
                                     )
                                 );
                                 $result = $mailer->sendtemplate($template_name, $to, $username, $subject, $mergevars);
-//                                echo"<pre>";
-//                                print_r($result);
-//                                die("hvhf");
+
 //Mandrill mail ends
                                 if ($result[0]['status'] == "sent") {
+//                                if (true) {
                                     $response->code = 200;
                                     $response->message = "Mail Sent with Reset code";
                                     $response->data = 1;
@@ -945,11 +972,7 @@ class AuthenticationController extends Zend_Controller_Action {
                             $response->message = "You missed something";
                             $response->data = null;
                         }
-//                        } else {
-//                            $response->code = 401;
-//                            $response->message = "Access Denied";
-//                            $response->data = null;
-//                        }
+
                     } else {
                         $response->code = 401;
                         $response->message = "Invalid request";
@@ -969,14 +992,10 @@ class AuthenticationController extends Zend_Controller_Action {
                             $resetcode = $postData['resetcode'];
                         }
 
-//                        $mytoken = 0;
-//                        if (isset($postData['mytoken'])) {
-//                            $mytoken = $postData['mytoken'];
-//                        }
-//                        if ($mytoken == "123456") {
                         if ($fpwemail != '' && $resetcode != '') {
 
                             $exists = $users->verifyResetCode($fpwemail, $resetcode);
+
 
                             if ($exists) {
                                 $response->code = 200;
@@ -1004,39 +1023,43 @@ class AuthenticationController extends Zend_Controller_Action {
                     }
                     echo json_encode($response, true);
                     break;
+
                 case "resetPassword":
+
                     if ($this->getRequest()->isPost()) {
+
                         $postData = $this->getRequest()->getParams();
+
                         $fpwemail = '';
                         if (isset($postData['EmailId'])) {
                             $fpwemail = $postData['EmailId'];
                         }
+
                         $resetcode = '';
                         if (isset($postData['resetcode'])) {
                             $resetcode = $postData['resetcode'];
                         }
+
                         $password = ''; //Send Password in md5 format
                         if (isset($postData['Password'])) {
                             $password = $postData['Password'];
                         }
+
                         $re_password = '';
                         if (isset($postData['rePassword'])) {
                             $re_password = $postData['rePassword'];
                         }
-//                        $mytoken = 0;
-//                        if (isset($postData['mytoken'])) {
-//                            $mytoken = $postData['mytoken'];
-//                        }
-//                        if ($mytoken == "123456") {
+
                         if ($fpwemail != '' && $resetcode != '' && $password != '' && $re_password != '') {
 
                             if ($password == $re_password) {
 
-                                $exists = $users->resetPassword($fpwemail, $resetcode, $password);
-                                if ($exists) {
+                                $updated = $users->resetPassword($fpwemail, $resetcode, $password);
+
+                                if ($updated) {
                                     $response->code = 200;
                                     $response->message = "Password Changed Successfully.";
-                                    $response->data = $exists;
+                                    $response->data = $updated;
                                 } else {
                                     $response->code = 100;
                                     $response->message = "Something went Wrong. Provide Correct Input.";

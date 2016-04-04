@@ -150,11 +150,11 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
      * no where condition  is required to check for hotel id i
      * 
      */ // ABOVE CODE MODIFIED 
-    
+
     /*
-    * Modyfied By : Nitin Kumar Gupta
-    * Modyfied Date : 20 FEB 2016
-    */
+     * Modyfied By : Nitin Kumar Gupta
+     * Modyfied Date : 20 FEB 2016
+     */
     public function getaddtocart() {
 
         if (func_num_args() > 0) {
@@ -545,7 +545,7 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
             $quantity = func_get_arg(3);
             $allCartDetail = array();
             $success = null;
-             $i=0;
+            $i = 0;
             $this->getAdapter()->beginTransaction();
 
             try {
@@ -600,7 +600,7 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
                             break;
                         }
                     }
-                    
+
                     $i++;
                 }
 
@@ -617,6 +617,32 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
             }
         } else {
             throw new Exception("Argument has not passed");
+        }
+    }
+
+    /*
+     * Dev : Sibani Mishra
+     * Date: 10/12/2015
+     * Desc: Select cart details 
+     */
+
+    public function selectcartiddetails() {
+        if (func_num_args() > 0) {
+            $cartid = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->from($this)
+                        ->where('id IN (?)', $cartid);
+
+                $result = $this->getAdapter()->fetchAll($select);
+
+
+                return $result;
+            } catch (Exception $ex) {
+                throw new Exception("argument not passed: " . $ex);
+            }
+        } else {
+            throw new Exception("argument not passed");
         }
     }
 

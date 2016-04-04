@@ -74,7 +74,7 @@ class Engine_Utilities_CurlRequestHandler {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         //execute post
         $result = curl_exec($ch);
-  
+
         $result = json_decode($result, true);
 
 

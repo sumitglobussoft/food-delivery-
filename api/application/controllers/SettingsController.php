@@ -215,6 +215,7 @@ class SettingsController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die();
                     break;
+
                 case'getcityname':
                     if ($this->getRequest()->isPost()) {
 
@@ -240,29 +241,36 @@ class SettingsController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die();
                     break;
+
                 case'getRestaurantsListByLocations':
                     if ($this->getRequest()->isPost()) {
 
                         $countryid = $this->getRequest()->getPost('country_id');
+
                         $stateid = $this->getRequest()->getPost('state_id');
+
                         $cityid = $this->getRequest()->getPost('city_id');
+
                         $locationid = $this->getRequest()->getPost('location_id');
+
                         if ($countryid && $stateid && $cityid && $locationid) {
-                            $HotelsList = $locationsmodal->getHotelsByLocationsIds($countryid,$stateid,$cityid,$locationid);
+
+                            $HotelsList = $locationsmodal->getHotelsByLocationsIds($countryid, $stateid, $cityid, $locationid);
+
                             if ($HotelsList) {
                                 $response->message = 'Successfull';
                                 $response->code = 200;
-                                $response->data= $HotelsList;
+                                $response->data = $HotelsList;
                             } else {
                                 $response->message = 'Could not Serve the Response';
                                 $response->code = 197;
                                 $response->data = NUll;
                             }
-                        }else {
-                                $response->message = 'Parametre missing';
-                                $response->code = 197;
-                                $response->data = NUll;
-                            }
+                        } else {
+                            $response->message = 'Parametre missing';
+                            $response->code = 197;
+                            $response->data = NUll;
+                        }
                     } else {
                         $response->message = 'Could not Serve the Response';
                         $response->code = 197;
@@ -272,32 +280,32 @@ class SettingsController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die();
                     break;
-                    
-                     case'addNewlocation':
+
+                case'addNewlocation':
                     if ($this->getRequest()->isPost()) {
 
                         $countryid = $this->getRequest()->getPost('country_id');
                         $stateid = $this->getRequest()->getPost('state_id');
-                        $location['parent_id']= $this->getRequest()->getPost('parent_id');
+                        $location['parent_id'] = $this->getRequest()->getPost('parent_id');
                         $location['location_status'] = $this->getRequest()->getPost('location_status');
                         $location['location_type'] = $this->getRequest()->getPost('location_type');
                         $location['name'] = $this->getRequest()->getPost('name');
                         if ($countryid && $stateid && $location['parent_id']) {
-                            $location_id = $locationsmodal->addLocationByParentIds($location,$stateid,$countryid);
+                            $location_id = $locationsmodal->addLocationByParentIds($location, $stateid, $countryid);
                             if ($location_id) {
                                 $response->message = 'Successfull';
                                 $response->code = 200;
-                                $response->data= $location_id;
+                                $response->data = $location_id;
                             } else {
                                 $response->message = 'Could not Serve the Response';
                                 $response->code = 197;
                                 $response->data = NUll;
                             }
-                        }else {
-                                $response->message = 'Parametre missing';
-                                $response->code = 197;
-                                $response->data = NUll;
-                            }
+                        } else {
+                            $response->message = 'Parametre missing';
+                            $response->code = 197;
+                            $response->data = NUll;
+                        }
                     } else {
                         $response->message = 'Could not Serve the Response';
                         $response->code = 197;
@@ -307,8 +315,8 @@ class SettingsController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die();
                     break;
-                    
-                     $result = $locationsModel->addLocationByParentIds($data,$state,$country);
+
+                    $result = $locationsModel->addLocationByParentIds($data, $state, $country);
             }
         } else {
             $response->message = 'Could not Serve the Response';
@@ -340,8 +348,8 @@ class SettingsController extends Zend_Controller_Action {
                         $hotel_id = $this->getRequest()->getPost('hotel_id');
                         if ($hotel_id) {
                             $restuarentsmenudetails = $productdetailsModal->getRestaurentsMenuDetails($hotel_id);
-                             
-                            
+
+
                             if ($restuarentsmenudetails) {
                                 $response->message = 'Successfull';
                                 $response->code = 200;
@@ -445,25 +453,28 @@ class SettingsController extends Zend_Controller_Action {
             die();
         }
     }
-                
-    
-      /*
+
+    /*
      * DEV :Priyanka Varanasi
      * Desc : service used for search functionality of hotels
      * Date : 4/2/2016
      */
-    
-     public function searchHotelsByAction() {
-         $hotelssummaryModel = Application_Model_HotelDetails::getInstance();
-         $hotelcuisinesModel = Application_Model_HotelCuisines::getInstance();
+
+    public function searchHotelsByAction() {
+        $hotelssummaryModel = Application_Model_HotelDetails::getInstance();
+        $hotelcuisinesModel = Application_Model_HotelCuisines::getInstance();
         $response = new stdClass();
         $method = $this->getRequest()->getParam('method');
         if ($method) {
 
             switch ($method) {
+
                 case'hotelname':
+
                     if ($this->getRequest()->isPost()) {
+
                         $name = $this->getRequest()->getPost('name');
+
                         if ($name) {
                             $hotelslist = $hotelssummaryModel->searchByNames($name);
                             if ($hotelslist) {
@@ -488,12 +499,16 @@ class SettingsController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die;
                     break;
-                         case'insertCuisines':
+
+                case'insertCuisines':
+
                     if ($this->getRequest()->isPost()) {
+
                         $cuisines = $this->getRequest()->getPost('cuisines');
-                        $cuisinesarray = (array)json_decode($cuisines,true);
+                        $cuisinesarray = (array) json_decode($cuisines, true);
+
                         if ($cuisinesarray) {
-                            $result= $hotelcuisinesModel->insertHotelCuisines($cuisinesarray);
+                            $result = $hotelcuisinesModel->insertHotelCuisines($cuisinesarray);
                             if ($result) {
                                 $response->message = 'successfull';
                                 $response->code = 200;
@@ -516,8 +531,49 @@ class SettingsController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die;
                     break;
-                    
-                    
+
+                /*
+                 * DEV :Sibani Mishra
+                 * Desc : service used for search functionality of hotels based on cuisines
+                 * Date : 4/1/2016
+                 */
+
+                case 'selectcuisines':
+                    if ($this->getRequest()->isPost()) {
+
+                        $hotel_locations = $this->getRequest()->getPost('hotel_locations');
+
+                        $cuisine_id = $this->getRequest()->getPost('cuisine_id');
+                        $cuisine_id = json_decode($cuisine_id);
+
+                        if (!empty($hotel_locations) && !empty($cuisine_id)) {
+
+                            $hotelnames = $hotelssummaryModel->gethotalsname($hotel_locations, $cuisine_id);
+
+                            if ($hotelnames) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $hotelnames;
+                            } else {
+                                $response->message = 'No Data Found';
+                                $response->code = 197;
+                                $response->data = Null;
+                            }
+                        } else {
+                            $response->message = 'parameter Shouldnot be blank';
+                            $response->code = 198;
+                            $response->data = Null;
+                        }
+                    } else {
+                        $response->message = 'Could Not Serve The Request';
+                        $response->code = 401;
+                        $response->data = NULL;
+                    }
+
+
+                    echo json_encode($response, true);
+                    die;
+                    break;
             }
         } else {
             $response->message = 'Invalid Request';
@@ -527,7 +583,8 @@ class SettingsController extends Zend_Controller_Action {
             die();
         }
     }
-    
-    
-    
+
+
 }
+
+?>

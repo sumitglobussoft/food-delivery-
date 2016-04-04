@@ -32,9 +32,14 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
     public function insertOrders() {
 
         if (func_num_args() > 0) {
+
             $data = func_get_arg(0);
+
+
             try {
                 $responseId = $this->insert($data);
+
+
                 if ($responseId) {
                     return $responseId;
                 } else {
@@ -47,11 +52,7 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         }
     }
-            /*
-     * DEV :sowmya
-     * Desc : get All Orders By ID
-     * Date : 21/3/2016
-     */
+
     public function GetOrderProducts() {
         if (func_num_args() > 0) {
             $agent_id = func_get_arg(0);
@@ -60,10 +61,13 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
                 $select = $this->select()
                         ->setIntegrityCheck(false)
                         ->from(array('o' => 'orders'))
-                         ->join(array('u' => 'users'),'o.user_id=u.user_id')
-                        ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id',array('hd.id','hd.hotel_name','hd.agent_id'))                    
-                        ->where('hd.agent_id=?', $agent_id);     
+                        ->join(array('u' => 'users'), 'o.user_id=u.user_id')
+                        ->join(array('hd' => 'hotel_details'), 'o.order_from_hotel=hd.id', array('hd.id', 'hd.hotel_name', 'hd.agent_id'))
+                        ->join(array('dsl' => 'delivery_status_log'), 'o.order_id= dsl.order_id')
+                        ->join(array('dg' => 'delivery_guys'), 'dsl.delivery_guy_id=dg.del_guy_id')
+                        ->where('hd.agent_id=?', $agent_id);
                 $result = $this->getAdapter()->fetchAll($select);
+
                 if ($result) {
                     return $result;
                 } else {
@@ -83,10 +87,12 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
 
         if (func_num_args() > 0) {
 
-            $data = func_get_arg(0);
-            $order_id = func_get_arg(1);
+            $userid = func_get_arg(0);
+
             try {
-                $result = $this->update($data, 'order_id =' . $order_id);
+                $select = $this->select()
+                        ->from($this)
+                        ->where('user_id=?', $userid);
                 if ($result) {
                     return $result;
                 } else {
@@ -99,32 +105,117 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
             throw new Exception("Argument not passed");
         }
     }
+
     /*
-     * DEV :sowmya
-     * Desc : get All Orders By ID
-     * Date : 21/3/2016
+     * Dev : Sibani Mishra
+     * Date: 26/3/2016
+     * Desc: Select History Orders
      */
 
-    public function GetAgentProduct() {
+    public function selecthistoryorder() {
         if (func_num_args() > 0) {
-            $order_id = func_get_arg(0);
+            $userid = func_get_arg(0);
+            $offset = func_get_arg(1);
+            $limit = func_get_arg(2);
+
             try {
+
                 $select = $this->select()
-                ->from(array('o' => 'orders'))
-                ->setIntegrityCheck(false)
-                ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname', 'u.email'))
-               ->joinLeft(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id',array('hd.id','hd.hotel_name','hd.agent_id'))   
-                ->where('order_id = ?', $order_id);
-                $result = $this->getAdapter()->fetchRow($select);
-            } catch (Exception $e) {
-                throw new Exception('Unable To retrieve data :' . $e);
-            }
-        
-            if ($result) {
+                        ->setIntegrityCheck(false)
+                        ->from(array('o' => 'orders'), array('o.order_id', 'total_amount' => new Zend_Db_Expr('o.total_amount + o.delivery_charge'), 'order_date'))
+                        ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.hotel_name', 'hd.address'))
+                        ->where('o.user_id=?', $userid)
+                        ->limit($limit, $offset)
+                        ->order('order_date DESC');
+
+                $result = $this->getAdapter()->fetchAll($select);
+                foreach ($result as $key => $val) {
+                    $date = explode(" ", $val['order_date']);
+                    $result[$key]['order_date'] = $date[0];
+                }
                 return $result;
+            } catch (Exception $ex) {
+                throw new Exception('Unable to access data :' . $ex);
             }
+        } else {
+            throw new Exception("Argument not passed");
         }
     }
+
+    /*
+     * Dev : Sibani Mishra
+     * Date: 10/12/2015
+     * Desc: Select  Orders Status
+     */
+
+    public function selectorderstatus() {
+        if (func_num_args() > 0) {
+
+            $orderid = func_get_arg(0);
+
+            try {
+
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('o' => 'orders'))
+                        ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.hotel_name', 'hd.address'))
+                        ->join(array('oa' => 'order_address'), 'o.order_id=oa.order_id', array('oa.landmark', 'oa.Location', 'oa.address_line1', 'oa.address_line2', 'oa.pin'))
+                        ->where('o.order_id=?', $orderid);
+
+                $orderResult = $this->getAdapter()->fetchAll($select);
+
+                foreach ($orderResult as $key => $val) {
+                    $date = explode(" ", $val['order_date']);
+                    $orderResult[$key]['order_date'] = $date[0];
+                }
+
+                if ($orderResult) {
+
+                    $orderResult[0]['product_id'] = json_decode($orderResult[0]['product_id']);
+                    $orderResult[0]['quantity'] = json_decode($orderResult[0]['quantity']);
+                    $orderResult[0]['product_amount'] = json_decode($orderResult[0]['product_amount']);
+
+                    $select = $this->select()
+                            ->setIntegrityCheck(false)
+                            ->from(array('o' => 'orders'), array('o.order_id'))
+                            ->join(array('p' => 'products'), 'o.hotel_id=p.hotel_id', array('p.name'))
+                            ->where('p.product_id IN (?)', $orderResult[0]['product_id'])
+                            ->where('o.order_id=?', $orderid);
+
+                    $productResult = $this->getAdapter()->fetchAll($select);
+
+                    $i = 0;
+                    foreach ($productResult as $key => $value) {
+//                        unset($value['order_id']);
+                        $value['quantity'] = $orderResult[0]['quantity'][$i];
+                        $value['product_amount'] = $orderResult[0]['product_amount'][$i];
+                        $productResult[$key] = $value;
+                        $i++;
+                    }
+                    $orderResult[0]['product_detail'] = $productResult;
+
+                    unset($orderResult[0]['order_id']);
+                    unset($orderResult[0]['hotel_id']);
+                    unset($orderResult[0]['pay_status']);
+                    unset($orderResult[0]['pay_type']);
+                    unset($orderResult[0]['delivery_status']);
+                    unset($orderResult[0]['delivery_type']);
+                    unset($orderResult[0]['user_message']);
+                    unset($orderResult[0]['user_id']);
+                    unset($orderResult[0]['quantity']);
+                    unset($orderResult[0]['product_id']);
+                    unset($orderResult[0]['product_amount']);
+                }
+
+                return $orderResult;
+            } catch (Exception $ex) {
+                throw new Exception('Unable to access data :' . $ex);
+            }
+        } else {
+            throw new Exception("Argument not passed");
+        }
+    }
+
 }
 ?>
 

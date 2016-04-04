@@ -5,13 +5,25 @@
             <div class="parallax-content p-top-64">
                 <div class="container">
                     <div class="bg-pixel-black center paddingTB-md">
-                        <h4 class="font-SquadaOne animated zoomIn delay-p2s">   <?php if($this->restaurantslist){
-    echo count($this->restaurantslist);
-   ?> &nbsp; restaurants found near
-    <?php echo $this->restaurantslist[0]['name']; if (isset($this->cityname)) {echo ',';echo $this->cityname;}?></h4>
- <h4 class="font-SquadaOne animated zoomIn delay-p2s">   
-<?php }else{ echo'No restuarents found near city,&nbsp';echo $this->cityname;}?>
- </h4>
+                        <h4 class="font-SquadaOne animated zoomIn delay-p2s">   <?php
+                            if ($this->restaurantslist) {
+                                echo count($this->restaurantslist);
+                                ?> &nbsp; restaurants found near
+                                <?php
+                                echo $this->restaurantslist[0]['name'];
+                                if (isset($this->cityname)) {
+                                    echo ',';
+                                    echo $this->cityname;
+                                }
+                                ?></h4>
+                            <h4 class="font-SquadaOne animated zoomIn delay-p2s">   
+                                <?php
+                            } else {
+                                echo'No restuarents found near city,&nbsp';
+                                echo $this->cityname;
+                            }
+                            ?>
+                        </h4>
                         <div class="m-top-md">
                             <a href="#changePlaceModal" class="btn btn-alt waves-effect waves-light modal-trigger animated zoomIn delay-p6s"><span class="m-right-sm"><i class="fa fa-map-marker"></i></span>Change</a>
                         </div>
@@ -21,60 +33,60 @@
         </div> 
         <div class="">
             <div class="row">
-              <?php if (isset($this->restaurantslist)) { ?>
-                <div class="col s12">
-                    <div id="" class="row">
-                        <div class="col s12 m6 l3">
-                            <div class="input-field">
-                                <input id="search" type="text" class="validate restaurantListSearch" placeholder="Search">
+                <?php if (isset($this->restaurantslist)) { ?>
+                    <div class="col s12">
+                        <div id="" class="row">
+                            <div class="col s12 m6 l3">
+                                <div class="input-field">
+                                    <input id="search" type="text" class="validate restaurantListSearch" placeholder="Search">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col s12 m6 l3">
-                            <div class="input-field">
-                                <select class="material-select">
-                                    <option value="0" disabled selected>Sort By</option>
-                                    <option value="1">Popular</option>
-                                    <option value="2">Delivery Time</option>
-                                    <option value="3">Delivery Fee</option>
-                                    <option value="4">Restaurant Rating</option>
-                                </select>
+                            <div class="col s12 m6 l3">
+                                <div class="input-field">
+                                    <select class="material-select">
+                                        <option value="0" disabled selected>Sort By</option>
+                                        <option value="1">Popular</option>
+                                        <!--<option value="2">Delivery Time</option>-->
+                                        <!--<option value="3">Delivery Fee</option>-->
+                                        <option value="4">Restaurant Rating</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col s12 m6 l3">
-                            <div class="input-field">
-                                <select class="material-select" multiple>
-                                    <option value="0" disabled selected>Filter</option>
-                                    <option value="1">PreOrder available</option>
-                                    <option value="2">Pure Vegetarian</option>
-                                    <option value="3">Cash On Delivery</option>
-                                    <option value="4">Online Payment</option>
-                                    <option value="5">Night Delivery</option>
-                                    <option value="6">Discount</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col s12 m6 l3">
-                            <div class="input-field">
-                                <select class="material-select" multiple>
-                                    <option value="0" disabled selected>Cuisines</option>
-                                    <option value="1">North Indian</option>
-                                    <option value="2">South Indian</option>
-                                    <option value="3">Chinese</option>
-                                    <option value="4">Seafood</option>
-                                    <option value="5">Italian</option>
-                                    <option value="6">Desserts</option>
-                                    <option value="7">Thai</option>
-                                    <option value="8">Sandwiches</option>
-                                </select>
+                            <!--                        <div class="col s12 m6 l3">
+                                                        <div class="input-field">
+                                                            <select class="material-select" multiple>
+                                                                <option value="0" disabled selected>Filter</option>
+                                                                <option value="1">PreOrder available</option>
+                                                                <option value="2">Pure Vegetarian</option>
+                                                                <option value="3">Cash On Delivery</option>
+                                                                <option value="4">Online Payment</option>
+                                                                <option value="5">Night Delivery</option>
+                                                                <option value="6">Discount</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>-->
+                            <div class="col s12 m6 l3">
+                                <div class="input-field">
+                                    <select class="material-select" multiple>
+                                        <option value="0" disabled selected>Cuisines</option>
+                                        <option value="1">North Indian</option>
+                                        <option value="2">South Indian</option>
+                                        <option value="3">Chinese</option>
+                                        <option value="4">Seafood</option>
+                                        <option value="5">Italian</option>
+                                        <option value="6">Desserts</option>
+                                        <option value="7">Thai</option>
+                                        <option value="8">Sandwiches</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col s12">
-                    <div class="row">
-<?php 
-    foreach ($this->restaurantslist as $value) {
-        ?>
+                    <div class="col s12">
+                        <div class="row">
+                            <?php
+                            foreach ($this->restaurantslist as $value) {
+                                ?>
                                 <div class="item col l3 m6 s12">
                                     <div class="card restaurant popular">
                                         <div class="card-content">
@@ -104,18 +116,18 @@
 
                                 </div>
 
-    <?php } ?>
+                            <?php } ?>
 
 
 
+                        </div>
                     </div>
-                </div>
-              <?php }else{?>
-                  
-                <div class="col s12">
-                    <img src="assets/images/restaurant.jpg" class="responsive-img" />
-                </div>    
-             <?php }?>
+                <?php } else { ?>
+
+                    <div class="col s12">
+                        <img src="assets/images/restaurant.jpg" class="responsive-img" />
+                    </div>    
+                <?php } ?>
             </div>
         </div>
 

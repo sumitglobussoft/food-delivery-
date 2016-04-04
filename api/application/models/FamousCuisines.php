@@ -35,6 +35,11 @@ class Application_Model_FamousCuisines extends Zend_Db_Table_Abstract {
      * Date: 5/2/2015
      * Desc: To fetch the list of cuisines
      */
+    /*
+     * Dev : Sibani Mishra
+     * Date: 4/1/2016
+     * Desc: To fetch the list of cuisines on the basis of Location And city id
+     */
 
     function getCuisines() {
 
@@ -42,6 +47,14 @@ class Application_Model_FamousCuisines extends Zend_Db_Table_Abstract {
                 ->from($this)
                 ->where('cuisine_status=?', 1);
 
+//        $select = $this->select()
+//                ->setIntegrityCheck(false)
+//                ->from(array('o' => 'orders'))
+//                ->join(array('u' => 'users'), 'o.user_id=u.user_id')
+//                ->join(array('hd' => 'hotel_details'), 'o.order_from_hotel=hd.id', array('hd.id', 'hd.hotel_name', 'hd.agent_id'))
+//                ->join(array('dsl' => 'delivery_status_log'), 'o.order_id= dsl.order_id')
+//                ->join(array('dg' => 'delivery_guys'), 'dsl.delivery_guy_id=dg.del_guy_id')
+//                ->where('hd.agent_id=?', $agent_id);
         $result = $this->getAdapter()->fetchAll($select);
 
         if ($result) {

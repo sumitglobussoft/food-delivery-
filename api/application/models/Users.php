@@ -146,23 +146,14 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
             $email = func_get_arg(0);
             $password = func_get_arg(1);
 
-
-//
-//            $result = $this->_db_table->select()
-//                    ->where('email=?', $email)
-//                    ->where('password=?', $password)->query()
-//                    ->fetchAll();
-//
-//            return $result;
-
             try {
                 $select = $this->select()
                         ->from($this)
                         ->where('email = ?', $email)
                         ->where('password = ?', $password);
-//              echo  $select;die("dhjg");        
+//echo $select;die;
                 $result = $this->getAdapter()->fetchRow($select);
-//echo $result;die("djhg");
+
                 if ($result) {
                     return $result;
                 } else {
@@ -260,7 +251,7 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
     /*
      * Dev :- Sibani Mishra
      * date :- 7/3/2016
-     * Desc :- fetch email
+     * Desc :- user details
      */
 
     public function getUserExits() {
@@ -291,7 +282,7 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
     /*
      * Dev :- Sibani Mishra
      * date :- 11/3/2016
-     * Desc :- Forgot Password
+     * Desc :- verify email
      */
 
     public function checkMail() {
@@ -325,16 +316,26 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
         }
     }
 
+    /*
+     * Dev :- Sibani Mishra
+     * date :- 11/3/2016
+     * Desc :- verify resetcode
+     */
+
     public function verifyResetCode() {
+
         if (func_num_args() > 0) {
             $fpwemail = func_get_arg(0);
+
             $resetcode = func_get_arg(1);
+
             $select = $this->select()
                     ->from($this)
                     ->where('reset_code = ?', $resetcode)
                     ->where('email = ?', $fpwemail);
 
             $row = $this->getAdapter()->fetchRow($select);
+
             if ($row) {
                 return 1;
             } else {
@@ -345,6 +346,12 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
         }
     }
 
+    /*
+     * Dev :- Sibani Mishra
+     * date :- 11/3/2016
+     * Desc :- forgot password
+     */
+
     public function resetPassword() {
         if (func_num_args() > 0) {
             $fpwemail = func_get_arg(0);
@@ -354,20 +361,22 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
             $select = $this->select()
                     ->from($this)
                     ->where('reset_code = ?', $fpwresetcode)
-                    ->where('email = ?', $fpwemailresetcode)
-                    ->where();
+                    ->where('email = ?', $fpwemail);
+
             $row = $this->getAdapter()->fetchRow($select);
+
             if ($row) {
                 try {
-                    $data = array('password' => sha1(md5($password)), 'reset_code' => '');
+                    $data = array('password' => md5(sha1($password)), 'reset_code' => '');
                     $updated = $this->update($data, "email = '" . $fpwemail . "'");
+//                    echo $updated;die;
+                    if ($updated) {
+                        return $updated;
+                    } else {
+                        return false;
+                    }
                 } catch (Exception $exc) {
                     throw new Exception('Unable to update, exception occured' . $exc);
-                }
-                if ($updated) {
-                    return $updated;
-                } else {
-                    return false;
                 }
             } else {
                 return false;
@@ -385,8 +394,8 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
 
     function updateActivationToken() {
         if (func_num_args() > 0) {
-            $data = func_get_arg(0);
 
+            $data = func_get_arg(0);
             $where = func_get_arg(1);
             try {
                 $result = $this->update($data, "$where");
@@ -403,6 +412,12 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
         }
     }
 
+    /*
+     * Dev :- Sibani Mishra
+     * date :- 14/3/2016
+     * Desc :- fetch user details by activation token
+     */
+
     public function getUsercredsWhere() {
         if (func_num_args() > 0) {
             $activationlink = func_get_arg(0);
@@ -412,7 +427,7 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
                 $select = $this->select()
                         ->from($this)
                         ->where('ActivationToken = ?', $activationlink);
-             
+
                 $result = $this->getAdapter()->fetchRow($select);
 
                 if ($result) {
@@ -422,6 +437,122 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
                 }
             } catch (Exception $ex) {
                 throw new Exception('Unable To Insert Exception Occured :' . $ex);
+            }
+        } else {
+            throw new Exception('Argument not passed');
+        }
+    }
+
+    /*
+     * Dev :- Sibani Mishra
+     * date :- 14/3/2016
+     * Desc :- fetch user details
+     */
+
+    public function checkuserid() {
+
+        if (func_num_args() > 0) {
+
+            $userid = func_get_arg(0);
+
+
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('u' => 'users'))
+                        ->join(array('um' => 'usermeta'), 'u.user_id=um.userinfo_id')
+                        ->where('u.user_id=?', $userid);
+
+                $result = $this->getAdapter()->fetchAll($select);
+
+                return $result;
+            } catch (Exception $ex) {
+                throw new Exception('Unable To Insert Exception Occured :' . $ex);
+            }
+        } else {
+            throw new Exception('Argument not passed');
+        }
+    }
+
+    /*
+     * Dev :- Sibani Mishra
+     * date :- 15/3/2016
+     */
+
+    public function checkUserData() {
+
+        if (func_num_args() > 0) {
+
+            $userid = func_get_arg(0);
+
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('u' => 'users'))
+                        ->where('u.user_id=?', $userid);
+
+                $result = $this->getAdapter()->fetchAll($select);
+
+                if ($result) {
+
+                    $select = $this->select()
+                            ->setIntegrityCheck(false)
+                            ->from(array('um' => 'usermeta'))
+                            ->where('um.user_id=?', $userid);
+
+                    $userMetaResult = $this->getAdapter()->fetchAll($select);
+
+                    if ($userMetaResult) {
+                        return 'update';
+                    } else {
+                        return 'insert';
+                    }
+                } else {
+                    return 'user has not registered.';
+                }
+            } catch (Exception $ex) {
+                throw new Exception('Unable To Insert Exception Occured :' . $ex);
+            }
+        } else {
+            throw new Exception('Argument not passed');
+        }
+    }
+
+    /*
+     * Dev :- Sibani Mishra
+     * date :- 15/3/2016
+     * dev : Change password
+     */
+
+    public function updateUserCreds() {
+        if (func_num_args() > 0) {
+
+            $userId = func_get_arg(0);
+            $oldpassword = func_get_arg(1);
+            $newpassword = func_get_arg(2);
+
+
+            $select = $this->select()
+                    ->from($this)
+                    ->where('user_id = ?', $userId);
+
+            $row = $this->getAdapter()->fetchRow($select);
+
+            if ($row) {
+                try {
+                    $data = array('password' => md5(sha1($newpassword)));
+                    $updated = $this->update($data, "user_id = '" . $userId . "'");
+
+                    if ($updated) {
+                        return $updated;
+                    } else {
+                        return false;
+                    }
+                } catch (Exception $exc) {
+                    throw new Exception('Unable to update, exception occured' . $exc);
+                }
+            } else {
+                return false;
             }
         } else {
             throw new Exception('Argument not passed');

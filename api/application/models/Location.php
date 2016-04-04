@@ -255,6 +255,7 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
                         ->where('location_id=?', $stateid)
                         ->where('location_status=?', 1);
                 $result1 = $this->getAdapter()->fetchRow($select);
+        
                 if($result1['location_id'] && $result1['location_id']==$stateid){
                    $select = $this->select()
                         ->from($this)
@@ -263,6 +264,7 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
                         ->where('location_id=?', $cityid)
                         ->where('location_status=?', 1);
                 $result2 = $this->getAdapter()->fetchRow($select);
+                
                 if($result2['location_id'] && $result2['location_id']==$cityid){
                  $select = $this->select()
                         ->from($this)
@@ -271,14 +273,15 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
                         ->where('location_id=?', $locationid)
                         ->where('location_status=?', 1);
                 $result3 = $this->getAdapter()->fetchRow($select);
-              if($result3['location_id'] && $result3['location_id']==$locationid){   
+                
+                if($result3['location_id'] && $result3['location_id']==$locationid){   
                   $select = $this->select()
                          ->setIntegrityCheck(false)
                         ->from(array('hd' => 'hotel_details'))
                          ->where('hotel_location=?', $result3['location_id'])
                         ->where('hotel_status=?', 1);
                 $result4 = $this->getAdapter()->fetchAll($select);   
-                    
+       
                     
                 }else{
                    return null; 

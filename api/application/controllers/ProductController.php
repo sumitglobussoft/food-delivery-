@@ -317,16 +317,60 @@ class ProductController extends Zend_Controller_Action {
 
                     break;
 
+
+                /*
+                 * Modyfied By : Sibani Mishra
+                 * Modyfied Date :  4/1/2016
+                 * Desc:cuisines based on location.
+                 */
+
                 case'getcuisines':
-                    $cuisinesdetails = $famouscuisinesModel->getCuisines();
-                    if ($cuisinesdetails) {
-                        $response->message = 'successfull';
-                        $response->code = 200;
-                        $response->data = $cuisinesdetails;
+
+                    if ($this->getRequest()->isPost()) {
+
+                        $hotel_location = $this->getRequest()->getPost('hotel_location');
+
+                        if ($hotel_location) {
+
+                            $cuisinesdetails = $hotelssummaryModel->getCuisines($hotel_location);
+
+
+                            foreach ($cuisinesdetails as $key => $val) {
+
+                                unset($val['id']);
+                                unset($val['agent_id']);
+                                unset($val['hotel_location']);
+                                unset($val['address']);
+                                unset($val['primary_phone']);
+                                unset($val['hotel_name']);
+                                unset($val['hotel_image']);
+                                unset($val['open_time']);
+                                unset($val['closing_time']);
+                                unset($val['hotel_status']);
+                                unset($val['notice']);
+                                unset($val['minorder']);
+                                unset($val['deliverycharge']);
+//                                unset($val['cuisine_id']);
+                                unset($val['secondary_phone']);
+
+                                $cuisinesdetails[$key] = $val;
+                            }
+//                            print_r($cuisinesdetails);die;
+
+                            if (!empty($cuisinesdetails)) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $cuisinesdetails;
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        }
                     } else {
-                        $response->message = 'Could Not Serve The Request';
+                        $response->message = 'Could not Serve the Response';
                         $response->code = 197;
-                        $response->data = null;
+                        $response->data = NUll;
                     }
 
                     echo json_encode($response, true);
@@ -386,7 +430,7 @@ class ProductController extends Zend_Controller_Action {
             $response->code = 200;
             $response->data = $orderproductsdetails;
         } else {
-            $response->message = 'Could not Serve the Response';
+            $response->message = 'Could not Serve the Response ';
             $response->code = 197;
             $response->data = NUll;
         }

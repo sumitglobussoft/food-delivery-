@@ -43,11 +43,11 @@ class Web_AuthenticationController extends Zend_Controller_Action {
             $password = $this->getRequest()->getPost('password');
             $confirmpassword = $this->getRequest()->getPost('ConfirmPassword');
             $agreeterms = $this->getRequest()->getPost('agreeterms');
-           
+
             if ($agreeterms == 'on') {
-               
+
                 if (isset($username) && isset($email) && isset($password) && isset($confirmpassword)) {
-                   
+
                     $data = array(
                         'name' => $username,
                         'password' => sha1(md5($password)),
@@ -125,7 +125,7 @@ class Web_AuthenticationController extends Zend_Controller_Action {
     public function activateAccountAction() {
 
         $token = $this->getRequest()->getParam('token');
-        
+
         if ($token) {
             $data = array('ActivationToken' => $token);
 
@@ -137,31 +137,6 @@ class Web_AuthenticationController extends Zend_Controller_Action {
             $this->_appSetting = $objCore->getAppSetting();
             $url = $this->_appSetting->apiLink . '/web-authentication?method=userSignupActivationLink';
 
-            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
-            if ($curlResponse->code == 200) {
-                $this->view->successMsg = "Account Activation Successful...!!!";
-            } else if ($curlResponse->code == 100) {
-                $this->view->errorMsg = $curlResponse->message;
-            } else {
-                $this->_redirect('/'); //REDIRECT THIS TO 404 PAGE
-            }
-        }
-    }
-
-    public function activatesignupAccountAction() {
-
-        $token = $this->getRequest()->getParam('token');
-
-        if ($token) {
-            $data = array('ActivationToken' => $token);
-            $mailer = Engine_Mailer_Mailer::getInstance();
-            $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
-            $response = new stdClass();
-            $objCore = Engine_Core_Core::getInstance();
-
-//            $this->_appSetting = $objCore->getAppSetting();
-//            $url = $this->_appSetting->apiLink . '/user-authentication?method=userSignupActivationLink';
-            $url = 'api.ziingo.com/user-authentication?method=userSignupActivationLink';
             $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
             if ($curlResponse->code == 200) {
                 $this->view->successMsg = "Account Activation Successful...!!!";
@@ -201,9 +176,12 @@ class Web_AuthenticationController extends Zend_Controller_Action {
         $fbloginUrl = $facebookClass->getLoginUrl();
         $this->_appSetting = $objCore->getAppSetting();
         $method = $this->getRequest()->getPost('methodtype');
+
         if ($method == 'ziingologin') {
+
             $loginData = $this->getRequest()->getPost('loginname');
             $password = $this->getRequest()->getPost('password');
+
             if (isset($loginData) && isset($password)) {
                 $data['logindata'] = $loginData;
                 $data['password'] = $password;
@@ -318,20 +296,24 @@ class Web_AuthenticationController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
 
         $mailer = Engine_Mailer_MandrillApp_Mailer::getInstance();
-        $current = time();
+//        $current = time();
 
         $objCore = Engine_Core_Core::getInstance();
         $this->_appSetting = $objCore->getAppSetting();
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
 
         $method = $this->getRequest()->getPost('method');
+
         if ($method) {
+
             switch ($method) {
+
                 case "forgotpw":
 
-                    $fpwemail = $this->getRequest()->getPost('EmailId');
+                    $fpwemail = $this->getRequest()->getPost('EmailID');
 
-                    $data['email'] = $fpwemail;
+                    $data['EmailId'] = $fpwemail;
+
                     $data['method'] = "EnterEmailId";
 
                     $url = $this->_appSetting->apiLink . '/forgot-password?method=EnterEmailId';
@@ -345,13 +327,16 @@ class Web_AuthenticationController extends Zend_Controller_Action {
                     }
 
                     break;
+
                 case "verifyResetCode":
+
                     if ($this->getRequest()->getPost()) {
-                        $fpwemail = $this->getRequest()->getPost('EmailId');
+
+                        $fpwemail = $this->getRequest()->getPost('EmailID');
                         $resetcode = $this->getRequest()->getPost('resetcode');
 
-                        $data['email'] = $fpwemail;
-                        $data['reset_code'] = $resetcode;
+                        $data['EmailId'] = $fpwemail;
+                        $data['resetcode'] = $resetcode;
                         $data['method'] = "verifyResetCode";
                         $url = $this->_appSetting->apiLink . '/forgot-password?method=verifyResetCode';
 
@@ -364,22 +349,25 @@ class Web_AuthenticationController extends Zend_Controller_Action {
                         }
                     }
                     break;
+
                 case "resetPassword":
+
                     if ($this->getRequest()->getPost()) {
-                        $fpwemail = $this->getRequest()->getPost('EmailId');
+                        $fpwemail = $this->getRequest()->getPost('EmailID');
                         $resetcode = $this->getRequest()->getPost('resetcode');
                         $password = $this->getRequest()->getPost('Password');
                         $re_password = $this->getRequest()->getPost('rePassword');
 
-                        $data['email'] = $fpwemail;
-                        $data['reset_code'] = $resetcode;
-                        $data['password'] = $password;
-                        $data['password'] = $re_password;
+                        $data['EmailId'] = $fpwemail;
+                        $data['resetcode'] = $resetcode;
+                        $data['Password'] = $password;
+                        $data['rePassword'] = $re_password;
                         $data['method'] = "resetPassword";
+                        
                         $url = $this->_appSetting->apiLink . '/forgot-password?method=resetPassword';
 
                         $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
-
+  
                         if ($curlResponse->code == 200) {
                             echo json_encode($curlResponse);
                         } else {
@@ -387,29 +375,13 @@ class Web_AuthenticationController extends Zend_Controller_Action {
                         }
                     }
                     break;
-                case 'checkEmail':
-                    $objUserCredsModel = Application_Model_Userscredentials::getInstance();
-                    $EmailId = $this->getRequest()->getPost('EmailId');
-                    $result = $objUserCredsModel->checkEmail($EmailId);
-                    if ($result) {
-                        echo(json_encode(false));
-                    } else {
-                        echo(json_encode(true));
-                    }
-                    break;
-
                 default :
                     break;
             }
         }
     }
 
-    /*
-     * Dev : Sibani Mishra
-     * Desc: Email Activation 
-     * Date : 14/3/2016
-     * 
-     */
+   
 }
 
 ?>

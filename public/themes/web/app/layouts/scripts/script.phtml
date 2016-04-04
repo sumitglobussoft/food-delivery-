@@ -49,7 +49,7 @@
                                 window.location.reload(true);
                             } else {
                                 $('.error').css('display', 'block');
-                                $('.error').text('Please enter valid login credentials');
+//                                $('.error').text('Please enter valid login credentials');
                             }
 
                         }
@@ -135,50 +135,6 @@
             $('.error').html('');
             $('.success').hide;
         });
-
-        /*
-         DEV :Sibani Mishra
-         DESC: Forgot Password 
-         Design Date : 5/3/2016
-         */
-
-
-        //        $('.passwordResetForm').validate({
-//            rules: {
-        //                emailForgot: {
-//                    required: true,
-//                }
-//            },
-//            messages: {
-//                emailForgot: {
-//                    required: 'Please enter your Email'
-//                }
-//            },
-//            submitHandler: function(form) {
-//
-//                var emailForgot = $('#emailForgot').val();
-//                $.ajax({
-//                    url: '/ajax-handler-auth',
-//                    type: 'POST',
-//                    dataType: 'json',
-//                    data: {
-//                        ajaxMethod: 'forgotpassword',
-//                        Email: emailForgot
-//                    },
-//                    success: function(response) {
-//
-//                        if (response == true) {
-//                            alert("Password reset Link Sent to your Mail.")
-//                            window.location.reload(true);
-//                        } else {
-//                            $('.error').css('display', 'block');
-//                            $('.error').text('Please enter valid login credentials');
-//                        }
-//
-//                    }
-//                });
-//            }
-//        });
 
 
 
@@ -294,7 +250,6 @@
             });
         });
         // delete product from cart cookies in RESTAURANT DETAILS PAGE and ORDER CONFIRMATION PAGE///////////
-
         $(document.body).on('click', '.deletecookieitem', function() {
 
             var currenttarget = $(this);
@@ -346,9 +301,6 @@
 
         });
         // delete product from cart cookies in CART PAGE///////////
-
-
-
         $(document.body).on('click', '.deleteitem', function() {
 
             var currenttarget = $(this);
@@ -506,7 +458,6 @@
             }
         });
         // change quantity from cart cookies in CART PAGE ///////////
-
         $(document.body).on('click', '.changecookiequantity', function() {
 
             var currentTarget = $(this);
@@ -634,6 +585,200 @@
                 });
             }
         });
+
+
+        /*
+         DEV :Sibani Mishra
+         DESC: Forgot Password
+         Design Date : 31/3/2016
+         */
+
+
+        $('#forgotpasswordform').validate({
+            rules: {
+                EmailId: {
+                    required: true,
+                },
+                resetcode: {
+                    required: true,
+                }
+            },
+            messages: {
+                EmailId: {
+                    required: "Email cannot be empty"
+                },
+                resetcode: {
+                    required: "Reset Code cannot be empty"
+                }
+            }
+        });
+
+        $('.ziingoForgotpassword').click(function(e) {
+
+            $('.loginForm').addClass('hide');
+            $('.forgotpwd').removeClass('hide');
+
+        });
+
+
+        $('.forgetPassword').click(function(e) {
+
+            e.preventDefault();
+            var emailid = $('#EmailId').val();
+
+            var resetcode = $('#reset').val();
+
+
+            if ($("#forgotpasswordform").valid()) {
+
+                if (resetcode == '' && emailid != '') {
+                    $('.resetcode').removeClass('hide');
+                    $.ajax({
+                        url: '/authentication-ajax-handler',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            method: 'forgotpw',
+                            EmailID: emailid
+                        },
+                        success: function(response) {
+                            console.log(response);
+
+//                            if (response['code'] == 200) {
+                            if (response.code == 200) {
+                                $('.suc-err').show();
+                                $('.suc-err').html(response['message']);
+                                $('.suc-err').css('color', 'green');
+                                $('.suc-err').delay(4000).hide('slow');
+                                $('#resetcode').removeClass('hide');
+                                $('#EmailId').prop('disabled', true);
+                            } else {
+                                $('.suc-err').show();
+                                $('.suc-err').html(response);
+                                $('.suc-err').css('color', 'red');
+                                $('.suc-err').delay(4000).hide('slow');
+                            }
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: '/authentication-ajax-handler',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            method: 'verifyResetCode',
+                            EmailID: emailid,
+                            resetcode: resetcode
+                        },
+                        success: function(response) {
+                            console.log(response);
+//                            if (response['code'] == 200) {
+                            if (response.code == 200) {
+                                $('.forgotpwd').addClass('hide');
+                                $('.enternewpw').removeClass('hide');
+                                $('.code-suc-err').show();
+                                $('.code-suc-err').html(response['message']);
+                                $('.code-suc-err').css('color', 'green');
+                                $('.code-suc-err').delay(4000).hide('slow');
+//                            enternewpw();
+                            } else {
+                                $('.code-suc-err').show();
+                                $('.code-suc-err').html(response);
+                                $('.code-suc-err').css('color', 'red');
+                                $('.code-suc-err').delay(4000).hide('slow');
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        $('#EnterNewPWform').validate({
+            rules: {
+                Password: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 30
+                },
+                rePassword: {
+                    required: true,
+                    equalTo: "#Password"
+                }
+            },
+            messages: {
+                Password: {
+                    required: "Please Enter Password"
+                },
+                rePassword: {
+                    required: "Please Re-enter Password"
+                }
+            }
+        });
+
+        $('.setNewPassword').click(function(e) {
+
+            e.preventDefault();
+            $("#EnterNewPWform").valid();
+            var emailid = $('#EmailId').val();
+            console.log(emailid);
+            var resetcode = $('#reset').val();
+            console.log(resetcode);
+            var password1 = $('#Password').val();
+            console.log(password1);
+            var password2 = $('#rePassword').val();
+            console.log(password2);
+
+
+            if ($("#EnterNewPWform").valid()) {
+                if (resetcode != '' && emailid != '' && password1 != '' && password2 != '') {
+
+                    $.ajax({
+                        url: '/authentication-ajax-handler',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            method: 'resetPassword',
+                            EmailID: emailid,
+                            Password: password1,
+                            rePassword: password2,
+                            resetcode: resetcode
+                        },
+                        success: function(response) {
+
+//                            if (response['code'] == 200) {
+                            if (response.code == 200) {
+
+                                $('.pw-suc-err').show();
+                                $('.pw-suc-err').html(response['message']);
+                                $('.pw-suc-err').css('color', 'green');
+                                $('.pw-suc-err').delay(4000).hide('slow');
+                                $('#Password').val('');
+                                $('#rePassword').val('');
+                                location.reload();
+                            } else {
+                                $('.pw-suc-err').show();
+                                $('.pw-suc-err').html(response);
+                                $('.pw-suc-err').css('color', 'red');
+                                $('.pw-suc-err').delay(4000).hide('slow');
+                                $('#Password').val('');
+                                $('#rePassword').val('');
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        /*
+         DEV :Sibani Mishra
+         DESC: Forgot Password
+         Design Date : 31/3/2016
+         */
+         
+//         $('.restaurantListSearch').keyup(function(e)){
+//         
+//    }
+             
 
     });
 </script>

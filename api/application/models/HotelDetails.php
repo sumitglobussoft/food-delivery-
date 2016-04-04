@@ -266,12 +266,13 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
             
         }
     }
-    
+
     /*
      * Dev : Priyanka Varanasi
      * Modyfied By : Nitin Kumar Gupta
      * Modyfied Date : 15 FEB 2016
      */
+
     public function getcategoriesByHotelId() {
 
         if (func_num_args() > 0) {
@@ -430,7 +431,9 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
                 $select = $this->select()
                         ->from($this)
                         ->where('hotel_name LIKE ?', '%' . $name . '%');
+
                 $result = $this->getAdapter()->fetchAll($select);
+
                 if ($result) {
                     return $result;
                 } else {
@@ -442,6 +445,85 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
             }
         } else {
 
+            throw new Exception('Argument Not Passed');
+        }
+    }
+
+    /*
+     * Dev : Sibani Mishra
+     * Date: 1/4/2016
+     * Desc: TO select all Cuisines based on Hotel Location
+     */
+
+    public function getCuisines() {
+        if (func_num_args() > 0) {
+            $hotel_location = func_get_arg(0);
+
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('hd' => 'hotel_details'))
+                        ->join(array('hc' => 'hotel_cuisines'), 'hd.id=hc.hotel_id', array('hc.cuisine_id'))
+                        ->join(array('fc' => 'famous_cuisines'), 'hc.cuisine_id=fc.cuisine_id', array('fc.Cuisine_name'))
+                        ->where('hotel_location=?', $hotel_location)
+                        ->group(array("hc.cuisine_id", "fc.Cuisine_name")); //remove same rows.
+                $result = $this->getAdapter()->fetchAll($select);
+
+
+                return $result;
+            } catch (Exception $ex) {
+                throw new Exception('Unable to access data :' . $ex);
+            }
+        } else {
+
+            throw new Exception('Argument Not Passed');
+        }
+    }
+
+    /*
+     * Dev: Sibani Mishra
+     * Desc: fetch Hotels based on cuisines.
+     * date : 4/2/2016
+     */
+
+    public function gethotalsname() {
+        if (func_num_args() > 0) {
+            $hotel_locations = func_get_arg(0);
+           
+            $cuisine_id = func_get_arg(1);
+
+
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('hd' => 'hotel_details'))
+                        ->join(array('hc' => 'hotel_cuisines'), 'hd.id=hc.hotel_id')
+                        ->join(array('fc' => 'famous_cuisines'), 'hc.cuisine_id=fc.cuisine_id', array('fc.Cuisine_name'))
+                        ->where('hc.cuisine_id IN (?)', $cuisine_id)
+                        ->where('hd.hotel_location=?', $hotel_locations);
+
+                $gethotelsdetails = $this->getAdapter()->fetchAll($select);
+
+                $i = 0;
+                foreach ( $gethotelsdetails  as $key => $value) {
+//                        unset($value['order_id']);
+                    $value['cuisine_id'] = $gethotelsdetails[$key]['cuisine_id'][$i];
+                    
+                    $gethotelsdetails[$key] = $value;
+                    
+//                    $value['cuisine_id'] = $gethotelsdetails[0]['cuisine_id'][$i];
+//                    $value['cuisine_name'] = $gethotelsdetails[0]['Cuisine_name'][$i];
+//                    $gethotelsdetails[$key] = $value;
+                    $i++;
+                }
+                $gethotelsdetails[$key]['Cuisines_details'] = $gethotelsdetails;
+ 
+
+                return $result;
+            } catch (Exception $ex) {
+                throw new Exception('Unable To retrieve data :' . $ex);
+            }
+        } else {
             throw new Exception('Argument Not Passed');
         }
     }

@@ -1,4 +1,3 @@
-
 <!--location search modal-->
 <div id="loginModal" class="modal loginModal">
     <button class="btn-floating modal-close modal-close-btn waves-effect waves-light"><i class="material-icons">clear</i></button>
@@ -37,15 +36,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        <!--                        <div class="col s6 left-align">
-                                                    <a class="btn waves-light waves-effect " data-toggle="modal" data-target="#myModal" id="forgotBtn"  >Forgot Password</a>
-                                                </div>-->
                         <div class="pull-right">
-                            <a onClick="forgotpd()" class="btn waves-light waves-effect ziingoForgotpassword" href="javascript:void(0);" >Forgot password?
-                            </a>
-                            <!--class="forgot_pass "-->
+                            <a  class="ziingoForgotpassword" href="javascript:void(0);" >Forgot password?</a>
                         </div>
-                        <div class="col s6 right-align">
+                        <div class="col s12 center">
                             <button  name="userform" value="ziingologin" class="btn waves-light waves-effect ziingologin">Login</button>
                         </div>
                     </div>
@@ -61,25 +55,25 @@
         </div>
 
 
-        <div class="my_account_block forgotpd clearfix hide">
+        <div class="my_account_block forgotpwd clearfix hide">
             <div class="login">
-                <h2>Forgot Password</h2>
-                <form class="forgotpd_form" action="javascript:;" method="post" id="forgotpasswordform">
+                <h4 class="font-DancingScript bold center">Forgot Password</h4>
+                <form class="ziingoForgotpassword1" action="javascript:;" method="post" id="forgotpasswordform" style="margin-top:3%;">
                     <p>
-                        Enter your e-mail address below to reset your password.
+                        Enter your E-mail address below to reset your password.
                     </p>
-                    <input type="email" name="loginname" placeholder="Email" id="loginname" />
+                    <input type="email" name="EmailId" placeholder="Email" id="EmailId" />
                     <span class="suc-err"></span>
                     <div class="resetcode hide" id="resetCode">
                         <p>
                             Check Mail and Enter your reset code below to Reset password
                         </p>
-                        <input type="text" name="resetcode" placeholder="Reset Code" id="resetcode"/>
+                        <input type="text" name="resetcode" placeholder="ResetCode" id="reset"/>
                         <span class="code-suc-err"></span><br>
                     </div>
                     <div class="center">
-                        <input type="button" onClick="login()" value="Back">
-                        <input type="submit"  value="Send">
+                        <!--<input type="button"  value="Back">-->
+                        <input type="submit" class="btn waves-light waves-effect forgetPassword" value="Verify" />
                     </div>
                 </form>
             </div>                    
@@ -88,21 +82,21 @@
 
         <div class="my_account_block enternewpw clearfix hide">
             <div class="login">
-                <h2>Enter New Password</h2>
-                <form class="EnterNewPw_form" action="javascript:void(0);" method="post" id="EnterNewPWform">
+                <h4 class="font-DancingScript bold center">Enter New Password</h4>
+                <form class="EnterNewPw_form" action="javascript:;" method="post" id="EnterNewPWform" style="margin-top:3%;">
                     <p>
                         Enter new Password to reset your password.
                     </p>
-                    <label for="pwd">New Password</label>
-                    <input type="password" name="pwd" class="form-control" id="pwd" autocomplete="off" placeholder="Password">
-                    <br><label for="repwd">Re-enter password</label>
-                    <input type="password" name="repwd" class="form-control" id="repwd" autocomplete="off" placeholder="Re-enter Password">
+                    <label for="Password">New Password</label>
+                    <input type="password" name="Password" class="form-control" id="Password" autocomplete="off" placeholder="Password" >
+                    <br><label for="rePassword">Re-enter password</label>
+                    <input type="password" name="rePassword" class="form-control" id="rePassword" autocomplete="off" placeholder="Re-enter Password" >
 
                     <span class="pw-suc-err"></span><br>
 
                     <div class="center">
-                        <input type="button" onClick="login()" value="Back">
-                        <input type="submit"  value="Send">
+                        <!--<input type="button"  value="Back">-->
+                        <input type="button" class="btn waves-light waves-effect setNewPassword" value="Update Password" />
                     </div>
                 </form>
             </div>                    
@@ -186,183 +180,3 @@
             display: none !important;*/
 
 </style>
-<script type="text/javascript">
-    function forgotpd() {
-        $('.forgotpd').removeClass('hide');
-        $('.logind').addClass('hide');
-        $('.enternewpw').addClass('hide'); //emailID resetcode password1 password2
-        $('.loginForm').addClass('hide');
-        $('#loginname').prop('disabled', false);
-        $('#resetCode').addClass('hide');
-    }
-    function login() {
-        $('.logind').removeClass('hide');
-        $('.forgotpd').addClass('hide');
-        $('.enternewpw').addClass('hide');
-        $('.loginForm').addClass('hide');
-        $('#loginname').val('');
-        $('#resetcode').val('');
-        $('#pwd').val('');
-        $('#repwd').val('');
-        $('#loginname').prop('disabled', false);
-    }
-    function enternewpw() {
-        $('.enternewpw').removeClass('hide');
-        $('.forgotpd').addClass('hide');
-        $('.logind').addClass('hide');
-        $('.loginForm').addClass('hide');
-        $('#pwd').val('');
-        $('#repwd').val('');
-        $('#loginname').prop('disabled', false);
-    }
-   
-    $('#EnterNewPWform').validate({
-        rules: {
-            pwd: {
-                required: true,
-//                    passwordregex: true
-            },
-            repwd: {
-                required: true,
-                equalTo: "#pwd"
-            }
-        },
-        messages: {
-            pwd: {
-                required: "Please Enter Password"
-            },
-            repwd: {
-                required: "Please Re-enter Password"
-            }
-        }
-    });
-//        $("#forgotpasswordform").submit(function(e) {
-//        submitHandler: function(form) {
-//        $(document.body).on('click', '#forgotpasswordform', function() {
-
-    $('#forgotpasswordform').validate({
-        rules: {
-            loginname: {
-                required: true,
-            },
-            resetcode: {
-                required: true,
-            }
-        },
-        messages: {
-            loginname: {
-                required: "Email cannot be empty"
-            },
-            resetcode: {
-                required: "Reset Code cannot be empty"
-            }
-        }
-    });
-
-    $('#forgotpasswordform').click(function(e) {
-        e.preventDefault();
-        var fpdemail = $('#loginname').val();
-        console.log(fpdemail);
-        var resetcode = $('#resetcode').val();
-        console.log(resetcode);
-        if ($("#forgotpasswordform").valid()) {
-            if (resetcode == '' && fpdemail != '') {
-                $.ajax({
-                    url: '/authentication-ajax-handler',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        method: 'forgotpw',
-                        loginname: fpdemail
-                    },
-                    success: function(response) {
-
-//                            if (response['code'] == 200) {
-                        if (response.code == 200) {
-                            $('.suc-err').show();
-                            $('.suc-err').html(response['message']);
-                            $('.suc-err').css('color', 'green');
-                            $('.suc-err').delay(4000).hide('slow');
-                            $('#resetCode').removeClass('hide');
-                            $('#loginname').prop('disabled', true);
-                        } else {
-                            $('.suc-err').show();
-                            $('.suc-err').html(response);
-                            $('.suc-err').css('color', 'red');
-                            $('.suc-err').delay(4000).hide('slow');
-                        }
-                    }
-                });
-            } else {
-                $.ajax({
-                    url: '/authentication-ajax-handler',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        method: 'verifyResetCode',
-                        loginname: fpdemail,
-                        resetcode: resetcode
-                    },
-                    success: function(response) {
-//                            if (response['code'] == 200) {
-                        if (response.code == 200) {
-                            $('.code-suc-err').show();
-                            $('.code-suc-err').html(response['message']);
-                            $('.code-suc-err').css('color', 'green');
-                            $('.code-suc-err').delay(4000).hide('slow');
-                            enternewpw();
-                        } else {
-                            $('.code-suc-err').show();
-                            $('.code-suc-err').html(response);
-                            $('.code-suc-err').css('color', 'red');
-                            $('.code-suc-err').delay(4000).hide('slow');
-                        }
-                    }
-                });
-            }
-        }
-    });
-//        $("#EnterNewPWform").submit(function(e) {
-//        $(document.body).on('click', '#EnterNewPWform', function() {
-    $('#EnterNewPWform').click(function(e) {
-        e.preventDefault();
-        var fpdemail = $('#loginname').val();
-        var resetcode = $('#resetcode').val();
-        var password1 = $('#pwd').val();
-        var password2 = $('#repwd').val();
-        if ($("#EnterNewPWform").valid()) {
-            if (resetcode != '' && fpdemail != '' && password1 != '' && password2 != '') {
-                $.ajax({
-                    url: '/authentication-ajax-handler',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        method: 'resetPassword',
-                        loginname: fpdemail,
-                        pwd: password1,
-                        repwd: password2,
-                        resetcode: resetcode
-                    },
-                    success: function(response) {
-//                            if (response['code'] == 200) {
-                        if (response.code == 200) {
-                            $('.pw-suc-err').show();
-                            $('.pw-suc-err').html(response['message']);
-                            $('.pw-suc-err').css('color', 'green');
-                            $('.pw-suc-err').delay(4000).hide('slow');
-                            $('#pwd').val('');
-                            $('#repwd').val('');
-                        } else {
-                            $('.pw-suc-err').show();
-                            $('.pw-suc-err').html(response);
-                            $('.pw-suc-err').css('color', 'red');
-                            $('.pw-suc-err').delay(4000).hide('slow');
-                            $('#pwd').val('');
-                            $('#repwd').val('');
-                        }
-                    }
-                });
-            }
-        }
-    });
-</script>

@@ -15,6 +15,12 @@ class OrdersController extends Zend_Controller_Action {
      * Desc: User delivery address settings insert and update
      */
 
+    /*
+     * Dev : Sibani Mishra
+     * Date: 20/3/2016
+     * Desc: Modified User delivery address settings insert and update and fetch
+     */
+
     public function userDeliverySettingsAction() {
 //        $userdeliveryaddrmodal = Application_Model_UserDeliveryAddr::getInstance();
         $userdeliveryaddrmodal = Application_Model_UserDeliveryAddress::getInstance();
@@ -27,27 +33,38 @@ class OrdersController extends Zend_Controller_Action {
 
                     if ($this->getRequest()->isPost()) {
 
-                        $data['first_name'] = $this->getRequest()->getPost('firstname');
-                        $data['last_name'] = $this->getRequest()->getPost('lastname');
-                        $data['contact_country_code'] = $this->getRequest()->getPost('contact_country_code');
-                        $data['contact_number'] = $this->getRequest()->getPost('contact_number');
+                        $data['ordered_user_id'] = $this->getRequest()->getPost('userid');
+                        $data['user_name'] = $this->getRequest()->getPost('uname');
+                        $data['landmark'] = $this->getRequest()->getPost('landmark');
+                        $data['Location'] = $this->getRequest()->getPost('location');
+                        $data['contact_country_code'] = $this->getRequest()->getPost('contactcountrycode');
+                        $data['contact_number'] = $this->getRequest()->getPost('contactnumber');
                         $data['address_line1'] = $this->getRequest()->getPost('address');
-                        $data['address_line2'] = $this->getRequest()->getPost('optional_address');
+                        $data['address_line2'] = $this->getRequest()->getPost('optionaladdress');
                         $data['district'] = $this->getRequest()->getPost('district');
                         $data['state'] = $this->getRequest()->getPost('state');
                         $data['country'] = $this->getRequest()->getPost('country');
                         $data['pin'] = $this->getRequest()->getPost('pin');
-                        $data['user_id'] = $this->getRequest()->getPost('userid');
-                        if ([$data['user_id']]) {
 
-                            $userdelid = $userdeliveryaddrmodal->insertUserDeliveryAddress($data);
+                        if ([$data['ordered_user_id']]) {
 
-                            if ($userdelid) {
-                                $response->message = 'Successfull';
-                                $response->code = 200;
-                                $response->data = $userdelid;
+                            $select = $userdeliveryaddrmodal->selectuserid($data['ordered_user_id']);
+
+                            if ($select <= 2) {
+
+                                $userdelid = $userdeliveryaddrmodal->insertUserDeliveryAddress($data);
+
+                                if ($userdelid) {
+                                    $response->message = 'Successfull';
+                                    $response->code = 200;
+                                    $response->data = $userdelid;
+                                } else {
+                                    $response->message = 'Could not Serve the Response';
+                                    $response->code = 197;
+                                    $response->data = NUll;
+                                }
                             } else {
-                                $response->message = 'Could not Serve the Response';
+                                $response->message = 'You cannot Insert for same userid More than 3 Address.U can Edit it';
                                 $response->code = 197;
                                 $response->data = NUll;
                             }
@@ -71,51 +88,70 @@ class OrdersController extends Zend_Controller_Action {
                     if ($this->getRequest()->isPost()) {
 
 
-                        $firstname = $this->getRequest()->getPost('firstname');
-                        if (!empty($firstname)) {
-                            $data['first_name'] = $firstname;
+                        $userid = $this->getRequest()->getPost('userid');
+
+                        $addressid = $this->getRequest()->getPost('addressid');
+
+                        $uname = $this->getRequest()->getPost('uname');
+                        if (!empty($uname)) {
+                            $data['user_name'] = $uname;
                         }
-                        $lastname = $this->getRequest()->getPost('lastname');
-                        if (!empty($lastname)) {
-                            $data['last_name'] = $lastname;
+
+                        $landmark = $this->getRequest()->getPost('landmark');
+                        if (!empty($landmark)) {
+                            $data['landmark'] = $landmark;
                         }
-                        $contact_country_code = $this->getRequest()->getPost('contact_country_code');
-                        if (!empty($contact_country_code)) {
-                            $data['contact_country_code'] = $contact_country_code;
+
+                        $location = $this->getRequest()->getPost('location');
+                        if (!empty($location)) {
+                            $data['Location'] = $location;
                         }
-                        $contact_number = $this->getRequest()->getPost('contact_number');
-                        if (!empty($contact_number)) {
-                            $data['contact_number'] = $contact_number;
+
+                        $contactcountrycode = $this->getRequest()->getPost('contactcountrycode');
+                        if (!empty($contactcountrycode)) {
+                            $data['contact_country_code'] = $contactcountrycode;
                         }
+
+                        $contactnumber = $this->getRequest()->getPost('contactnumber');
+                        if (!empty($contactnumber)) {
+                            $data['contact_number'] = $contactnumber;
+                        }
+
                         $address = $this->getRequest()->getPost('address');
                         if (!empty($address)) {
                             $data['address_line1'] = $address;
                         }
-                        $optional_address = $this->getRequest()->getPost('optional_address');
-                        if (!empty($optional_address)) {
-                            $data['address_line2'] = $optional_address;
+
+                        $optionaladdress = $this->getRequest()->getPost('optionaladdress');
+                        if (!empty($optionaladdress)) {
+                            $data['address_line2'] = $optionaladdress;
                         }
-                        $country = $this->getRequest()->getPost('country');
-                        if (!empty($country)) {
-                            $data['country'] = $country;
-                        }
+
                         $district = $this->getRequest()->getPost('district');
                         if (!empty($district)) {
                             $data['district'] = $district;
                         }
+
                         $state = $this->getRequest()->getPost('state');
                         if (!empty($state)) {
                             $data['state'] = $state;
                         }
+
+                        $country = $this->getRequest()->getPost('country');
+                        if (!empty($country)) {
+                            $data['country'] = $country;
+                        }
+
                         $pin = $this->getRequest()->getPost('pin');
                         if (!empty($pin)) {
                             $data['pin'] = $pin;
                         }
-                        $userid = $this->getRequest()->getPost('userid');
 
-                        if ($userid) {
 
-                            $update = $userdeliveryaddrmodal->updateUserDeliveryAddress($userid, $data);
+
+                        if ($userid && $addressid) {
+
+                            $update = $userdeliveryaddrmodal->updateUserDeliveryAddress($userid, $addressid, $data);
 
                             if ($update) {
                                 $response->message = 'successfull';
@@ -144,13 +180,13 @@ class OrdersController extends Zend_Controller_Action {
 
                     if ($this->getRequest()->isPost()) {
 
-                        $addressid = $this->getRequest()->getPost('addressid');
+
 
                         $userid = $this->getRequest()->getPost('userid');
 
-                        if ($userid && $addressid) {
+                        if ($userid) {
 
-                            $update = $userdeliveryaddrmodal->fetchUserDeliveryAddress($userid, $addressid);
+                            $update = $userdeliveryaddrmodal->fetchUserDeliveryAddress($userid);
 
                             if ($update) {
                                 $response->message = 'successfull';
@@ -354,110 +390,269 @@ class OrdersController extends Zend_Controller_Action {
     }
 
     /*
-     * Dev : Priyanka Varanasi
-     * Date: 10/12/2015
-     * Desc: Insert all orders in db
-     * Modified Date: 22/1/2016
-     * Desc : Modified insert order service including delivery address and order products 
+     * Dev : Sibani Mishra
+     * Desc: Insert/Fetch/Status of all orders 
+     * Date: 23/3/2016
      */
 
     public function ordersAction() {
+
         $ordersModel = Application_Model_Orders::getInstance();
-        $userdeliveryaddrmodal = Application_Model_UserDeliveryAddr::getInstance();
-        $orderproductsmodal = Application_Model_OrderProducts::getInstance();
+        $cartiddetailsModel = Application_Model_Addtocart::getInstance();
+        $orderaddressModel = Application_Model_OrderAddress::getInstance();
+        $userdeliveryaddresssModel = Application_Model_UserDeliveryAddress::getInstance();
         $response = new stdClass();
         $method = $this->getRequest()->getParam('method');
+
         if ($method) {
 
             switch ($method) {
+
                 case'insertorders':
+
                     if ($this->getRequest()->isPost()) {
-                        $data['user_id'] = $this->getRequest()->getPost('userid');
-                        $totalamount = $this->getRequest()->getPost('totalamount');
-                        if ($totalamount) {
+
+                        $addressId = $this->getRequest()->getPost('addressid');
+
+
+                        $cartid = $this->getRequest()->getPost('cartid');
+                        $cartid = json_decode($cartid);
+//                        $cartid = explode(',', $cartid);
+
+                        $fetchcartiddetails = $cartiddetailsModel->selectcartiddetails($cartid);
+
+                        if (!empty($fetchcartiddetails)) {
+                            $productId = array();
+                            $quantity = array();
+                            foreach ($fetchcartiddetails as $key => $value) {
+                                $productId[] = $value['product_id'];
+                                $quantity[] = $value['quantity'];
+                            }
+                            $data['user_id'] = $fetchcartiddetails[0]['user_id'];
                             $data['total_amount'] = $this->getRequest()->getPost('totalamount');
-                        }
-                        $data['pay_status'] = 0;
-                        $data['order_status'] = 4;
-                        $data['order_date'] = date('Y-m-d H-i-s');
-                        if ($data['user_id']) {
-                            $insertedorderid = $ordersModel->insertOrders($data);
-                            if ($insertedorderid) {
+                            $data['hotel_id'] = $fetchcartiddetails[0]['hotel_id'];
+                            $data['quantity'] = json_encode($quantity);
+                            $data['product_id'] = json_encode($productId);
+                            $data['product_amount'] = $this->getRequest()->getPost('productamount');
+                            $data['product_amount'] = json_decode($data['product_amount']);
+                            $data['product_amount'] = json_encode($data['product_amount']);
+                            $data['delivery_charge'] = $this->getRequest()->getPost('deliverycharge');
 
-                                $dat['fullname'] = $this->getRequest()->getPost('fullname');
-                                $dat['phone_no'] = $this->getRequest()->getPost('phonenum');
-                                $dat['address'] = $this->getRequest()->getPost('address');
-                                $dat['cityname'] = $this->getRequest()->getPost('cityname');
-                                $dat['statename'] = $this->getRequest()->getPost('statename');
-                                $dat['countryname'] = $this->getRequest()->getPost('countryname');
-                                $dat['landMark'] = $this->getRequest()->getPost('landMark');
-                                $info['ordered_user_id'] = $this->getRequest()->getPost('userid');
-                                $info['order_id'] = $insertedorderid;
-                                $info['delivery_addr'] = json_encode($dat, true);
 
-                                $userdelid = $userdeliveryaddrmodal->insertUserDeliveryAddress($info);
-                                if ($userdelid) {
-                                    $cartids = $this->getRequest()->getPost('cartids');
-                                    if ($cartids) {
-                                        $carts = json_decode($cartids, true);
-                                        $i = 0;
-                                        foreach ($carts as $val) {
-                                            $da[$i]['order_id'] = $insertedorderid;
-                                            $da[$i]['ordered_cart_id'] = $val;
-                                            $i++;
-                                        }
-                                        $arrayofIds = $orderproductsmodal->insertOrderedCartProducts($da);
-                                        if ($arrayofIds) {
+                            $insertorderid = $ordersModel->insertOrders($data);
 
-                                            $response->message = 'successfull';
-                                            $response->code = 200;
-                                            $response->data['order_id'] = $insertedorderid;
-                                            $response->data['delivery_id'] = $userdelid;
-                                            $response->data['ordered_product_ids'] = $arrayofIds;
-                                        } else {
-                                            $response->message = 'successfull, but issues with the  cart products';
-                                            $response->code = 400;
-                                            $response->data['order_id'] = $insertedorderid;
-                                            $response->data['delivery_id'] = $userdelid;
-                                        }
-                                    } else {
-                                        $response->message = 'successfull,carts ids null given';
-                                        $response->code = 400;
-                                        $response->data['order_id'] = $insertedorderid;
-                                        $response->data['delivery_id'] = $userdelid;
-                                    }
+                            if ($insertorderid) {
+
+                                $selectuserdeliveryaddress = $userdeliveryaddresssModel->selectUserDeliveryAddress($addressId);
+
+                                unset($selectuserdeliveryaddress['user_delivery_address_id']);
+                                unset($selectuserdeliveryaddress['ordered_user_id']);
+
+                                $selectuserdeliveryaddress['order_id'] = $insertorderid;
+
+                                $insertorderaddress = $orderaddressModel->insertorderaddress($selectuserdeliveryaddress);
+
+
+                                if ($insertorderaddress) {
+
+                                    $response->message = 'successfull';
+                                    $response->code = 200;
+                                    $response->data['order_id'] = $insertorderid;
+//                                    $response->data['order_address_id'] = $insertorderaddress;
                                 } else {
-                                    $response->message = 'order successfully get inserted, but issues with delivery address';
-                                    $response->code = 400;
-                                    $response->data['order_id'] = $insertedorderid;
+                                    $response->message = 'Fail';
+                                    $response->code = 197;
                                 }
                             } else {
-                                $response->message = 'Failed order';
+                                $response->message = 'Fail';
                                 $response->code = 197;
-                                $response->data['order_id'] = null;
                             }
                         } else {
-                            $response->message = 'Could Not Serve The Request,user id is required';
-                            $response->code = 198;
-                            $response->data = null;
+
+                            $response->message = 'CartId Should not be blank.';
+                            $response->code = 401;
+                            $response->data = Null;
                         }
                     } else {
-                        $response->message = 'Could Not Serve The Request';
+                        $response->message = 'Invalid Request';
                         $response->code = 401;
-                        $response->data = NULL;
+                        $response->data = Null;
                     }
                     echo json_encode($response, true);
                     die;
                     break;
+
+                case 'historyorders':
+
+                    if ($this->getRequest()->isPost()) {
+
+                        $userid = $this->getRequest()->getPost('user_id');
+                        $offset = $this->getRequest()->getPost('offset');
+                        $limit = $this->getRequest()->getPost('limit');
+
+                        if (!empty($userid)) {
+
+                            $fetchorderhistory = $ordersModel->selecthistoryorder($userid, $offset, $limit);
+
+                            if (!empty($fetchorderhistory)) {
+
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $fetchorderhistory;
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'UserID Should not be blank';
+                            $response->code = 401;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                        $response->data = Null;
+                    }
+
+                    echo json_encode($response, true);
+                    die;
+                    break;
+
+                case 'orderstatus':
+
+                    if ($this->getRequest()->isPost()) {
+
+                        $orderid = $this->getRequest()->getPost('order_id');
+//                        echo '<pre>';
+//                        print_r($orderid);
+//                        die("Test");
+                        if (!empty($orderid)) {
+
+                            $fetchorderstatus = $ordersModel->selectorderstatus($orderid);
+//                            echo '<pre>';
+//                            print_r($fetchorderstatus);
+//                            die("Test");
+                            if (!empty($fetchorderstatus)) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $fetchorderstatus[0];
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'UserID or OrderID Should not be blank';
+                            $response->code = 401;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                        $response->data = Null;
+                    }
+
+                    echo json_encode($response, true);
+                    die;
+                    break;
             }
-        } else {
-            $response->message = 'Invalid Request';
-            $response->code = 401;
-            $response->data = "No Method Passed";
-            echo json_encode($response, true);
-            die();
         }
     }
+
+    /*
+     * Dev : Priyanka Varanasi
+     * Date: 10/12/2015
+     * Desc: Insert all orders in db
+     * Modified Date: 22/1/2016
+     * Desc : Order's details
+     */
+
+//                        $data['user_id'] = $this->getRequest()->getPost('userid');
+//                        $totalamount = $this->getRequest()->getPost('totalamount');
+//                        if ($totalamount) {
+//                            $data['total_amount'] = $this->getRequest()->getPost('totalamount');
+//                        }
+//                        $data['pay_status'] = 0;
+//                        $data['order_status'] = 4;
+//                        $data['order_date'] = date('Y-m-d H-i-s');
+//                        if ($data['user_id']) {
+//                            $insertedorderid = $ordersModel->insertOrders($data);
+//                            if ($insertedorderid) {
+//
+//                                $dat['fullname'] = $this->getRequest()->getPost('fullname');
+//                                $dat['phone_no'] = $this->getRequest()->getPost('phonenum');
+//                                $dat['address'] = $this->getRequest()->getPost('address');
+//                                $dat['cityname'] = $this->getRequest()->getPost('cityname');
+//                                $dat['statename'] = $this->getRequest()->getPost('statename');
+//                                $dat['countryname'] = $this->getRequest()->getPost('countryname');
+//                                $dat['landMark'] = $this->getRequest()->getPost('landMark');
+//                                $info['ordered_user_id'] = $this->getRequest()->getPost('userid');
+//                                $info['order_id'] = $insertedorderid;
+//                                $info['delivery_addr'] = json_encode($dat, true);
+//                        $userdelid = $userdeliveryaddrmodal->insertUserDeliveryAddress($info);
+//                        if ($userdelid) {
+//                            $cartids = $this->getRequest()->getPost('cartids');
+//                            if ($cartids) {
+//                                $carts = json_decode($cartids, true);
+//                                $i = 0;
+//                                foreach ($carts as $val) {
+//                                    $da[$i]['order_id'] = $insertedorderid;
+//                                    $da[$i]['ordered_cart_id'] = $val;
+//                                    $i++;
+//                                }
+//                                $arrayofIds = $orderproductsmodal->insertOrderedCartProducts($da);
+//                                if ($arrayofIds) {
+//
+//                                    $response->message = 'successfull';
+//                                    $response->code = 200;
+//                                    $response->data['order_id'] = $insertedorderid;
+//                                    $response->data['delivery_id'] = $userdelid;
+//                                    $response->data['ordered_product_ids'] = $arrayofIds;
+//                                } else {
+//                                    $response->message = 'successfull, but issues with the  cart products';
+//                                    $response->code = 400;
+//                                    $response->data['order_id'] = $insertedorderid;
+//                                    $response->data['delivery_id'] = $userdelid;
+//                                }
+//                            } else {
+//                                $response->message = 'successfull,carts ids null given';
+//                                $response->code = 400;
+//                                $response->data['order_id'] = $insertedorderid;
+//                                $response->data['delivery_id'] = $userdelid;
+//                            }
+//                        } else {
+//                            $response->message = 'order successfully get inserted, but issues with delivery address';
+//                            $response->code = 400;
+//                            $response->data['order_id'] = $insertedorderid;
+//                        }
+//                    } else {
+//                        $response->message = 'Failed order';
+//                        $response->code = 197;
+//                        $response->data['order_id'] = null;
+//                    }
+//                } else {
+//                $response->message = 'Could Not Serve The Request,user id is required';
+//                $response->code = 198;
+//                $response->data = null;
+//            }
+//    } else {
+//        $response->message = 'Could Not Serve The Request';
+//        $response->code = 401;
+//        $response->data = NULL;
+//    }
+//    echo json_encode($response, true);
+//    die;
+//    break;
+//}
+//} else {
+//    $response->message = 'Invalid Request';
+//    $response->code = 401;
+//    $response->data = "No Method Passed";
+//    echo json_encode($response, true);
+//    die();
+//}
+
 
     /*
      * Dev : Priyanka Varanasi
@@ -470,6 +665,7 @@ class OrdersController extends Zend_Controller_Action {
         $deliverystatusmodal = Application_Model_DeliveryStatusLog::getInstance();
         $response = new stdClass();
         $method = $this->getRequest()->getParam('method');
+
         if ($method) {
 
             switch ($method) {
@@ -478,6 +674,7 @@ class OrdersController extends Zend_Controller_Action {
 
 //         $hoteldetails = $hotelssummaryModel->selectAllHotels(); 
                     $hoteldetails = $hotelssummaryModel->selectAllHotelsLocations();
+
                     if ($hoteldetails) {
                         $response->message = 'Successfull';
                         $response->code = 200;

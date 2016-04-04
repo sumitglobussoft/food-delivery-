@@ -15,10 +15,10 @@
                         <div class="details">
                             <ul>
                                 <li><a class="restName" href="#"><?php
-                            if (isset($this->hoteldata['hotel_name'])) {
-                                echo $this->hoteldata['hotel_name'];
-                            }
-                            ?></a></li>
+                                        if (isset($this->hoteldata['hotel_name'])) {
+                                            echo $this->hoteldata['hotel_name'];
+                                        }
+                                        ?></a></li>
                                 <li><p class="address"> <span><i class="fa fa-map-marker"></i></span><?php
                                         if (isset($this->hoteldata['address'])) {
                                             echo $this->hoteldata['address'];
@@ -104,15 +104,20 @@
                             <div class="menuCartDiv">
                                 <div class="menu">
                                     <ul class="collapsible popout resDishesList" data-collapsible="accordion">
-<?php
-if (isset($this->hotelmenu)) { 
-    
-    foreach ($this->hotelmenu as $value) {
-       
-        ?>
+                                        <?php
+                                        if (isset($this->hotelmenu)) {
+
+                                            foreach ($this->hotelmenu as $value) {
+                                                ?>
                                                 <li class="active">
                                                     <a class="collapsible-header active">
-                                                        <i class="fa fa-angle-right"></i><?php if(isset($value['cusine_name'])){ echo $value['cusine_name'];}else{ echo $value['category_name'];} ?>
+                                                        <i class="fa fa-angle-right"></i><?php
+                                                        if (isset($value['cusine_name'])) {
+                                                            echo $value['cusine_name'];
+                                                        } else {
+                                                            echo $value['category_name'];
+                                                        }
+                                                        ?>
                                                     </a>
                                                     <div class="collapsible-body">
                                                         <div>
@@ -120,10 +125,10 @@ if (isset($this->hotelmenu)) {
                                                         </div>
                                                         <table class="dish-table">
                                                             <tbody>
-        <?php
-        if (isset($value['product_type'])) {
-            foreach ($value['product_type'] as $val) {
-                ?>
+                                                                <?php
+                                                                if (isset($value['product_type'])) {
+                                                                    foreach ($value['product_type'] as $val) {
+                                                                        ?>
                                                                         <tr>
                                                                             <td>
                                                                                 <span class="fa-stack veg">
@@ -134,16 +139,19 @@ if (isset($this->hotelmenu)) {
                                                                             <td><?php echo $val['name']; ?></td>
                                                                             <td><span class="productcostdata"><i class="fa fa-inr"></i></span><?php echo $val['cost']; ?></td>
 
-                                                                            <td><a href="javascript:;"><span><i class="fa fa-2x fa-plus-circle getproductid"  data-hotelid="<?php if ($val['hotel_id']) {
-                    echo $val['hotel_id'];
-                } ?>" data-prod="<?php echo $val['product_id']; ?>"></i></span></a></td>
+                                                                            <td><a href="javascript:;"><span><i class="fa fa-2x fa-plus-circle getproductid"  data-hotelid="<?php
+                                                                                        if ($val['hotel_id']) {
+                                                                                            echo $val['hotel_id'];
+                                                                                        }
+                                                                                        ?>" data-prod="<?php echo $val['product_id']; ?>"></i></span></a></td>
 
 
                                                                         </tr>
 
-            <?php }
-        }
-        ?>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
 
 
 
@@ -151,10 +159,10 @@ if (isset($this->hotelmenu)) {
                                                         </table>
                                                     </div>
                                                 </li>
-    <?php }
-   
-}
-?> </ul>
+                                                <?php
+                                            }
+                                        }
+                                        ?> </ul>
                                 </div>
                                 <div class="cart">
                                     <div class="card-panel m-top-15 padding-sm">
@@ -162,9 +170,10 @@ if (isset($this->hotelmenu)) {
                                         <div class="tdel">
                                             <table class="orderTable">
                                                 <tbody>
-<?php if (isset($this->addtocartproducts)) {
-    foreach ($this->addtocartproducts as $value) {
-        ?>
+                                                    <?php
+                                                    if (isset($this->addtocartproducts)) {
+                                                        foreach ($this->addtocartproducts as $value) {
+                                                            ?>
                                                             <tr class="trows grandparent">
                                                                 <td><span class="dish-name" ><?php echo $value['name']; ?></span></td>
                                                                 <td class="dish-id">
@@ -183,9 +192,10 @@ if (isset($this->hotelmenu)) {
                                                                     </a>
                                                                 </td>
                                                             </tr>
-    <?php }
-}
-?>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -194,14 +204,14 @@ if (isset($this->hotelmenu)) {
                                                 <tbody>
                                                     <tr>
                                                         <td class="subtotal1">Subtotal</td>
-                                        <?php if ($this->total) { ?>
+                                                        <?php if ($this->total) { ?>
                                                             <td><span class="subtotal" data-total="<?php echo $this->total; ?>"><i class="fa fa-inr"><?php echo $this->total; ?></i></span><td>
-                                            <?php } else { ?><td><span class="subtotal" data-total="0"><i class="fa fa-inr">0</i></span><td><?php } ?>
+<?php } else { ?><td><span class="subtotal" data-total="0"><i class="fa fa-inr">0</i></span><td><?php } ?>
                                                     </tr>
 
                                                     <tr>
                                                         <td>Grand Total</td>
-<?php if ($this->total) { ?>
+                                                        <?php if ($this->total) { ?>
                                                             <td><span class="grandtotal" grand-total="<?php echo $this->total; ?>" ><i class="fa fa-inr"><?php echo $this->total; ?></i></span></td>
 <?php } else { ?><td><span grand-total="0" class="grandtotal"><i class="fa fa-inr">0</i></span></td> <?php } ?>
                                                     </tr>
@@ -210,21 +220,21 @@ if (isset($this->hotelmenu)) {
                                         </div>
                                     </div>
                                     <div class="center">
-                                        
-                                          <?php if ($this->auth->hasIdentity()) { ?>
-                                        
-                                        <a  href ="/order-confirmation/<?php
-if (isset($this->hotelId)) {
-    echo $this->hotelId;
-}
-?>/-for-the-restaurant-<?php
-if (isset($this->hoteldata['hotel_name'])) {
-    echo $this->hoteldata['hotel_name'];
-}
-?>&order_id=" class="btn btn-alt waves-effect waves-teal btn-large green-text">Proceed to Check Out</a>
-<?php }else{ ?>
-    <a   class="btn btn-alt waves-effect waves-teal btn-large green-text modal-trigger" href="#loginModal">Proceed to Check Out</a>
-<?php }?>
+
+                                        <?php if ($this->auth->hasIdentity()) { ?>
+
+                                            <a  href ="/order-confirmation/<?php
+                                            if (isset($this->hotelId)) {
+                                                echo $this->hotelId;
+                                            }
+                                            ?>/-for-the-restaurant-<?php
+                                                if (isset($this->hoteldata['hotel_name'])) {
+                                                    echo $this->hoteldata['hotel_name'];
+                                                }
+                                                ?>&order_id=" class="btn btn-alt waves-effect waves-teal btn-large green-text">Proceed to Check Out</a>
+                                        <?php } else { ?>
+                                            <a   class="btn btn-alt waves-effect waves-teal btn-large green-text modal-trigger" href="#loginModal">Proceed to Check Out</a>
+<?php } ?>
                                     </div>
 
                                 </div>

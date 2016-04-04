@@ -167,43 +167,68 @@ class Web_HomeController extends Zend_Controller_Action {
      */
 
     public function restaurentsListAction() {
+
         $mailer = Engine_Mailer_Mailer::getInstance();
+
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+
         $objCore = Engine_Core_Core::getInstance();
+
         $objSecurity = Engine_Vault_Security::getInstance();
+
         $this->_appSetting = $objCore->getAppSetting();
+
         if (isset($this->view->session->storage->user_id)) {
+
             $user_id = $this->view->session->storage->user_id;
+
             $url = $this->_appSetting->apiLink . '/logged-user-cart?method=userscart';
+
             $loc['user_id'] = $user_id;
+
             $curlResponse = $objCurlHandler->curlUsingPost($url, $loc);
 
             if ($curlResponse->code == 200) {
+
                 $i = 0;
+
                 $count = count($curlResponse->data);
+
                 $this->view->session->storage->cartcount = $count;
             }
         }
+
         $citylocation_id = $this->getRequest()->getParam('city');
+
         $location_id = $this->getRequest()->getParam('location_id');
 
         ///////////for fetching name of the city in which the restaurents located//////////////
 
         $loc['city_id'] = $citylocation_id;
+
         $url = $this->_appSetting->apiLink . '/get-restaurants-list?method=getcityname';
+
         $Response = $objCurlHandler->curlUsingPost($url, $loc);
+
         if ($Response->code == 200) {
+
             $this->view->cityname = $Response->data['name'];
         }
         ///////////////////code ends ///////
         if ($location_id) {
+
             $info['location_id'] = $location_id;
+
             $info['city_id'] = $citylocation_id;
 
             $curlResponse = $objCurlHandler->curlUsingPost($url, $info);
+
             $url = $this->_appSetting->apiLink . '/get-restaurants-list?method=bylocationid';
+
             $curlResponse = $objCurlHandler->curlUsingPost($url, $info);
+
             if ($curlResponse->code == 200) {
+
                 $this->view->restaurantslist = $curlResponse->data;
             } else {
                 $info['location_id'] = $citylocation_id;
@@ -248,16 +273,21 @@ class Web_HomeController extends Zend_Controller_Action {
         }
 
         $hotel_id = $this->getRequest()->getParam('id');
+
         if ($hotel_id) {
+
             $loc['hotel_id'] = $hotel_id;
+
             $this->view->hotelId = $hotel_id;
             /*             * **** Display of restaurant  details***** */
             $url = $this->_appSetting->apiLink . '/restaurant-info-card?method=gethotelinfo';
+
             $curlResponse = $objCurlHandler->curlUsingPost($url, $loc);
+
             if ($curlResponse->code == 200) {
                 $this->view->hoteldata = $curlResponse->data;
             }
-            /****** Display of restaurant menu details and products***** */
+            /*             * **** Display of restaurant menu details and products***** */
             $url = $this->_appSetting->apiLink . '/restaurant-info-card?method=getmenulist';
             $Response = $objCurlHandler->curlUsingPost($url, $loc);
 
@@ -284,8 +314,10 @@ class Web_HomeController extends Zend_Controller_Action {
                     $this->view->total = $data['subtotal'];
                 }
             }
-      
         }
     }
+    
+    
+    
 
 }

@@ -27,6 +27,7 @@ class Application_Model_Usermeta extends Zend_Db_Table_Abstract {
 
         if (func_num_args() > 0) {
             $data = func_get_arg(0);
+
             try {
                 $responseId = $this->insert($data);
 
@@ -56,7 +57,7 @@ class Application_Model_Usermeta extends Zend_Db_Table_Abstract {
             $userid = func_get_arg(0);
             $data = func_get_arg(1);
             try {
-                $result = $this->update($data, 'user_id =' . $userid);
+                $result = $this->update($data, 'userinfo_id =' . $userid);
                 if ($result) {
                     return $result;
                 } else {
@@ -83,16 +84,32 @@ class Application_Model_Usermeta extends Zend_Db_Table_Abstract {
             try {
 
                 $select = $this->select()
-                        ->from($this,['first_name','last_name','phone','city','state','country','address'])
+                        ->from($this, ['first_name', 'last_name', 'phone', 'city', 'state', 'country', 'address'])
                         ->where('user_id = ?', $userid);
 
                 $result = $this->getAdapter()->fetchRow($select);
 
                 return $result;
-                
             } catch (Exception $e) {
                 throw new Exception('Unable To Insert Exception Occured :' . $e);
             }
+        }
+    }
+
+    public function insertUserMetainfo() {
+        if (func_num_args() > 0) {
+
+            $data = func_get_arg(0);
+
+            try {
+                $responseId = $this->insert($data);
+
+                return $responseId;
+            } catch (Exception $ex) {
+                return $ex->getMessage();
+            }
+        } else {
+            throw new Exception('Argument Not Passed');
         }
     }
 

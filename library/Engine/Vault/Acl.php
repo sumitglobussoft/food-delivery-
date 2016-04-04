@@ -58,8 +58,8 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('guest', 'web::authentication::activate-account');
 
         $this->add(new Zend_Acl_Resource('web::order'), 'web')
-                ->add(new Zend_Acl_Resource('web::order::order-confirmation'), 'web::home')
-                ->add(new Zend_Acl_Resource('web::order::order-ajax-handler'), 'web::home');
+                ->add(new Zend_Acl_Resource('web::order::order-confirmation'), 'web::order')
+                ->add(new Zend_Acl_Resource('web::order::order-ajax-handler'), 'web::order');
 
 
 
