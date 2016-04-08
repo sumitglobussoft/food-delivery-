@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+  >
+    
+ <!--    <ScrollView 
+        android:id="@+id/scrl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/lin_lay1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/use_of_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="7dp"
+            android:text="Use of information"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_use_of_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="7dp"
+            android:text="@string/Use_of_information"
+            android:textAlignment="center" />
+        
+        <TextView
+            android:id="@+id/share_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="7dp"
+            android:layout_marginTop="5dp"
+            android:text="Will we share your personal information with anyone else ?"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_share_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/share_info"
+            android:textAlignment="center" />
+        
+        <TextView
+            android:id="@+id/other_use_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="7dp"
+            android:layout_marginTop="5dp"
+            android:text="Other uses of your information"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_other_use_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/other_use_info"
+            android:textAlignment="center" />
+    </LinearLayout>    
+    
+   </ScrollView> -->
+
+</LinearLayout>

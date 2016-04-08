@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="300dp"
+    android:layout_gravity="center"
+    android:background="@drawable/bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rel_111"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/chng_pass_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/close_btn" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txt_chngpass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="Change password"
+        android:textColor="#FF2600"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/oldrel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/txt_old"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Enter your old password"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/old_pass"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/txt_old"
+           	android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/spinner_shape"
+            android:gravity="center"
+            android:inputType="textPassword"
+            android:textColor="#000000" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/newrel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/txt_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Enter your new password"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/new_pass"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/txt_new"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:inputType="textPassword"
+            android:background="@drawable/spinner_shape"
+            android:gravity="center"
+            android:textColor="#000000" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/pass_changed"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#33A61D"
+            android:gravity="center"
+            android:text="OK"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+</LinearLayout>

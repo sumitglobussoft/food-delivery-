@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="45dp"
+    android:background="@drawable/list_selector" >
+
+    <!--
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:contentDescription="@string/desc_list_item_icon"
+        android:layout_centerVertical="true" />
+        android:src="@drawable/ic_home"
+       
+ 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/icon"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="#A4A4A4"
+        android:gravity="center_vertical"
+        android:paddingRight="40dp"/>
+     
+    <TextView android:id="@+id/counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/counter_bg"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:textColor="#A4A4A4"/>
+    -->
+  <RelativeLayout 
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="5dp">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:padding="5dp"
+        android:src="@drawable/signout" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_centerVertical="true"
+        android:padding="5dp"
+        android:text="mfkldsnfkld"
+        android:textColor="@color/restaurant_add" />
+
+    <TextView
+        android:id="@+id/counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/counter_bg"
+        android:textColor="#A4A4A4" 
+        android:padding="5dp"/>
+    </RelativeLayout>
+    
+
+</RelativeLayout>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg" >
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp"
+        android:src="@drawable/logo" />
+
+    <ImageView
+        android:id="@+id/chk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:src="@drawable/thankyou" />
+
+    <TextView
+        android:id="@+id/thanku"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chk"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
+        android:text="Thank You"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/order_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/thanku"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/order_id"
+        android:gravity="center"
+        android:text="ORDER ID:OD234" />
+
+    <TextView
+        android:id="@+id/txt_rcvd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/order_id"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="We have received your order."
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txt_rdy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_rcvd"
+        android:layout_centerHorizontal="true"
+        android:text="Your parcel will be ready to pickup shortly."
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txt_sms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_rdy"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:text="You will receive the confirmation via SMS and Email."
+        android:textColor="@color/Gray"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/img_or_st"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="49dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/vieworder" />
+
+</RelativeLayout>

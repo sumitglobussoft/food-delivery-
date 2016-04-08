@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg" >
+
+    <RelativeLayout
+        android:id="@+id/rel_pay_header"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="#FF2600" >
+
+        <ImageView
+            android:id="@+id/del_pay_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="15dp"
+            android:src="@drawable/back_btn" />
+
+        <TextView
+            android:id="@+id/del_Payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/del_pay_btn"
+            android:gravity="left"
+            android:text="Payment"
+            android:textColor="#FFFFFF" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_paypal"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_below="@+id/rel_pay_header"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+         android:layout_marginLeft="10dp"
+        android:background="#0490E5" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" >
+
+            <TextView
+                android:id="@+id/txt_pp1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
+                android:text="Pay with "
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/txt_pp2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/txt_pp1"
+                android:text="PayPal"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_cod"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_below="@+id/rel_paypal"
+        android:layout_margin="10dp"
+        android:background="#747076" >
+
+        <TextView
+            android:id="@+id/txt_cod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Cash on Delivery"
+            android:textColor="#FFFFFF" />
+    </RelativeLayout>
+
+    <!--
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_pay_opt"
+        android:layout_marginTop="5dp"
+        >
+
+        <RadioButton
+            android:id="@+id/pay_rad_btn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="12dp"
+            android:button="@drawable/radiobutton_selector"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="false"
+            android:padding="10dp"
+            android:text="   Credit card"
+            android:textColor="#2E2E2E"
+            android:textSize="12sp" />
+
+        <View
+            android:id="@+id/pay_SplitLine_hor1"
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/pay_rad_btn1"
+            android:background="#585858" />
+
+        <RadioButton
+            android:id="@+id/pay_rad_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="12dp"
+            android:button="@drawable/radiobutton_selector"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="false"
+            android:padding="10dp"
+            android:text="   Debit card"
+            android:textColor="#2E2E2E"
+            android:textSize="12sp" />
+
+        <View
+            android:id="@+id/pay_SplitLine_hor2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/pay_rad_btn2"
+            android:background="#585858" />
+
+        <RadioButton
+            android:id="@+id/pay_rad_btn3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="12dp"
+            android:button="@drawable/radiobutton_selector"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="false"
+            android:padding="10dp"
+            android:text="   Net Banking"
+            android:textColor="#2E2E2E"
+            android:textSize="12sp" />
+
+        <View
+            android:id="@+id/pay_SplitLine_hor3"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/pay_rad_btn3"
+            android:background="#585858" />
+
+        <RadioButton
+            android:id="@+id/pay_rad_btn4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="12dp"
+            android:button="@drawable/radiobutton_selector"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="false"
+            android:padding="10dp"
+            android:text="   Cash on delivery"
+            android:textColor="#2E2E2E"
+            android:textSize="12sp" />
+    </RadioGroup>
+    -->
+
+    <!-- <TextView
+        android:id="@+id/txt_pay_opt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_pay_header"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:text="Payment Options"
+        android:textColor="#FF2600" /> -->
+
+   <!--  <ImageView
+        android:id="@+id/make_pay_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/make_payment" /> -->
+
+</RelativeLayout>

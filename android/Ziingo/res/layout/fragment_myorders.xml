@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/rel"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/list_myorders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:divider="@color/list_divider"
+            android:dividerHeight="0.5dp"
+            android:listSelector="@drawable/list_selector" />
+    </LinearLayout>
+    
+    <RelativeLayout 
+        android:id="@+id/rel_his_pr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+    <ProgressBar
+        android:id="@+id/his_pr"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"        
+        android:visibility="visible"
+        android:layout_centerHorizontal="true"/>
+    <TextView 
+        android:id="@+id/txt_his_pr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/his_pr"
+        android:text="Fetching"
+        android:textColor="@color/restaurant_add"/>
+    </RelativeLayout>
+
+</RelativeLayout>

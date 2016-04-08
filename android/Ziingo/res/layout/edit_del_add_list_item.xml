@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:background="@drawable/item_selector">
+
+    <!--
+         <RadioButton
+        android:id="@+id/rad_btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:button="@drawable/radiobutton_selector"
+        android:checked="false"
+        android:clickable="false"
+        android:focusable="false" />
+    -->
+
+    <LinearLayout
+        android:id="@+id/lllllllll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dp"
+        android:layout_marginTop="18dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/list_del_fn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mark Antony"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/list_del_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Near hanuman temple, Smriti nagar"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/list_del_loc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textColor="#000000" />
+
+        <RelativeLayout
+            android:id="@+id/citypin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/list_del_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bhilai -"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/list_del_citypin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/list_del_city"
+                android:text="490020"
+                android:textColor="#000000" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/list_del_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chattisgarh"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/list_del_mobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Mobile: 9845852555"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/list_del_editaddress"
+            android:layout_width="65dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#848484"
+            android:gravity="center"
+            android:text="Edit"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+</RelativeLayout>

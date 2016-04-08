@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:id="@+id/rel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/rel_rest_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/textviewclickselector" >
+
+            <!-- Thumbnail Image -->
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/image_bg"
+                android:scaleType="fitXY"
+                android:src="@drawable/thumbnail_icon" />
+
+            <!-- Restaurant Name -->
+
+            <TextView
+                android:id="@+id/restaurant_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/thumbnail"
+                android:layout_toRightOf="@+id/thumbnail"
+                android:text=""
+                android:textColor="@color/restaurant_name"
+                android:textSize="@dimen/restaurant_name" />
+
+            <!-- Restaurant Address -->
+
+            <TextView
+                android:id="@+id/restaurant_add"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/restaurant_name"
+                android:layout_toRightOf="@+id/thumbnail"
+                android:text=""
+                android:textColor="@color/restaurant_add"
+                android:textSize="@dimen/restaurant_add" />
+
+            <!-- Reviews -->
+
+            <TextView
+                android:id="@+id/reviews"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/restaurant_add"
+                android:layout_toRightOf="@+id/thumbnail"
+                android:text=""
+                android:textColor="@color/reviews"
+                android:textSize="@dimen/reviews" />
+
+            <!-- cuisine -->
+
+            <TextView
+                android:id="@+id/cuisine"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/reviews"
+                android:layout_toRightOf="@+id/thumbnail"
+                android:text=""
+                android:textColor="@color/cuisine"
+                android:textSize="@dimen/cuisine" />
+
+            <!-- Min order -->
+
+            <TextView
+                android:id="@+id/min_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/cuisine"
+                android:layout_below="@+id/cuisine"
+                android:text="Min Order: "
+                android:textColor="@color/min_order"
+                android:textSize="@dimen/min_order" />
+
+           <!--  <ImageView
+                android:id="@+id/rupee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/min_order"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/min_order"
+                android:src="@drawable/icon_rupee" /> -->
+
+            <!-- Price -->
+
+            <TextView
+                android:id="@+id/rstminprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/min_order"
+                android:layout_alignBottom="@+id/min_order"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@+id/min_order"
+                android:text="300"
+                android:textColor="@color/price"
+                android:textSize="@dimen/price" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

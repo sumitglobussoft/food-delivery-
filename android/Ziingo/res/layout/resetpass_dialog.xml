@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/white" >
+
+        <RelativeLayout
+            android:id="@+id/rrrr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/close_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/close_btn" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_chkinbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rrrr"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:text="Check your inbox"
+            android:textColor="#FF2600"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_dialog_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_chkinbox"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Please enter the verification code sent to anuradhak@globussoft.com"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/rst_code"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/txt_dialog_msg"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/search_input_box"
+            android:gravity="center"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/txt_rsndcd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rst_code"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="Resend Code? "
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:id="@+id/lin_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/txt_rsndcd"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/txt_rstokbtn"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:background="#A4A4A4"
+                android:gravity="center"
+                android:text="OK"
+                android:textColor="#000000"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/txt_rstcancelbtn"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="20dp"
+                android:background="#A4A4A4"
+                android:gravity="center"
+                android:text="Cancel"
+                android:textColor="#000000"
+                 android:layout_marginBottom="20dp"  />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/textviewclickselector">
+
+    <RelativeLayout
+        android:id="@+id/rel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+         android:layout_marginLeft="10dp"
+         android:layout_marginRight="10dp"
+         >
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/prod_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"           
+            android:src="@drawable/thumbnail_icon" />
+
+        <TextView
+            android:id="@+id/fooditem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_cost"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/prod_img"
+            android:gravity="center_vertical"
+            android:text="Food"
+            android:textColor="#424242"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/product_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="100"
+            android:textColor="#424242"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</LinearLayout>

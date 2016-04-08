@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg" >
+
+    <ScrollView
+        android:id="@+id/accscroll"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"  >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" 
+            android:layout_below="@+id/scroll" >
+
+            <RelativeLayout
+                android:id="@+id/rel1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/accfn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="First Name" />
+
+                <EditText
+                    android:id="@+id/accfirstname"
+                    android:layout_width="270dp"
+                    android:layout_height="25dp"
+                    android:layout_below="@+id/accfn"                    
+                    android:background="@drawable/spinner_shape"
+                    android:textSize="15sp"
+                    android:inputType="textPersonName"
+                    android:textColor="#000000" />
+                
+                 <ImageView
+                    android:id="@+id/accfirstname_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/accfirstname"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toRightOf="@+id/accfirstname"
+                    android:src="@drawable/edit_icon" />
+            </RelativeLayout>
+
+           <!--  <RelativeLayout
+                android:id="@+id/rel3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel2"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp" >
+
+                <TextView
+                    android:id="@+id/addr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address" />
+
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="fill_parent"
+                    android:layout_height="25dp"
+                    android:layout_below="@+id/addr"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/input_box"
+                    android:inputType="textPostalAddress"
+                    android:textColor="#000000" />
+            </RelativeLayout> -->
+
+            <RelativeLayout
+                android:id="@+id/rel4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel2"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp" >
+
+                <TextView
+                    android:id="@+id/accph"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone Number" />
+                
+                 <RelativeLayout
+                    android:id="@+id/relcntry_code"
+                    android:layout_width="270dp"
+                    android:layout_height="25dp"
+                    android:layout_below="@+id/accph" >
+                
+                <Spinner
+                        android:id="@+id/accpr_cntry_code"
+                        android:layout_width="85dp"
+                        android:layout_height="55dp"
+                        android:background="@drawable/spinner_shape"
+                        android:entries="@array/CountryCodes" />
+                
+                 <ImageView
+                        android:id="@+id/downarrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/accph_num1"
+                        android:src="@drawable/downarrow" />
+
+                <EditText
+                    android:id="@+id/accph_num1"
+                    android:layout_width="210dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/spinner_shape"
+                    android:layout_toRightOf="@+id/accpr_cntry_code"
+                    android:textSize="15sp"
+                    android:inputType="phone"
+                    android:textColor="#000000" />        
+                
+                
+                   </RelativeLayout>
+                   
+                  <ImageView
+                    android:id="@+id/accph_num_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/relcntry_code"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toRightOf="@+id/relcntry_code"
+                    android:src="@drawable/edit_icon" />
+                 
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel4"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp" >
+
+                <TextView
+                    android:id="@+id/acc_ct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="City" />
+
+                <EditText
+                    android:id="@+id/acc_city"
+                    android:layout_width="270dp"
+                    android:layout_height="25dp"
+                    android:layout_below="@+id/acc_ct"
+                    android:background="@drawable/spinner_shape"
+                    android:textSize="15sp"
+                    android:inputType="textPersonName"
+                    android:textColor="#000000" />
+                
+                 <ImageView
+                    android:id="@+id/acc_city_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/acc_city"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toRightOf="@+id/acc_city"
+                    android:src="@drawable/edit_icon" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel5"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp" >
+
+                <TextView
+                    android:id="@+id/acc_st"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="State" />
+
+                <EditText
+                    android:id="@+id/acc_state"
+                    android:layout_width="270dp"
+                    android:layout_height="25dp"
+                    android:layout_below="@+id/acc_st"
+                    android:background="@drawable/spinner_shape"
+                    android:textSize="15sp"
+                    android:inputType="textPersonName"
+                    android:textColor="#000000" />
+                
+                <ImageView
+                    android:id="@+id/acc_state_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/acc_state"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toRightOf="@+id/acc_state"
+                    android:src="@drawable/edit_icon" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel6"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp" >
+
+                <TextView
+                    android:id="@+id/cntry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Country" />
+
+                <EditText
+                    android:id="@+id/acc_country"
+                    android:layout_width="270dp"
+                    android:layout_height="25dp"
+                    android:layout_below="@+id/cntry"
+                    android:background="@drawable/spinner_shape"
+                    android:textSize="15sp"
+                    android:inputType="textPersonName"
+                    android:textColor="#000000" />
+                
+                <ImageView
+                    android:id="@+id/acc_country_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/acc_country"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toRightOf="@+id/acc_country"
+                    android:src="@drawable/edit_icon" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/acc_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel7"
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/save_btn" />
+
+            <RelativeLayout
+                android:id="@+id/rel2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/rel4"
+                android:layout_below="@+id/rel1"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp" >
+
+                <TextView
+                    android:id="@+id/acc_ln"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Name" />
+
+                <EditText
+                    android:id="@+id/acc_lastname"
+                    android:layout_width="270dp"
+                    android:layout_height="25dp"
+                    android:layout_below="@+id/acc_ln"
+                    android:background="@drawable/spinner_shape"
+                    android:inputType="textPersonName"
+                    android:textSize="15sp"
+                    android:textColor="#000000"  />          
+
+           <ImageView
+                    android:id="@+id/acc_lastname_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/acc_lastname"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toRightOf="@+id/acc_lastname"
+                    android:src="@drawable/edit_icon" />
+           
+             </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

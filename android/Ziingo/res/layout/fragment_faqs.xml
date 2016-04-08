@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    >
+
+    <TextView
+        android:id="@+id/txtLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="FAQs"
+        android:textColor="#6E6E6E"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/txtGeneral"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtLabel"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="-5dp"
+        android:text="General"
+        android:textColor="@color/restaurant_add"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:id="@+id/rel_f1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtGeneral"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp" >
+
+        <ImageView
+            android:id="@+id/b1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/bullet_point" />
+
+        <TextView
+            android:id="@+id/q1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/b1"
+            android:text="What is Ziingo ?"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/a1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rel_f1"
+        android:layout_below="@+id/rel_f1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/a1"
+        android:textAlignment="center"
+        android:textSize="10sp" />
+
+    <RelativeLayout
+        android:id="@+id/rel_f2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rel_f1"
+        android:layout_below="@+id/a1"
+        android:layout_marginTop="7dp" >
+
+        <ImageView
+            android:id="@+id/b2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/bullet_point" />
+
+        <TextView
+            android:id="@+id/q2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/b2"
+            android:text="Where is my order ?"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/a2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rel_f2"
+        android:layout_below="@+id/rel_f2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/a2"
+        android:textAlignment="center"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/txtPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/a2"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:text="Payment"
+        android:textColor="@color/restaurant_add"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:id="@+id/rel_f3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rel_f1"
+        android:layout_below="@+id/txtPayment"
+        android:layout_marginTop="7dp" >
+
+        <ImageView
+            android:id="@+id/b3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/bullet_point" />
+
+        <TextView
+            android:id="@+id/q3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/a1"
+            android:layout_marginLeft="8dp"
+            android:text="How can I pay for my order ?"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/a3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/a2"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/rel_f3"
+        android:text="@string/a3"
+        android:textSize="10sp" />
+    
+    <TextView
+        android:id="@+id/txtDelivery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/a3"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:text="Delivery"
+        android:textColor="@color/restaurant_add"
+        android:textSize="14sp" />
+    
+    <RelativeLayout
+        android:id="@+id/rel_f4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rel_f1"
+        android:layout_below="@+id/txtDelivery"
+        android:layout_marginTop="7dp" >
+
+        <ImageView
+            android:id="@+id/b4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/bullet_point" />
+
+        <TextView
+            android:id="@+id/q4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/a1"
+            android:layout_marginLeft="8dp"
+            android:text="How long does it take for my order to get delivered ?"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/a4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_alignLeft="@+id/a3"
+        android:layout_below="@+id/rel_f4"
+        android:text="@string/a4"
+        android:textSize="10sp" />
+
+</RelativeLayout>

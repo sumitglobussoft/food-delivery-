@@ -1,0 +1,46 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- restaurant list item dimensions -->
+    <dimen name="restaurant_name">14dp</dimen>
+    <dimen name="restaurant_add">12dip</dimen>
+    <dimen name="cuisine">11dip</dimen>
+    <dimen name="min_order">10dip</dimen>
+    <dimen name="price">10dip</dimen>
+    <dimen name="reviews">10dip</dimen>
+
+    <!-- Toolbar -->
+    <dimen name="toolbar_height_phone_land">48dp</dimen>
+    <dimen name="toolbar_height_phone_port">56dp</dimen>
+    <dimen name="toolbar_height_tablet">64dp</dimen>
+
+    <!-- Navigation Drawer -->
+    <dimen name="drawer_top">24dp</dimen>
+    <dimen name="drawer_left">16dp</dimen>
+    <dimen name="drawer_right">16dp</dimen>
+    <dimen name="drawer_text_with_icon">50dp</dimen>
+    <dimen name="drawer_header_text">56dp</dimen>
+    <dimen name="drawer_grouping_padding">8dp</dimen>
+    <dimen name="drawer_item_height">48dp</dimen>
+    <dimen name="drawer_min_width_phone">320dp</dimen>
+    <dimen name="drawer_min_width_tablet">400dp</dimen>
+
+    <!-- ListView -->
+
+
+    <!-- FAB -->
+    <dimen name="fab_big">54dp</dimen>
+    <dimen name="fab_small">40dp</dimen>
+
+    <!-- welcome screen -->
+    <dimen name="left_view">28dp</dimen>
+    <dimen name="right_view">28dp</dimen>
+    <dimen name="regist_txtsize">16sp</dimen>
+    <dimen name="editname_boxsize">280dp</dimen>
+    <dimen name="mainrlt_topmargin">60dp</dimen>
+    <dimen name="othersocio_txtsize">16sp</dimen>
+
+</resources>
