@@ -53,19 +53,61 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
         }
     }
 
+    /*
+     * Dev : sowmya
+     * Date: 13/4/2016
+     * Desc: get all order details agent id based
+     */
+
     public function GetOrderProducts() {
         if (func_num_args() > 0) {
-            $agent_id = func_get_arg(0);
+            $hotel_id = func_get_arg(0);
 
             try {
                 $select = $this->select()
                         ->setIntegrityCheck(false)
                         ->from(array('o' => 'orders'))
                         ->join(array('u' => 'users'), 'o.user_id=u.user_id')
-                        ->join(array('hd' => 'hotel_details'), 'o.order_from_hotel=hd.id', array('hd.id', 'hd.hotel_name', 'hd.agent_id'))
+                        ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.id', 'hd.hotel_name', 'hd.agent_id'))
                         ->join(array('dsl' => 'delivery_status_log'), 'o.order_id= dsl.order_id')
                         ->join(array('dg' => 'delivery_guys'), 'dsl.delivery_guy_id=dg.del_guy_id')
-                        ->where('hd.agent_id=?', $agent_id);
+                        ->where('hotel_id=?', $hotel_id);
+                $result = $this->getAdapter()->fetchAll($select);
+
+                if ($result) {
+                    return $result;
+                } else {
+
+                    return null;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable to access data :' . $e);
+            }
+        } else {
+
+            throw new Exception('Argument Not Passed');
+        }
+    }
+
+    /*
+     * Dev : sowmya
+     * Date: 13/4/2016
+     * Desc: get all order details order id based
+     */
+
+    public function GetAgentProduct() {
+        if (func_num_args() > 0) {
+            $order_id = func_get_arg(0);
+
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('o' => 'orders'))
+                        ->join(array('od' => 'order_address'), 'o.order_id=od.order_id')
+                        ->join(array('u' => 'users'), 'o.user_id=u.user_id')
+                        ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.id', 'hd.hotel_name', 'hd.agent_id'))                     
+                        ->where('o.order_id=?', $order_id);
+             
                 $result = $this->getAdapter()->fetchAll($select);
 
                 if ($result) {

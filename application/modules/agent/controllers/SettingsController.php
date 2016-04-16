@@ -40,9 +40,9 @@ class Agent_SettingsController extends Zend_Controller_Action {
     }
 
     /*
-     * Dev: Priyanka Varanasi
-     * Date : 18/12/2015
-     * Desc: To view and edit hotel details of agent 
+     * Dev: sowmya
+     * Date 11/4/2016
+     * Desc: To  edit hotel details of agent 
      * 
      */
 
@@ -56,19 +56,28 @@ class Agent_SettingsController extends Zend_Controller_Action {
         $hotel_id = $this->getRequest()->getParam('hotelid');
         $dt['hotel_id'] = $hotel_id;
         $url = $this->_appSetting->apiLink . '/restaurent-menu-card?method=getcuisinesofHotel';
-        $curlResponse = $objCurlHandler->curlUsingPost($url,$dt);
-        $i=0;
-        if($curlResponse->code==200){
-            foreach ($curlResponse->data as $value) {
-               $array[$i] =  $value['Cuisine_name'];
-               $i++;
+        $curlResponse1 = $objCurlHandler->curlUsingPost($url, $dt);
+//        print_r($curlResponse1);
+        $i = 0;
+        if ($curlResponse1->code == 200) {
+            foreach ($curlResponse1->data as $value) {
+                $array[$i] = $value['Cuisine_name'];
+                $i++;
             }
-         $this->view->cuisine123  =  implode($array,',');
+            $this->view->cuisine123 = implode($array, ',');
         }
-        
+        $url = $this->_appSetting->apiLink . '/get-locations?method=getcountrys';
+        $curlResponse2 = $objCurlHandler->curlUsingGet($url);
+        if ($curlResponse2->code == 200) {
+            $this->view->countrylist = $curlResponse2->data;
+        }
+
         if ($this->getRequest()->isPost()) {
 
             $data['id'] = $hotel_id;
+            $data['select_country'] = $this->getRequest()->getPost('selectcountry');
+            $data['select_state'] = $this->getRequest()->getPost('selectstate');
+            $data['select_city'] = $this->getRequest()->getPost('selectcity');
             $data['primary_phone'] = $this->getRequest()->getPost('primary_phone');
             $data['secondary_phone'] = $this->getRequest()->getPost('secondary_phone');
             $data['hotel_name'] = $this->getRequest()->getPost('hotel_name');
@@ -100,14 +109,14 @@ class Agent_SettingsController extends Zend_Controller_Action {
                         $link = $this->_appSetting->hostLink;
                         $data['hotel_image'] = $link . $savepath;
                         $url = $this->_appSetting->apiLink . '/hoteldetails?method=updatehoteldetails';
-                        $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
-                        
-                        if ($curlResponse->code == 200) {
+                        $curlResponse3 = $objCurlHandler->curlUsingPost($url, $data);
+
+                        if ($curlResponse3->code == 200) {
                             $this->redirect('/agent/hotel-details');
                         }
                     } else {
 
-                        echo "DIE HERE";                     
+                        echo "DIE HERE";
                     }
                 }
             } else {
@@ -122,12 +131,11 @@ class Agent_SettingsController extends Zend_Controller_Action {
         $url = $this->_appSetting->apiLink . '/hoteldetails?method=getHotelDetailsByHotelId';
         $data['hotel_id'] = $hotel_id;
         $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
-        
+
         if ($curlResponse->code == 200) {
             $this->view->hoteldetails = $curlResponse->data;
         }
     }
-    
 
     /*
      * Dev: Priyanka Varanasi
@@ -170,19 +178,19 @@ class Agent_SettingsController extends Zend_Controller_Action {
             $data['open_time'] = $this->getRequest()->getPost('open_time');
             $data['closing_time'] = $this->getRequest()->getPost('closing_time');
             $data['notice'] = $this->getRequest()->getPost('notice');
-            $data['address'] =$this->getRequest()->getPost('address');
+            $data['address'] = $this->getRequest()->getPost('address');
             $data['minorder'] = $this->getRequest()->getPost('minorder');
             $data['deliverycharge'] = $this->getRequest()->getPost('deliverycharge');
             $data['hotel_status'] = $this->getRequest()->getPost('hotel_status');
             $data['agent_id'] = $agentid;
-         
-            
+
+
             $cuisines = $this->getRequest()->getPost('selectcuisine');
-               
+
             $hotellocation = $this->getRequest()->getPost('selectlocation');
 
             if (!empty($hotellocation)) {
-               
+
                 $data['hotel_location'] = $hotellocation;
                 $url = $this->_appSetting->apiLink . '/hoteldetails?method=addhoteldetails';
                 $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
@@ -215,16 +223,16 @@ class Agent_SettingsController extends Zend_Controller_Action {
                         $this->view->errormessage = 'Hotel cover images in not updated ';
                     }
                     if ($cuisines) {
-                       
+
                         $i = 0;
                         foreach ($cuisines as $value) {
                             $array[$i]['cuisine_id'] = $value;
                             $array[$i]['hotel_id'] = $hotel_id;
                             $i++;
                         }
-                  
+
                         $cui['cuisines'] = json_encode($array, true);
-               
+
                         $url = $this->_appSetting->apiLink . '/search-hotels-by?method=insertCuisines';
                         $curlResponse = $objCurlHandler->curlUsingPost($url, $cui);
                         if ($curlResponse->code = 200) {
@@ -247,10 +255,10 @@ class Agent_SettingsController extends Zend_Controller_Action {
                     $location['state_id'] = $data['select_state'];
 
                     ///insert new location //  
-                    
+
                     $url = $this->_appSetting->apiLink . '/get-restaurants-list?method=addNewlocation';
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $location);
-                
+
                     if ($curlResponse->code == 200) {
                         $data['hotel_location'] = $curlResponse->data;
                         $url = $this->_appSetting->apiLink . '/hoteldetails?method=addhoteldetails';
@@ -277,7 +285,6 @@ class Agent_SettingsController extends Zend_Controller_Action {
                                         $dat['id'] = $hotel_id;
                                         $url = $this->_appSetting->apiLink . '/hoteldetails?method=updatehoteldetails';
                                         $curlResponse = $objCurlHandler->curlUsingPost($url, $dat);
-                                     
                                     }
                                 }
                             } else {
@@ -285,22 +292,22 @@ class Agent_SettingsController extends Zend_Controller_Action {
                                 $this->view->errormessage = 'Hotel cover images in not updated ';
                             }
                             if ($cuisines) {
-                       
-                        $i = 0;
-                        foreach ($cuisines as $value) {
-                            $array[$i]['cuisine_id'] = $value;
-                            $array[$i]['hotel_id'] = $hotel_id;
-                            $i++;
-                        }
-                  
-                        $cui['cuisines'] = json_encode($array, true);
 
-                        $url = $this->_appSetting->apiLink . '/search-hotels-by?method=insertCuisines';
-                        $curlResponse = $objCurlHandler->curlUsingPost($url, $cui);
-                        if ($curlResponse->code = 200) {
-                            
-                        }
-                    } else {
+                                $i = 0;
+                                foreach ($cuisines as $value) {
+                                    $array[$i]['cuisine_id'] = $value;
+                                    $array[$i]['hotel_id'] = $hotel_id;
+                                    $i++;
+                                }
+
+                                $cui['cuisines'] = json_encode($array, true);
+
+                                $url = $this->_appSetting->apiLink . '/search-hotels-by?method=insertCuisines';
+                                $curlResponse = $objCurlHandler->curlUsingPost($url, $cui);
+                                if ($curlResponse->code = 200) {
+                                    
+                                }
+                            } else {
                                 $this->view->errormessage = 'Hotel cuisines are not inserted properly';
                             }
                         } else {
@@ -313,6 +320,49 @@ class Agent_SettingsController extends Zend_Controller_Action {
                     $this->view->errormessage = 'Hotel location is not inserted properly, please try again';
                 }
             }
+        }
+    }
+
+    /*
+     * Dev: sowmya
+     * Date : 11/4/2016
+     * Desc: To view  hotel details of agent 
+     * 
+     */
+
+    public function viewHotelDetailsAction() {
+
+        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+        $objCore = Engine_Core_Core::getInstance();
+        $objSecurity = Engine_Vault_Security::getInstance();
+        $this->_appSetting = $objCore->getAppSetting();
+        $hotel_id = $this->getRequest()->getParam('hotelid');
+        $dt['hotel_id'] = $hotel_id;
+        $url = $this->_appSetting->apiLink . '/restaurent-menu-card?method=getcuisinesofHotel';
+        $curlResponse = $objCurlHandler->curlUsingPost($url, $dt);
+        $i = 0;
+        if ($curlResponse->code == 200) {
+            foreach ($curlResponse->data as $value) {
+                $array[$i] = $value['Cuisine_name'];
+                $i++;
+            }
+            $this->view->cuisine123 = implode($array, ',');
+        }
+
+        $url = $this->_appSetting->apiLink . '/hoteldetails?method=getHotelDetailsByHotelId';
+        $data['hotel_id'] = $hotel_id;
+        $curlResponse1 = $objCurlHandler->curlUsingPost($url, $data);
+        if ($curlResponse1->code == 200) {
+            $this->view->hoteldetails = $curlResponse1->data;
+        }
+
+        $url = $this->_appSetting->apiLink . '/get-locations?method=getHotelLocation';
+        $data['hotel_id'] = $hotel_id;
+        $curlResponse2 = $objCurlHandler->curlUsingPost($url, $data);
+
+        if ($curlResponse2->code == 200) {
+
+            $this->view->hotellocation = $curlResponse2->data;
         }
     }
 

@@ -12,32 +12,44 @@ class Admin_Model_MenuCategory extends Zend_Db_Table_Abstract {
         return self::$_instance;
     }
 
-    public function updateMenuCatdetails() {
-        if (func_num_args() > 0) {
-            $categoryId = func_get_arg(0);
-            $catdata = func_get_arg(1);
 
-            try {
-                $result2 = $this->update($catdata, 'category_id = "' . $categoryId . '"');
-                if ($result2) {
-                    return $result2;
-                } else {
+    /*
+     * Dev : sowmya
+     * Date: 5/4/2016
+     * Desc: TO select all categorys in db
+     */
 
-                    return null;
-                }
-            } catch (Exception $e) {
+    public function selectAllCategorys() {
 
-                throw new Exception('Unable To update data :' . $e);
+        try {
+
+            $select = $this->select()
+                    ->from($this);
+            $result = $this->getAdapter()->fetchAll($select);
+
+            if ($result) {
+                return $result;
+            } else {
+
+                return null;
             }
+        } catch (Exception $e) {
+            throw new Exception('Unable to access data :' . $e);
         }
     }
 
-    public function addCatdetails() {
+    /*
+     * Dev: sowmya
+     * Desc: add cuisine in db
+     * date : 13/1/2015;
+     */
+
+    public function addCategory() {
         if (func_num_args() > 0) {
-            $catdata = func_get_arg(0);
+            $Categorys = func_get_arg(0);
 
             try {
-                $row = $this->insert($catdata);
+                $row = $this->insert($Categorys);
                 if ($row) {
                     return $row;
                 } else {
@@ -48,32 +60,95 @@ class Admin_Model_MenuCategory extends Zend_Db_Table_Abstract {
             }
         }
     }
-
-            /*
-   * Dev : Priyanka Varanasi
-   * Date: 22/12/2015
-   * Desc: TO select all categorys in db
-   */
-    public function selectAllCategorys(){
-         
+ /*
+     * Dev : sowmya
+     * Date: 5/4/2016
+     * Desc: TO select all categorys in db
+     */
+    public function changeCategoryStatus() {
+        if (func_num_args() > 0):
+            $catid = func_get_arg(0);
             try {
+                $data = array('cat_status' => new Zend_DB_Expr('IF(cat_status=1, 0, 1)'));
+                $result = $this->update($data, 'category_id = "' . $catid . '"');
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+            if ($result):
+                return $result;
+            else:
+                return 0;
+            endif;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+ /*
+     * Dev : sowmya
+     * Date: 5/4/2016
+     * Desc: TO select all categorys in db
+     */
 
-                $select = $this->select()
-                        ->from($this)
-                        ->where('cat_status=?',1);
-                 $result = $this->getAdapter()->fetchAll($select);
+    public function categorydelete() {
+        if (func_num_args() > 0):
+            $uid = func_get_arg(0);
+            try {
+                $db = Zend_Db_Table::getDefaultAdapter();
+                $where = (array('category_id = ?' => $uid));
+                $db->delete('menu_category', $where);
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+            return $uid;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+    /*
+     * Dev : sowmya
+     * Date: 5/4/2016
+     * Desc: TO editall categorys in db
+     */
+      public function updateCategory() {
+
+        if (func_num_args() > 0) {
+            $data = func_get_arg(0);
+            $id = func_get_arg(1);
+            try {
+                $result1 = $this->update($data, 'category_id = "' . $id . '"');
                
+                if ($result1) {
+                    return $result1;
+                } else {
+                    return null;
+                }
+            } catch (Exception $e) {
+
+                throw new Exception('Unable To update data :' . $e);
+            }
+        }
+    }
+       /*
+     * Dev : sowmya
+     * Date: 5/4/2016
+     * Desc: TO get all categorys by id
+     */
+    public function getCategoryById() {
+          if (func_num_args() > 0) {
+            $category_id = func_get_arg(0);
+        try {
+            $select = $this->select()
+                    ->from($this)
+                    ->where('category_id=?',$category_id);
+            $result = $this->getAdapter()->fetchRow($select);
             if ($result) {
                 return $result;
-            }else{
-                
-                return null;
-            } 
-            } catch (Exception $e) {
-                throw new Exception('Unable to access data :' . $e);
             }
-
-      
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
+        }
+          }
     }
-    
 }
+
+

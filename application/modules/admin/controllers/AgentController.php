@@ -122,4 +122,20 @@ class Admin_AgentController extends Zend_Controller_Action {
         }
     }
 
+    /*
+     * DEV: sowmya
+     * Date : 8/4/2016
+     * Desc :view all agent Details
+     * 
+     */
+
+    public function viewAgentDetailsAction() {
+        $agentsModel = Admin_Model_Agents::getInstance(); 
+        $agentid = $this->getRequest()->getParam('agentid');
+        $agentdetails = $agentsModel->getAgentsDetailsByAgentID($agentid);
+        if ($agentdetails) {
+            $this->view->agentdetails = $agentdetails;
+        }
+    }
+
 }

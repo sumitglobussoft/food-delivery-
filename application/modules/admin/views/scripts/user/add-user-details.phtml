@@ -1,6 +1,6 @@
-
+<link rel="stylesheet" href="/assets/intl-tel-input-master/build/css/intlTelInput.css">
 <div id="page-title">
-    <h2>Add UsersDetails</h2>
+    <h2>Add Users Details</h2>
     <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
 </div>
 <div class="row">
@@ -60,8 +60,10 @@
                                                 <label class="control-label">Phone</label>
                                             </td>
                                             <td>
-                                                <input type="text" placeholder=""  type="text" name="phone"  id="phone" value=""class="form-control" />
+                                                <!--<input type="text" placeholder=""  type="text" name="phone"  id="phone" value=""class="form-control" />-->
+                                                <input id="phone" type="tel" name="phone" value="" class="form-control" />
 
+                                                <input id="hidden" type="hidden" name="contact_country_code" value="" class="form-control" >
                                             </td>
                                         </tr>
                                         <tr>
@@ -145,3 +147,9 @@
 </div>
 
 
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/assets/intl-tel-input-master/build/js/intlTelInput.js"></script>
+<script>
+      $("#phone").intlTelInput();
+      $("#contact_country_code").intlTelInput();
+</script>

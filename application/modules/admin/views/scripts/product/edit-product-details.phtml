@@ -3,7 +3,7 @@ $cuisinesdDetails = $this->cuisineslist;
 $categoryDetails = $this->categorylist;
 ?>
 <div id="page-title">
-    <h2>View/Edit Product</h2>
+    <h2>Edit Product Details</h2>
     <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
 </div>
 <div class="row">
@@ -65,7 +65,7 @@ $categoryDetails = $this->categorylist;
                                                     if (isset($this->allproductdetails['item_type'])) {
                                                         echo"checked";
                                                     }
-                                                    ?> id=""> Grocerry Items
+                                                    ?> id=""> Grocery Items
                                                 </label>
                                             </td>
                                         </tr>
@@ -86,7 +86,7 @@ $categoryDetails = $this->categorylist;
                                                     if (isset($this->allproductdetails['prod_type'])) {
                                                         echo"checked";
                                                     }
-                                                    ?> id="type_cusine" /> Cusine
+                                                    ?> id="type_cusine" /> Cuisine
                                                 </label>
 
                                             </td>
@@ -139,14 +139,14 @@ $categoryDetails = $this->categorylist;
                                                 <select  class="js-example-responsive js-example-basic-hide-search form-control" name="prod_status"> 
                                                     <option value="1" <?php
                                                     if ($this->allproductdetails['prod_status'] == 1) {
-                                                        echo"selected";
+                                                        echo"checked";
                                                     }
                                                     ?>>
                                                         Active 
                                                     </option>
                                                     <option value="2" <?php
                                                     if ($this->allproductdetails['prod_status'] == 2) {
-                                                        echo"selected";
+                                                        echo"checked";
                                                     }
                                                     ?>>
                                                         Inactive

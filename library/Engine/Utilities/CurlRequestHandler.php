@@ -42,9 +42,11 @@ class Engine_Utilities_CurlRequestHandler {
     }
 
     public function curlUsingPost($url, $data) {
-
+               
         $response = new stdClass();
-
+//        print_r($data);
+//        die;
+//       
         if (empty($url) OR empty($data)) {
             $response->code = 198;
             $response->message = 'Parameter not Passed';
@@ -74,8 +76,12 @@ class Engine_Utilities_CurlRequestHandler {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         //execute post
         $result = curl_exec($ch);
-
+        
+//       print_r($result);
+//        die;
         $result = json_decode($result, true);
+//        print_r($result);
+//        die;
 
 
         //close connection

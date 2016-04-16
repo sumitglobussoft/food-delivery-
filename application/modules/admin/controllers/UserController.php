@@ -85,7 +85,7 @@ class Admin_UserController extends Zend_Controller_Action {
             $usermetadata['city'] = $this->getRequest()->getPost('city');
             $usermetadata['state'] = $this->getRequest()->getPost('state');
             $usermetadata['country'] = $this->getRequest()->getPost('country');
-//            $usermetadata['address'] = $this->getRequest()->getPost('address');
+            $usermetadata['contact_country_code'] = $this->getRequest()->getPost('contact_country_code');
 
             $result2 = $usermetaModel->addUsermetadetails($usermetadata);
 
@@ -105,9 +105,17 @@ class Admin_UserController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         $userModel = Admin_Model_Users::getInstance();
+        $usermetaModel = Admin_Model_Usermeta::getInstance();
+        $addtocartModel = Admin_Model_Addtocart::getInstance();
+        $userDeliveryAddressModel = Admin_Model_UserDeliveryAddress::getInstance();
+        $hotelDetailsModel = Admin_Model_HotelDetails::getInstance();
+        $productsModel = Admin_Model_Products::getInstance();
         $agentsModal = Admin_Model_Agents::getInstance();
         $delguyModal = Admin_Model_DeliveryGuys::getInstance();
+        $deliveryStatusLogModel = Admin_Model_DeliveryStatusLog::getInstance();
         $userTransModal = Admin_Model_UserTransactions::getInstance();
+        $agentTransModal = Admin_Model_AgentTransactions::getInstance();
+        $productTransModal = Admin_Model_ProductTransactions::getInstance();
         $orderModal = Admin_Model_Orders::getInstance();
         if ($this->getRequest()->isPost()) {
             $method = $this->getRequest()->getParam('method');
@@ -123,11 +131,30 @@ class Admin_UserController extends Zend_Controller_Action {
                         echo "Error";
                     }
                     break;
+                // added by sowmya 11/4/2016
                 case 'userdelete':
                     $userid = $this->getRequest()->getParam('userid');
                     $result = $userModel->userdelete($userid);
                     if ($result) {
+                        $result1 = $usermetaModel->usermetadelete($userid);
+                        $result2 = $addtocartModel->addToCartDeleteByUserId($userid);
+                        $result3 = $userTransModal->userDeleteByUserId($userid);
+                        $result4 = $productTransModal->productDeleteByUserId($userid);
+                        $result5 = $orderModal->orderDeleteByUserId($userid);
+                        $result6 = $userDeliveryAddressModel->userDeliveryAddressByUserId($userid);
                         echo $result;
+                        '<br>';
+                        echo $result1;
+                        '<br>';
+                        echo $result2;
+                        '<br>';
+                        echo $result3;
+                        '<br>';
+                        echo $result4;
+                        '<br>';
+                        echo $result5;
+                        '<br>';
+                        echo $result6;
                     } else {
                         echo "error";
                     }
@@ -143,11 +170,21 @@ class Admin_UserController extends Zend_Controller_Action {
                         echo "Error";
                     }
                     break;
+                         // added by sowmya 11/4/2016
                 case 'agentdelete':
                     $agentid = $this->getRequest()->getParam('agentid');
                     $result = $agentsModal->agentdelete($agentid);
                     if ($result) {
+                        $result1 = $agentTransModal->agentDeleteByAgentId($agentid);
+                        $result2 = $hotelDetailsModel->hotelDeleteByAgentId($agentid);
+                        $result3 = $productsModel->productDeleteByAgentId($agentid);
                         echo $result;
+                        '<br>';
+                        echo $result1;
+                        '<br>';
+                        echo $result2;
+                        '<br>';
+                        echo $result3;                      
                     } else {
                         echo "error";
                     }
@@ -194,7 +231,55 @@ class Admin_UserController extends Zend_Controller_Action {
                         echo "error";
                     }
                     break;
+                //added by sowmya 4/4/2016
+                case 'agenttransdelete':
+                    $transid = $this->getRequest()->getParam('transid');
+                    $result = $agentTransModal->transDelete($transid);
+                    if ($result) {
+                        echo $result;
+                    } else {
+                        echo "error";
+                    }
+                    break;
+                //added by sowmya 4/4/2016
+                case 'producttransdelete':
+                    $transid = $this->getRequest()->getParam('transid');
+                    $result = $productTransModal->transDelete($transid);
+                    if ($result) {
+                        echo $result;
+                    } else {
+                        echo "error";
+                    }
+                    break;
+                case "OrderStatusChange"://This method is use to change the status of merchant as well as his store.
+                    $orderId = $this->_request->getParam('orderId');
+                    $orderStatus = $this->_request->getParam('orderStatus');
+                    $changed = $orderModal->changeOrderStatus($orderId);
+                    if ($changed) {
+                        $changed = $orderModal->updateOrderStatus($orderId, $orderStatus);
+                        echo 1;
+                    } else {
+                        echo 0;
+                    }
+                    break;
             }
+        }
+    }
+
+    /*
+     * DEV :sowmya
+     * Desc : edit User Details action
+     * Date : 17/3/2016
+     */
+
+    public function viewUserDetailsAction() {
+        $userModel = Admin_Model_Users::getInstance();
+        $userId = $this->getRequest()->getParam("userId");
+        $result = $userModel->getAllUserdetails($userId);
+        if ($result) {
+            $this->view->alluserdetails = $result;
+        } else {
+            echo 'controller error occured';
         }
     }
 

@@ -128,6 +128,7 @@ class Admin_Model_Notification extends Zend_Db_Table_Abstract {
                     ->order('sent_date DESC')
                     ->limit(10, $start);
             $result = $this->getAdapter()->fetchAll($select);
+//            print_r($result);
             if ($result) :
                 return $result;
             endif;

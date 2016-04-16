@@ -115,14 +115,18 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
         endif;
     }
 
-    //dev:priyanka varanasi
+    //dev:sowmya
     //desc:to fetch hotel details by hotel id
-    //date:18/12/2015
+    //date:12/4/2016
     public function getHoteldetailsByHotelId() {
         if (func_num_args() > 0) {
             $hotel_id = func_get_arg(0);
             try {
                 $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('hd' => 'hotel_details'), array('hd.agent_id', 'hd.address', 'hd.primary_phone', 'hd.secondary_phone', 'hd.hotel_name', 'hd.hotel_image', 'hd.open_time', 'hd.closing_time', 'hd.hotel_status', 'hd.notice', 'hd.id'))
+                        ->joinLeft(array('ag' => 'agents'), 'hd.agent_id= ag.agent_id')
+                        ->joinLeft(array('l' => 'location'), 'hd.hotel_location= l.location_id')
                         ->where('id=?', $hotel_id);
                 $result = $this->getAdapter()->fetchRow($select);
 
@@ -145,7 +149,7 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
 
         if (func_num_args() > 0) {
             $hotelid = func_get_arg(0);
-            $data = func_get_arg(1);        
+            $data = func_get_arg(1);
             try {
                 $result = $this->update($data, 'id =' . $hotelid);
                 if ($result) {
@@ -489,7 +493,7 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
     public function gethotalsname() {
         if (func_num_args() > 0) {
             $hotel_locations = func_get_arg(0);
-           
+
             $cuisine_id = func_get_arg(1);
 
 
@@ -505,21 +509,21 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
                 $gethotelsdetails = $this->getAdapter()->fetchAll($select);
 
                 $i = 0;
-                foreach ( $gethotelsdetails  as $key => $value) {
+                foreach ($gethotelsdetails as $key => $value) {
 //                        unset($value['order_id']);
                     $value['cuisine_id'] = $gethotelsdetails[$key]['cuisine_id'][$i];
-                    
+
                     $gethotelsdetails[$key] = $value;
-                    
+
 //                    $value['cuisine_id'] = $gethotelsdetails[0]['cuisine_id'][$i];
 //                    $value['cuisine_name'] = $gethotelsdetails[0]['Cuisine_name'][$i];
 //                    $gethotelsdetails[$key] = $value;
                     $i++;
                 }
                 $gethotelsdetails[$key]['Cuisines_details'] = $gethotelsdetails;
- 
 
-                return $result;
+
+                return $gethotelsdetails;
             } catch (Exception $ex) {
                 throw new Exception('Unable To retrieve data :' . $ex);
             }

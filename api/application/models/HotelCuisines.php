@@ -65,7 +65,6 @@ class Application_Model_HotelCuisines extends Zend_Db_Table_Abstract {
                         ->where('hotel_id=?', $hotelid)
                         ->where('fc.cuisine_status=?', 1);
                 $result = $this->getAdapter()->fetchAll($select);
-
                 if ($result) {
                     return $result;
                 }

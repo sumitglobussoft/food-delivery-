@@ -60,7 +60,6 @@ class Application_Model_UserDeliveryAddress extends Zend_Db_Table_Abstract {
     }
 
     public function fetchUserDeliveryAddress() {
-
         if (func_num_args() > 0) {
             $userid = func_get_arg(0);
 

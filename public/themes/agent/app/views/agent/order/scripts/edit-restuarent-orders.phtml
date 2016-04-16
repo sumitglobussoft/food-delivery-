@@ -10,7 +10,7 @@ $allorderdetailsArray = $this->orderdetails;
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">View Order Details <small>header small text goes here...</small></h1>
+    <h1 class="page-header">Edit Order Details </h1>
     <!-- end page-header -->
 
     <!-- begin row -->
@@ -28,8 +28,8 @@ $allorderdetailsArray = $this->orderdetails;
                                     <div class="form-group has-success has-feedback m-b-10">
                                         <label class="control-label">Hotel Name</label>
                                         <input type="text" value="<?php
-                                        if (isset($this->orderdetails['hotel_name'])) {
-                                            echo $this->orderdetails['hotel_name'];
+                                        if (isset($this->orderdetails[0]['hotel_name'])) {
+                                            echo $this->orderdetails[0]['hotel_name'];
                                         }
                                         ?>" name="hotel_name" class="form-control" />
                                         <span class="fa fa-check form-control-feedback"></span>
@@ -38,8 +38,8 @@ $allorderdetailsArray = $this->orderdetails;
                                     <div class="form-group  m-b-10">
                                         <label class="control-label">Email</label>
                                         <input type="text" value="<?php
-                                        if (isset($this->orderdetails['email'])) {
-                                            echo $this->orderdetails['email'];
+                                        if (isset($this->orderdetails[0]['email'])) {
+                                            echo $this->orderdetails[0]['email'];
                                         }
                                         ?>" name="hotel_name" class="form-control" />
 
@@ -47,8 +47,8 @@ $allorderdetailsArray = $this->orderdetails;
                                     <div class="form-group  m-b-10">
                                         <label class="control-label">Order Date</label>
                                         <input type="text" value="<?php
-                                        if (isset($this->orderdetails['order_date'])) {
-                                            echo $this->orderdetails['order_date'];
+                                        if (isset($this->orderdetails[0]['order_date'])) {
+                                            echo $this->orderdetails[0]['order_date'];
                                         }
                                         ?>" name="hotel_name" class="form-control" />
 
@@ -57,27 +57,27 @@ $allorderdetailsArray = $this->orderdetails;
                                         <label class="control-label">Order Status</label>
                                         <select class="form-control selectpicker width-full" name="hotel_status" data-size="10">
                                             <option value="0" <?php
-                                            if ($this->orderdetails['order_status'] == 0) {
+                                            if ($this->orderdetails[0]['order_status'] == 0) {
                                                 echo "selected";
                                             }
                                             ?>>Pending</option>
                                             <option value="1" <?php
-                                            if ($this->orderdetails['order_status'] == 1) {
+                                            if ($this->orderdetails[0]['order_status'] == 1) {
                                                 echo "selected";
                                             }
                                             ?>>In Process</option>
                                             <option value="2" <?php
-                                            if ($this->orderdetails['order_status'] == 2) {
+                                            if ($this->orderdetails[0]['order_status'] == 2) {
                                                 echo "selected";
                                             }
                                             ?>>Delivered</option>
                                             <option value="3" <?php
-                                            if ($this->orderdetails['order_status'] == 3) {
+                                            if ($this->orderdetails[0]['order_status'] == 3) {
                                                 echo "selected";
                                             }
                                             ?>>Canceled</option>
                                             <option value="4" <?php
-                                            if ($this->orderdetails['order_status'] == 4) {
+                                            if ($this->orderdetails[0]['order_status'] == 4) {
                                                 echo "selected";
                                             }
                                             ?>>Dispatch</option>
@@ -87,17 +87,17 @@ $allorderdetailsArray = $this->orderdetails;
                                         <label class="control-label">Pay Type</label>
                                         <select class="form-control selectpicker width-full" name="hotel_status" data-size="10">
                                             <option value="1" <?php
-                                            if ($this->orderdetails['pay_type'] == 1) {
+                                            if ($this->orderdetails[0]['pay_type'] == 1) {
                                                 echo "selected";
                                             }
                                             ?>>COD</option>
                                             <option value="2" <?php
-                                            if ($this->orderdetails['pay_type'] == 2) {
+                                            if ($this->orderdetails[0]['pay_type'] == 2) {
                                                 echo "selected";
                                             }
                                             ?>>PaYpaL</option>
                                             <option value="3" <?php
-                                            if ($this->orderdetails['pay_type'] == 2) {
+                                            if ($this->orderdetails[0]['pay_type'] == 2) {
                                                 echo "selected";
                                             }
                                             ?>>No Payement GateWay</option>
@@ -107,8 +107,8 @@ $allorderdetailsArray = $this->orderdetails;
                                     <div class="form-group m-b-10">
                                         <label class="control-label">Amount</label>
                                         <input type="text" value="<?php
-                                        if ($this->orderdetails['total_amount']) {
-                                            echo $this->orderdetails['total_amount'];
+                                        if ($this->orderdetails[0]['total_amount']) {
+                                            echo $this->orderdetails[0]['total_amount'];
                                         }
                                         ?>" name="total_amount" class="form-control" />
                                     </div>
@@ -119,27 +119,27 @@ $allorderdetailsArray = $this->orderdetails;
                                         <label class="control-label">Pay Status</label>
                                         <select class="form-control selectpicker width-full" name="hotel_status" data-size="10">
                                             <option value="1" <?php
-                                            if ($this->orderdetails['pay_status'] == 0) {
+                                            if ($this->orderdetails[0]['pay_status'] == 0) {
                                                 echo "selected";
                                             }
                                             ?>>Pending</option>
                                             <option value="2" <?php
-                                            if ($this->orderdetails['pay_status'] == 1) {
+                                            if ($this->orderdetails[0]['pay_status'] == 1) {
                                                 echo "selected";
                                             }
                                             ?>>Completed</option>
                                             <option value="3" <?php
-                                            if ($this->orderdetails['pay_status'] == 2) {
+                                            if ($this->orderdetails[0]['pay_status'] == 2) {
                                                 echo "selected";
                                             }
                                             ?>>Failed</option>
                                             <option value="4" <?php
-                                            if ($this->orderdetails['pay_status'] == 3) {
+                                            if ($this->orderdetails[0]['pay_status'] == 3) {
                                                 echo "selected";
                                             }
                                             ?>>Canceled</option>
                                             <option value="5" <?php
-                                            if ($this->orderdetails['pay_status'] == 5) {
+                                            if ($this->orderdetails[0]['pay_status'] == 5) {
                                                 echo "selected";
                                             }
                                             ?>>No Acknowledgment</option>
@@ -150,28 +150,28 @@ $allorderdetailsArray = $this->orderdetails;
                                         <label class="control-label">Delivery Status</label>
                                         <select class="form-control selectpicker width-full" name="hotel_status" data-size="10">
                                             <option value="1" <?php
-                                            if ($this->orderdetails['delivery_status'] == 0) {
+                                            if ($this->orderdetails[0]['delivery_status'] == 0) {
                                                 echo "selected";
                                             }
                                             ?>>Pending</option>
 
                                             <option value="2" <?php
-                                            if ($this->orderdetails['delivery_status'] == 1) {
+                                            if ($this->orderdetails[0]['delivery_status'] == 1) {
                                                 echo "selected";
                                             }
                                             ?>>Completed</option>
                                             <option value="3" <?php
-                                            if ($this->orderdetails['delivery_status'] == 2) {
+                                            if ($this->orderdetails[0]['delivery_status'] == 2) {
                                                 echo "selected";
                                             }
                                             ?>>Return/Canceled</option>
                                             <option value="4" <?php
-                                            if ($this->orderdetails['delivery_status'] == 3) {
+                                            if ($this->orderdetails[0]['delivery_status'] == 3) {
                                                 echo "selected";
                                             }
                                             ?>>Unable to Reach</option>
                                             <option value="5" <?php
-                                            if ($this->orderdetails['delivery_status'] == 4) {
+                                            if ($this->orderdetails[0]['delivery_status'] == 4) {
                                                 echo "selected";
                                             }
                                             ?>>No Acknowledgment</option>
@@ -181,17 +181,17 @@ $allorderdetailsArray = $this->orderdetails;
                                         <label class="control-label">Delivery Type</label>
                                         <select class="form-control selectpicker width-full" name="hotel_status" data-size="10">
                                             <option value="1" <?php
-                                            if ($this->orderdetails['delivery_type'] == 1) {
+                                            if ($this->orderdetails[0]['delivery_type'] == 1) {
                                                 echo "selected";
                                             }
                                             ?>>Delivery to address</option>
                                             <option value="2" <?php
-                                            if ($this->orderdetails['delivery_type'] == 2) {
+                                            if ($this->orderdetails[0]['delivery_type'] == 2) {
                                                 echo "selected";
                                             }
                                             ?>>Pick up</option>
                                             <option value="3" <?php
-                                            if ($this->hoteldetails['delivery_type'] == 2) {
+                                            if ($this->hoteldetails[0]['delivery_type'] == 2) {
                                                 echo "selected";
                                             }
                                             ?>>None of way choosen</option>
@@ -201,8 +201,8 @@ $allorderdetailsArray = $this->orderdetails;
                                     <div class="form-group has-error has-feedback m-b-10">
                                         <label class="control-label">User Message</label>
                                         <textarea  name="address" class="form-control" rows="3"><?php
-                                            if (isset($this->orderdetails['user_message'])) {
-                                                echo $this->orderdetails['user_message'];
+                                            if (isset($this->orderdetails[0]['user_message'])) {
+                                                echo $this->orderdetails[0]['user_message'];
                                             }
                                             ?></textarea>
                                         <span class="fa fa-times form-control-feedback"></span>

@@ -1,9 +1,9 @@
+<link rel="stylesheet" href="/assets/intl-tel-input-master/build/css/intlTelInput.css">
 <?php
 $alluserdetailsArray = $this->alluserdetails;
-
 ?>
 <div id="page-title">
-    <h2>View/Edit UsersDetails</h2>
+    <h2>Edit Users Details</h2>
     <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
 </div>
 <div class="row">
@@ -16,6 +16,39 @@ $alluserdetailsArray = $this->alluserdetails;
                             <div class="example-box-wrapper">
                                 <table class="table table-responsive">
                                     <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User ID</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $alluserdetailsArray['user_id']; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User Image</label>
+                                            </td>
+                                            <td>
+                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                        <img src="<?php
+                                                        if (isset($alluserdetailsArray['profilepic_url'])) {
+                                                            echo $alluserdetailsArray['profilepic_url'];
+                                                        }
+                                                        ?>" alt="">
+                                                    </div>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                                    <div>
+                                                        <span class="btn btn-default btn-file">
+                                                            <span class="fileinput-new">Select Image</span>
+                                                            <span class="fileinput-exists">Replace</span>
+                                                            <input type="file" name="fileToUpload">
+                                                        </span>
+                                                        <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td>
                                                 <label class="control-label">User Name</label>
@@ -50,43 +83,7 @@ $alluserdetailsArray = $this->alluserdetails;
                                                 <input type="text" class="form-control" name="last_name"  id="last_name" value="<?php echo $alluserdetailsArray['last_name']; ?>" placeholder="" required />
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <label class="control-label">Phone</label>
-                                            </td>
-                     <td>
-                                                <input type="text" placeholder=""  type="text" name="contact_country_code"  id="contact_country_code" value="<?php echo $alluserdetailsArray['contact_country_code'] ?>"class="form-control" />
 
-                                            </td>
-                                            <td>
-                                                <input type="text" placeholder=""  type="text" name="phone"  id="phone" value="<?php echo $alluserdetailsArray['phone'] ?>"class="form-control" />
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label class="control-label">status</label>
-                                            </td>
-                                            <td>
-                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="status"> 
-                                                    <option value="1" <?php
-                                                    if ($alluserdetailsArray['status'] == 1) {
-                                                        echo"selected";
-                                                    }
-                                                    ?>>
-                                                        Active 
-                                                    </option>
-                                                    <option value="2" <?php
-                                                    if ($alluserdetailsArray['status'] == 2) {
-                                                        echo"selected";
-                                                    }
-                                                    ?>>
-                                                        Deactive 
-                                                    </option>
-                                                </select>
-                                            </td>
-
-                                        </tr>
 
                                     </tbody>
                                 </table>
@@ -100,6 +97,18 @@ $alluserdetailsArray = $this->alluserdetails;
                             <div class="example-box-wrapper">
                                 <table class="table table-responsive">
                                     <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Phone</label>
+                                            </td>
+                                            <td>
+                                                <input id="phone" type="tel" name="phone" value="<?php echo $alluserdetailsArray['phone']; ?>" class="form-control" />
+
+                                                <input id="hidden" type="hidden" name="contact_country_code" value="<?php echo $alluserdetailsArray['contact_country_code']; ?>" class="form-control" >
+<!--                                                <input type="tel" class="form-control" id="contact_country_code" placeholder="e.g. +1 702 123 4567">-->
+                                            <td>
+                                        </tr>
+
                                         <tr>
                                             <td>
                                                 <label class="control-label">City</label>
@@ -126,14 +135,29 @@ $alluserdetailsArray = $this->alluserdetails;
                                                 <input type="text" class="form-control" name="country"  id="country" value="<?php echo $alluserdetailsArray['country']; ?>" placeholder="" required />
                                             </td>
                                         </tr>
-<!--                                        <tr>
+                                        <tr>
                                             <td>
-                                                <label class="control-label">Address</label>
+                                                <label class="control-label">Status</label>
                                             </td>
                                             <td>
-                                                <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ><?php echo $alluserdetailsArray['address']; ?></textarea>
+                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="status"> 
+                                                    <option value="1" <?php
+                                                    if ($alluserdetailsArray['status'] == 1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Active 
+                                                    </option>
+                                                    <option value="2" <?php
+                                                    if ($alluserdetailsArray['status'] == 2) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Deactivate 
+                                                    </option>
+                                                </select>
                                             </td>
-                                        </tr>-->
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <div class="form-group pull-right">
@@ -150,5 +174,15 @@ $alluserdetailsArray = $this->alluserdetails;
         </form>
     </div>
 </div>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/assets/intl-tel-input-master/build/js/intlTelInput.js"></script>
+<script>
+    $("#phone").intlTelInput({
+        utilsScript: "../../build/js/utils.js" // just for formatting/placeholders etc
+    });
 
-
+// update the hidden input on submit
+    $("form").submit(function() {
+        $("#hidden").val($("#phone").intlTelInput("getNumber"));
+    });
+</script>

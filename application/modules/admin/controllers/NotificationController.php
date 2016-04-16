@@ -32,6 +32,8 @@ class Admin_NotificationController extends Zend_Controller_Action {
      */
 
     public function notificationAjaxHandlerAction() {
+        
+        
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(TRUE);
         $userId = $this->view->session->storage->user_id;
@@ -52,6 +54,7 @@ class Admin_NotificationController extends Zend_Controller_Action {
                     break;
 
                 case 'sendNotification':
+           
                     if ($this->getRequest()->getPost()) {
 
                         $message = $this->getRequest()->getPost('Message');

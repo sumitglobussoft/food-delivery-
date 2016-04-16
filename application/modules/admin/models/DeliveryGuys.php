@@ -16,7 +16,8 @@ class Admin_Model_DeliveryGuys extends Zend_Db_Table_Abstract {
 
         try {
             $select = $this->select()
-                    ->from($this);
+                    ->from($this)
+                    ->order('reg_date DESC');
             $result = $this->getAdapter()->fetchAll($select);
         } catch (Exception $e) {
             throw new Exception('Unable To retrieve data :' . $e);
@@ -120,6 +121,7 @@ class Admin_Model_DeliveryGuys extends Zend_Db_Table_Abstract {
             }
         }
     }
+
     public function getDeliveryGuyOrders() {
         if (func_num_args() > 0) {
             $delguyId = func_get_arg(0);
@@ -127,13 +129,12 @@ class Admin_Model_DeliveryGuys extends Zend_Db_Table_Abstract {
             try {
                 $select = $this->select()
                         ->setIntegrityCheck(false)
-                        ->from(array('del'=>'delivery_guys'))
-                        ->join(array('dslo'=>'delivery_status_log'),'del.del_guy_id = dslo.delivery_guy_id', array('dslo.order_id','dslo.status_type','dslo.time'))
-                        ->join(array('o'=>'orders'),'dslo.order_id=o.order_id')
-                        ->where('del.del_guy_id=?',$delguyId);
-        
-                $result = $this->getAdapter()->fetchAll($select);
+                        ->from(array('del' => 'delivery_guys'))
+                        ->join(array('dslo' => 'delivery_status_log'), 'del.del_guy_id = dslo.delivery_guy_id', array('dslo.order_id', 'dslo.status_type', 'dslo.time', 'dslo.status_id'))
+                        ->join(array('o' => 'orders'), 'dslo.order_id=o.order_id')
+                        ->where('del.del_guy_id=?', $delguyId);
 
+                $result = $this->getAdapter()->fetchAll($select);
             } catch (Exception $e) {
                 throw new Exception('Unable To retrieve data :' . $e);
             }
@@ -143,11 +144,12 @@ class Admin_Model_DeliveryGuys extends Zend_Db_Table_Abstract {
             }
         }
     }
-          //dev:priyanka varanasi
+
+    //dev:priyanka varanasi
     //desc:activate and deactive of the delivery guy
     //date:9/2/2016
-    public function getstatustodeactivate(){
-          if (func_num_args() > 0):
+    public function getstatustodeactivate() {
+        if (func_num_args() > 0):
             $delguyid = func_get_arg(0);
             try {
                 $data = array('status' => new Zend_DB_Expr('IF(status=1, 0, 1)'));
@@ -163,14 +165,12 @@ class Admin_Model_DeliveryGuys extends Zend_Db_Table_Abstract {
         else:
             throw new Exception('Argument Not Passed');
         endif;
-        
-    } 
-    
-    
-        //dev:priyanka varanasi
+    }
+
+    //dev:priyanka varanasi
     //desc: to delete delivery guy
     //date:9/2/2016
-    
+
     public function deliveryGuydelete() {
         if (func_num_args() > 0):
             $uid = func_get_arg(0);
@@ -186,5 +186,5 @@ class Admin_Model_DeliveryGuys extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         endif;
     }
-    
+
 }

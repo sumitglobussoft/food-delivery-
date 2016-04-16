@@ -14,7 +14,7 @@ class Admin_OrderController extends Zend_Controller_Action {
 
     public function orderDetailsAction() {
         $ordersModel = Admin_Model_Orders::getInstance();
-        $result = $ordersModel->getAllOrders();
+        $result = $ordersModel->getAllOrder();
 
         if ($result) {
             $inprocessArr = $deliveredArr = $cancelledArr = $dispatchArr = array();
@@ -52,7 +52,7 @@ class Admin_OrderController extends Zend_Controller_Action {
 
         $order_id = $this->getRequest()->getParam('oId');
         $ordersModel = Admin_Model_Orders::getInstance();
-        $result = $ordersModel->getAllOrdersByID($order_id);
+        $result = $ordersModel->getAllOrdersById($order_id);
         if ($result) {
             $this->view->orderdetails = $result;
         }
@@ -663,8 +663,6 @@ class Admin_OrderController extends Zend_Controller_Action {
 
     public function viewOrderAction() {
         $objOrdersModel = Admin_Model_Orders::getInstance();
-//        $merchantId = $this->view->session->storage->user_id;
-
         $orderId = $this->getRequest()->getParam('orderId');
 
         $where = 'o.order_id=' . $orderId . ' AND  o.order_status !=0 ';
@@ -699,9 +697,6 @@ class Admin_OrderController extends Zend_Controller_Action {
             $orderDetails['delivery_status_class'] = key($delivery_status[$orderDetails['delivery_status']]);
             $orderDetails['delivery_status'] = current($delivery_status[$orderDetails['delivery_status']]);
             $this->view->orderDetails = $orderDetails;
-//            echo "<pre>";
-//            print_r($orderDetails);
-//            die("Test");
         } else {
             $this->view->orderErrorMsg = 'Sorry, no order detail found with the given Order-Id';
         }

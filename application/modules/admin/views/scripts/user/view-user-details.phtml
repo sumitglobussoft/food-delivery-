@@ -1,0 +1,164 @@
+
+<?php
+$alluserdetailsArray = $this->alluserdetails;
+?>
+<div id="page-title">
+    <h2>View Users Details</h2>
+    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal bordered-row" enctype="multipart/form-data" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User ID</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $alluserdetailsArray['user_id']; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User Image</label>
+                                            </td>
+                                            <td>
+                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                        <img src="<?php
+                                                        if (isset($alluserdetailsArray['profilepic_url'])) {
+                                                            echo $alluserdetailsArray['profilepic_url'];
+                                                        }
+                                                        ?>" alt="">
+                                                    </div>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                                    <!--                                                <div>
+                                                                                                        <span class="btn btn-default btn-file">
+                                                                                                            <span class="fileinput-new">Select Image</span>
+                                                                                                            <span class="fileinput-exists">Replace</span>
+                                                                                                            <input type="file" name="fileToUpload">
+                                                                                                        </span>
+                                                                                                        <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                                    </div>-->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User Name</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $alluserdetailsArray['uname']; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Email</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $alluserdetailsArray['email']; ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">First Name</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $alluserdetailsArray['first_name']; ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Last Name</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $alluserdetailsArray['last_name']; ?>
+                                            </td>
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Phone</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $alluserdetailsArray['contact_country_code']; ?> &nbsp; <?php echo $alluserdetailsArray['phone']; ?>
+
+
+                                            <td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">City</label>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <?php echo $alluserdetailsArray['city']; ?>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">State</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $alluserdetailsArray['state']; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Country</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $alluserdetailsArray['country']; ?>
+                                            </td>
+                                        </tr> 
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Status</label>
+                                            </td>
+                                            <td>
+
+                                                <?php
+                                                if ($alluserdetailsArray['status'] == 1) {
+                                                    echo" Active ";
+                                                } else {
+                                                    echo"Deactivate ";
+                                                }
+                                                ?>
+
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

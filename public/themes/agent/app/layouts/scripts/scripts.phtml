@@ -208,7 +208,7 @@
 
     /*
      * DEV :priyanka varanasi
-     * Desc : Delete hotel
+     * Desc : Delete product
      * Date : 18/12/2015
      */
 
@@ -372,18 +372,24 @@
 
             },
             success: function(response) {
+              
                 var res = jQuery.parseJSON(response);
+                  console.log(res);
                 if (res.code === 200) {
-
+                    console.log(res.code);
                     $('#cuisine').html('');
-                    $('#cuisine').append('<option disabled selected>Select Cusine</option>');
+                    $('#cuisine').append('<option disabled selected>Select Cuisine</option>');
                     $.each(res.data, function(i, a) {
                         $('#cuisine').append('<option value="' + a.cuisine_id + '">' + a.Cuisine_name + '</option>');
                     });
                     $('.show-cusine').show();
                     $('.show-category').hide();
                 }
-
+                else {
+//                    console.log('res.code');
+                    $('.show-cusine').show();
+                    $('.show-category').hide();
+                }
 
             }
         });
@@ -417,6 +423,42 @@
 
             }
         });
+    });
+ /*
+     * DEV :sowmya
+     * Desc : Delete hotel
+     * Date : 14/4/2016
+     */
+
+    $(document.body).on('click', '.deletehotel', function() {
+        var hotelid = $(this).attr('id');
+        var deleteid = hotelid.replace("hoteldelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'hoteldelete',
+                    hotelid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+
+                    var response = JSON.parse(response);
+                    if (response) {
+                        var uid = response['data'].replace(/ /g, '');
+
+                        $('#' + "hoteldelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
     });
 
 </script>

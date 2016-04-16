@@ -320,5 +320,22 @@ class Admin_ProductController extends Zend_Controller_Action {
             }
         }
     }
+ /*
+     * desc : to view product details
+     * Dev: sowmya
+     * date: 8/4/2016
+     */
+
+    public function viewProductDetailsAction() {
+
+        $productsModel = Admin_Model_Products::getInstance();
+        $productId = $this->getRequest()->getParam("productId");
+        $result = $productsModel->getAllProductdetails($productId);
+        if ($result) {
+            $this->view->allproductdetails = $result;
+        } else {
+            echo 'controller error occured';
+        }
+    }
 
 }

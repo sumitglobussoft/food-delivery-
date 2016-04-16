@@ -1,0 +1,231 @@
+
+<div id="page-title">
+    <h2>View Product Details</h2>
+    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal bordered-row" enctype="multipart/form-data" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Product ID</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $this->allproductdetails['product_id'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Product Name</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $this->allproductdetails['name'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Product Description</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $this->allproductdetails['prod_desc'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Agent Name</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $this->allproductdetails['loginname'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Hotel Name</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $this->allproductdetails['hotel_name'] ?>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Item Type</label>
+                                            </td>
+                                            <td>
+                                                <label class="radio-inline">
+                                                    <?php
+                                                    if ($this->allproductdetails['item_type'] == 1) {
+                                                        echo"Hotel Items";
+                                                    } else {
+                                                        echo"Grocery Items";
+                                                    }
+                                                    ?> 
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Product Type</label>
+                                            </td>
+                                            <td>                                          
+                                                <?php
+                                                if ($this->allproductdetails['prod_type'] == 1) {
+                                                    echo"Category";
+                                                } else {
+                                                    echo"Cuisine";
+                                                }
+                                                ?> 
+
+                                            </td>
+                                        </tr>
+                                        <tr class="show-cusine">
+                                            <td>  <label class="control-label">Cuisine :</label> </td>
+                                            <td>
+                                                <?php echo $this->allproductdetails['Cuisine_name'] ?>
+
+                                            </td>
+                                        </tr>
+                                        <tr class="show-category">
+                                            <td> <label class="control-label"> Category : </label></td>
+                                            <td>
+                                                <?php echo $this->allproductdetails['cat_name'] ?>                                                                                              
+                                            </td>
+                                        </tr>
+                                        <tr class="show-category">
+                                            <td> <label class="control-label">  Sub Category : </label></td>
+                                            <td>
+                                                <?php
+                                                if ($this->allproductdetails['Subcategory_id'] == 0) {
+                                                    echo"Veg";
+                                                } elseif ($this->allproductdetails['Subcategory_id'] == 1) {
+                                                    echo"Halal";
+                                                } elseif ($this->allproductdetails['Subcategory_id'] == 2){
+                                                    echo"Non Halal";
+                                                }else{
+                                                     echo"None of These";
+                                                }
+                                                ?>                                                                                              
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Stock Quantity</label>
+                                            </td>
+                                            <td>                                  
+                                                <?php echo $this->allproductdetails['stock_quantity'] ?>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Cost</label>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon addon-inside bg-black">
+                                                        <i class="glyph-icon icon-dollar"></i>
+                                                    </span>
+                                                    <?php echo $this->allproductdetails['cost'] ?>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Product status</label>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($this->allproductdetails['prod_status'] == 1) {
+                                                    echo"Active";
+                                                } else {
+                                                    echo"Deactivate";
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Delivery Timing</label>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon addon-inside bg-black">
+                                                        <i class="glyph-icon icon-clock-o"></i>
+                                                    </span>
+                                                    <?php echo $this->allproductdetails['delivery_time'] ?>
+                                                    <span class="input-group-addon">min</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Discount Type</label>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($this->allproductdetails['product_discount_type'] == 1) {
+                                                    echo"Percentage";
+                                                } else {
+                                                    echo"Amount";
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Discount</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $this->allproductdetails['product_discount'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Service Tax</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $this->allproductdetails['servicetax'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Product Image</label>
+                                            </td>
+                                            <td>
+                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                        <img src="<?php echo $this->allproductdetails['imagelink'] ?>" alt="<?php echo $this->allproductdetails['imagelink'] ?>">
+                                                    </div>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

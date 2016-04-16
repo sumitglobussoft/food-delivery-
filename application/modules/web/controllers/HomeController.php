@@ -20,7 +20,7 @@ class Web_HomeController extends Zend_Controller_Action {
      * Desc: Home page funtionlity such as search..
      */
 
-    public function indexAction() {
+    public function indexAction() {        
         $mailer = Engine_Mailer_Mailer::getInstance();
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
         $objCore = Engine_Core_Core::getInstance();

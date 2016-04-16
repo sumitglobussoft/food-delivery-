@@ -1,0 +1,235 @@
+
+<div id="content" class="content">
+    <ol class="breadcrumb pull-right">
+        <li><a href="javascript:;">Home</a></li>
+        <li><a href="javascript:;">Order Details</a></li>
+        <li class="active">Order Details</li>
+    </ol>
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header">View Order Details</h1>
+    <!-- end page-header -->
+
+    <!-- begin row -->
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0">
+                <div class="panel-body">
+                    <form class="" role="form" >
+                        <div class="col-md-12">
+                            <legend class="heading">Details:</legend>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group has-success has-feedback m-b-10">
+                                        <label class="control-label">Order Id</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['order_id'])) {
+                                            echo $this->orderdetails[0]['order_id'];
+                                        }
+                                        ?>
+
+                                    </div>
+                                    <div class="form-group has-success has-feedback m-b-10">
+                                        <label class="control-label">Hotel Name</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['hotel_name'])) {
+                                            echo $this->orderdetails[0]['hotel_name'];
+                                        }
+                                        ?>
+
+                                    </div>
+                                    <div class="form-group  m-b-10">
+                                        <label class="control-label">User Name</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['uname'])) {
+                                            echo $this->orderdetails[0]['uname'];
+                                        }
+                                        ?>
+
+                                    </div>
+                                    <div class="form-group  m-b-10">
+                                        <label class="control-label">Email</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['email'])) {
+                                            echo $this->orderdetails[0]['email'];
+                                        }
+                                        ?>
+
+                                    </div>
+                                    <div class="form-group  m-b-10">
+                                        <label class="control-label">Contact Number</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['contact_number'])) {
+                                            echo $this->orderdetails[0]['contact_number'];
+                                        }
+                                        ?>
+
+                                    </div>
+                                       <div class="form-group  m-b-10">
+                                        <label class="control-label">Address 1</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['address_line1'])) {
+                                            echo $this->orderdetails[0]['address_line1'];
+                                        }
+                                        ?>
+
+                                    </div>
+                                       <div class="form-group  m-b-10">
+                                        <label class="control-label">Address 2</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['address_line2'])) {
+                                            echo $this->orderdetails[0]['address_line2'];
+                                        }
+                                        ?>
+
+                                    </div>
+                                    <div class="form-group  m-b-10">
+                                        <label class="control-label">Landmark</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['landmark'])) {
+                                            echo $this->orderdetails[0]['landmark'];
+                                        }
+                                        ?>
+
+                                    </div>
+                                    <div class="form-group  m-b-10">
+                                        <label class="control-label">Location</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['Location'])) {
+                                            echo $this->orderdetails[0]['Location'];
+                                        }
+                                        ?>
+
+                                    </div>
+                                        <div class="form-group  m-b-10">
+                                        <label class="control-label">District</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['district'])) {
+                                            echo $this->orderdetails[0]['district'];
+                                        }
+                                        ?>
+
+                                    </div>
+                                    <div class="form-group  m-b-10">
+                                        <label class="control-label">State</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['state'])) {
+                                            echo $this->orderdetails[0]['state'];
+                                        }
+                                        ?>
+
+                                    </div>
+                                    <div class="form-group  m-b-10">
+                                        <label class="control-label">Country</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['country'])) {
+                                            echo $this->orderdetails[0]['country'];
+                                        }
+                                        ?>
+
+                                    </div>                                
+                                </div>
+
+                                <div class="col-md-6">
+                                     <div class="form-group  m-b-10">
+                                        <label class="control-label">Quantity</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['quantity'])) {
+                                            echo $this->orderdetails[0]['quantity'];
+                                        }
+                                        ?>
+
+                                    </div>  
+                                    <div class="form-group  m-b-10">
+                                        <label class="control-label">Order Date</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['order_date'])) {
+                                            echo $this->orderdetails[0]['order_date'];
+                                        }
+                                        ?>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Order Status</label>
+                                        <?php
+                                        if ($this->orderdetails[0]['order_status'] == 0) {
+                                            echo "Pending";
+                                        } elseif ($this->orderdetails[0]['order_status'] == 1) {
+                                            echo "In Process";
+                                        } elseif ($this->orderdetails[0]['order_status'] == 2) {
+                                            echo "Delivered";
+                                        } elseif ($this->orderdetails[0]['order_status'] == 3) {
+                                            echo "Canceled";
+                                        } else {
+                                            echo "Dispatch";
+                                        }
+                                        ?>
+                                    </div>
+                              
+                                    <div class="form-group m-b-10">
+                                        <label class="control-label">Amount</label>
+                                        <?php
+                                        if ($this->orderdetails[0]['total_amount']) {
+                                            echo $this->orderdetails[0]['total_amount'];
+                                        }
+                                        ?>
+                                    </div>
+                                     <div class="form-group m-b-10">
+                                        <label class="control-label">Delivery Charge</label>
+                                        <?php
+                                        if ($this->orderdetails[0]['delivery_charge']) {
+                                            echo $this->orderdetails[0]['delivery_charge'];
+                                        }
+                                        ?>
+                                    </div>
+                                          <div class="form-group">
+                                        <label class="control-label">Pay Type</label>
+                                        <?php
+                                        if ($this->orderdetails[0]['pay_type'] == 1) {
+                                            echo "COD";
+                                        } else {
+                                            echo "PaYpaL";
+                                        }
+                                        ?>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Pay Status</label>
+                                        <?php
+                                        if ($this->orderdetails[0]['pay_status'] == 0) {
+                                            echo "Pending";
+                                        } elseif ($this->orderdetails[0]['pay_status'] == 1) {
+                                            echo "Completed";
+                                        } elseif ($this->orderdetails[0]['pay_status'] == 2) {
+                                            echo "Failed";
+                                        } elseif ($this->orderdetails[0]['pay_status'] == 3) {
+                                            echo "Canceled";
+                                        }
+                                        ?>
+                                    </div>
+                                   
+                                    <div class="form-group has-error has-feedback m-b-10">
+                                        <label class="control-label">User Message</label>
+                                        <?php
+                                        if (isset($this->orderdetails[0]['user_message'])) {
+                                            echo $this->orderdetails[0]['user_message'];
+                                        }
+                                        ?>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-12 -->
+</div>
+<!-- end row -->

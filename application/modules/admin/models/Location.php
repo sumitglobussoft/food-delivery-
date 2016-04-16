@@ -46,7 +46,7 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
             $select = $this->select()
                     ->from($this)
                     ->where('location_type=?', 0)
-                     ->where('location_status=?', 1);
+                    ->where('location_status=?', 1);
             $result = $this->getAdapter()->fetchAll($select);
 
             if ($result) {
@@ -119,29 +119,29 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
             throw new Exception('Unable To retrieve data :' . $e);
         }
     }
-    
-        /*
+
+    /*
      * Dev: priyanka varanasi
      * Desc: fetch citys from db
      * date : 13/1/2015;
      */
 
     public function getLocationsByLocationId() {
-          if (func_num_args() > 0) {
+        if (func_num_args() > 0) {
             $location = func_get_arg(0);
-        try {
-            $select = $this->select()
-                    ->from($this)
-                    ->where('location_id=?',$location);
-            $result = $this->getAdapter()->fetchRow($select);
+            try {
+                $select = $this->select()
+                        ->from($this)
+                        ->where('location_id=?', $location);
+                $result = $this->getAdapter()->fetchRow($select);
 
-            if ($result) {
-                return $result;
+                if ($result) {
+                    return $result;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
             }
-        } catch (Exception $e) {
-            throw new Exception('Unable To retrieve data :' . $e);
         }
-          }
     }
 
     /*
@@ -268,7 +268,7 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
             $location = func_get_arg(0);
             $stateid = func_get_arg(1);
             $country = func_get_arg(2);
-          if ($location['parent_id']){
+            if ($location['parent_id']) {
                 try {
                     $select = $this->select()
                             ->from($this)
@@ -282,7 +282,7 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
                                     ->where('location_type=?', 2)
                                     ->where('location_id=?', $location['parent_id']);
                             $result = $this->getAdapter()->fetchRow($select);
-                 if ($result['parent_id'] == $stateid) {
+                            if ($result['parent_id'] == $stateid) {
                                 try {
                                     $row = $this->insert($location);
                                     if ($row) {
@@ -294,25 +294,25 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
                                     throw new Exception('Unable To insert data :' . $e);
                                 }
                             } else {
-                                 return null;
+                                return null;
                             }
                         } catch (Exception $e) {
                             throw new Exception('Unable To retrieve data :' . $e);
                         }
                     } else {
-                      return null;   
+                        return null;
                     }
                 } catch (Exception $e) {
                     throw new Exception('Unable To retrieve data :' . $e);
                 }
             } else {
-               return null;  
+                return null;
             }
         }
     }
-    
-        public function changeLocationStatus() {
-         if (func_num_args() > 0):
+
+    public function changeLocationStatus() {
+        if (func_num_args() > 0):
             $locationid = func_get_arg(0);
             try {
                 $data = array('location_status' => new Zend_DB_Expr('IF(location_status=1, 0, 1)'));
@@ -328,8 +328,8 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
         else:
             throw new Exception('Argument Not Passed');
         endif;
-        
     }
+
     public function updateLocation() {
 
         if (func_num_args() > 0) {
@@ -337,7 +337,7 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
             $id = func_get_arg(1);
             try {
                 $result1 = $this->update($data, 'location_id = "' . $id . '"');
-               
+
                 if ($result1) {
                     return $result1;
                 } else {

@@ -138,6 +138,32 @@ class SettingsController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die();
                     break;
+                    //added by sowmya 12/4/2016
+                case'getHotelLocation':
+
+                    if ($this->getRequest()->isPost()) {
+                        $hotelid = $this->getRequest()->getPost('hotel_id');
+                        if ($hotelid) {
+                            $locationslist = $locationsmodal->getLocationByParentIds($hotelid);
+                            if ($locationslist) {
+                                $response->message = 'Successfull';
+                                $response->code = 200;
+                                $response->data = $locationslist;
+                            } else {
+                                $response->message = 'Could not Serve the Response';
+                                $response->code = 197;
+                                $response->data = NUll;
+                            }
+                        }
+                    } else {
+                        $response->message = 'Could not Serve the Response';
+                        $response->code = 197;
+                        $response->data = NUll;
+                    }
+
+                    echo json_encode($response, true);
+                    die();
+                    break;
             }
         } else {
             $response->message = 'Could not Serve the Response';
@@ -583,7 +609,6 @@ class SettingsController extends Zend_Controller_Action {
             die();
         }
     }
-
 
 }
 

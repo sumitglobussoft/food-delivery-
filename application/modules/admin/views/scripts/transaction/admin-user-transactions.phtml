@@ -32,8 +32,10 @@
                             <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>S.No.</th>
+                                        <th>Trans. ID</th>
                                         <th>Name</th>
-                                        <th>Email ID</th>
+                                        <th>Email ID</th> 
                                         <th>Order ID</th>
                                         <th>Trans. Type</th>
                                         <th>Trans. Amount</th>
@@ -44,8 +46,10 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
+                                        <th>S.No.</th>
+                                        <th>Trans. ID</th>
                                         <th>Name</th>
-                                        <th>Email ID</th>
+                                        <th>Email ID</th> 
                                         <th>Order ID</th>
                                         <th>Trans. Type</th>
                                         <th>Trans. Amount</th>
@@ -58,9 +62,12 @@
                                 <tbody>
                                     <?php
                                     if (isset($this->successfullStatus)) {
+                                        $i = 0;
                                         foreach ($this->successfullStatus as $value) {
                                             ?>
                                             <tr>
+                                                <td><?php echo ++$i; ?></td>
+                                                <td><?php echo $value['user_tx_id']; ?></td>
                                                 <td><?php echo $value['uname']; ?></td>
                                                 <td><?php echo $value['email']; ?></td>
                                                 <td><?php echo $value['order_id']; ?></td>
@@ -93,8 +100,10 @@
                             <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>S.No.</th>
+                                        <th>Trans. ID</th>
                                         <th>Name</th>
-                                        <th>Email ID</th>
+                                        <th>Email ID</th> 
                                         <th>Order ID</th>
                                         <th>Trans. Type</th>
                                         <th>Trans. Amount</th>
@@ -105,8 +114,10 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
+                                        <th>S.No.</th>
+                                        <th>Trans. ID</th>
                                         <th>Name</th>
-                                        <th>Email ID</th>
+                                        <th>Email ID</th> 
                                         <th>Order ID</th>
                                         <th>Trans. Type</th>
                                         <th>Trans. Amount</th>
@@ -119,9 +130,12 @@
                                 <tbody>
                                     <?php
                                     if (isset($this->pendingStatus)) {
+                                        $i = 0;
                                         foreach ($this->pendingStatus as $value) {
                                             ?>
                                             <tr>
+                                                <td><?php echo ++$i; ?></td>
+                                                <td><?php echo $value['user_tx_id']; ?></td>
                                                 <td><?php echo $value['uname']; ?></td>
                                                 <td><?php echo $value['email']; ?></td>
                                                 <td><?php echo $value['order_id']; ?></td>
@@ -137,7 +151,7 @@
                                                 <td><?php echo $value['tx_code']; ?></td>
                                                 <td><?php echo date("j F , Y h:i:s A", strtotime($value['tx_date'])); ?></td>
                                                 <td class="text-center">                                             
-                                                      <a href="javascript:;" id="<?php echo "transdelete_" . $value['user_tx_id']; ?>" class="btn btn-default deletetrans"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                                    <a href="javascript:;" id="<?php echo "transdelete_" . $value['user_tx_id']; ?>" class="btn btn-default deletetrans"><i class="glyph-icon icon-linecons-trash"></i></a>
                                                 </td>
                                             </tr>   
 
@@ -153,8 +167,10 @@
                             <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>S.No.</th>
+                                        <th>Trans. ID</th>
                                         <th>Name</th>
-                                        <th>Email ID</th>
+                                        <th>Email ID</th> 
                                         <th>Order ID</th>
                                         <th>Trans. Type</th>
                                         <th>Trans. Amount</th>
@@ -165,8 +181,10 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
+                                        <th>S.No.</th>
+                                        <th>Trans. ID</th>
                                         <th>Name</th>
-                                        <th>Email ID</th>
+                                        <th>Email ID</th> 
                                         <th>Order ID</th>
                                         <th>Trans. Type</th>
                                         <th>Trans. Amount</th>
@@ -179,9 +197,12 @@
                                 <tbody>
                                     <?php
                                     if (isset($this->failedStatus)) {
+                                        $i = 0;
                                         foreach ($this->failedStatus as $value) {
                                             ?>
                                             <tr>
+                                                <td><?php echo ++$i; ?></td>
+                                                <td><?php echo $value['user_tx_id']; ?></td>
                                                 <td><?php echo $value['uname']; ?></td>
                                                 <td><?php echo $value['email']; ?></td>
                                                 <td><?php echo $value['order_id']; ?></td>
@@ -197,7 +218,7 @@
                                                 <td><?php echo $value['tx_code']; ?></td>
                                                 <td><?php echo date("j F , Y h:i:s A", strtotime($value['tx_date'])); ?></td>
                                                 <td class="text-center">                                             
-                                                      <a href="javascript:;" id="<?php echo "transdelete_" . $value['user_tx_id']; ?>" class="btn btn-default deletetrans"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                                    <a href="javascript:;" id="<?php echo "transdelete_" . $value['user_tx_id']; ?>" class="btn btn-default deletetrans"><i class="glyph-icon icon-linecons-trash"></i></a>
                                                 </td>
                                             </tr>   
 
@@ -213,8 +234,10 @@
                             <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>S.No.</th>
+                                        <th>Trans. ID</th>
                                         <th>Name</th>
-                                        <th>Email ID</th>
+                                        <th>Email ID</th> 
                                         <th>Order ID</th>
                                         <th>Trans. Type</th>
                                         <th>Trans. Amount</th>
@@ -225,8 +248,10 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
+                                        <th>S.No.</th>
+                                        <th>Trans. ID</th>
                                         <th>Name</th>
-                                        <th>Email ID</th>
+                                        <th>Email ID</th> 
                                         <th>Order ID</th>
                                         <th>Trans. Type</th>
                                         <th>Trans. Amount</th>
@@ -239,9 +264,12 @@
                                 <tbody>
                                     <?php
                                     if (isset($this->cancelStatus)) {
+                                        $i = 0;
                                         foreach ($this->cancelStatus as $value) {
                                             ?>
                                             <tr>
+                                                <td><?php echo ++$i; ?></td>
+                                                <td><?php echo $value['user_tx_id']; ?></td>
                                                 <td><?php echo $value['uname']; ?></td>
                                                 <td><?php echo $value['email']; ?></td>
                                                 <td><?php echo $value['order_id']; ?></td>
@@ -257,7 +285,7 @@
                                                 <td><?php echo $value['tx_code']; ?></td>
                                                 <td><?php echo date("j F , Y h:i:s A", strtotime($value['tx_date'])); ?></td>
                                                 <td class="text-center">                                             
-                                                      <a href="javascript:;" id="<?php echo "transdelete_" . $value['user_tx_id']; ?>" class="btn btn-default deletetrans"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                                    <a href="javascript:;" id="<?php echo "transdelete_" . $value['user_tx_id']; ?>" class="btn btn-default deletetrans"><i class="glyph-icon icon-linecons-trash"></i></a>
                                                 </td>
                                             </tr>   
 

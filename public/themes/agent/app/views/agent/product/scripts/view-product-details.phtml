@@ -1,0 +1,186 @@
+
+<div id="content" class="content">
+    <ol class="breadcrumb pull-right">
+        <li><a href="javascript:;">Home</a></li>
+        <li><a href="javascript:;">Product Details</a></li>
+        <li class="active">View Product Details</li>
+    </ol>
+    <h1 class="page-header">View Product Details</h1>
+
+    <div class="row">
+        <div class="col-md-12">
+            <form  >
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel pagination-theme clearfix m-b-0">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="control-label">Hotel Name</label>
+                                    <?php                           
+                                    if (isset($this->editproductdetails)) {                                
+                                            echo $this->editproductdetails['hotel_name'];
+                                        }                                                               
+                                    ?>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Product Name</label>
+                                    <?php
+                                    if (isset($this->editproductdetails['name'])) {
+                                        echo $this->editproductdetails['name'];
+                                    }
+                                    ?>
+                                    <div class="form-group">
+                                        <label class="control-label">Item Type</label>
+                                        <?php
+                                        if ($this->editproductdetails['item_type'] == 1) {
+                                            echo"Hotel Items";
+                                        } else {
+                                            echo"Grocery Items";
+                                        }
+                                        ?> 
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Product Description</label>
+                                        <?php
+                                        if (isset($this->editproductdetails['prod_desc'])) {
+                                            echo $this->editproductdetails['prod_desc'];
+                                        }
+                                        ?>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Product Type</label>
+                                        <div>
+                                            <?php
+                                            if ($this->editproductdetails['prod_type'] == 1) {
+                                                echo"Category";
+                                            } else {
+                                                echo"Cuisine";
+                                            }
+                                            ?> 
+                                        </div>
+                                    </div>
+                                    <div class="form-group show-cusine">
+                                        <label class="control-label">Cuisine :</label>
+                                        <?php echo $this->editproductdetails['Cuisine_name'] ?>       
+                                    </div>
+                                    <div class="form-group show-category">
+                                        <label class="control-label">Category :</label>
+                                        <?php echo $this->editproductdetails['cat_name'] ?>       
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Sub Category :</label>
+                                        <?php
+                                        if ($this->editproductdetails['Subcategory_id'] == 0) {
+                                            echo"Veg";
+                                        } elseif ($this->editproductdetails['Subcategory_id'] == 1) {
+                                            echo"Halal";
+                                        } elseif ($this->editproductdetails['Subcategory_id'] == 2) {
+                                            echo"Non Halal";
+                                        }else{
+                                            echo"None Of These";
+                                        }
+                                        ?>                
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Stock Quantity</label>
+                                        <?php
+                                        if (isset($this->editproductdetails['stock_quantity'])) {
+                                            echo $this->editproductdetails['stock_quantity'];
+                                        }
+                                        ?>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Cost</label>
+                                        <div class="input-group">
+                                            $
+                                            <?php
+                                            if (isset($this->editproductdetails['cost'])) {
+                                                echo $this->editproductdetails['cost'];
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Discount Type</label>
+                                        <div>
+                                            <?php
+                                            if ($this->editproductdetails['product_discount_type'] == 1) {
+                                                echo"Percentage";
+                                            } else {
+                                                echo"Amount";
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Delivery Timing</label>
+                                        <div class="input-group">
+
+                                            <?php
+                                            if (isset($this->editproductdetails['delivery_time'])) {
+                                                echo $this->editproductdetails['delivery_time'];
+                                            }
+                                            ?>mins
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Discount</label>
+                                        <?php
+                                        if (isset($this->editproductdetails['product_discount'])) {
+                                            echo $this->editproductdetails['product_discount'];
+                                        }
+                                        ?>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Service Tax</label>
+                                        <?php
+                                        if (isset($this->editproductdetails['servicetax'])) {
+                                            echo $this->editproductdetails['servicetax'];
+                                        }
+                                        ?>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Product Image</label>
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                <img src="<?php
+                                                if (isset($this->editproductdetails['imagelink'])) {
+                                                    echo $this->editproductdetails['imagelink'];
+                                                }
+                                                ?>" alt="">
+                                            </div>
+                                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Product status</label>
+                                        <?php
+                                        if ($this->editproductdetails['prod_status'] == 1) {
+                                            echo"Active";
+                                        } else {
+                                            echo"Deactivate";
+                                        }
+                                        ?>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--<style>
+    .show-cusine, .show-category {
+        display: none;
+    }
+</style>-->
+

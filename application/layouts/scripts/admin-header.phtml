@@ -1,6 +1,9 @@
 <?php echo $this->doctype(); ?>
 <html lang="en-US">  
     <head>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css"/>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
         <?php
         # Title
         echo $this->headTitle();
@@ -10,6 +13,8 @@
 
         # CSS
         echo $this->headLink()
+//                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/serversideprocessing/css/jquery.dataTables.min.css')
+//                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/serversideprocessing/css/scroller.dataTables.min.css')
                 ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/animate.min.css')
                 ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/plugin.min.css')
                 ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/widget.min.css')
@@ -17,10 +22,12 @@
                 ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/select2.min.css')
                 ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/jasny-bootstrap.min.css')
                 ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/custom.css');
-
+//     print_r($this->appSetting->assestPath);
         if ($this->auth->hasIdentity()) {
             if ($this->session->storage->role == 2) {
                 echo $this->headScript()
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-1.9.1.min.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-migrate-1.1.0.min.js', 'text/javascript')
                         ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-core.js', 'text/javascript')
                         ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-ui-core.js', 'text/javascript')
 //                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/bootstrap.min.js', 'text/javascript')
@@ -36,10 +43,14 @@
                         ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jasny-bootstrap.min.js', 'text/javascript')
                         ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/custom.js', 'text/javascript')
                         ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/layout.js', 'text/javascript')
-                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/datatable-bootstrap.js', 'text/javascript');
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/datatable-bootstrap.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/time/time_ago.js', 'text/javascript');
+//                       
             }
         } else {
             echo $this->headScript()
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-1.9.1.min.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-migrate-1.1.0.min.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-core.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jquery-ui-core.js', 'text/javascript')
 //                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/bootstrap.min.js', 'text/javascript')
@@ -55,15 +66,22 @@
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/jasny-bootstrap.min.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/custom.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/layout.js', 'text/javascript')
-                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/datatable-bootstrap.js', 'text/javascript');
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/datatable-bootstrap.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/time/time_ago.js', 'text/javascript');
+
         }
         ?>  
+        <style>
+            #sb-site {
+                min-height: auto !important;
+            }
+        </style>
         <script>
-            $(window).load(function() {
-                setTimeout(function() {
-                    $('#loading').fadeOut(400, "linear");
-                }, 300);
-            });
+//            $(window).load(function() {
+//                setTimeout(function() {
+//                    $('#loading').fadeOut(400, "linear");
+//                }, 300);
+//            });
         </script>
     </head> 
     <body>
@@ -123,6 +141,18 @@
                                             <ul>
                                                 <li><a href="/admin/admin-user-transactions" title="User Transactions"><span>User Transactions</span></a></li>
                                                 <li><a href="/admin/admin-agent-transactions" title="Agent Transactions"><span>Agent Transactions</span></a></li>
+                                                <li><a href="/admin/admin-product-transactions" title="Product Transactions"><span>Product Transactions</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Hotel Details">
+                                            <i class="glyph-icon icon-linecons-shop"></i> <span>Hotel Details</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li><a href="/admin/hotel-details" title="Hotel Details"><span>Hotel Details</span></a></li>
+        <!--                                                <li><a href="/admin/add-hotel-details" title="Add New Hotel"><span>Add New Hotel Details</span></a></li>-->
                                             </ul>
                                         </div>
                                     </li>
@@ -139,7 +169,7 @@
                                     </li>
                                     <li>
                                         <a href="javascript:void(0);" title="Products">
-                                            <i class="glyph-icon icon-linecons-cup"></i> <span>Products</span>
+                                            <i class="glyph-icon icon-linecons-cup"></i> <span>Product Details</span>
                                         </a>
                                         <div class="sidebar-submenu">
                                             <ul>
@@ -150,12 +180,13 @@
                                     </li>
                                     <li>
                                         <a href="javascript:void(0);" title="Delivery Guys">
-                                            <i class="glyph-icon icon-linecons-truck"></i> <span>Delivery Guys</span>
+                                            <i class="glyph-icon icon-linecons-truck"></i> <span>Delivery Guy Details</span>
                                         </a>
                                         <div class="sidebar-submenu">
                                             <ul>
-                                                <li><a href="/admin/delivery-guys-details" title="Delivery Guys Details"><span>Delivery Guys Details</span></a></li>
+                                                <li><a href="/admin/delivery-guys-details" title="Delivery Guys Details"><span>Delivery Guy Details</span></a></li>
                                                 <li><a href="/admin/add-delivery-guy" title="Add New Delivery Guy"><span>Add New Delivery Guy</span></a></li>
+                                                <li><a href="/admin/delivery-guy-order-logs" title="Delivery Guys Order Logs"><span>Delivery Guys Order Logs</span></a></li>
                                             </ul>
                                         </div>
                                     </li>
@@ -189,6 +220,8 @@
                                         </a>
                                         <div class="sidebar-submenu">
                                             <ul>
+                                                <li><a href="/admin/category-details" title="Country Details"><span>Category Details</span></a></li>
+                                                <li><a href="/admin/cuisines-details" title="Country Details"><span>Cuisine Details</span></a></li>
                                                 <li><a href="/admin/countries-details" title="Country Details"><span>Country Details</span></a></li>
                                                 <li><a href="/admin/states-details" title="State Details"><span>State Details</span></a></li>
                                                 <li><a href="/admin/city-details" title="City Details"><span>City Details</span></a></li>
@@ -199,123 +232,132 @@
                                 </ul>
                             </div>
                         </div>
-                        <div id="page-content-wrapper">
-                            <div id="page-content">
-                                <div id="page-header">
-                                    <div id="header-nav-left">
-                                        <a class="header-btn" id="logout-btn"  title="Lockscreen page example"></a>
-                                        <div class="user-account-btn dropdown">
-                                            <a href="#" title="My Account" class="user-profile clearfix" data-toggle="dropdown"><img width="28" src="/assets/admin/images/pic.jpg" alt="Profile image"> <span><?php echo $this->session->storage->uname; ?></span> <i class="glyph-icon icon-angle-down"></i></a>
-                                            <div class="dropdown-menu float-right">
-                                                <div class="box-sm">
-                                                    <div class="login-box clearfix">
-                                                        <div class="user-img"><a href="#" title="" class="change-img">Change photo</a> <img src="/assets/admin/images/pic.jpg" alt=""></div>
-                                                        <div class="user-info"><span><?php echo $this->session->storage->uname; ?><i>CEO - Ziingo</i></span> <a href="#" title="Edit profile">Edit profile</a> <a href="#" title="View notifications">View notifications</a></div>
-                                                    </div>
-                                                    <div class="divider"></div>
-                                                    <div class="button-pane button-pane-alt pad5L pad5R text-center">
-                                                        <a href="/admin/logout" class="btn btn-flat display-block font-normal btn-danger">
-                                                            <i class="glyph-icon icon-power-off"></i> Logout
-                                                        </a>
-                                                    </div>
+                    </div>
+                    <div id="page-content-wrapper">
+                        <div id="page-content">
+                            <div id="page-header">
+                                <div id="header-nav-left">
+                                    <a class="header-btn" id="logout-btn"  title="Lockscreen page example"></a>
+                                    <div class="user-account-btn dropdown">
+                                        <a href="#" title="My Account" class="user-profile clearfix" data-toggle="dropdown"><img width="28" src="/assets/admin/images/pic.jpg" alt="Profile image"> <span><?php echo $this->session->storage->uname; ?></span> <i class="glyph-icon icon-angle-down"></i></a>
+                                        <div class="dropdown-menu float-right">
+                                            <div class="box-sm">
+                                                <div class="login-box clearfix">
+                                                    <div class="user-img"><a href="#" title="" class="change-img">Change photo</a> <img src="/assets/admin/images/pic.jpg" alt=""></div>
+                                                    <div class="user-info"><span><?php echo $this->session->storage->uname; ?><i>CEO - Ziingo</i></span> <a href="#" title="Edit profile">Edit profile</a> <a href="/admin/notification" title="View notifications">View notifications</a></div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="header-nav-right">
-                                        <div class="dropdown" id="notifications-btn"><a data-toggle="dropdown" href="#" title=""><span class="small-badge bg-yellow"></span> <i class="glyph-icon icon-linecons-megaphone"></i></a>
-                                            <div class="dropdown-menu box-md float-left">
-                                                <div class="popover-title display-block clearfix pad10A">Notifications <a class="text-transform-cap font-primary font-normal btn-link float-right" href="#" title="View more options">More options...</a></div>
-                                                <div class="scrollable-content scrollable-slim-box">
-                                                    <ul class="no-border notifications-box">
-                                                        <li>
-                                                            <span class="bg-danger icon-notification glyph-icon icon-bullhorn"></span>
-                                                            <span class="notification-text">This is an error notification</span>
-                                                            <div class="notification-time">
-                                                                a few seconds ago <span class="glyph-icon icon-clock-o"></span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <span class="bg-warning icon-notification glyph-icon icon-users"></span>
-                                                            <span class="notification-text font-blue">This is a warning notification</span>
-                                                            <div class="notification-time">
-                                                                <b>15</b> minutes ago <span class="glyph-icon icon-clock-o"></span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <span class="bg-green icon-notification glyph-icon icon-sitemap"></span>
-                                                            <span class="notification-text font-green">A success message example.</span>
-                                                            <div class="notification-time">
-                                                                <b>2 hours</b> ago <span class="glyph-icon icon-clock-o"></span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <span class="bg-azure icon-notification glyph-icon icon-random"></span>
-                                                            <span class="notification-text">This is an error notification</span>
-                                                            <div class="notification-time">
-                                                                a few seconds ago <span class="glyph-icon icon-clock-o"></span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <span class="bg-warning icon-notification glyph-icon icon-ticket"></span>
-                                                            <span class="notification-text">This is a warning notification</span>
-                                                            <div class="notification-time">
-                                                                <b>15</b> minutes ago <span class="glyph-icon icon-clock-o"></span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <span class="bg-blue icon-notification glyph-icon icon-user"></span>
-                                                            <span class="notification-text font-blue">Alternate notification styling.</span>
-                                                            <div class="notification-time">
-                                                                <b>2 hours</b> ago <span class="glyph-icon icon-clock-o"></span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <span class="bg-purple icon-notification glyph-icon icon-user"></span>
-                                                            <span class="notification-text">This is an error notification</span>
-                                                            <div class="notification-time">
-                                                                a few seconds ago <span class="glyph-icon icon-clock-o"></span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <span class="bg-warning icon-notification glyph-icon icon-user"></span>
-                                                            <span class="notification-text">This is a warning notification</span>
-                                                            <div class="notification-time">
-                                                                <b>15</b> minutes ago <span class="glyph-icon icon-clock-o"></span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <span class="bg-green icon-notification glyph-icon icon-user"></span>
-                                                            <span class="notification-text font-green">A success message example.</span>
-                                                            <div class="notification-time">
-                                                                <b>2 hours</b> ago <span class="glyph-icon icon-clock-o"></span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <span class="bg-purple icon-notification glyph-icon icon-user"></span>
-                                                            <span class="notification-text">This is an error notification</span>
-                                                            <div class="notification-time">
-                                                                a few seconds ago <span class="glyph-icon icon-clock-o"></span>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <span class="bg-warning icon-notification glyph-icon icon-user"></span>
-                                                            <span class="notification-text">This is a warning notification</span>
-                                                            <div class="notification-time">
-                                                                <b>15</b> minutes ago <span class="glyph-icon icon-clock-o"></span>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+                                                <div class="divider"></div>
+                                                <div class="button-pane button-pane-alt pad5L pad5R text-center">
+                                                    <a href="/admin/logout" class="btn btn-flat display-block font-normal btn-danger">
+                                                        <i class="glyph-icon icon-power-off"></i> Logout
+                                                    </a>
                                                 </div>
-                                                <div class="button-pane button-pane-alt pad5T pad5L pad5R text-center"><a href="#" class="btn btn-flat btn-primary" title="View all notifications">View all notifications</a></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <?php
-                            }
+
+                                <div id="header-nav-right">
+                                    <div class="dropdown" id="notifications-btn"><a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><span class="small-badge bg-yellow" id="pending_noti_count"></span> <i class="glyph-icon icon-linecons-megaphone"></i></a>
+                                        <div class="dropdown-menu box-md float-left">
+                                            <div class="popover-title display-block clearfix pad10A">Notifications <a class="text-transform-cap font-primary font-normal btn-link float-right" href="#" title="View more options"></a></div>
+                                            <div class="scrollable-content scrollable-slim-box">
+                                                <ul class="no-border notifications-box">
+                                                    <li class="external">
+                                                        <h3  class="bold"><span id="total_pending_noti"></span> pending notifications</h3>
+                                                        <!--                                                            <a href="/admin/notification">view all</a>-->
+                                                    </li>
+                                                    <li>
+                                                        <ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283" id="adminnotification"></ul>
+                                                    </li>
+                                                </ul>
+
+                                            </div>
+                                            <div class="button-pane button-pane-alt pad5T pad5L pad5R text-center"><a href="/admin/notification" class="btn btn-flat btn-primary" title="View all notifications">View all notifications</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    new get_notification();
+
+                                    $(document.body).on("click", ".notimodaldescription", function() {
+                                        var obj = $(this);
+                                        var message = $(this).attr('data-desc');
+                                        //var counts = $(this).attr('data-count');
+                                        var count = $('#total_pending_noti').html();
+                                        //  alert(count);
+                                        $('#noti_message').html(message);
+                                        // alert(counts - 1);
+                                        var notificationId = $(this).attr('data-id');
+                                        //alert(notificationId);
+                                        $.ajax({
+                                            url: '/admin/notification-ajax-handler',
+                                            type: 'POST',
+                                            datatype: 'json',
+                                            data: {
+                                                method: 'changeNotificationStatus',
+                                                NotificationId: notificationId
+
+                                            },
+                                            success: function(response) {
+                                                if (response) {
+                                                    //alert(response);                         
+                                                    obj.parent().hide();
+                                                    var current_count = count - 1;
+                                                    $('#total_pending_noti').html(current_count);
+                                                    $('#pending_noti_count').html(current_count);
+                                                }
+                                            }
+                                        });
+                                    });
+                                });
+                                function get_notification() {
+                                    var feedback = $.ajax({
+                                        type: "POST",
+                                        url: "/admin/notification-ajax-handler",
+                                        data: {
+                                            method: 'getuserNotification',
+                                        },
+                                        async: false
+                                    }).success(function(data) {
+                                        // id='count'
+                                        var notifdata = jQuery.parseJSON(data);
+                                        var notifics = notifdata[0];
+                                        var noti = notifdata[1];
+                                        //                        console.log(notifdata);
+                                        //   alert(notifics);
+                                        $("#adminnotification").empty();
+                                        if (noti != null) {
+                                            $.each(noti, function(index, value) {
+                                                //alert(value['send_date']);
+                                                var notiId = value['notification_id'];
+                                                var message = value['notification_message'];
+                                                var timestamp = value['sent_date'];
+                                                var time = time_ago(timestamp);
+                                                //                                                    alert(time);
+                                                $("#adminnotification").append('<li><a data-desc="' + message + '" data-id=' + notiId + ' data-count=' + notifics + '  id="descmod"  class="notimodaldescription" data-toggle="modal" data-target="#adminnotimodal"><span class="time">' + time + '</span><span class="details" ><span class="label label-sm label-icon label-success"></span> <div class="dd-content">' + message + ' </div></span></a></li> ');
+                                            });
+                                        }
+
+                                        $("#total_pending_noti").html(notifdata[0]);
+                                        $("#pending_noti_count").html(notifdata[0]);
+                                        setTimeout(function() {
+                                            get_notification();
+                                        }, 30000);
+                                    })
+                                    //   $('div.feedback-box').html(feedback);
+                                }
+
+
+                            </script>
+                            <?php
                         }
-                        ?>
+                    }
+                    ?>
 
 
 

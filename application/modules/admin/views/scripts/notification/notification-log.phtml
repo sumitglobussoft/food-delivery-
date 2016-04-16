@@ -1,41 +1,51 @@
-<link href="/assets/global/css/plugins.css" media="screen" rel="stylesheet" type="text/css" >
-<link rel="stylesheet" type="text/css" href="/assets/global/plugins/select2/select2.css"/>
-<link rel="stylesheet" type="text/css" href="/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
-<link rel="stylesheet" type="text/css" href="/assets/global/plugins/bootstrap-datepicker/css/datepicker.css"/>
-<link href="/assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
-<div class="page-content-wrapper">
-    <div class="page-content">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="portlet light bordered">
-                    <!--             Widget heading -->
-                    <div class="widget-head">
-                        <h3 class="heading glyphicons list">Notification Log:</h3>
-                    </div>
-                    <!--             // Widget heading END -->
-                    <div class="widget-body">
-                    </div>
-                    <h3>Notification Table:</h3></br></br>                
-                    <table class="dynamicTable table table-striped table-bordered table-condensed notificationtable" >
+
+<div id="page-title">
+    <h2>Notification Log</h2>
+    <p>The most complete notification interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="panel-body">
+                <h3 class="title-hero">Notification Log</h3>
+                <div class="example-box-wrapper">
+                    <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
                         <thead>
-                            <tr>   
-                                <th style="width: 10%;" class="center">Sr No.</th>
-                                <th style="width: 15%;">Receiver Name</th>
-                                <th style="width: 15%;" class="center">Sender Name</th> 
-                                <th style="width: 20%;">Message</th>                              
-                                <th style="width: 15%;">Send Date</th>                            
-                                <th class="center" >Status</th>
-                                <th class="center" >Delete</th>
+                            <tr>
+                                <th>S.No. </th>        
+                                <th> Notification ID </th>
+                                <th>Receiver Name</th>
+                                <th>Sender Name</th> 
+                                <th>Message</th>                              
+                                <th>Send Date</th>                            
+                                <th>Status</th>
+                                <th>Delete</th>
+
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr>
+                                <th>S.No. </th>        
+                                <th> Notification ID </th>
+                                <th>Receiver Name</th>
+                                <th>Sender Name</th> 
+                                <th>Message</th>                              
+                                <th>Send Date</th>                            
+                                <th>Status</th>
+                                <th>Delete</th>
+
+                            </tr>
+                        </tfoot>
                         <tbody>
+
                             <?php
                             if (isset($this->data)) {
-                                $row = 0;
+                                $i =1;
                                 foreach ($this->data as $collectionData) {
                                     ?>
-                                    <tr class="selectable" height='10px' >
-                                        <td class="center"><?php echo ++$row; ?></td>
+                                    <tr>
+                                        <td><?php echo $i; ?></td>
+                                          <td><?php echo $collectionData['notification_id']; ?></td> 
                                         <td><?php
                                             echo $collectionData['receiver_fname'];
                                             echo ' ';
@@ -60,61 +70,19 @@
                                             }
                                             ?>
                                         </td>
-                                        <td>
-                                            <span class="tooltips" title="Delete Notification" data-placement="top">
-                                                <button id="<?php echo $collectionData['notification_id']; ?>" class="btn btn-danger remove1" ><i></i>Delete</button>
-                                            </span>
+                                        <td class="text-center">                                               
+                                            <a href="javascript:;" id="<?php echo "notificationdelete_" . $collectionData['notification_id']; ?>" class="btn btn-default deletenotification"><i class="glyph-icon icon-linecons-trash"></i></a>
                                         </td>
                                     </tr>
                                     <?php
+                                    $i++;
                                 }
                             }
-                            ?>	
+                            ?>
                         </tbody>
-                    </table>                 
+                    </table>
                 </div>
             </div>
         </div>
-        <!--Widget END--> 
-    </div>	
+    </div>
 </div>
-<!-- // Content END -->
-
-<script>
-    jQuery(document).ready(function () {
-        $(document).ready(function () {
-            $('.notificationtable').DataTable();
-        });
-
-        $(document.body).on("click", ".modaldescription", function () {
-            var desc = $(this).attr('data-desc');
-            $('#message').val(desc);
-        });
-
-        $(document.body).on("click", ".remove1", function () {
-
-            var notificationid = $(this).attr('id');
-            var w = $(this);
-            if (confirm("Do you want to Delete this Notification!") == true) {
-                $.ajax({
-                    url: '/admin/notification-ajax-handler',
-                    type: 'POST',
-                    datatype: 'HTML',
-                    data: {
-                        method: 'deletenotification',
-                        notificationId: notificationid
-                    },
-                    beforeSend: function () {
-
-                    },
-                    success: function (response) {
-                        w.parent().parent().hide();
-                    }
-                });
-            }
-
-        });
-
-    });
-
-</script>

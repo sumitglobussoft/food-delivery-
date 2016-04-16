@@ -27,7 +27,7 @@ class Web_AuthenticationController extends Zend_Controller_Action {
      * 
      */
 
-    public function signupAction() {
+    public function signupAction() {        
         $mailer = Engine_Mailer_Mailer::getInstance();
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
         $objCore = Engine_Core_Core::getInstance();

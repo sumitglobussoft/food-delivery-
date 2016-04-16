@@ -40,7 +40,7 @@
                                                 Active 
                                             </option>
                                             <option value="2">
-                                                Deactive 
+                                                Deactivate 
                                             </option>
                                         </select>
                                     </div>
@@ -60,7 +60,7 @@
         </div>
          <div class="panel editContent">
             <div class="panel-body">
-                <h3 class="title-hero">Edit Country</h3>
+                <h3 class="title-hero">Edit State </h3>
                 <div class="example-box-wrapper">
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
@@ -98,12 +98,12 @@
     <div class="col-md-12">
         <div class="panel">
             <div class="panel-body">
-                <h3 class="title-hero">Country details</h3>
+                <h3 class="title-hero">State Details</h3>
                 <div class="example-box-wrapper">
                     <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>Sl. No.</th>
+                                <th>S. No.</th>
                                 <th >State Name</th>
                                 <th >Status</th>
                                 <th >Action</th>
@@ -112,10 +112,11 @@
                         </thead>
                         <tfoot>
                             <tr>
+                                 <th>S. No.</th>
                                 <th> State Name </th>
                                 <th> Status </th>
                                 <th> Action </th>
-                                <th> View </th>
+                                <th> Edit </th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -142,7 +143,7 @@
                                         <span id="activeclass_<?php echo $value['location_id']; ?>"  class="bs-label label-success">Activate</span></a></td>
     <?php endif; ?> 
                             <td class="center">
-                                <a  href="javascript:;" class="btn btn-default locationedit" id="showEdit_<?php echo $value['location_id']; ?>"><i class="glyph-icon icon-linecons-eye"></i></a>
+                                <a  href="javascript:;" class="btn btn-default locationedit" id="showEdit_<?php echo $value['location_id']; ?>"><i class="glyph-icon icon-linecons-pencil"></i></a>
 <!--                                <span  id="<?php// echo "statedelete_" . $value['location_id']; ?>"  class="btn btn-default statedelete"><i class="glyph-icon icon-linecons-trash"></i></span>-->
                             </td>
                         </tr>

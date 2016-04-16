@@ -22,7 +22,6 @@ class OrdersController extends Zend_Controller_Action {
      */
 
     public function userDeliverySettingsAction() {
-//        $userdeliveryaddrmodal = Application_Model_UserDeliveryAddr::getInstance();
         $userdeliveryaddrmodal = Application_Model_UserDeliveryAddress::getInstance();
         $response = new stdClass();
         $method = $this->getRequest()->getParam('method');
@@ -177,7 +176,6 @@ class OrdersController extends Zend_Controller_Action {
                     break;
 
                 case 'fetchdeliveryaddress':
-
                     if ($this->getRequest()->isPost()) {
 
 
@@ -217,174 +215,6 @@ class OrdersController extends Zend_Controller_Action {
             $response->data = 'No Method';
 
             echo json_encode($response);
-            die();
-        }
-    }
-
-    /*
-     * Dev : Priyanka Varanasi
-     * Date: 10/12/2015
-     * Desc: fetch all products from db
-     */
-
-    public function productsSummaryAction() {
-        $productsummaryModel = Application_Model_Products::getInstance();
-        $response = new stdClass();
-        $method = $this->getRequest()->getParam('method');
-        if ($method) {
-
-            switch ($method) {
-
-                case'allproducts':
-
-                    $productdetails = $productsummaryModel->selectAllProducts();
-                    if ($productdetails) {
-                        $response->message = 'Successfull';
-                        $response->code = 200;
-                        $response->data = $productdetails;
-                    } else {
-                        $response->message = 'Could not Serve the Response';
-                        $response->code = 197;
-                        $response->data = NUll;
-                    }
-
-                    echo json_encode($response, true);
-                    die();
-                    break;
-
-                case'getagentproducts':
-
-                    if ($this->getRequest()->isPost()) {
-
-                        $agent_id = $this->getRequest()->getPost('agent_id');
-
-                        if ($agent_id) {
-                            $agentproducts = $productsummaryModel->getALLAgentProducts($agent_id);
-                            if ($agentproducts) {
-                                $response->message = 'successfull';
-                                $response->code = 200;
-                                $response->data = $agentproducts;
-                            } else {
-                                $response->message = 'Could Not Serve The Request';
-                                $response->code = 197;
-                                $response->data = null;
-                            }
-                        } else {
-                            $response->message = 'Could Not Serve The Request';
-                            $response->code = 401;
-                            $response->data = NULL;
-                        }
-                    } else {
-                        $response->message = 'Invalid Request';
-                        $response->code = 401;
-                        $response->data = Null;
-                    }
-                    echo json_encode($response, true);
-                    die;
-                    break;
-
-
-                case'getProductsByHotelId':
-
-                    if ($this->getRequest()->isPost()) {
-
-                        $hotelid = $this->getRequest()->getPost('hotel_id');
-
-                        if ($hotelid) {
-                            $agentproducts = $productsummaryModel->getProductsByHotelId($hotelid);
-                            if ($agentproducts) {
-                                $response->message = 'successfull';
-                                $response->code = 200;
-                                $response->data = $agentproducts;
-                            } else {
-                                $response->message = 'Could Not Serve The Request';
-                                $response->code = 197;
-                                $response->data = null;
-                            }
-                        } else {
-                            $response->message = 'Could Not Serve The Request';
-                            $response->code = 401;
-                            $response->data = NULL;
-                        }
-                    } else {
-                        $response->message = 'Invalid Request';
-                        $response->code = 401;
-                        $response->data = Null;
-                    }
-                    echo json_encode($response, true);
-                    die;
-                    break;
-
-
-                case'changeproductstatus':
-                    if ($this->getRequest()->isPost()) {
-
-                        $product_id = $this->getRequest()->getPost('product_id');
-
-                        if ($product_id) {
-                            $updatestatus = $productsummaryModel->getstatusChangeOfProduct($product_id);
-                            if ($updatestatus) {
-                                $response->message = 'successfull';
-                                $response->code = 200;
-                                $response->data['product_id'] = $product_id;
-                            } else {
-                                $response->message = 'Could Not Serve The Request';
-                                $response->code = 197;
-                                $response->data = null;
-                            }
-                        } else {
-                            $response->message = 'Could Not Serve The Request';
-                            $response->code = 401;
-                            $response->data = NULL;
-                        }
-                    } else {
-                        $response->message = 'Invalid Request';
-                        $response->code = 401;
-                        $response->data = Null;
-                    }
-                    echo json_encode($response, true);
-                    die;
-
-                    break;
-
-                case'productdelete':
-                    if ($this->getRequest()->isPost()) {
-
-                        $product_id = $this->getRequest()->getPost('product_id');
-
-                        if ($product_id) {
-                            $updatestatus = $productsummaryModel->productDelete($product_id);
-
-                            if ($updatestatus) {
-                                $response->message = 'successfull';
-                                $response->code = 200;
-                                $response->data['product_id'] = $product_id;
-                            } else {
-                                $response->message = 'Could Not Serve The Request';
-                                $response->code = 197;
-                                $response->data = null;
-                            }
-                        } else {
-                            $response->message = 'Could Not Serve The Request';
-                            $response->code = 401;
-                            $response->data = NULL;
-                        }
-                    } else {
-                        $response->message = 'Invalid Request';
-                        $response->code = 401;
-                        $response->data = Null;
-                    }
-                    echo json_encode($response, true);
-                    die;
-
-                    break;
-            }
-        } else {
-
-            $response->message = 'Invalid Request';
-            $response->code = 401;
-            $response->data = "No Method Passed";
-            echo json_encode($response, true);
             die();
         }
     }
@@ -936,7 +766,7 @@ class OrdersController extends Zend_Controller_Action {
 
                 case'addhoteldetails':
                     if ($this->getRequest()->isPost()) {
-                        $data['primary_phone'] = $this->getRequest()->getPost('primary_phone');
+                         $data['primary_phone'] = $this->getRequest()->getPost('primary_phone');
                         $data['secondary_phone'] = $this->getRequest()->getPost('secondary_phone');
                         $data['hotel_name'] = $this->getRequest()->getPost('hotel_name');
                         $data['open_time'] = $this->getRequest()->getPost('open_time');
@@ -947,10 +777,10 @@ class OrdersController extends Zend_Controller_Action {
                         $data['deliverycharge'] = $this->getRequest()->getPost('deliverycharge');
                         $data['hotel_status'] = $this->getRequest()->getPost('hotel_status');
                         $data['hotel_location'] = $this->getRequest()->getPost('hotel_location');
-                        $data['agent_id'] = $this->getRequest()->getPost('agent_id');
+                        $data['agent_id'] = $this->getRequest()->getPost('agent_id');                        
                         if ($data['agent_id']) {
-                            $updatestatus = $hotelssummaryModel->insertHotelDetails($data);
-                            if ($updatestatus) {
+                            $updatestatus = $hotelssummaryModel->insertHotelDetails($data);                         
+                            if ($updatestatus) {                
                                 $response->message = 'successfull';
                                 $response->code = 200;
                                 $response->data['hotel_id'] = $updatestatus;

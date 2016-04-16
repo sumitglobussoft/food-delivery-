@@ -10,6 +10,7 @@ class Engine_Vault_Acl extends Zend_Acl {
         // Add a role called agent, which inherits from user
         // Add a role called admin, which inherits from user
         $this->addRole(new Zend_Acl_Role('admin'), 'user');
+        $this->addRole(new Zend_Acl_Role('agent'), 'user');
 
 
 
@@ -89,30 +90,41 @@ class Engine_Vault_Acl extends Zend_Acl {
         $this->add(new Zend_Acl_Resource('agent::settings'), 'agent')
                 ->add(new Zend_Acl_Resource('agent::settings::agent-hotel-details'), 'agent::settings')
                 ->add(new Zend_Acl_Resource('agent::settings::edit-hotel-details'), 'agent::settings')
-                ->add(new Zend_Acl_Resource('agent::settings::add-hotel-details'), 'agent::settings');
+                ->add(new Zend_Acl_Resource('agent::settings::add-hotel-details'), 'agent::settings')
+                ->add(new Zend_Acl_Resource('agent::settings::view-hotel-details'), 'agent::settings'); // added by sowmya 11/4/2016
 
         $this->allow('user', 'agent::settings::agent-hotel-details')
                 ->allow('user', 'agent::settings::edit-hotel-details')
-                ->allow('user', 'agent::settings::add-hotel-details');
-
+                ->allow('user', 'agent::settings::add-hotel-details')
+                ->allow('user', 'agent::settings::view-hotel-details'); // added by sowmya 11/4/2016
 
         $this->add(new Zend_Acl_Resource('agent::order'), 'agent')
                 ->add(new Zend_Acl_Resource('agent::order::order-ajax-handler'), 'agent::order')
                 ->add(new Zend_Acl_Resource('agent::order::restuarent-orders'), 'agent::order')
-                ->add(new Zend_Acl_Resource('agent::order::edit-restuarent-orders'), 'agent::order');
+                ->add(new Zend_Acl_Resource('agent::order::edit-restuarent-orders'), 'agent::order')
+                ->add(new Zend_Acl_Resource('agent::order::view-restuarent-orders'), 'agent::order'); // added by sowmya 14/4/2016
 
         $this->allow('user', 'agent::order::order-ajax-handler')
                 ->allow('user', 'agent::order::restuarent-orders')
-                ->allow('user', 'agent::order::edit-restuarent-orders');
+                ->allow('user', 'agent::order::edit-restuarent-orders')
+                ->allow('user', 'agent::order::view-restuarent-orders'); // added by sowmya 14/4/2016
 
         $this->add(new Zend_Acl_Resource('agent::product'), 'agent')
                 ->add(new Zend_Acl_Resource('agent::product::product-details'), 'agent::product')
                 ->add(new Zend_Acl_Resource('agent::product::edit-product-details'), 'agent::product')
-                ->add(new Zend_Acl_Resource('agent::product::add-product-details'), 'agent::product');
+                ->add(new Zend_Acl_Resource('agent::product::add-product-details'), 'agent::product')
+                ->add(new Zend_Acl_Resource('agent::product::view-product-details'), 'agent::product'); // added by sowmya 11/4/2016
 
         $this->allow('user', 'agent::product::product-details')
                 ->allow('user', 'agent::product::add-product-details')
-                ->allow('user', 'agent::product::edit-product-details');
+                ->allow('user', 'agent::product::edit-product-details')
+                ->allow('user', 'agent::product::view-product-details'); // added by sowmya 11/4/2016
+        // added by sowmya 4/4/2016
+        $this->add(new Zend_Acl_Resource('agent::transaction'), 'agent')
+                ->add(new Zend_Acl_Resource('agent::transaction::agent-payments'), 'agent::transaction');
+
+        $this->allow('user', 'agent::transaction::agent-payments');
+
 
 //                   
 //                   
@@ -144,19 +156,19 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->add(new Zend_Acl_Resource('admin::static::edit-deliveryguy-details'), 'admin::static')
                 ->add(new Zend_Acl_Resource('admin::static::add-delivery-guy'), 'admin::static')
                 ->add(new Zend_Acl_Resource('admin::static::delivery-guy-orders'), 'admin::static')
-//                
-//                
-//                
-//               // admin agent panel/// 
+                ->add(new Zend_Acl_Resource('admin::static::delivery-guy-order-logs'), 'admin::static')// added by sowmya 4/4/2016
+                ->add(new Zend_Acl_Resource('admin::static::view-deliveryguy-details'), 'admin::static')// added by sowmya 8/4/2016
+                // admin agent panel/// 
                 ->add(new Zend_Acl_Resource('admin::agent'), 'admin')
                 ->add(new Zend_Acl_Resource('admin::agent::agent-details'), 'admin::agent')
                 ->add(new Zend_Acl_Resource('admin::agent::add-agents'), 'admin::agent')
                 ->add(new Zend_Acl_Resource('admin::agent::edit-agent-details'), 'admin::agent')
-
+                ->add(new Zend_Acl_Resource('admin::agent::view-agent-details'), 'admin::agent')// added by sowmya 8/4/2016
                 // admin users panel///
                 ->add(new Zend_Acl_Resource('admin::user'), 'admin')
                 ->add(new Zend_Acl_Resource('admin::user::userdetails'), 'admin::user')
                 ->add(new Zend_Acl_Resource('admin::user::edit-user-details'), 'admin::user')
+                ->add(new Zend_Acl_Resource('admin::user::view-user-details'), 'admin::user')// added by sowmya 8/4/2016
                 ->add(new Zend_Acl_Resource('admin::user::add-user-details'), 'admin::user')
                 ->add(new Zend_Acl_Resource('admin::user::user-ajax-handler'), 'admin::user')
 
@@ -166,7 +178,7 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->add(new Zend_Acl_Resource('admin::product::edit-product-details'), 'admin::product')
                 ->add(new Zend_Acl_Resource('admin::product::add-product-details'), 'admin::product')
                 ->add(new Zend_Acl_Resource('admin::product::product-ajax-handler'), 'admin::product')
-
+                ->add(new Zend_Acl_Resource('admin::product::view-product-details'), 'admin::product')// added by sowmya 9/4/2016
                 // admin settings panel///
                 ->add(new Zend_Acl_Resource('admin::settings'), 'admin')
                 ->add(new Zend_Acl_Resource('admin::settings::countries-details'), 'admin::settings')
@@ -175,22 +187,32 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->add(new Zend_Acl_Resource('admin::settings::location-details'), 'admin::settings')
                 ->add(new Zend_Acl_Resource('admin::settings::locationsettings-handler'), 'admin::settings')
                 ->add(new Zend_Acl_Resource('admin::settings::edit-location'), 'admin::settings')
-
+                ->add(new Zend_Acl_Resource('admin::settings::cuisines-details'), 'admin::settings')
+                ->add(new Zend_Acl_Resource('admin::settings::category-details'), 'admin::settings')
+                ->add(new Zend_Acl_Resource('admin::settings::edit-cuisines'), 'admin::settings')
+                ->add(new Zend_Acl_Resource('admin::settings::edit-category'), 'admin::settings')
 
                 // admin transactions panel///
                 ->add(new Zend_Acl_Resource('admin::transaction'), 'admin')
                 ->add(new Zend_Acl_Resource('admin::transaction::admin-user-transactions'), 'admin::transaction')
                 ->add(new Zend_Acl_Resource('admin::transaction::admin-agent-transactions'), 'admin::transaction')
+                ->add(new Zend_Acl_Resource('admin::transaction::admin-product-transactions'), 'admin::transaction')
+
                 // admin notification panel///added by sowmya 1/4/2016
                 ->add(new Zend_Acl_Resource('admin::notification'), 'admin')
                 ->add(new Zend_Acl_Resource('admin::notification::notification-log'), 'admin::notification')
                 ->add(new Zend_Acl_Resource('admin::notification::send-user-notification'), 'admin::notification')
                 ->add(new Zend_Acl_Resource('admin::notification::send-agent-notification'), 'admin::notification')
                 ->add(new Zend_Acl_Resource('admin::notification::notification-ajax-handler'), 'admin::notification')
-                ->add(new Zend_Acl_Resource('admin::notification::notification'), 'admin::notification');
+                ->add(new Zend_Acl_Resource('admin::notification::notification'), 'admin::notification')
 
-
-
+                // admin hotel-details panel///  5/4/2016
+                ->add(new Zend_Acl_Resource('admin::hotel-details'), 'admin')
+                ->add(new Zend_Acl_Resource('admin::hotel-details::hotel-details'), 'admin::hotel-details')
+                ->add(new Zend_Acl_Resource('admin::hotel-details::add-hotel-details'), 'admin::hotel-details')
+                ->add(new Zend_Acl_Resource('admin::hotel-details::edit-hotel-details'), 'admin::hotel-details')
+                ->add(new Zend_Acl_Resource('admin::hotel-details::hotel-details-ajax-handler'), 'admin::hotel-details')
+                ->add(new Zend_Acl_Resource('admin::hotel-details::view-hotel-details'), 'admin::hotel-details'); // added by sowmya 9/4/2016
 //                
 //                
         // admin panel landing page///
@@ -203,19 +225,19 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('admin', 'admin::agent::agent-details')
                 ->allow('admin', 'admin::agent::add-agents')
                 ->allow('admin', 'admin::agent::edit-agent-details')
-
+                ->allow('admin', 'admin::agent::view-agent-details')// added by sowmya 8/4/2016
                 // admin users panel///
                 ->allow('admin', 'admin::user::userdetails')
                 ->allow('admin', 'admin::user::edit-user-details')
                 ->allow('admin', 'admin::user::user-ajax-handler')
                 ->allow('admin', 'admin::user::add-user-details')
-
+                ->allow('admin', 'admin::user::view-user-details')// added by sowmya 8/4/2016
                 // admin products panel///
                 ->allow('admin', 'admin::product::product-ajax-handler')
                 ->allow('admin', 'admin::product::product-details')
                 ->allow('admin', 'admin::product::edit-product-details')
                 ->allow('admin', 'admin::product::add-product-details')
-
+                ->allow('admin', 'admin::product::view-product-details')// added by sowmya 9/4/2016
                 // admin settings panel///
                 ->allow('admin', 'admin::settings::countries-details')
                 ->allow('admin', 'admin::settings::city-details')
@@ -223,11 +245,15 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('admin', 'admin::settings::location-details')
                 ->allow('admin', 'admin::settings::locationsettings-handler')
                 ->allow('admin', 'admin::settings::edit-location')
+                ->allow('admin', 'admin::settings::category-details')
+                ->allow('admin', 'admin::settings::cuisines-details')
+                ->allow('admin', 'admin::settings::edit-category')
+                ->allow('admin', 'admin::settings::edit-cuisines')
 
                 // admin transaction panel///
                 ->allow('admin', 'admin::transaction::admin-user-transactions')
                 ->allow('admin', 'admin::transaction::admin-agent-transactions')
-
+                ->allow('admin', 'admin::transaction::admin-product-transactions')
 
                 // admin order panel/// 
                 ->allow('admin', 'admin::order::order-details')
@@ -238,20 +264,26 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('admin', 'admin::order::order-listing-ajax-handler')
                 ->allow('admin', 'admin::order::view-order')
 
-
                 // admin delivery panel///
                 ->allow('admin', 'admin::static::delivery-guys-details')
                 ->allow('admin', 'admin::static::edit-deliveryguy-details')
                 ->allow('admin', 'admin::static::add-delivery-guy')
                 ->allow('admin', 'admin::static::delivery-guy-orders')
-
+                ->allow('admin', 'admin::static::delivery-guy-order-logs')// added by sowmya 4/4/2016
+                ->allow('admin', 'admin::static::view-deliveryguy-details')// added by sowmya 8/4/2016
                 // admin notification panel///added by sowmya 1/4/2016
                 ->allow('admin', 'admin::notification::notification-log')
                 ->allow('admin', 'admin::notification::send-user-notification')
                 ->allow('admin', 'admin::notification::send-agent-notification')
                 ->allow('admin', 'admin::notification::notification-ajax-handler')
-                ->allow('admin', 'admin::notification::notification');
+                ->allow('admin', 'admin::notification::notification')
 
+                // admin hotel-details panel///added by sowmya5/4/2016
+                ->allow('admin', 'admin::hotel-details::hotel-details')
+                ->allow('admin', 'admin::hotel-details::add-hotel-details')
+                ->allow('admin', 'admin::hotel-details::edit-hotel-details')
+                ->allow('admin', 'admin::hotel-details::hotel-details-ajax-handler')
+                ->allow('admin', 'admin::hotel-details::view-hotel-details'); // added by sowmya 9/4/2016
 //====================end Admin module=======================  
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AdminController
  *
@@ -9,22 +10,21 @@ require_once 'Zend/Controller/Action.php';
 
 class Admin_AdminController extends Zend_Controller_Action {
 
-    public function init() {
-        
+    public function init() { 
     }
 
+//added by sowmya 8/4/2016
     public function indexAction() {
         /*
          * temporary usage for user not to redirect to admin panel dashboard
          */
 
         if ($this->view->auth->hasIdentity()) {
-
             $this->view->auth->clearIdentity();
 
             Zend_Session::destroy(true);
 
-            $this->_redirect('/admin');
+            $this->_redirect('/admin/dashboard');
         }
         /////////////////code ends ////////////////
 
@@ -68,9 +68,9 @@ class Admin_AdminController extends Zend_Controller_Action {
         }
 
         $ordersModel = Admin_Model_Orders::getInstance();
-        $result2 = $ordersModel->getAllOrders();
+        $result2 = $ordersModel->getAllOrder();
         if ($result2) {
-            $this->view->orderdetails =count($result2);
+            $this->view->orderdetails = count($result2);
         }
 
         $productsModel = Admin_Model_Products::getInstance();
@@ -84,6 +84,7 @@ class Admin_AdminController extends Zend_Controller_Action {
             $this->view->agentsdetails = count($result4);
         }
     }
+
     public function logoutAction() {
         $this->_helper->layout->disableLayout();
         if ($this->view->auth->hasIdentity()) {

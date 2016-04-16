@@ -134,7 +134,11 @@ class Application_Model_Products extends Zend_Db_Table_Abstract {
             try {
 
                 $select = $this->select()
-                        ->from($this)
+                        ->setIntegrityCheck(false)
+                        ->from(array('pd' => 'products'))
+                        ->join(array('hd' => 'hotel_details'), 'pd.hotel_id=hd.id')
+                        ->joinLeft(array('m' => 'menu_category'), 'pd.category_id= m.category_id')
+                        ->joinLeft(array('fc' => 'famous_cuisines'), 'pd.cuisine_id= fc.cuisine_id')
                         ->where('product_id=?', $productid);
                 $result = $this->getAdapter()->fetchRow($select);
 
@@ -163,7 +167,7 @@ class Application_Model_Products extends Zend_Db_Table_Abstract {
             $data = func_get_arg(1);
 
             try {
-                $result = $this->update($data, 'product_id =' . $product_id);
+                $result = $this->update($data, 'product_id = "' . $product_id . '"');
                 if ($result) {
                     return $result;
                 } else {
@@ -494,8 +498,8 @@ class Application_Model_Products extends Zend_Db_Table_Abstract {
             $productId = func_get_arg(0);
             $quantity = func_get_arg(1);
             $availablity = array();
-            $i=0;
-            
+            $i = 0;
+
             try {
                 foreach ($productId as $key => $value) {
                     $productQuantity = $this->select()
@@ -513,7 +517,7 @@ class Application_Model_Products extends Zend_Db_Table_Abstract {
                             $availablity['fail'][$i]['productId'] = $value;
                             $availablity['fail'][$i]['stockQuantity'] = $productQuantity['stock_quantity'];
                             $availablity['fail'][$i]['orderedQuantity'] = $quantity[$key];
-                        $i++;
+                            $i++;
                         }
                     } else {
                         return 'Please check your product ids.';

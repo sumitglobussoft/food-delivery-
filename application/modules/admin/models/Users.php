@@ -12,12 +12,18 @@ class Admin_Model_Users extends Zend_Db_Table_Abstract {
         return self::$_instance;
     }
 
+    /*
+      developer: sowmya
+     * date :5 april 2016 
+      function :function to get all user details */
+
     public function getUserdetails() {
         try {
             $select = $this->select()
                     ->setIntegrityCheck(false)
                     ->from(array('u' => 'users'))
-                    ->joinLeft(array('um' => 'usermeta'), 'u.user_id= um.user_id', array('um.first_name', 'um.last_name'));
+                    ->joinLeft(array('um' => 'usermeta'), 'u.user_id= um.user_id', array('um.first_name', 'um.last_name'))
+                    ->order('reg_date DESC');
 
             $result = $this->getAdapter()->fetchAll($select);
         } catch (Exception $e) {
@@ -28,11 +34,12 @@ class Admin_Model_Users extends Zend_Db_Table_Abstract {
             return $result;
         }
     }
-/*
-developer: sowmya
- * date :28 march 2016 
-function :function to get all user details */
-    
+
+    /*
+      developer: sowmya
+     * date :28 march 2016 
+      function :function to get all user details */
+
     public function getAllUserdetails() {
         if (func_num_args() > 0) {
             $userid = func_get_arg(0);
@@ -40,7 +47,7 @@ function :function to get all user details */
                 $select = $this->select()
                         ->setIntegrityCheck(false)
                         ->from(array('u' => 'users'))
-                        ->joinLeft(array('um' => 'usermeta'), 'u.user_id= um.user_id', array('um.first_name', 'um.last_name', 'um.phone', 'um.city', 'um.state', 'um.country','um.contact_country_code'))
+                        ->joinLeft(array('um' => 'usermeta'), 'u.user_id= um.user_id', array('um.first_name', 'um.last_name', 'um.phone', 'um.city', 'um.state', 'um.country', 'um.contact_country_code','um.profilepic_url'))
                         ->where('u.user_id = ?', $userid);
 
                 $result = $this->getAdapter()->fetchRow($select);
@@ -74,16 +81,18 @@ function :function to get all user details */
             }
         }
     }
-/*
- * Dev : Sowmya
- * Date: 17/3/2016
- * Desc:add new user details
- */
+
+    /*
+     * Dev : Sowmya
+     * Date: 17/3/2016
+     * Desc:add new user details
+     */
+
     public function addUserdetails() {
         if (func_num_args() > 0) {
             $userdata = func_get_arg(0);
 
-            try {               
+            try {
                 $row = $this->insert($userdata);
                 if ($row) {
                     return $row;
@@ -137,20 +146,21 @@ function :function to get all user details */
             throw new Exception('Argument Not Passed');
         endif;
     }
-          /**
+
+    /**
      * @params String :$where
      * @return array of arrays, arrays of details of all Customers with condition
      * @since 1/4/2016
      * @author sowmya
      * @uses Users::PendingUsers[1],Users::availablevUsers[1],Users::deletedUsers[1],Notification::sendUserNotification[1]
      */
-   public function getUsersWhere() {
+    public function getUsersWhere() {
         if (func_num_args() > 0) {
             $where = func_get_arg(0);
             $sql = $this->select()
                     ->setIntegrityCheck(false)
                     ->from(array('u' => 'users'))
-                     ->joinLeft(array('um' => 'usermeta'), 'u.user_id= um.user_id', array('um.first_name', 'um.last_name'))
+                    ->joinLeft(array('um' => 'usermeta'), 'u.user_id= um.user_id', array('um.first_name', 'um.last_name'))
                     ->where($where);
             $result = $this->getAdapter()->fetchAll($sql);
             if ($result) {
@@ -160,4 +170,5 @@ function :function to get all user details */
             }
         }
     }
+
 }

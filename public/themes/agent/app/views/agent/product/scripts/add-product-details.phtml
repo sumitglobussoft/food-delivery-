@@ -1,13 +1,11 @@
 
-
-
 <div id="content" class="content">
     <ol class="breadcrumb pull-right">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="javascript:;">Product</a></li>
-        <li class="active">View/Edit Product</li>
+        <li><a href="javascript:;">Home</a></li>
+        <li><a href="javascript:;">Product Details</a></li>
+        <li class="active">Add Product Details</li>
     </ol>
-    <h1 class="page-header">View/Edit Product <small>header small text goes here...</small></h1>
+    <h1 class="page-header">Add Product Details </h1>
 
     <div class="row">
         <div class="col-md-12">
@@ -16,39 +14,6 @@
                     <div class="col-md-6">
                         <div class="panel pagination-theme clearfix m-b-0">
                             <div class="panel-body">
-                                <div class="form-group">
-                                    <label class="control-label">Product Name</label>
-                                    <input type="text" class="form-control" name="name" value="" placeholder="" required />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Product Description</label>
-                                    <textarea class="form-control" name="prod_desc" value="" placeholder="" required><?php echo $this->allproductdetails['prod_desc'] ?></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Product Type</label>
-                                    <div>
-                                        <label class="radio-inline">
-                                            <input type="radio" value="1" name="product_type"  id="type_category" /> Category
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" value="2"  name="product_type"  id="type_cusine" /> Cusine
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-group show-cusine">
-                                    <label class="control-label">Cusine :</label>
-                                    <select class="selectpicker width-full form-control" id="cuisine" name="cusine_id" style="width:100%;">
-                                        <option disabled selected>Select Cusine</option>
-
-                                    </select>
-                                </div>
-                                <div class="form-group show-category">
-                                    <label class="control-label">Category :</label>
-                                    <select class="selectpicker width-full form-control"  id="category" name="category_id" style="width:100%;">
-                                        <option disabled selected>Select Category</option>
-
-                                    </select>
-                                </div>
                                 <div class="form-group">
                                     <label class="control-label">Hotel Name</label>
                                     <select class="selectpicker width-full form-control" name="hotel_id" style="width:100%;">
@@ -61,15 +26,69 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label">Product status</label>
-                                    <select class="selectpicker width-full js-example-basic-hide-search form-control" name="prod_status"> 
-                                        <option value="1">
-                                            Active 
+                                    <label class="control-label">Product Name</label>
+                                    <input type="text" class="form-control" name="name" value="" placeholder="" required />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Product Description</label>
+                                    <textarea class="form-control" name="prod_desc" value="" placeholder="" required><?php echo $this->allproductdetails['prod_desc'] ?></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Item Type</label>
+                                    <div>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="1" name="item_type"  id="" /> Hotel Items
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="2"  name="item_type"  id="" />Grocery Items
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Product Type</label>
+                                    <div>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="1" name="prod_type"  id="type_category" /> Category
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="2"  name="prod_type"  id="type_cusine" /> Cuisine
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group show-cusine">
+                                    <label class="control-label">Cuisine :</label>
+                                    <select class="selectpicker width-full form-control" id="cuisine" name="cusine_id" style="width:100%;">
+                                        <option disabled selected>Select Cuisine</option>
+
+                                    </select>
+                                </div>
+                                <div class="form-group show-category">
+                                    <label class="control-label">Category :</label>
+                                    <select class="selectpicker width-full form-control"  id="category" name="category_id" style="width:100%;">
+                                        <option disabled selected>Select Category</option>
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Sub Category :</label>
+                                    <select class="selectpicker width-full js-example-basic-hide-search form-control" name="Subcategory_id"> 
+                                        <option value="0" >
+                                            Veg
                                         </option>
-                                        <option value="2">
-                                            Inactive 
+                                        <option value="1" >
+                                            Halal
+                                        </option>
+                                        <option value="2" >
+                                            Non Halal
+                                        </option>
+                                        <option value="3" >
+                                            None of These
                                         </option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Stock Quantity</label>                                  
+                                    <input type="text" placeholder=""  name="stock_quantity" value="" class="form-control" />
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Cost</label>
@@ -80,6 +99,8 @@
                                         <input type="text" placeholder=""  name="cost" value="" class="form-control" />
                                     </div>
                                 </div>
+
+
                                 <div class="form-group">
                                     <label class="control-label">Discount Type</label>
                                     <div>
@@ -131,6 +152,17 @@
                                             <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Product status</label>
+                                    <select class="selectpicker width-full js-example-basic-hide-search form-control" name="prod_status"> 
+                                        <option value="1">
+                                            Active 
+                                        </option>
+                                        <option value="2">
+                                            Inactive 
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="form-group pull-right">
                                     <button type="submit" class="btn btn-alt btn-hover btn-primary">

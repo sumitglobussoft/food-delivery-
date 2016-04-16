@@ -19,7 +19,6 @@
 
         # Meta data
         echo $this->headMeta();
-
         # CSS
         echo $this->headLink()
                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/css/jquery-ui.min.css')
@@ -36,7 +35,8 @@
                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/css/select2.min.css');
 
         if ($this->auth->hasIdentity()) {
-            if ($this->session->storage->role == 1) {
+            if ($this->session->storage->role == 1||$this->session->storage->role == 4) {
+
                 echo $this->headScript()
                         ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery-1.9.1.min.js', 'text/javascript')
                         ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery-migrate-1.1.0.min.js', 'text/javascript')
@@ -60,12 +60,12 @@
                     ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/bootstrap.min.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery.slimscroll.min.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery.cookie.js', 'text/javascript')
-                        ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/switchery.min.js', 'text/javascript')
-                        ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery.dataTables.js', 'text/javascript')
-                        ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/dataTables.bootstrap.min.js', 'text/javascript')
-                        ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/dataTables.responsive.min.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/switchery.min.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery.dataTables.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/dataTables.bootstrap.min.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/dataTables.responsive.min.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/select2.min.js', 'text/javascript')
-                        ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jasny-bootstrap.min.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jasny-bootstrap.min.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/apps.min.js', 'text/javascript');
         }
         ?>   
@@ -75,7 +75,7 @@
 
         <?php
         if ($this->auth->hasIdentity()) {
-            if ($this->session->storage->role == 1) {
+            if ($this->session->storage->role == 1||$this->session->storage->role == 4) {
                 ?>
                 <!-- begin #page-loader -->
                 <div id="page-loader" class="page-loader fade in"><span class="spinner">Loading...</span></div>
@@ -203,17 +203,17 @@
                         <div data-scrollbar="true" data-height="100%">
                             <!-- begin sidebar nav -->
                             <ul class="nav">
-                                <li class="nav-header">Navigation</li>
+                                <li class="nav-header">Overview</li>
                                 <li class="active">
                                     <a href="/agent/dashboard">
                                         <i class="fa fa-home"></i>
                                         <span>Dashboard</span>
                                     </a>
-                                </li>
+                                </li>                              
                                 <li class="has-sub">
                                     <a href="javascript:;">
                                         <i class="fa fa-cutlery"></i>
-                                        <span>Hotels</span>
+                                        <span>Hotel Details</span>
                                     </a>
                                     <ul class="sub-menu">
                                         <li><a href="/agent/hotel-details">Hotel Details</a></li>
@@ -221,16 +221,15 @@
                                     </ul>
                                 </li>
 
-                                <li class="has-sub">
+<!--                                <li class="has-sub">
                                     <a href="javascript:;">
                                         <i class="fa fa-file-text-o"></i>
                                         <span>Order Details</span>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li><a href="/agent/restuarent-orders">Order Details</a></li>
-                                        <!--                                        <li><a href="/agent/add-hotel-details">Add New Hotel</a></li>-->
+                                        <li><a href="/agent/restuarent-orders">Order Details</a></li>                                      
                                     </ul>
-                                </li>
+                                </li>-->
 
                                 <li class="has-sub">
                                     <a href="javascript:;">
@@ -249,8 +248,7 @@
                                         <span>Payment Details</span>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li><a href="#">Payment Details</a></li>
-                                        <!--                                        <li><a href="javascript:;">Add New Hotel</a></li>-->
+                                        <li><a href="/agent/agent-payment-details">Agent Payment Details</a></li>                                        
                                     </ul>
                                 </li>
 

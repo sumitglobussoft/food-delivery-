@@ -273,6 +273,7 @@ class Agent_OrderController extends Zend_Controller_Action {
                 if ($val == 2) {
                     $url = $this->_appSetting->apiLink . '/restaurent-menu-card?method=getcuisines';
                     $curlResponse = $objCurlHandler->curlUsingGet($url);
+
                     if ($curlResponse->code == 200) {
                         $arr['code'] = 200;
                         $arr['data'] = $curlResponse->data;
@@ -327,7 +328,7 @@ class Agent_OrderController extends Zend_Controller_Action {
     /*
      * Dev: priyanka varanasi 
      * date: 22/12/2015
-     * Desc: To work on restauaren orders 
+     * Desc: To work on restauarent orders 
      * 
      */
 
@@ -337,11 +338,11 @@ class Agent_OrderController extends Zend_Controller_Action {
         $objCore = Engine_Core_Core::getInstance();
         $objSecurity = Engine_Vault_Security::getInstance();
         $this->_appSetting = $objCore->getAppSetting();
-        $agent_id = $this->view->session->storage->agent_id;
-        $url = $this->_appSetting->apiLink . '/order-products';
-        $data['agent_id'] = $agent_id;
+         $hotel_id = $this->getRequest()->getParam('hotelid');
+        $data['hotel_id'] = $hotel_id;
+        $url = $this->_appSetting->apiLink . '/order-products'; 
         $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
-        if ($curlResponse->code == 200) {       
+        if ($curlResponse->code == 200) {
             $this->view->orderedproducts = $curlResponse->data;
         }
     }
@@ -363,9 +364,32 @@ class Agent_OrderController extends Zend_Controller_Action {
         $dt['order_id'] = $order_id;
         $url = $this->_appSetting->apiLink . '/edit-order-products';
         $curlResponse = $objCurlHandler->curlUsingPost($url, $dt);
-      
+
         if ($curlResponse->code == 200) {
-           
+
+            $this->view->orderdetails = $curlResponse->data;
+        }
+    }
+
+    /*
+     * Dev: sowmya
+     * date: 21/3/2015
+     * Desc: To view all restauarent orders 
+     * 
+     */
+
+    public function viewRestuarentOrdersAction() {
+        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+        $objCore = Engine_Core_Core::getInstance();
+        $objSecurity = Engine_Vault_Security::getInstance();
+        $this->_appSetting = $objCore->getAppSetting();
+        $order_id = $this->getRequest()->getParam('oId');
+        $dt['order_id'] = $order_id;
+        $url = $this->_appSetting->apiLink . '/edit-order-products';
+        $curlResponse = $objCurlHandler->curlUsingPost($url, $dt);
+//        echo '<pre>';print_r($curlResponse);die;
+        if ($curlResponse->code == 200) {
+
             $this->view->orderdetails = $curlResponse->data;
         }
     }
