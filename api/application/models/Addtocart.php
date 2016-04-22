@@ -636,13 +636,36 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
 
                 $result = $this->getAdapter()->fetchAll($select);
 
-
                 return $result;
             } catch (Exception $ex) {
                 throw new Exception("argument not passed: " . $ex);
             }
         } else {
             throw new Exception("argument not passed");
+        }
+    }
+
+    /*
+     * Dev : Sibani Mishra
+     * Date: 10/12/2015
+     * Desc: Delete cart details after payment part is over 
+     */
+
+    public function deletecartiddetails() {
+        if (func_num_args() > 0) {
+
+            $cartid = func_get_arg(0);
+
+            try {
+                $deleted = $this->delete('id IN (' . implode(',', $cartid) . ')');
+            } catch (Exception $exc) {
+                throw new Exception('Unable to update, exception occured' . $exc);
+            }
+
+            if ($deleted)
+                return $deleted;
+        } else {
+            throw new Exception('Argument Not Passed');
         }
     }
 

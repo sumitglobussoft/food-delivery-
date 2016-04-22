@@ -491,6 +491,7 @@ class SettingsController extends Zend_Controller_Action {
         $hotelcuisinesModel = Application_Model_HotelCuisines::getInstance();
         $response = new stdClass();
         $method = $this->getRequest()->getParam('method');
+
         if ($method) {
 
             switch ($method) {
@@ -568,9 +569,9 @@ class SettingsController extends Zend_Controller_Action {
                     if ($this->getRequest()->isPost()) {
 
                         $hotel_locations = $this->getRequest()->getPost('hotel_locations');
-
                         $cuisine_id = $this->getRequest()->getPost('cuisine_id');
                         $cuisine_id = json_decode($cuisine_id);
+
 
                         if (!empty($hotel_locations) && !empty($cuisine_id)) {
 
@@ -607,6 +608,197 @@ class SettingsController extends Zend_Controller_Action {
             $response->data = "No Method Passed";
             echo json_encode($response, true);
             die();
+        }
+    }
+
+    /*
+     * DEV  : Sibani Mishra
+     * Desc : service used for give ratings and Reviews
+     * Date : 4/21/2016
+     */
+
+    public function hotelsReviewsAction() {
+
+        $users = Application_Model_Users::getInstance();
+        $reviewsratings = Application_Model_Reviews::getInstance();
+        $response = new stdClass();
+        $method = $this->getRequest()->getParam('method');
+
+        if ($method) {
+
+            switch ($method) {
+
+                case'AddReviews':
+
+                    if ($this->getRequest()->isPost()) {
+
+                        $userid = $this->getRequest()->getPost('user_id');
+                        $starratings = $this->getRequest()->getPost('star_rating');
+                        $reviewdesc = $this->getRequest()->getPost('review_desc');
+                        $hotelid = $this->getRequest()->getPost('hotel_id');
+
+                        if ($userid != '') {
+
+                            $Userscredentials = $users->validateByUserId($userid);
+
+                            if ($Userscredentials) {
+
+                                if ($hotelid != '' && $reviewdesc != '' && $starratings != '') {
+
+                                    $addReview = $reviewsratings->isavailablereview($hotelid, $userid);
+
+                                    if (empty($addReview)) {
+                                        $data['user_id'] = $userid;
+                                        $data['review_type'] = 0;
+                                        $data['review_for_id'] = $hotelid;
+                                        $data['review_rating'] = $starratings;
+                                        $data['review_description'] = $reviewdesc;
+                                        $data['review_status'] = 0;
+
+                                        $addReview = $reviewsratings->addReview($data);
+
+                                        if ($addReview) {
+
+                                            $Admincredentials = $users->validateByAdminId(2);
+
+                                            if ($Admincredentials != '') {
+
+                                                $admin_id = $Admincredentials['user_id'];
+                                                $objNotification = Engine_Plugins_Functions::getInstance();
+                                                $sent_by = $userid;
+                                                $sent_to = $admin_id;
+                                                $noti_url = "/admin/notification";
+                                                $Noti_message = "New Review for Product is pending for You";
+
+                                                $addNotification = $objNotification->sendNotificationWithUrl($sent_by, $sent_to, $Noti_message, $noti_url);
+                                            }
+                                            $response->code = 200;
+                                            $response->message = "Review Successfully Added";
+                                            $response->data = $addReview;
+                                        } else {
+                                            $response->code = 100;
+                                            $response->message = "Something went wrong..Review Not added, Try again.";
+                                            $response->data = null;
+                                        }
+                                    } else {
+                                        $response->code = 100;
+                                        $response->message = "Review Already Added, You can add one review to one product.";
+                                        $response->data = $addReview;
+                                    }
+                                } else {
+                                    $response->code = 100;
+                                    $response->message = "You missed something.";
+                                    $response->data = null;
+                                }
+                            } else {
+                                $response->code = 100;
+                                $response->message = "Their is No user for this ID.";
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->code = 100;
+                            $response->message = "You need to login to Add Review.";
+                            $response->data = null;
+                        }
+                    } else {
+                        $response->code = 401;
+                        $response->message = "Access Denied";
+                        $response->data = null;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+
+//                case 'DetailsReview':
+//
+//                    if ($this->getRequest()->isPost()) {
+//
+//                        $userid = $this->getRequest()->getPost('user_id');
+//                        $starratings = $this->getRequest()->getPost('star_rating');
+//                        $hotelid = $this->getRequest()->getPost('hotel_id');
+//
+//                        if ($userid != '') {
+//
+//                            $Userscredentials = $users->validateByUserId($userid);
+//
+//                            if ($Userscredentials) {
+//
+//                                if ($starratings != '' && $hotelid != '') {
+//
+//                                    $hotelReviewDetails = $reviewsratings->gethotelsReviewsWithLimit($starratings, $hotelid, $userid);
+//
+//                                    if ($starratings == 0) {
+//                                        $UserproductReviewDetails = $reviewsratings->getUserforhotelsReviews($hotelid, $userid);
+//                                        $data['hotelsReviewDetails'] = $hotelReviewDetails;
+//                                        $data['UserforhotelsReviewDetails'] = $UserproductReviewDetails;
+//                                    } else {
+//                                        $data['hotelsReviewDetails'] = $hotelReviewDetails;
+//                                        $data['UserforhotelsReviewDetails'] = 0;
+//                                    }
+//                                    if ($data) {
+//                                        $response->code = 200;
+//                                        $response->message = "Success";
+//                                        $response->data = $data;
+//                                    } else {
+//                                        $response->code = 100;
+//                                        $response->message = "No Product Review found.";
+//                                        $response->data = null;
+//                                    }
+//                                } else {
+//                                    $response->code = 100;
+//                                    $response->message = "You missed something.";
+//                                    $response->data = null;
+//                                }
+//                            } else {
+//                                $response->code = 100;
+//                                $response->message = "Not verified";
+//                                $response->data = null;
+//                            }
+//                        } else {
+//                            $response->code = 100;
+//                            $response->message = "UserID should not be null.";
+//                            $response->data = null;
+//                        }
+//                    } else {
+//                        $response->code = 401;
+//                        $response->message = "Invalid request";
+//                        $response->data = null;
+//                    }
+//                    echo json_encode($response, true);
+//                    die;
+//                    break;
+
+                case 'getReviews':
+
+                    if ($this->getRequest()->isPost()) {
+
+                        $hotelid = $this->getRequest()->getPost('hotel_id');
+
+                        if ($hotelid != '') {
+
+                            $hotelReviewDetails = $reviewsratings->gethotelsReviewsWithLimit($hotelid);
+
+                            if ($hotelReviewDetails) {
+                                $response->code = 200;
+                                $response->message = "Suiccessful";
+                                $response->data = $hotelReviewDetails;
+                            } else {
+                                $response->code = 200;
+                                $response->message = "Something went wrong";
+                            }
+                        } else {
+                            $response->code = 200;
+                            $response->message = "Hotel ID should not be Null";
+                        }
+                    } else {
+                        $response->code = 401;
+                        $response->message = "Invalid request";
+                        $response->data = null;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+            }
         }
     }
 

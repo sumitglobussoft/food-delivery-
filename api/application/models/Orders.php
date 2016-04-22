@@ -72,6 +72,7 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
                         ->join(array('dsl' => 'delivery_status_log'), 'o.order_id= dsl.order_id')
                         ->join(array('dg' => 'delivery_guys'), 'dsl.delivery_guy_id=dg.del_guy_id')
                         ->where('hotel_id=?', $hotel_id);
+
                 $result = $this->getAdapter()->fetchAll($select);
 
                 if ($result) {
@@ -255,6 +256,29 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
             }
         } else {
             throw new Exception("Argument not passed");
+        }
+    }
+
+    public function updateDeliveryStatus() {
+        if (func_num_args() > 0) {
+
+            $deliveryguyid = func_get_arg(0);
+            $orderid = func_get_arg(1);
+            $deliverystatus = func_get_arg(2);
+
+            $where = array();
+            $data1 = array(
+                'deliveryguy_id' => $deliveryguyid,
+                'order_status' => $deliverystatus
+            );
+            $where[] = $this->getAdapter()->quoteInto('order_id = ?', $orderid);
+            $update = $this->update($data1, $where);
+
+            if ($update) {
+                return $update;
+            } else {
+                return null;
+            }
         }
     }
 

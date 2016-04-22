@@ -10,7 +10,7 @@ class AuthenticationController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-                
+        
     }
 
     /*
@@ -39,6 +39,7 @@ class AuthenticationController extends Zend_Controller_Action {
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
         $objCore = Engine_Core_Core::getInstance();
         $this->_appSetting = $objCore->getAppSetting();
+
         if ($method) {
 
             switch ($method) {
@@ -62,9 +63,11 @@ class AuthenticationController extends Zend_Controller_Action {
 
 
                             if ($email) {
+
                                 $checkEmail = $users->validateUserEmail($email);
 
                                 if (empty($checkEmail)) {
+
                                     $insertData['uname'] = $name;
                                     $insertData['email'] = $email;
                                     $insertData['password'] = md5(sha1($password));
@@ -253,7 +256,9 @@ class AuthenticationController extends Zend_Controller_Action {
                                         $userData = $users->authenticateByEmail($email, md5(sha1($password)));
 
                                         if ($userData) {
+
                                             if ($userData['status'] == 1) {
+
                                                 $userid = $userData['user_id'];
 
                                                 $usermeta = $users->checkuserid($userid);
@@ -266,7 +271,6 @@ class AuthenticationController extends Zend_Controller_Action {
                                                     $response->data['email'] = $userData['email'];
                                                     $response->data['status'] = 'Old User';
                                                 } else {
-
                                                     $response->message = 'Authentication successful';
                                                     $response->code = 200;
                                                     $response->data['user_id'] = $userData['user_id'];
@@ -275,7 +279,6 @@ class AuthenticationController extends Zend_Controller_Action {
                                                     $response->data['status'] = 'New User';
                                                 }
                                             } else {
-
                                                 $response->message = 'Need to Activate Email 1st';
                                                 $response->code = 196;
                                             }
@@ -296,14 +299,31 @@ class AuthenticationController extends Zend_Controller_Action {
                                 case 2:  // FB login
 
                                     $fb_id = $this->getRequest()->getPost('social_id');
+
                                     if (!empty($fb_id)) {
+
                                         $checkFb = $users->checkFBUserExist($fb_id);
+
                                         if ($checkFb) {
-                                            $response->message = 'Authentication successful';
-                                            $response->code = 200;
-                                            $response->data['user_id'] = $checkFb['user_id'];
-                                            $response->data['uname'] = $checkFb['uname'];
-                                            $response->data['EmailId'] = $checkFb['user_id'];
+
+                                            $userid = $checkFb['user_id'];
+                                            $usermeta = $users->checkuserid($userid);
+
+                                            if ($usermeta) {
+                                                $response->message = 'Authentication successful';
+                                                $response->code = 200;
+                                                $response->data['user_id'] = $checkFb['user_id'];
+                                                $response->data['uname'] = $checkFb['uname'];
+                                                $response->data['email'] = $checkFb['email'];
+                                                $response->data['status'] = 'Old User';
+                                            } else {
+                                                $response->message = 'Authentication successful';
+                                                $response->code = 200;
+                                                $response->data['user_id'] = $checkFb['user_id'];
+                                                $response->data['uname'] = $checkFb['uname'];
+                                                $response->data['email'] = $checkFb['email'];
+                                                $response->data['status'] = 'New User';
+                                            }
                                         } else {
                                             $response->message = 'Authentication Failed';
                                             $response->code = 197;
@@ -315,19 +335,37 @@ class AuthenticationController extends Zend_Controller_Action {
 
                                     echo json_encode($response, true);
                                     die;
-
                                     break;
 
 
                                 case 3 : // Twitter login
 
                                     $twt_id = $this->getRequest()->getPost('social_id');
+
                                     if (!empty($twt_id)) {
+
                                         $checktwt = $users->checkTWTUserExist($twt_id);
+
                                         if ($checktwt) {
-                                            $response->message = 'Authentication successful';
-                                            $response->code = 200;
-                                            $response->data['user_id'] = $checktwt['user_id'];
+
+                                            $userid = $checktwt['user_id'];
+                                            $usermeta = $users->checkuserid($userid);
+
+                                            if ($usermeta) {
+                                                $response->message = 'Authentication successful';
+                                                $response->code = 200;
+                                                $response->data['user_id'] = $checktwt['user_id'];
+                                                $response->data['uname'] = $checktwt['uname'];
+                                                $response->data['email'] = $checktwt['email'];
+                                                $response->data['status'] = 'Old User';
+                                            } else {
+                                                $response->message = 'Authentication successful';
+                                                $response->code = 200;
+                                                $response->data['user_id'] = $checktwt['user_id'];
+                                                $response->data['uname'] = $checktwt['uname'];
+                                                $response->data['email'] = $checktwt['email'];
+                                                $response->data['status'] = 'New User';
+                                            }
                                         } else {
                                             $response->message = 'Authentication Failed';
                                             $response->code = 197;
@@ -339,7 +377,6 @@ class AuthenticationController extends Zend_Controller_Action {
 
                                     echo json_encode($response, true);
                                     die;
-
                                     break;
                             }
                         } else {
@@ -554,7 +591,7 @@ class AuthenticationController extends Zend_Controller_Action {
         $method = $this->getRequest()->getParam('method');
         if ($method) {
             switch ($method) {
-                 case'agentsignup':
+                case'agentsignup':
                     if ($this->getRequest()->isPost()) {
                         $data = $this->getRequest()->getPost('agentdata');
                         $dearr = json_decode($data, true);
@@ -906,6 +943,7 @@ class AuthenticationController extends Zend_Controller_Action {
      */
 
     public function forgotPasswordAction() {
+
         $response = new stdClass();
 
         if ($this->getRequest()->isPost()) {
@@ -928,11 +966,13 @@ class AuthenticationController extends Zend_Controller_Action {
                         }
 
                         if ($fpwemail != '') {
+
                             $resetcode = mt_rand(100000, 999999);
 
                             $exists = $users->checkMail($fpwemail, $resetcode);
 
                             $uname = $exists['uname'];
+
                             if ($exists) {
 //Mandrill mail
                                 $template_name = 'ResetPW';
@@ -972,7 +1012,6 @@ class AuthenticationController extends Zend_Controller_Action {
                             $response->message = "You missed something";
                             $response->data = null;
                         }
-
                     } else {
                         $response->code = 401;
                         $response->message = "Invalid request";

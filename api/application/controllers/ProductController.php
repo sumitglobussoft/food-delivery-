@@ -372,7 +372,7 @@ class ProductController extends Zend_Controller_Action {
                                 unset($val['agent_id']);
                                 unset($val['hotel_location']);
                                 unset($val['address']);
-                                unset($val['primary_phone']);
+                                unset($val['hotel_contact_number']);
                                 unset($val['hotel_name']);
                                 unset($val['hotel_image']);
                                 unset($val['open_time']);

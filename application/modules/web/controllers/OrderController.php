@@ -17,10 +17,6 @@ class Web_OrderController extends Zend_Controller_Action {
     public function orderAjaxHandlerAction() {
         $this->_helper->_layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
-        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
-        $objCore = Engine_Core_Core::getInstance();
-        $objSecurity = Engine_Vault_Security::getInstance();
-        $this->_appSetting = $objCore->getAppSetting();
         $method = $this->getRequest()->getParam('ajaxmethod');
 
         switch ($method) {
@@ -45,7 +41,6 @@ class Web_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
-
             default :
                 break;
         }
@@ -140,11 +135,9 @@ class Web_OrderController extends Zend_Controller_Action {
             $orderdata['delivery_type'] = $this->getRequest()->getPost('delivery_type');
             $orderdata['user_message'] = $this->getRequest()->getPost('user_message');
             if (isset($this->view->session->storage->user_id)) {
-
                 $user_id = $this->view->session->storage->user_id;
 
                 $orderdata['user_id'] = $user_id;
-                $orderdata['order_from_hotel'] = $hotel_id;
 
                 $orderdata['order_date'] = date('Y-m-d H-i-s');
                 $orderdata['delivery_status'] = 0;
@@ -177,7 +170,7 @@ class Web_OrderController extends Zend_Controller_Action {
 
                             if ($Respo2->code == 200) {
                                 $cartids = $Respo2->data['cart_ids'];
-                                /////////////// insert order_product details ///////////
+                                //////// /////// insert order_product details ///////////
 
 
                                 $k = 0;
@@ -247,7 +240,6 @@ class Web_OrderController extends Zend_Controller_Action {
                         $deliveryaddress['nearby'] = $this->getRequest()->getPost('nearby');
                         $delivery['delivery_addr'] = json_encode($deliveryaddress);
                         $delivery['order_id'] = $order_id;
-                        $delivery['ordered_user_id'] = $user_id;
 
 
                         $deliver['deliver'] = json_encode($delivery, true);
@@ -265,7 +257,6 @@ class Web_OrderController extends Zend_Controller_Action {
                         ////updating finalorder amount///////
                         $orderamount['total_amount'] = $finalcost;
                         $orderamount['order_id'] = $order_id;
-
                         $url = $this->_appSetting->apiLink . '/order-process?method=updateuserorderdetails';
                         $Respo6 = $objCurlHandler->curlUsingPost($url, $orderamount);
 

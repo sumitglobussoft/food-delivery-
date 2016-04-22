@@ -26,11 +26,13 @@ class Web_HomeController extends Zend_Controller_Action {
         $objCore = Engine_Core_Core::getInstance();
         $objSecurity = Engine_Vault_Security::getInstance();
         $this->_appSetting = $objCore->getAppSetting();
-
         $url = $this->_appSetting->apiLink . '/get-locations?method=getcitys';
         $curlResponse = $objCurlHandler->curlUsingGet($url);
+//        echo '<pre>';
+//        print_r($curlResponse);
+//        die("Test");
         if ($curlResponse->code === 200) {
-            setcookie('citys', json_encode($curlResponse->data, true));
+//            setcookie('citys', json_encode($curlResponse->data, true));
             $this->view->cityslist = $curlResponse->data;
         }
         if (isset($this->view->session->storage->user_id)) {
@@ -316,8 +318,41 @@ class Web_HomeController extends Zend_Controller_Action {
             }
         }
     }
-    
-    
-    
+
+//sibani mishra
+    public function restaurantDetailsByCuisinesAction() {
+        $mailer = Engine_Mailer_Mailer::getInstance();
+        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+        $objCore = Engine_Core_Core::getInstance();
+        $objSecurity = Engine_Vault_Security::getInstance();
+        $this->_appSetting = $objCore->getAppSetting();
+
+        $hotel_location = $this->getRequest()->getParam('hotel_location');
+
+        if ($hotel_location) {
+
+            $loc['hotel_location'] = $hotel_location;
+
+            $this->view->cuisinesList = $hotel_location;
+            /*             * **** Display of restaurant  details***** */
+            $url = $this->_appSetting->apiLink . '/restaurent-menu-card?method=getcuisines';
+
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $loc);
+
+            if ($curlResponse->code == 200) {
+                $this->view->cuisinesList = $curlResponse->data;
+            }
+
+//        $url = $this->_appSetting->apiLink . '/restaurent-menu-card?method=getcuisines';
+//        $curlResponse = $objCurlHandler->curlUsingGet($url);
+//        echo '<pre>';
+//        print_r($curlResponse);
+//        die("Test");
+//        if ($curlResponse->code === 200) {
+////            setcookie('citys', json_encode($curlResponse->data, true));
+//            $this->view->cityslist = $curlResponse->data;
+//        }
+        }
+    }
 
 }

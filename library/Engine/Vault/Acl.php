@@ -25,15 +25,14 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->add(new Zend_Acl_Resource('web::home::restaurents-list'), 'web::home')
                 ->add(new Zend_Acl_Resource('web::home::restaurant-details'), 'web::home');
 
-
-
-
         $this->allow('guest', 'web::home::home')
                 ->allow('guest', 'web::home::index')
                 ->allow('guest', 'web::home::home-ajax-handler')
                 ->allow('guest', 'web::home::restaurents-list')
                 ->allow('guest', 'web::home::restaurant-details');
 
+        
+        
         $this->add(new Zend_Acl_Resource('web::error'), 'web')
                 ->add(new Zend_Acl_Resource('web::error::error'), 'web::error');
 
@@ -58,11 +57,10 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('guest', 'web::authentication::authentication-ajax-handler')
                 ->allow('guest', 'web::authentication::activate-account');
 
+
         $this->add(new Zend_Acl_Resource('web::order'), 'web')
                 ->add(new Zend_Acl_Resource('web::order::order-confirmation'), 'web::order')
                 ->add(new Zend_Acl_Resource('web::order::order-ajax-handler'), 'web::order');
-
-
 
         $this->allow('user', 'web::order::order-confirmation')
                 ->allow('user', 'web::order::order-ajax-handler');
@@ -71,6 +69,13 @@ class Engine_Vault_Acl extends Zend_Acl {
         $this->add(new Zend_Acl_Resource('web::settings'), 'web')
                 ->add(new Zend_Acl_Resource('web::settings::cart'), 'web::home')
                 ->allow('guest', 'web::settings::cart');
+
+
+
+        $this->add(new Zend_Acl_Resource('web::profile'), 'web')
+                ->add(new Zend_Acl_Resource('web::profile::profile'), 'web::profile');
+
+        $this->allow('user', 'web::profile::profile');
 
 
         //====================end Web module=======================  

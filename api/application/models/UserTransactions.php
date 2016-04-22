@@ -33,6 +33,7 @@ class Application_Model_UserTransactions extends Zend_Db_Table_Abstract {
 
         if (func_num_args() > 0) {
             $data = func_get_arg(0);
+
             try {
                 $responseId = $this->insert($data);
                 if ($responseId) {
@@ -47,6 +48,32 @@ class Application_Model_UserTransactions extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         }
     }
+
+    /*
+     * Dev : Priyanka Varanasi
+     * Date: 3/12/2015
+     * Desc: insert all user transaction details 
+     */
+
+//    public function insertUseTransactions1() {
+//
+//        if (func_num_args() > 0) {
+//            $data = func_get_arg(0);
+//
+//            try {
+//                $responseId = $this->insert($data);
+//                if ($responseId) {
+//                    return $responseId;
+//                } else {
+//                    return null;
+//                }
+//            } catch (Exception $e) {
+//                throw new Exception('Unable To Insert Exception Occured :' . $e);
+//            }
+//        } else {
+//            throw new Exception('Argument Not Passed');
+//        }
+//    }
 
     /*
      * Dev : Priyanka Varanasi
@@ -70,6 +97,205 @@ class Application_Model_UserTransactions extends Zend_Db_Table_Abstract {
             }
         }
     }
+<<<<<<< .mine
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======
+
+    /*
+     * Dev : Sibani Mishra
+     * Date: 4/11/2016
+     * Desc: Message sent to phone for COD
+     */
+
+    public function checkOrderid() {
+        if (func_num_args() > 0) {
+            $orderid = func_get_arg(0);
+            $cod_code = func_get_arg(1);
+
+            $data = array(
+                'COD_Code' => $cod_code
+            );
+
+            $select = $this->select()
+                    ->from($this)
+                    ->where('order_id = ?', $orderid);
+
+            $row = $this->getAdapter()->fetchRow($select);
+
+            if ($row) {
+                try {
+                    $updated = $this->update($data, "order_id = '" . $orderid . "'");
+                } catch (Exception $exc) {
+
+                    throw new Exception('Unable to update, exception occured' . $exc);
+                }
+                if ($updated)
+                    return $updated;
+            } else {
+                return null;
+            }
+        } else {
+            throw new Exception('Argument not passed');
+        }
+    }
+
+    /*
+     * Dev :- Sibani Mishra
+     * date :- 11/3/2016
+     * Desc :- verify resetcode
+     */
+
+    public function verifycodCode() {
+
+        if (func_num_args() > 0) {
+            $orderid = func_get_arg(0);
+
+            $codcode = func_get_arg(1);
+            $data = array(
+                'tx_status' => 1
+            );
+            $select = $this->select()
+                    ->from($this)
+                    ->where('COD_Code = ?', $codcode)
+                    ->where('order_id = ?', $orderid);
+
+            $row = $this->getAdapter()->fetchRow($select);
+
+            if ($row) {
+                try {
+                    $updated = $this->update($data, "order_id = '" . $orderid . "'");
+                } catch (Exception $exc) {
+
+                    throw new Exception('Unable to update, exception occured' . $exc);
+                }
+                if ($updated)
+                    return $updated;
+            } else {
+                return null;
+            }
+        } else {
+            throw new Exception('Argument not passed');
+        }
+    }
+
+    public function fetchorderdetails() {
+        if (func_num_args() > 0) {
+
+            $transactionId1 = func_get_arg(0);
+
+            try {
+                $select = $this->select()
+                        ->from($this)
+                        ->where('user_tx_id = ?', $transactionId1);
+                $row = $this->getAdapter()->fetchRow($select);
+                return $row;
+            } catch (Exception $e) {
+                throw new Exception('Unable To Insert Exception Occured :' . $e);
+            }
+        } else {
+            throw new Exception('Argument Not Passed');
+        }
+    }
+
+}
+>>>>>>> .theirs
 
     //dev:sowmya
     //desc: to get all user transaction by agent id

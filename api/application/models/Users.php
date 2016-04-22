@@ -289,7 +289,7 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
         if (func_num_args() > 0) {
             $fpdemail = func_get_arg(0);
             $resetcode = func_get_arg(1);
-            $time = time();
+//            $time = time();
             $data = array(
                 'reset_code' => $resetcode
             );
@@ -521,6 +521,38 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
     /*
      * Dev :- Sibani Mishra
      * date :- 15/3/2016
+     * dev : check userid with password
+     */
+
+    public function authenticateByUserID() {
+        if (func_num_args() > 0) {
+            $userId = func_get_arg(0);
+            $password = func_get_arg(1);
+
+            try {
+                $select = $this->select()
+                        ->from($this)
+                        ->where('user_id = ?', $userId)
+                        ->where('password = ?', $password);
+
+                $result = $this->getAdapter()->fetchRow($select);
+
+                if ($result) {
+                    return $result;
+                } else {
+                    return null;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable To Insert Exception Occured :' . $e);
+            }
+        } else {
+            throw new Exception('Argument Not Passed');
+        }
+    }
+
+    /*
+     * Dev :- Sibani Mishra
+     * date :- 15/3/2016
      * dev : Change password
      */
 
@@ -528,8 +560,8 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
         if (func_num_args() > 0) {
 
             $userId = func_get_arg(0);
-            $oldpassword = func_get_arg(1);
-            $newpassword = func_get_arg(2);
+
+            $newpassword = func_get_arg(1);
 
 
             $select = $this->select()
@@ -556,6 +588,47 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
             }
         } else {
             throw new Exception('Argument not passed');
+        }
+    }
+
+    public function validateByUserId() {
+
+        if (func_num_args() > 0) {
+            $userid = func_get_arg(0);
+            try {
+
+                $select = $this->select()
+                        ->from($this)
+                        ->where('user_id = ?', $userid);
+
+                $result = $this->getAdapter()->fetchRow($select);
+
+                return $result;
+            } catch (Exception $e) {
+                throw new Exception('Unable to access data :' . $e);
+            }
+        } else {
+            throw new Exception('Argument Not Passed');
+        }
+    }
+
+    public function validateByAdminId() {
+        if (func_num_args() > 0) {
+            $userid = 2;
+            try {
+
+                $select = $this->select()
+                        ->from($this)
+                        ->where('user_id = ?', $userid);
+
+                $result = $this->getAdapter()->fetchRow($select);
+
+                return $result;
+            } catch (Exception $e) {
+                throw new Exception('Unable to access data :' . $e);
+            }
+        } else {
+            throw new Exception('Argument Not Passed');
         }
     }
 

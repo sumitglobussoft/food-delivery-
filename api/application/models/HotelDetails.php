@@ -51,7 +51,7 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
             try {
                 $select = $this->select()
                         ->setIntegrityCheck(false)
-                        ->from(array('hd' => 'hotel_details'), array('hd.agent_id', 'hd.address', 'hd.primary_phone', 'hd.secondary_phone', 'hd.hotel_name', 'hd.hotel_image', 'hd.open_time', 'hd.closing_time', 'hd.hotel_status', 'hd.notice', 'hd.id'))
+                        ->from(array('hd' => 'hotel_details'), array('hd.agent_id', 'hd.address', 'hd.hotel_contact_number', 'hd.secondary_phone', 'hd.hotel_name', 'hd.hotel_image', 'hd.open_time', 'hd.closing_time', 'hd.hotel_status', 'hd.notice', 'hd.id'))
                         ->joinLeft(array('ag' => 'agents'), 'hd.agent_id= ag.agent_id')
                         ->where('hd.agent_id=?', $agent_id);
 
@@ -500,30 +500,79 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
             try {
                 $select = $this->select()
                         ->setIntegrityCheck(false)
-                        ->from(array('hd' => 'hotel_details'))
-                        ->join(array('hc' => 'hotel_cuisines'), 'hd.id=hc.hotel_id')
-                        ->join(array('fc' => 'famous_cuisines'), 'hc.cuisine_id=fc.cuisine_id', array('fc.Cuisine_name'))
-                        ->where('hc.cuisine_id IN (?)', $cuisine_id)
+                        ->from(array('hd' => 'hotel_details'), array('hd.id', 'hd.hotel_location', 'hd.address', 'hd.hotel_name', 'hd.hotel_image', 'hd.open_time', 'hd.closing_time', 'hd.hotel_status', 'hd.notice', 'hd.min order', 'hd.deliverycharge'))
                         ->where('hd.hotel_location=?', $hotel_locations);
-
                 $gethotelsdetails = $this->getAdapter()->fetchAll($select);
 
-                $i = 0;
-                foreach ($gethotelsdetails as $key => $value) {
-//                        unset($value['order_id']);
-                    $value['cuisine_id'] = $gethotelsdetails[$key]['cuisine_id'][$i];
-
-                    $gethotelsdetails[$key] = $value;
-
-//                    $value['cuisine_id'] = $gethotelsdetails[0]['cuisine_id'][$i];
-//                    $value['cuisine_name'] = $gethotelsdetails[0]['Cuisine_name'][$i];
-//                    $gethotelsdetails[$key] = $value;
-                    $i++;
+                $hotelIds = array();
+                foreach ($gethotelsdetails as $key => $val) {
+                    $hotelIds[] = $val['id'];
                 }
+<<<<<<< .mine
                 $gethotelsdetails[$key]['Cuisines_details'] = $gethotelsdetails;
+=======
 
+>>>>>>> .theirs
+
+<<<<<<< .mine
 
                 return $gethotelsdetails;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('hc' => 'hotel_cuisines'), array('hc.hotel_id', 'hc.cuisine_id'))
+                        ->join(array('fc' => 'famous_cuisines'), 'hc.cuisine_id=fc.cuisine_id', array('fc.Cuisine_name'))
+                        ->where('hc.hotel_id IN (?)', $hotelIds)
+                        ->where('hc.cuisine_id IN (?)', $cuisine_id);
+                $getdetailsofcuisines = $this->getAdapter()->fetchAll($select);
+
+                foreach ($gethotelsdetails as $hotelKey => $hotelVal) {
+                    $hotelIds[] = $val['id'];
+                    foreach ($getdetailsofcuisines as $cuisineKey => $cuisineVal) {
+                        if ($hotelVal['id'] == $cuisineVal['hotel_id']) {
+                            unset($cuisineVal['hotel_id']);
+                            $gethotelsdetails[$hotelKey]['cuisines_details'][] = $cuisineVal;
+                        }
+                    }
+                }
+
+                foreach ($gethotelsdetails as $hotelKey => $hotelVal) {
+
+                    if (!isset($hotelVal['cuisines_details']))
+                        unset($gethotelsdetails[$hotelKey]);
+                }
+                $gethotelsdetails = array_values($gethotelsdetails);
+//                echo '<pre>';
+//                print_r($gethotelsdetails);
+//                die("Test");
+                return $gethotelsdetails;
+>>>>>>> .theirs
             } catch (Exception $ex) {
                 throw new Exception('Unable To retrieve data :' . $ex);
             }

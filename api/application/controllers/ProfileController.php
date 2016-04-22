@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * Dev : Sibani Mishra
+ * Date: 4/5/2016
+ */
+
 require_once 'Zend/Controller/Action.php';
 require_once 'Zend/Session/Namespace.php';
 
@@ -46,29 +51,45 @@ class ProfileController extends Zend_Controller_Action {
 
                         if ($userId != '') {
 
-                            if ($oldpassword != '' && $newpassword != '' && $renewpassword != '') {
+                            $checkoldPassword = $users->authenticateByUserID($userId, md5(sha1($oldpassword)));
 
-                                if ($newpassword == $renewpassword) {
+                            if ($checkoldPassword) {
 
-                                    $Updatepassword = $users->updateUserCreds($userId, $oldpassword, $newpassword);
+                                if ($oldpassword != '' && $newpassword != '' && $renewpassword != '') {
 
-                                    if ($Updatepassword) {
-                                        $response->code = 200;
-                                        $response->message = "Update Successful";
-                                        $response->data = $Updatepassword;
+                                    if ($newpassword == $renewpassword) {
+
+                                        if ($oldpassword != $newpassword) {
+
+                                            $Updatepassword = $users->updateUserCreds($userId, $newpassword);
+
+                                            if ($Updatepassword) {
+                                                $response->code = 200;
+                                                $response->message = "Update Successful";
+                                                $response->data = $Updatepassword;
+                                            } else {
+                                                $response->code = 100;
+                                                $response->message = "Invalid Password format";
+                                                $response->data = null;
+                                            }
+                                        } else {
+                                            $response->code = 100;
+                                            $response->message = "New password cannot be same as old password";
+                                            $response->data = null;
+                                        }
                                     } else {
                                         $response->code = 100;
-                                        $response->message = "new password cannot be same as old password";
+                                        $response->message = "Password didnot match";
                                         $response->data = null;
                                     }
                                 } else {
                                     $response->code = 100;
-                                    $response->message = "Password didnot match";
+                                    $response->message = "You missed something";
                                     $response->data = null;
                                 }
                             } else {
-                                $response->code = 100;
-                                $response->message = "You missed something";
+                                $response->code = 401;
+                                $response->message = "Your old Passowrd is incorrect";
                                 $response->data = null;
                             }
                         } else {

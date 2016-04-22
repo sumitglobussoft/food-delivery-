@@ -144,17 +144,11 @@
                                                                                             echo $val['hotel_id'];
                                                                                         }
                                                                                         ?>" data-prod="<?php echo $val['product_id']; ?>"></i></span></a></td>
-
-
                                                                         </tr>
-
                                                                         <?php
                                                                     }
                                                                 }
                                                                 ?>
-
-
-
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -206,14 +200,14 @@
                                                         <td class="subtotal1">Subtotal</td>
                                                         <?php if ($this->total) { ?>
                                                             <td><span class="subtotal" data-total="<?php echo $this->total; ?>"><i class="fa fa-inr"><?php echo $this->total; ?></i></span><td>
-<?php } else { ?><td><span class="subtotal" data-total="0"><i class="fa fa-inr">0</i></span><td><?php } ?>
+                                                        <?php } else { ?><td><span class="subtotal" data-total="0"><i class="fa fa-inr">0</i></span><td><?php } ?>
                                                     </tr>
 
                                                     <tr>
                                                         <td>Grand Total</td>
                                                         <?php if ($this->total) { ?>
                                                             <td><span class="grandtotal" grand-total="<?php echo $this->total; ?>" ><i class="fa fa-inr"><?php echo $this->total; ?></i></span></td>
-<?php } else { ?><td><span grand-total="0" class="grandtotal"><i class="fa fa-inr">0</i></span></td> <?php } ?>
+                                                        <?php } else { ?><td><span grand-total="0" class="grandtotal"><i class="fa fa-inr">0</i></span></td> <?php } ?>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -232,9 +226,9 @@
                                                     echo $this->hoteldata['hotel_name'];
                                                 }
                                                 ?>&order_id=" class="btn btn-alt waves-effect waves-teal btn-large green-text">Proceed to Check Out</a>
-                                        <?php } else { ?>
+                                            <?php } else { ?>
                                             <a   class="btn btn-alt waves-effect waves-teal btn-large green-text modal-trigger" href="#loginModal">Proceed to Check Out</a>
-<?php } ?>
+                                        <?php } ?>
                                     </div>
 
                                 </div>

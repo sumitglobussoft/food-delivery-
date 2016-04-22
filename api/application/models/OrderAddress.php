@@ -41,5 +41,19 @@ class Application_Model_OrderAddress extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         }
     }
+    public function updateorderaddressWhere() {
+        if (func_num_args() > 0) {
+            $data = func_get_arg(0);
+            $where = func_get_arg(1);
+            try {
+                $update = $this->update($data, $where);
+                return $update;
+            } catch (Exception $ex) {
+                return $ex->getMessage();
+            }
+        } else {
+            throw new Exception("Argument not passed");
+        }
+    }
 
 }
