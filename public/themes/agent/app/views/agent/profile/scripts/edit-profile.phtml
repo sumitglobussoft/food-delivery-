@@ -1,0 +1,192 @@
+
+<?php
+$agentdetailsArray = $this->agentdetails;
+$countryCodeDetails = $this->countryCodeDetails;
+?>
+<div id="content" class="content">
+    <!-- begin breadcrumb -->
+    <ol class="breadcrumb pull-right">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="javascript:;">Settings</a></li>
+        <li class="active">Profile Details </li>
+    </ol>
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header">Edit Profile Details</h1>
+    <!-- end page-header -->
+
+    <!-- begin row -->
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- begin nav-pills -->
+                        <ul class="nav nav-pills nav-pills-danger nav-justified" style="width: 40%; margin-top: 1%; margin-left: 1%;">
+                            <li class="active">
+                                <a data-toggle="tab" href="#nav-pills-justified-1" aria-expanded="true">Personal Information</a>
+                            </li>
+                            <li class="">
+                                <a data-toggle="tab" href="#nav-pills-justified-2" aria-expanded="false">Account Settings</a>
+                            </li>
+                        </ul>
+                        <!-- end nav-pills -->
+                        <!-- begin tab-content -->
+                        <div class="tab-content panel">
+                            <div id="nav-pills-justified-1" class="tab-pane fade active in">
+                                <form class="form-group m-b-10"enctype="multipart/form-data" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group m-b-10">
+                                                <label class="control-label">User Name</label>
+                                                <input type="text" class="form-control"  name="loginname" id="loginname" value="<?php echo $agentdetailsArray['loginname']; ?>" placeholder="User name...">
+                                            </div>
+                                            <div class="form-group m-b-10">
+                                                <label class="control-label">First Name</label>
+                                                <input type="text" class="form-control"  name="first_name" value="<?php echo $agentdetailsArray['first_name']; ?>" placeholder="First name..."/>
+                                            </div>
+                                            <div class="form-group m-b-10">
+                                                <label class="control-label">Last Name</label>
+                                                <input type="text" class="form-control"  name="last_name"  id="last_name" value="<?php echo $agentdetailsArray['last_name']; ?>"  placeholder="Last name..."/>
+                                            </div>
+                                            <div class="form-group m-b-10">
+                                                <label class="control-label">Email</label>
+                                                <input type="email" class="form-control" name="email" id="email" value="<?php echo $agentdetailsArray['email']; ?>"  placeholder="Email address..."/>
+                                            </div>
+
+                                            <div class="form-group m-b-10">
+                                                <label class="control-label">Phone</label>
+                                                <select class="control-label"  id="contact_country_code" name="contact_country_code" style="width:100%;">
+                                                    <?php foreach ($countryCodeDetails as $value) { ?>
+                                                        <option value="<?php echo $value['country_id']; ?>">
+
+                                                            <?php echo $value['name']; ?>  &nbsp; <?php echo $value['phonecode']; ?>
+                                                        </option>
+
+                                                    <?php }
+                                                    ?>
+                                                </select>
+                                                <input type="text" class="form-control"   id="phone"  name="phone" value="<?php echo $agentdetailsArray['phone']; ?>" placeholder="Phone..."/>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group m-b-10">
+                                                <label class="control-label">Profile Pic</label>
+                                                <div class="form-group">
+                                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                        <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                            <img src="<?php echo $agentdetailsArray['profilepic_url']; ?>" alt="">
+                                                        </div>
+                                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                                        <div>
+                                                            <span class="btn btn-default btn-file">
+                                                                <span class="fileinput-new">Select Image</span>
+                                                                <span class="fileinput-exists">Replace</span>
+                                                                <input type="file" name="fileToUpload">
+                                                            </span>
+                                                            <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group m-b-10">
+                                                    <label class="control-label">City</label>
+                                                    <input type="text" class="form-control"  name="city"  id="city" value="<?php echo $agentdetailsArray['city']; ?>" placeholder="City..."/>
+                                                </div>
+                                                <div class="form-group m-b-10">
+                                                    <label class="control-label">Address</label>
+                                                    <input class="form-control" name="addresss"  id="addresss" value="<?php echo $agentdetailsArray['addresss']; ?>" placeholder="Address..."/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 text-right">
+                                            <div class="form-group m-b-10">
+                                                <button class="btn btn-theme">SAVE</button>
+                                                <button class="btn btn-default">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div id="nav-pills-justified-2" class="tab-pane fade">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <form class="form-group m-b-10"   id="password-change">
+                                            <div class="form-group m-b-10">
+                                                <label class="control-label">Current Password</label>
+                                                <input type="password" class="form-control" autocomplete="off" placeholder="Current Password" name="password" id="password"/>
+                                            </div>
+                                            <div class="form-group m-b-10">
+                                                <label class="control-label">New Password</label>
+                                                <input type="text" class="form-control" autocomplete="off" placeholder="New Password" name="password2" id="password2" />
+                                            </div>
+                                            <div class="form-group m-b-10">
+                                                <label class="control-label">Confirm Password</label>
+                                                <input type="text" class="form-control" autocomplete="off" placeholder="Repeat password" name="password3" id="password3" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-12 text-right">
+                                        <div class="form-group m-b-10">
+                                            <button type="submit" class="btn btn-theme" id="submit-change-password">Change Password</button>
+                                            <button type="button" class="btn btn-default" onclick="document.getElementById('password-change').reset();">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end tab-content -->
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+</div>
+<script>
+    jQuery(document).ready(function() {
+        $("#submit-change-password").click(function(e) {
+
+            var current_password = $("#password").val();
+            var new_password = $("#password2").val();
+            var retype_password = $("#password3").val();
+            console.log(current_password, new_password, retype_password);
+            $.ajax({
+                type: "POST",
+                url: "/agent/change-password",
+                dataType: "json",
+                data: {
+                    password: current_password,
+                    password1: new_password,
+                    password2: retype_password
+                },
+                success: function(response) {
+
+                    if (response === 1) {
+
+                        window.location.reload();
+
+
+
+                    } else if (response === 2) {
+
+                        document.getElementById('password-change').reset();
+
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+
+                }
+            });
+
+        });
+
+    });
+
+</script>

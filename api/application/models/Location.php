@@ -409,6 +409,47 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
             }
         }
     }
+    /*
+     * Dev: sowmya
+     * Desc: fetch citys from db
+     * date : 29/4/2015;
+     */
+
+    public function getCity() {
+        try {
+            $select = $this->select()
+                    ->from($this)
+                    ->where('location_type=?', 2);
+            $result = $this->getAdapter()->fetchAll($select);
+
+            if ($result) {
+                return $result;
+            }
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
+        }
+    }
+
+    /*
+     * Dev: sowmya
+     * Desc: fetch countrys from db
+     * date : 29/4/2016;
+     */
+
+    public function getCountry() {
+        try {
+            $select = $this->select()
+                    ->from($this)
+                    ->where('location_type=?', 0);
+            $result = $this->getAdapter()->fetchAll($select);
+
+            if ($result) {
+                return $result;
+            }
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
+        }
+    }
 
 }
 

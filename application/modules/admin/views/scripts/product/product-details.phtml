@@ -1,7 +1,5 @@
-                                            
 <div id="page-title">
     <h2>Product Details</h2>
-    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -76,12 +74,12 @@
 
                             <?php
                             if (isset($this->productsbyhotels)) {
-$i=0;
+                                $i = 0;
                                 foreach ($this->productsbyhotels as $val) {
                                     ?>
 
                                     <tr>
-                                           <td><?php echo ++$i; ?></td>
+                                        <td><?php echo ++$i; ?></td>
                                         <td><?php echo $val['name']; ?></td>
                                         <td><?php echo $val['hotel_name']; ?></td>
                                         <td><?php echo $val['cost']; ?></td>
@@ -107,39 +105,39 @@ $i=0;
                                         <td class="text-center">
                                             <a href="/admin/view-product-details/<?php echo $value['product_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-eye"></i></a>
             <!--                                            <a href="/admin/edit-product-details/<?php echo $value['product_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-pencil"></i></a>-->
-                                                <a href="javascript:;" id="<?php echo "productdelete_" . $value['product_id']; ?>" class="btn btn-default deleteproduct"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                            <a href="javascript:;" id="<?php echo "productdelete_" . $value['product_id']; ?>" class="btn btn-default deleteproduct"><i class="glyph-icon icon-linecons-trash"></i></a>
                                         </td>
                                     </tr>
-                                <?php
+                                    <?php
                                 }
                             } else {
                                 if ($this->productdetails) {
-                                    $i=0;
+                                    $i = 0;
                                     foreach ($this->productdetails as $value) {
                                         ?>
 
                                         <tr>
-                                             <td><?php echo ++$i; ?></td>
+                                            <td><?php echo ++$i; ?></td>
                                             <td><?php echo $value['name']; ?></td>
                                             <td><?php echo $value['hotel_name']; ?></td>
                                             <td><?php echo $value['cost']; ?></td>
                                             <td><?php echo $value['product_discount']; ?></td>
                                             <td><?php echo $value['delivery_time']; ?></td>
-                                                <?php if ($value['prod_status'] == 1): ?>
+                                            <?php if ($value['prod_status'] == 1): ?>
                                                 <td id="activeproduct_<?php echo $value['product_id']; ?>" class="productactive">Active</td>
                                                 <td class="center"><a style="cursor:pointer"  id="<?php
-                                                                      if (isset($value['product_id'])): echo "product_" . $value['product_id'];
-                                                                      endif;
-                                                                      ?>" class="productdeactive">
+                                                    if (isset($value['product_id'])): echo "product_" . $value['product_id'];
+                                                    endif;
+                                                    ?>" class="productdeactive">
                                                         <span id="activeclass_<?php echo $value['product_id']; ?>" class="bs-label label-danger">Deactivate</span></a></td>
-                                                <?php else: ?>
+                                            <?php else: ?>
                                                 <td id="activeproduct_<?php echo $value['product_id']; ?>" class="productdeactive">Suspended</td>
                                                 <td class="center" ><a style="cursor:pointer" id="<?php
-                                                                       if (isset($value['product_id'])): echo "product_" . $value['product_id'];
-                                                                       endif;
-                                                                       ?>" class="productactive">
+                                                    if (isset($value['product_id'])): echo "product_" . $value['product_id'];
+                                                    endif;
+                                                    ?>" class="productactive">
                                                         <span id="activeclass_<?php echo $value['product_id']; ?>"  class="bs-label label-success">Activate</span></a></td>
-            <?php endif; ?> 
+                                            <?php endif; ?> 
 
 
                                             <td class="text-center">
@@ -149,10 +147,11 @@ $i=0;
                                             </td>
                                         </tr>
 
-        <?php }
-    }
-}
-?>
+                                    <?php
+                                    }
+                                }
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>

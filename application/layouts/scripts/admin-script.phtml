@@ -462,6 +462,8 @@
      */
 
     $(document.body).on('click', '.deleteuser', function() {
+        
+        var obj=$(this);
         var userid = $(this).attr('id');
         var deleteid = userid.replace("userdelete_", "");
         if (deleteid) {
@@ -480,7 +482,8 @@
                     if (response) {
                         var uid = response.replace(/ /g, '');
 
-                        $('#' + "userdelete_" + uid).parent().parent().remove();
+//                        $('#' + "userdelete_" + uid).parent().parent().remove();
+                        obj.parents("tr").remove();
 
                     }
                 }
@@ -1115,7 +1118,7 @@
                 orderStatus: orderStatus
             },
             success: function(response) {
-                if (response == 1) {
+                if (response ===1) {
                     obj.parents("tr").remove();
                     location.reload();
                 }
@@ -1488,5 +1491,509 @@
         }
 
     });
+    /*
+     * DEV :sowmya
+     * Desc : Delete grocery
+     * Date : 20/4/2016
+     */
 
+    $(document.body).on('click', '.deletegrocery', function() {
+        var id = $(this).attr('id');
+        var deleteid = id.replace("grocerydelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './grocery-details-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'grocerydelete',
+                    groceryid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+
+                        $('#' + "grocerydelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Deactivate grocery status
+     * Date : 20/4/2016
+     */
+    $(document.body).on('click', '.grocerydeactive', function() {
+        var id = $(this).attr('id');
+        var id = id.replace("grocery_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './grocery-details-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'groceryactive',
+                groceryid: id
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                console.log(response);
+                var uid = response.replace(/ /g, '');
+
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).html("Activate");
+                $('#grocery_' + uid).removeClass('grocerydeactive');
+                $('#grocery_' + uid).addClass('groceryactive');
+                $('#' + "activegrocery_" + uid).html("Suspended");
+
+            }
+        });
+
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Activate grocery
+     * Date : 20/4/2016
+     */
+    $(document.body).on('click', '.groceryactive', function() {
+        var id = $(this).attr('id');
+        var id = id.replace("grocery_", "");
+        console.log('activate called');
+        $.ajax({
+            url: './grocery-details-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'groceryactive',
+                groceryid: id
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var uid = response.replace(/ /g, '');
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).html("Dectivate");
+                $('#grocery_' + uid).removeClass('groceryactive');
+                $('#grocery_' + uid).addClass('grocerydeactive');
+                $('#' + "activegrocery_" + uid).html("Active");
+
+            }
+
+
+        });
+
+    });
+
+
+    /*
+     * DEV :sowmya
+     * Desc : Delete grocery
+     * Date : 21/4/2016
+     */
+
+    $(document.body).on('click', '.deletereview', function() {
+        var id = $(this).attr('id');
+        var deleteid = id.replace("reviewdelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './reviews-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'reviewsdelete',
+                    reviewid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+
+                        $('#' + "reviewdelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Deactivate review status
+     * Date : 21/4/2016
+     */
+    $(document.body).on('click', '.reviewdeactive', function() {
+        var id = $(this).attr('id');
+        var id = id.replace("review_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './reviews-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'reviewsactive',
+                reviewid: id
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                console.log(response);
+                var uid = response.replace(/ /g, '');
+
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).html("Activate");
+                $('#review_' + uid).removeClass('reviewdeactive');
+                $('#review_' + uid).addClass('reviewactive');
+                $('#' + "activereview_" + uid).html("Suspended");
+
+            }
+        });
+
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Activate grocery
+     * Date : 20/4/2016
+     */
+    $(document.body).on('click', '.reviewactive', function() {
+        var id = $(this).attr('id');
+        var id = id.replace("review_", "");
+        console.log('activate called');
+        $.ajax({
+            url: './reviews-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'reviewsactive',
+                reviewid: id
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var uid = response.replace(/ /g, '');
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).html("Dectivate");
+                $('#review_' + uid).removeClass('reviewactive');
+                $('#review_' + uid).addClass('reviewdeactive');
+                $('#' + "activereview_" + uid).html("Active");
+
+            }
+
+
+        });
+
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Deactivate grocerycategory status
+     * Date : 23/4/2016
+     */
+    $(document.body).on('click', '.grocerycategorydeactive', function() {
+        var categoryid = $(this).attr('id');
+        var categoryid = categoryid.replace("category_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './locationsettings-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'grocerycategoryactive',
+                categoryid: categoryid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                console.log(response);
+                var uid = response.replace(/ /g, '');
+
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).html("Activate");
+                $('#category_' + uid).removeClass('grocerycategorydeactive');
+                $('#category_' + uid).addClass('grocerycategoryactive');
+                $('#' + "activecategory_" + uid).html("Suspended");
+
+            }
+        });
+
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Activate grocerycategory
+     * Date : 23/4/2016
+     */
+    $(document.body).on('click', '.grocerycategoryactive', function() {
+        var categoryid = $(this).attr('id');
+        var categoryid = categoryid.replace("category_", "");
+        console.log('activate called');
+        $.ajax({
+            url: './locationsettings-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'grocerycategoryactive',
+                categoryid: categoryid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var uid = response.replace(/ /g, '');
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).html("Dectivate");
+                $('#category_' + uid).removeClass('grocerycategoryactive');
+                $('#category_' + uid).addClass('grocerycategorydeactive');
+                $('#' + "activecategory_" + uid).html("Active");
+
+            }
+
+
+        });
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Delete grocerycategory
+     * Date :23/4/2016
+     */
+
+    $(document.body).on('click', '.grocerycategorydelete', function() {
+        var id = $(this).attr('id');
+        var deleteid = id.replace("categorydelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './locationsettings-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'grocerycategorydelete',
+                    categoryid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+
+                        $('#' + "categorydelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+
+    });
+     /*
+     * DEV :sowmya
+     * Desc : edit grocerycategory
+     * Date :23/4/2016
+     */
+    $(document.body).on('click', '.grocerycategoryedit', function() {
+        var categoryid = $(this).attr('id');
+        var categoryid = categoryid.replace("showEdit_", "");
+        $.ajax({
+            url: './locationsettings-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'getgrocerycategory',
+                categoryid: categoryid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var res = jQuery.parseJSON(response);
+                if (res.code === 200) {
+
+                    $('.editContent').find('#editcategory').val('');
+                    $('.editContent').find('#categoryid').val(res.data['category_id']);
+                    $('.editContent').find('#editcategory').val(res.data['cat_name']);
+                    $('.editContent').find('#categorydesc').val(res.data['cat_desc']);
+                    $('.editContent').find('#editcategorydesc').val(res.data['cat_desc']);
+                    $('.editContent').show();
+                    $('.addContent').hide();
+
+                } else {
+
+                    window.location.reload(true);
+                }
+
+            }
+
+
+        });
+
+    });
+    
+      /*
+     * DEV :sowmya
+     * Desc : Delete cities
+     * Date :25/4/2016
+     */
+
+    $(document.body).on('click', '.citydelete', function() {
+        var id = $(this).attr('id');
+        var deleteid = id.replace("citydelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './locationsettings-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'citydelete',
+                    locationid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+
+                        $('#' + "citydelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+
+    });
+     
+      /*
+     * DEV :sowmya
+     * Desc : Delete state
+     * Date :25/4/2016
+     */
+
+    $(document.body).on('click', '.statedelete', function() {
+        var id = $(this).attr('id');
+        var deleteid = id.replace("statedelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './locationsettings-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'statedelete',
+                    locationid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+
+                        $('#' + "statedelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+
+    });
+     
+      /*
+     * DEV :sowmya
+     * Desc : Delete country
+     * Date :25/4/2016
+     */
+
+    $(document.body).on('click', '.countrydelete', function() {
+        var id = $(this).attr('id');
+        var deleteid = id.replace("countrydelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './locationsettings-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'countrydelete',
+                    locationid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+
+                        $('#' + "countrydelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+
+    });
+     
+      /*
+     * DEV :sowmya
+     * Desc : Delete location
+     * Date :25/4/2016
+     */
+
+    $(document.body).on('click', '.locationdelete', function() {
+        var id = $(this).attr('id');
+        var deleteid = id.replace("locationdelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './locationsettings-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'locationdelete',
+                    locationid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+
+                        $('#' + "locationdelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+
+    });
 </script>

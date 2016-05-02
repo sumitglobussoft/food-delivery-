@@ -33,7 +33,6 @@ class Application_Model_UserTransactions extends Zend_Db_Table_Abstract {
 
         if (func_num_args() > 0) {
             $data = func_get_arg(0);
-
             try {
                 $responseId = $this->insert($data);
                 if ($responseId) {
@@ -48,32 +47,6 @@ class Application_Model_UserTransactions extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         }
     }
-
-    /*
-     * Dev : Priyanka Varanasi
-     * Date: 3/12/2015
-     * Desc: insert all user transaction details 
-     */
-
-//    public function insertUseTransactions1() {
-//
-//        if (func_num_args() > 0) {
-//            $data = func_get_arg(0);
-//
-//            try {
-//                $responseId = $this->insert($data);
-//                if ($responseId) {
-//                    return $responseId;
-//                } else {
-//                    return null;
-//                }
-//            } catch (Exception $e) {
-//                throw new Exception('Unable To Insert Exception Occured :' . $e);
-//            }
-//        } else {
-//            throw new Exception('Argument Not Passed');
-//        }
-//    }
 
     /*
      * Dev : Priyanka Varanasi
@@ -97,106 +70,6 @@ class Application_Model_UserTransactions extends Zend_Db_Table_Abstract {
             }
         }
     }
-<<<<<<< .mine
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
 
     /*
      * Dev : Sibani Mishra
@@ -212,11 +85,10 @@ class Application_Model_UserTransactions extends Zend_Db_Table_Abstract {
             $data = array(
                 'COD_Code' => $cod_code
             );
-
             $select = $this->select()
                     ->from($this)
                     ->where('order_id = ?', $orderid);
-
+//            echo $select;die;
             $row = $this->getAdapter()->fetchRow($select);
 
             if ($row) {
@@ -238,8 +110,8 @@ class Application_Model_UserTransactions extends Zend_Db_Table_Abstract {
 
     /*
      * Dev :- Sibani Mishra
-     * date :- 11/3/2016
-     * Desc :- verify resetcode
+     * date :- 11/4/2016
+     * Desc :- verify codcode
      */
 
     public function verifycodCode() {
@@ -255,7 +127,7 @@ class Application_Model_UserTransactions extends Zend_Db_Table_Abstract {
                     ->from($this)
                     ->where('COD_Code = ?', $codcode)
                     ->where('order_id = ?', $orderid);
-
+//echo $select;die;
             $row = $this->getAdapter()->fetchRow($select);
 
             if ($row) {
@@ -275,7 +147,7 @@ class Application_Model_UserTransactions extends Zend_Db_Table_Abstract {
         }
     }
 
-    public function fetchorderdetails() {
+    public function fetchorderdetailsforPAYPAL() {
         if (func_num_args() > 0) {
 
             $transactionId1 = func_get_arg(0);
@@ -294,32 +166,25 @@ class Application_Model_UserTransactions extends Zend_Db_Table_Abstract {
         }
     }
 
-}
->>>>>>> .theirs
+    public function fetchorderdetailsforCOD() {
+        if (func_num_args() > 0) {
 
-    //dev:sowmya
-    //desc: to get all user transaction by agent id
-    //date:11/4/2016
-    public function getAllUserTransaction() {
-     
+            $orderid = func_get_arg(0);
+
             try {
                 $select = $this->select()
-                        ->setIntegrityCheck(false)
-                        ->from(array('ut' => 'user_transactions'))
-                        ->joinLeft(array('u' => 'users'), 'ut.user_id= u.user_id', array('u.uname', 'u.email'))
-                        ->order('tx_date DESC');
-                      
-                $result = $this->getAdapter()->fetchAll($select);
+                        ->from($this)
+                        ->where('order_id = ?', $orderid);
+                $row = $this->getAdapter()->fetchRow($select);
+                return $row;
             } catch (Exception $e) {
-                throw new Exception('Unable To retrieve data :' . $e);
+                throw new Exception('Unable To Insert Exception Occured :' . $e);
             }
-
-            if ($result) {
-                return $result;
-            }
+        } else {
+            throw new Exception('Argument Not Passed');
         }
     }
 
-
+}
 
 ?>

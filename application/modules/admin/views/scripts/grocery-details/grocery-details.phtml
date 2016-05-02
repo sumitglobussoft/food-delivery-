@@ -1,0 +1,91 @@
+<div id="page-title">
+    <h2>Grocery Details</h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="panel-body">
+                <h3 class="title-hero">View/Edit/Remove Grocery</h3>
+                <div class="example-box-wrapper">
+                    <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Grocery ID</th>
+                                <th>Grocery Name</th>
+                                <th>Grocery Rating</th>
+                                <th> Agent ID</th>
+                                <th> Agent Name </th>                            
+                                <th> Timing </th>
+                                <th> Status </th>
+                                <th> Action </th>
+                                <th> View/Edit/Delete</th>
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Grocery ID</th>
+                                <th>Grocery Name</th>
+                                <th>Grocery Rating</th>
+                                <th> Agent ID</th>
+                                <th> Agent Name </th>
+                                <th> Timing </th>
+                                <th> Status </th>
+                                <th> Action </th>
+                                <th> View/Edit/Delete</th>
+
+                            </tr>
+                        </tfoot>
+                        <tbody>
+
+                            <?php
+                            $i = 0;
+                            if (isset($this->grocerydetails)) {
+                                foreach ($this->grocerydetails as $value) {
+                                    ?>
+
+                                    <tr>
+                                        <td><?php echo ++$i; ?></td>
+                                        <td><?php echo $value['grocery_id']; ?></td>
+                                        <td><?php echo $value['Grocery_name']; ?></td>
+                                         <td><?php echo $value['Grocery_rating']; ?></td>
+                                        <td><?php echo $value['agent_id']; ?></td>
+                                        <td><?php echo $value['loginname']; ?></td> 
+                                        <td>
+                                            <span><?php echo $value['Open_time']; ?>AM</span> - <span><?php echo $value['Closing_time']; ?>PM</span>
+                                        </td>
+                                        <?php if ($value['grocery_status'] == 1): ?>
+                                            <td id="activegrocery_<?php echo $value['grocery_id']; ?>" class="groceryactive">Active</td>
+                                            <td class="center"><a style="cursor:pointer"  id="<?php
+                                                if (isset($value['grocery_id'])): echo "grocery_" . $value['grocery_id'];
+                                                endif;
+                                                ?>" class="grocerydeactive">
+                                                    <span id="activeclass_<?php echo $value['grocery_id']; ?>" class="bs-label label-danger">Deactivate</span></a></td>
+                                        <?php else: ?>
+                                            <td id="activegrocery_<?php echo $value['grocery_id']; ?>" class="grocerydeactive">Suspended</td>
+                                            <td class="center" ><a style="cursor:pointer" id="<?php
+                                                if (isset($value['grocery_id'])): echo "grocery_" . $value['grocery_id'];
+                                                endif;
+                                                ?>" class="groceryactive">
+                                                    <span id="activeclass_<?php echo $value['grocery_id']; ?>"  class="bs-label label-success">Activate</span></a></td>
+                                        <?php endif; ?> 
+                                        <td class="text-center">
+                                            <a href="/admin/view-grocery-details/<?php echo $value['grocery_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-eye"></i></a>
+                                            <a href="/admin/edit-grocery-details/<?php echo $value['grocery_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-pencil"></i></a>
+                                            <a href="javascript:;" id="<?php echo "grocerydelete_" . $value['grocery_id']; ?>" class="btn btn-default deletegrocery"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

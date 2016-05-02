@@ -1,12 +1,8 @@
 <?php
 $allhoteldetailsArray = $this->allhoteldetails;
-// echo '<pre>';print_r($allhoteldetailsArray);die;
 ?>
-
 <div id="page-title">
-    <!--    <h2>View/Edit Hotel Details</h2>-->
     <h2>View Hotel Details</h2>
-    <p>The most complete hotel interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -23,8 +19,7 @@ $allhoteldetailsArray = $this->allhoteldetails;
                                                 <label class="control-label">Agent ID</label>
                                             </td>
                                             <td>
-<?php echo $allhoteldetailsArray['agent_id'] ?>
-<!--                                                <input type="text" class="form-control" name="agent_id" id="agent_id" disabled value="<?php // echo $allhoteldetailsArray['agent_id']  ?>" placeholder=""  />-->
+                                                <?php echo $allhoteldetailsArray['agent_id'] ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -32,8 +27,7 @@ $allhoteldetailsArray = $this->allhoteldetails;
                                                 <label class="control-label">Agent Name</label>
                                             </td>
                                             <td>
-<?php echo $allhoteldetailsArray['loginname'] ?>
-<!--                                                <input type="text" class="form-control" disabled type="text" name="loginname"  id="loginname" value="<?php echo $allhoteldetailsArray['loginname'] ?>" placeholder="" />-->
+                                                <?php echo $allhoteldetailsArray['loginname'] ?>
                                             </td>
                                         </tr>
 
@@ -42,8 +36,15 @@ $allhoteldetailsArray = $this->allhoteldetails;
                                                 <label class="control-label">Hotel Name</label>
                                             </td>
                                             <td>
-<?php echo $allhoteldetailsArray['hotel_name'] ?>
-<!--                                                <input type="text" class="form-control"  name="hotel_name" value="<?php echo $allhoteldetailsArray['hotel_name'] ?>" placeholder="" required />-->
+                                                <?php echo $allhoteldetailsArray['hotel_name'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Hotel Rating</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allhoteldetailsArray['hotel_rating'] ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -60,20 +61,16 @@ $allhoteldetailsArray = $this->allhoteldetails;
 
 
                                                         echo $value['Cuisine_name'];
-                                                        ?>
-        <!--                                                <select class="form-control js-example-responsive width-full" value="<?php //echo $this->cuisineslist[$i]['Cuisine_name'];  ?>" multiple="" name="selectcuisine[]" data-size="10" data-live-search="true">
-             <optgroup label="Select Cuisine">                                                 
-                 <option value="<?php //echo $this->cuisineslist[$i]['c_id'];  ?>"><?php //echo $this->cuisineslist[$i]['Cuisine_name'];  ?></option>                                                     
-             </optgroup>
-         </select>-->
-
-                                                    <?php }
+                                                        ?>    
+                                                    <?php
+                                                    }
                                                 } else {
                                                     ?>
                                                     No Cuisine found !!
-<?php }
-$i++;
-?>
+                                                <?php
+                                                }
+                                                $i++;
+                                                ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -82,7 +79,6 @@ $i++;
                                             </td>
                                             <td>
 <?php echo $allhoteldetailsArray['address'] ?>
-<!--                                                <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ><?php echo $allhoteldetailsArray['address'] ?></textarea>-->
                                             </td>
                                         </tr>
                                         <tr>
@@ -92,9 +88,6 @@ $i++;
                                             <td>
                                                 <div class="" style="display: inline-flex;">
 <?php echo $allhoteldetailsArray['open_time'] ?>&nbsp; AM&nbsp; &nbsp;- &nbsp;<?php echo $allhoteldetailsArray['closing_time'] ?>&nbsp; PM
-<!--                                                    <input type="text" class="form-control" name="open_time"  id="open_time" value="<?php echo $allhoteldetailsArray['open_time'] ?>" placeholder="" required style="width: 39%;" /> &nbsp; AM
-
-                                                    <input type="text" class="form-control" name="closing_time"  id="closing_time" value="<?php echo $allhoteldetailsArray['closing_time'] ?>" placeholder="" required style="width: 39%; margin-left: 5%;" /> &nbsp; PM-->
                                                 </div>
                                             </td>
                                         </tr>                                  
@@ -106,26 +99,10 @@ $i++;
                                                 <?php
                                                 if ($allhoteldetailsArray['hotel_status'] == 1) {
                                                     echo"Active";
-                                                }else {
+                                                } else {
                                                     echo"Deactivate";
                                                 }
-                                                ?>
-<!--                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="hotel_status"> 
-                                                    <option value="1" <?php
-                                                if ($allhoteldetailsArray['hotel_status'] == 1) {
-                                                    echo"selected";
-                                                }
-                                                ?>>
-                                                        Active 
-                                                    </option>
-                                                    <option value="2" <?php
-                                                if ($allhoteldetailsArray['hotel_status'] == 2) {
-                                                    echo"selected";
-                                                }
-                                                ?>>
-                                                        Inactive 
-                                                    </option>-->
-                                                </select>
+                                                ?>            
                                             </td>
                                         </tr>
                                         <tr>
@@ -133,8 +110,7 @@ $i++;
                                                 <label class="control-label">Primary Phone No.</label>
                                             </td>
                                             <td>
-<?php echo $allhoteldetailsArray['primary_phone'] ?>
-<!--                                                <input type="text" class="form-control" name="primary_phone"  id="primary_phone" value="<?php echo $allhoteldetailsArray['primary_phone'] ?>" placeholder="" required />-->
+<?php echo $allhoteldetailsArray['hotel_contact_number'] ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -143,7 +119,6 @@ $i++;
                                             </td>
                                             <td>
 <?php echo $allhoteldetailsArray['secondary_phone'] ?>
-<!--                                                <input type="text" class="form-control" name="secondary_phone"  id="last_name" value="<?php echo $allhoteldetailsArray['secondary_phone'] ?>" placeholder=""  />-->
                                             </td>
                                         </tr>
                                     </tbody>
@@ -167,21 +142,12 @@ $i++;
                                                 <div class="fileinput fileinput-new" data-provides="fileinput">
                                                     <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
                                                         <img src="<?php
-if (isset($this->allhoteldetails['hotel_image'])) {
-    echo $this->allhoteldetails['hotel_image'];
-}
-?>" alt="">
+                                                        if (isset($this->allhoteldetails['hotel_image'])) {
+                                                            echo $this->allhoteldetails['hotel_image'];
+                                                        }
+                                                        ?>" alt="">
                                                     </div>
-                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
-                                                    <!--                                                <div>
-                                                                                                        <span class="btn btn-default btn-file">
-                                                                                                            <span class="fileinput-new">Select Image</span>
-                                                                                                            <span class="fileinput-exists">Replace</span>
-                                                                                                            <input type="file" name="fileToUpload">
-                                                                                                        </span>
-                                                                                                        <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
-                                                                                                    </div>-->
-                                                </div>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>                                
                                             </td>
                                         </tr>
                                         <tr>
@@ -190,7 +156,6 @@ if (isset($this->allhoteldetails['hotel_image'])) {
                                             </td>
                                             <td>
 <?php echo $allhoteldetailsArray['minorder'] ?>
-<!--                                                <input type="text" class="form-control" name="minorder"  id="minorder" value="<?php echo $allhoteldetailsArray['minorder'] ?>" placeholder="" required />-->
                                             </td>
                                         </tr>
                                         <tr>
@@ -199,7 +164,6 @@ if (isset($this->allhoteldetails['hotel_image'])) {
                                             </td>
                                             <td>
 <?php echo $allhoteldetailsArray['deliverycharge'] ?>
-<!--                                                <input type="text" class="form-control" name="deliverycharge"  id="last_name" value="<?php echo $allhoteldetailsArray['deliverycharge'] ?>" placeholder="" required />-->
                                             </td>
                                         </tr>                                   
                                         <tr>
@@ -207,18 +171,11 @@ if (isset($this->allhoteldetails['hotel_image'])) {
                                                 <label class="control-label">Hotel Notice</label>
                                             </td>
                                             <td>
-<?php echo $allhoteldetailsArray['notice'] ?>
-<!--                                                <textarea class="form-control" name="notice" id="notice" cols="20" rows="2"  ><?php echo $allhoteldetailsArray['notice'] ?></textarea>-->
+<?php echo $allhoteldetailsArray['notice'] ?>                                   
                                             </td>
                                         </tr>
                                     </tbody>
-                                </table>
-                                <!--                                <div class="form-group pull-right">
-                                                                    <button type="submit" class="btn btn-alt btn-hover btn-primary">
-                                                                        <span>SAVE</span> <i class="glyph-icon icon-arrow-right"></i>
-                                                                        <div class="ripple-wrapper"></div>
-                                                                    </button>
-                                                                </div>-->
+                                </table>                             
                             </div>
                         </div>
                     </div>

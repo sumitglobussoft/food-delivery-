@@ -1,7 +1,8 @@
-
+<?php
+$countryCodeDetails = $this->countryCodeDetails;
+?>
 <div id="page-title">
     <h2>Add Agents Details</h2>
-    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -15,7 +16,28 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <label class="control-label">User Name</label>
+                                                <label class="control-label">Agent Image</label>
+                                            </td>
+                                            <td>
+                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                        <img src="http://placehold.it/200x150" alt="">
+                                                    </div>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                                    <div>
+                                                        <span class="btn btn-default btn-file">
+                                                            <span class="fileinput-new">Select Image</span>
+                                                            <span class="fileinput-exists">Replace</span>
+                                                            <input type="file" name="fileToUpload">
+                                                        </span>
+                                                        <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Agent Name</label>
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control" name="loginname" id="loginname" value="" placeholder="" required />
@@ -29,7 +51,15 @@
                                                 <input type="text" class="form-control" type="text" name="email"  id="email" value="" placeholder="" required />
                                             </td>
                                         </tr>
-
+                                        <tr>
+                                            <!--added by sowmya 17 march 2016-->
+                                            <td>
+                                                <label class="control-label">Password</label>
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" type="text" name="password"  id="password" value="" placeholder="" required />
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td>
                                                 <label class="control-label">First Name</label>
@@ -46,25 +76,7 @@
                                             <td>
                                                 <input type="text" class="form-control" name="last_name"  id="last_name" value="" placeholder="" required />
                                             </td>
-                                        </tr>
-          
-                                        <tr>
-                                            <td>
-                                                <label class="control-label">status</label>
-                                            </td>
-                                            <td>
-                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="agent_status"> 
-                                                    <option value="1">
-                                                        Active 
-                                                    </option>
-                                                    <option value="2">
-                                                        Deactive 
-                                                    </option>
-                                                </select>
-                                            </td>
-
-                                        </tr>
-
+                                        </tr>                   
                                     </tbody>
                                 </table>
                             </div>
@@ -77,7 +89,27 @@
                             <div class="example-box-wrapper">
                                 <table class="table table-responsive">
                                     <tbody>
-                                              <tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Phone</label>
+                                            </td>                                         
+                                            <td>
+                                                <select class="js-example-responsive form-control"  id="category" name="contact_country_code" style="width:100%;">
+                                                    <?php foreach ($countryCodeDetails as $value) { ?>
+                                                        <option value="<?php echo $value['country_id'] ?>">
+                                                            <?php echo $value['name'] ?>  &nbsp; <?php echo $value['phonecode'] ?>
+                                                        </option>
+                                                    <?php }
+                                                    ?>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input id="phone" type="text" name="phone" value="" class="form-control" />
+
+
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td>
                                                 <label class="control-label">MemberShip Status</label>
                                             </td>
@@ -87,7 +119,7 @@
                                                         Active Member
                                                     </option>
                                                     <option value="2">
-                                                        Deactive Member
+                                                        Deactivate Member
                                                     </option>
                                                 </select>
                                             </td>
@@ -103,13 +135,29 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                      <tr>
+                                        <tr>
                                             <td>
                                                 <label class="control-label">Address</label>
                                             </td>
                                             <td>
                                                 <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ></textarea>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Status</label>
+                                            </td>
+                                            <td>
+                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="agent_status"> 
+                                                    <option value="1">
+                                                        Active 
+                                                    </option>
+                                                    <option value="2">
+                                                        Deactivate
+                                                    </option>
+                                                </select>
+                                            </td>
+
                                         </tr>
                                     </tbody>
                                 </table>

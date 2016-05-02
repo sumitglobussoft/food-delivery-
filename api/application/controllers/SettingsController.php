@@ -16,8 +16,8 @@ class SettingsController extends Zend_Controller_Action {
      */
 
     public function getLocationsAction() {
-
         $locationsmodal = Application_Model_Location::getInstance();
+        $countrymodal = Application_Model_Country::getInstance();
         $response = new stdClass();
         $method = $this->getRequest()->getParam('method');
         if ($method) {
@@ -138,7 +138,7 @@ class SettingsController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die();
                     break;
-                    //added by sowmya 12/4/2016
+                //added by sowmya 12/4/2016
                 case'getHotelLocation':
 
                     if ($this->getRequest()->isPost()) {
@@ -155,6 +155,57 @@ class SettingsController extends Zend_Controller_Action {
                                 $response->data = NUll;
                             }
                         }
+                    } else {
+                        $response->message = 'Could not Serve the Response';
+                        $response->code = 197;
+                        $response->data = NUll;
+                    }
+
+                    echo json_encode($response, true);
+                    die();
+                    break;
+                //added by sowmya 27/4/2016
+                case'countryCodeDetails':
+
+                    $countrieslist = $countrymodal->getAllCountryCode();
+                    if ($countrieslist) {
+                        $response->message = 'Successfull';
+                        $response->code = 200;
+                        $response->data = $countrieslist;
+                    } else {
+                        $response->message = 'Could not Serve the Response';
+                        $response->code = 197;
+                        $response->data = NUll;
+                    }
+
+                    echo json_encode($response, true);
+                    die();
+                    break;
+                //added by sowmya 29/4/2016
+                case'getcity':
+
+                    $cityslist = $locationsmodal->getCity();
+                    if ($cityslist) {
+                        $response->message = 'Successfull';
+                        $response->code = 200;
+                        $response->data = $cityslist;
+                    } else {
+                        $response->message = 'Could not Serve the Response';
+                        $response->code = 197;
+                        $response->data = NUll;
+                    }
+
+                    echo json_encode($response, true);
+                    die();
+                    break;
+                //added by sowmya 29/4/2016
+                case'getcountry':
+
+                    $countrieslist = $locationsmodal->getCountry();
+                    if ($countrieslist) {
+                        $response->message = 'Successfull';
+                        $response->code = 200;
+                        $response->data = $countrieslist;
                     } else {
                         $response->message = 'Could not Serve the Response';
                         $response->code = 197;
@@ -601,6 +652,45 @@ class SettingsController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die;
                     break;
+                /*
+                 * DEV :Sibani Mishra
+                 * Desc : service used for search functionality of hotels based on cuisines
+                 * Date : 4/1/2016
+                 */
+
+
+                case 'selectReviewsAndRatings':
+
+                    if ($this->getRequest()->isPost()) {
+
+                        $hotel_locations = $this->getRequest()->getPost('hotel_locations');
+
+                        if (!empty($hotel_locations)) {
+
+                            $hotelnames = $hotelssummaryModel->gethotalsnamebasedReviewandratings($hotel_locations);
+
+                            if ($hotelnames) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $hotelnames;
+                            } else {
+                                $response->message = 'No Data Found';
+                                $response->code = 197;
+                                $response->data = Null;
+                            }
+                        } else {
+                            $response->message = 'HotelLocation Shouldnot be blank';
+                            $response->code = 198;
+                            $response->data = Null;
+                        }
+                    } else {
+                        $response->message = 'Could Not Serve The Request';
+                        $response->code = 401;
+                        $response->data = NULL;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
             }
         } else {
             $response->message = 'Invalid Request';
@@ -621,6 +711,7 @@ class SettingsController extends Zend_Controller_Action {
 
         $users = Application_Model_Users::getInstance();
         $reviewsratings = Application_Model_Reviews::getInstance();
+        $hotelssummaryModel = Application_Model_HotelDetails::getInstance();
         $response = new stdClass();
         $method = $this->getRequest()->getParam('method');
 
@@ -659,22 +750,33 @@ class SettingsController extends Zend_Controller_Action {
 
                                         if ($addReview) {
 
-                                            $Admincredentials = $users->validateByAdminId(2);
+                                            $avgofStarRatings = $reviewsratings->getavgratingsofindividualHotel($hotelid);
 
-                                            if ($Admincredentials != '') {
+                                            if ($avgofStarRatings) {
 
-                                                $admin_id = $Admincredentials['user_id'];
-                                                $objNotification = Engine_Plugins_Functions::getInstance();
-                                                $sent_by = $userid;
-                                                $sent_to = $admin_id;
-                                                $noti_url = "/admin/notification";
-                                                $Noti_message = "New Review for Product is pending for You";
+                                                $addavgRatetoindividualshotels = $hotelssummaryModel->updatehotels($hotelid, $avgofStarRatings);
 
-                                                $addNotification = $objNotification->sendNotificationWithUrl($sent_by, $sent_to, $Noti_message, $noti_url);
+                                                $Admincredentials = $users->validateByAdminId(2);
+
+                                                if ($Admincredentials != '') {
+
+                                                    $admin_id = $Admincredentials['user_id'];
+                                                    $objNotification = Engine_Plugins_Functions::getInstance();
+                                                    $sent_by = $userid;
+                                                    $sent_to = $admin_id;
+                                                    $noti_url = "/admin/notification";
+                                                    $Noti_message = "New Review for Product is pending for You";
+
+                                                    $addNotification = $objNotification->sendNotificationWithUrl($sent_by, $sent_to, $Noti_message, $noti_url);
+                                                }
+                                                $response->code = 200;
+                                                $response->message = "Review Successfully Added";
+                                                $response->data = $addReview;
+                                            } else {
+                                                $response->code = 100;
+                                                $response->message = "Something went wrong";
+                                                $response->data = null;
                                             }
-                                            $response->code = 200;
-                                            $response->message = "Review Successfully Added";
-                                            $response->data = $addReview;
                                         } else {
                                             $response->code = 100;
                                             $response->message = "Something went wrong..Review Not added, Try again.";
@@ -708,65 +810,6 @@ class SettingsController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die;
                     break;
-
-//                case 'DetailsReview':
-//
-//                    if ($this->getRequest()->isPost()) {
-//
-//                        $userid = $this->getRequest()->getPost('user_id');
-//                        $starratings = $this->getRequest()->getPost('star_rating');
-//                        $hotelid = $this->getRequest()->getPost('hotel_id');
-//
-//                        if ($userid != '') {
-//
-//                            $Userscredentials = $users->validateByUserId($userid);
-//
-//                            if ($Userscredentials) {
-//
-//                                if ($starratings != '' && $hotelid != '') {
-//
-//                                    $hotelReviewDetails = $reviewsratings->gethotelsReviewsWithLimit($starratings, $hotelid, $userid);
-//
-//                                    if ($starratings == 0) {
-//                                        $UserproductReviewDetails = $reviewsratings->getUserforhotelsReviews($hotelid, $userid);
-//                                        $data['hotelsReviewDetails'] = $hotelReviewDetails;
-//                                        $data['UserforhotelsReviewDetails'] = $UserproductReviewDetails;
-//                                    } else {
-//                                        $data['hotelsReviewDetails'] = $hotelReviewDetails;
-//                                        $data['UserforhotelsReviewDetails'] = 0;
-//                                    }
-//                                    if ($data) {
-//                                        $response->code = 200;
-//                                        $response->message = "Success";
-//                                        $response->data = $data;
-//                                    } else {
-//                                        $response->code = 100;
-//                                        $response->message = "No Product Review found.";
-//                                        $response->data = null;
-//                                    }
-//                                } else {
-//                                    $response->code = 100;
-//                                    $response->message = "You missed something.";
-//                                    $response->data = null;
-//                                }
-//                            } else {
-//                                $response->code = 100;
-//                                $response->message = "Not verified";
-//                                $response->data = null;
-//                            }
-//                        } else {
-//                            $response->code = 100;
-//                            $response->message = "UserID should not be null.";
-//                            $response->data = null;
-//                        }
-//                    } else {
-//                        $response->code = 401;
-//                        $response->message = "Invalid request";
-//                        $response->data = null;
-//                    }
-//                    echo json_encode($response, true);
-//                    die;
-//                    break;
 
                 case 'getReviews':
 
@@ -803,5 +846,3 @@ class SettingsController extends Zend_Controller_Action {
     }
 
 }
-
-?>

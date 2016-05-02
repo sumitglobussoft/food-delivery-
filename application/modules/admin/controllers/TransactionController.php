@@ -16,7 +16,11 @@ class Admin_TransactionController extends Zend_Controller_Action {
      */
 
     public function adminUserTransactionsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $usertransactionModel = Admin_Model_UserTransactions::getInstance();
         $result = $usertransactionModel->getAllUsertransaction();
 
@@ -51,6 +55,11 @@ class Admin_TransactionController extends Zend_Controller_Action {
      */
 
     public function adminAgentTransactionsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $AgenttransactionModel = Admin_Model_AgentTransactions::getInstance();
         $result = $AgenttransactionModel->getAllAgenttransaction();
 
@@ -85,6 +94,11 @@ class Admin_TransactionController extends Zend_Controller_Action {
      */
 
     public function adminProductTransactionsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $ProducttransactionModel = Admin_Model_ProductTransactions::getInstance();
         $result = $ProducttransactionModel->getAllProducttransaction();
 

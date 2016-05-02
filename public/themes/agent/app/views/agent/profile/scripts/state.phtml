@@ -1,0 +1,221 @@
+<style>
+    #editState {
+        display: none;
+    }
+</style>
+
+<!-- begin #content -->
+<div id="content" class="content">
+    <!-- begin breadcrumb -->
+    <ol class="breadcrumb pull-right">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="javascript:;">Settings</a></li>
+        <li class="active">State Details</li>
+    </ol>
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header">State Details <small>header small text goes here...</small></h1>
+    <!-- end page-header -->
+
+    <!-- begin row -->
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0" id="addState">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Add State</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <form class="" role="form">
+                                <div class="form-group row m-t-20 m-b-10">
+                                    <label class="col-sm-2 control-label">Select the Country</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control selectpicker width-full" data-size="10" data-live-search="true">
+                                            <option value="" selected>Select a Country</option>
+                                            <option value="AF">Afghanistan</option>
+                                            <option value="AL">Albania</option>
+                                            <option value="DZ">Algeria</option>
+                                            <option value="AS">American Samoa</option>
+                                            <option value="AD">Andorra</option>
+                                            <option value="AO">Angola</option>
+                                            <option value="AI">Anguilla</option>
+                                            <option value="AQ">Antarctica</option>
+                                            <option value="IN">India</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row m-b-10">
+                                    <label class="col-sm-2 control-label">Enter the State</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" required="" placeholder="" id="" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row m-t-20 m-b-10">
+                                    <label class="col-sm-2 control-label">Status</label>
+                                    <div class="col-sm-5">
+                                        <select  class="selectpicker width-full js-example-basic-hide-search " name="location_status"> 
+                                            <option value="1">
+                                                Active 
+                                            </option>
+                                            <option value="2">
+                                                Deactivate
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group text-right m-b-20">
+                                    <button class="btn btn-theme">SAVE</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+            
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0" id="editState">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Edit State</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <form class="" role="form">
+                                <div class="form-group row m-t-20 m-b-10">
+                                    <label class="col-sm-2 control-label">State Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" required="" placeholder="" id="" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group text-right m-b-20">
+                                    <button class="btn btn-theme">UPDATE</button>
+                                    <button class="btn btn-default clearState">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+
+    <!-- begin row -->
+    <div class="row m-t-20">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0">
+                <div class="panel-heading">
+                    <h4 class="panel-title">State Details</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="data-table" data-order='[[0,"asc"]]' class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="default">
+                                        <th> Country Name </th>
+                                        <th> State Name </th>
+                                        <th> Status </th>
+                                        <th> Action </th>
+                                        <th> View / Delete </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td> India </td>
+                                        <td> AP </td>
+                                        <td> Active </td>
+                                        <td>
+                                            <label class="label label-danger">INACTIVE</label>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="javascript:;" class="btn btn-purple btn-icon btn-circle btn-sm">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            <a href="javascript:;" class="btn btn-danger btn-icon btn-circle btn-sm">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> India </td>
+                                        <td> TamilNadu </td>
+                                        <td> Inactive </td>
+                                        <td>
+                                            <label class="label label-success">ACTIVE</label>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="javascript:;" class="btn btn-purple btn-icon btn-circle btn-sm">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            <a href="javascript:;" class="btn btn-danger btn-icon btn-circle btn-sm">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> India </td>
+                                        <td> Telangana </td>
+                                        <td> Active </td>
+                                        <td>
+                                            <label class="label label-danger">INACTIVE</label>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="javascript:;" class="btn btn-purple btn-icon btn-circle btn-sm">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            <a href="javascript:;" class="btn btn-danger btn-icon btn-circle btn-sm">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> France </td>
+                                        <td> Paris </td>
+                                        <td> Inactive </td>
+                                        <td>
+                                            <label class="label label-success">ACTIVE</label>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="javascript:;" class="btn btn-purple btn-icon btn-circle btn-sm stateedit">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                            <a href="javascript:;" class="btn btn-danger btn-icon btn-circle btn-sm">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+</div>
+
+<script>
+    $(function() {
+        $('.stateedit').click(function() {
+            $('#editState').show();
+            $('#addState').hide();
+        });
+        $('.clearState').click(function() {
+            $('#editState').hide();
+            $('#addState').show();
+        });
+    });
+</script>

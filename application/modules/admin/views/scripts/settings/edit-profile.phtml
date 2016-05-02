@@ -1,0 +1,234 @@
+<?php
+$alladmindetailsArray = $this->admindetails;
+$countryCodeDetails = $this->countryCodeDetails;
+?>
+<style>
+    #tab-example li.active > a {
+        border-bottom: #ff0000 solid 4px !important;
+        color: #ff0000;
+    }
+
+    #tab-example li.active > a i {
+        color: #ff0000 !important;
+    }		
+
+    #tab-example li > a {
+        border: none;
+        background-color: transparent;
+        border-radius: 0;
+        border: none;
+    }
+</style>
+
+<div id="page-title">
+    <h2>Edit Profile Details</h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="example-box-wrapper">
+            <ul class="list-group row list-group-icons" id="tab-example">
+                <li class="col-md-3 active">
+                    <a href="#tab-example-1" id="1" data-toggle="tab" class="list-group-item"><i class="glyph-icon font-red icon-bullhorn"></i> Personal Information</a>
+                </li>
+                <li class="col-md-3">
+                    <a href="#tab-example-2" id="2" data-toggle="tab" class="list-group-item"><i class="glyph-icon icon-dashboard"></i> Account Settings</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane pad0A fade active in" id="tab-example-1">
+                    <div class="content-box">
+                        <form class="form-horizontal pad15L pad15R bordered-row"enctype="multipart/form-data" method="POST">
+                            <div class="form-group remove-border">
+                                <label class="col-sm-3 control-label">User Name:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control"  name="uname" id="uname" value="<?php echo $alladmindetailsArray[0]['uname']; ?>" placeholder="User name...">
+                                </div>
+                            </div>
+
+                            <div class="form-group remove-border">
+                                <label class="col-sm-3 control-label">First Name:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control"  name="first_name" value="<?php echo $alladmindetailsArray[0]['first_name']; ?>" placeholder="First name...">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Last Name:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="last_name"  id="last_name" value="<?php echo $alladmindetailsArray[0]['last_name']; ?>"  placeholder="Last name...">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Email:</label>
+                                <div class="col-sm-6">
+                                    <input type="email" class="form-control" name="email"  id="email" value="<?php echo $alladmindetailsArray[0]['email']; ?>"  placeholder="Email address...">
+                                </div>
+                            </div>                        
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">City:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control"  name="city"  id="city" value="<?php echo $alladmindetailsArray[0]['city']; ?>" placeholder="City...">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">State:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="state"  id="state" value="<?php echo $alladmindetailsArray[0]['state']; ?>" placeholder="State...">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Country:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="country"  id="country" value="<?php echo $alladmindetailsArray[0]['country']; ?>" placeholder="Country...">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Phone:</label>
+
+                                <div class="col-sm-6">
+                                    <select class="js-example-responsive form-control"  id="contact_country_code" name="contact_country_code" style="width:100%;">
+                                        <?php foreach ($countryCodeDetails as $value) { ?>
+                                            <option value="<?php echo $value['country_id']; ?>">
+
+                                                <?php echo $value['name']; ?>  &nbsp; <?php echo $value['phonecode']; ?>
+                                            </option>
+
+                                        <?php }
+                                        ?>
+                                    </select>
+                                    <input type="text" class="form-control"  id="phone"  name="phone" value="<?php echo $alladmindetailsArray[0]['phone']; ?>" placeholder="Phone...">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Profile Picture:</label>
+                                <div class="col-sm-6">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                            <img src="<?php echo $alladmindetailsArray[0]['profilepic_url']; ?>" data-src="<?php echo $alladmindetailsArray[0]['profilepic_url']; ?>" alt="...">
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                        <div>
+                                            <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span> <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="fileToUpload">
+                                            </span> <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="button-pane mrg20T text-right">
+                                <button type="submit" class="btn btn-info">Save</button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tab-example-2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="content-box mrg15B">
+                                <h3 class="content-box-header clearfix">Change Password</h3>
+                                <div class="content-box-wrapper pad0T clearfix">
+                                    <form class="form-horizontal pad15L pad15R bordered-row"   id="password-change">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Old password:</label>
+                                            <div class="col-sm-6">
+                                                <input type="password" class="form-control"  autocomplete="off" placeholder="Old Password" name="password" id="password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">New password:</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" autocomplete="off" placeholder="New Password" name="password2" id="password2">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Repeat password:</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" autocomplete="off" placeholder="Repeat password" name="password3" id="password3">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="button-pane mrg20T text-right">
+                                    <!--                                    <button class="btn btn-success" type="submit">Update Password</button>-->
+                                    <button type="submit" class="btn btn-circle green" id="submit-change-password"> Change Password</button>
+                                    <button type="button" class="btn btn-circle default" onclick="document.getElementById('password-change').reset();">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(window).load(function() {
+        setTimeout(function() {
+            $('#loading').fadeOut(400, "linear");
+        }, 100);
+    });
+    $(".js-example-responsive").select2();
+    $('#1').click(function(e) {
+        e.preventDefault();
+        $('#tab-example li:first-child').addClass('active');
+        $('#tab-example li:last-child').removeClass('active');
+        $('#tab-example-1').addClass('active');
+        $('#tab-example-1').addClass('in');
+        $('#tab-example-2').removeClass('active');
+        $('#tab-example-2').removeClass('in');
+    });
+    $('#2').click(function(p) {
+        p.preventDefault();
+        $('#tab-example li:last-child').addClass('active');
+        $('#tab-example li:first-child').removeClass('active');
+        $('#tab-example-2').addClass('active');
+        $('#tab-example-2').addClass('in');
+        $('#tab-example-1').removeClass('active');
+        $('#tab-example-1').removeClass('in');
+    });
+</script>
+<script>
+    jQuery(document).ready(function () {
+        $("#submit-change-password").click(function (e) {
+           
+                var current_password = $("#password").val();
+                var new_password = $("#password2").val();
+             var retype_password = $("#password3").val();
+             console.log(current_password,new_password,retype_password);
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/change-password",
+                    dataType: "json",
+                    data: {
+                       
+                        password: current_password,
+                        password1: new_password,
+                        password2: retype_password
+                    },
+                    success: function (response) {
+                     
+                        if (response == 1) {
+                         
+                                window.location.reload();
+                           
+
+
+                        } else if (response == 2) {
+                          
+                                document.getElementById('password-change').reset();
+                           
+                        }
+                    },
+                    error: function (response) {
+                   console.log(response);
+                       
+                    }
+                });
+            
+        });
+       
+    });
+    
+</script>

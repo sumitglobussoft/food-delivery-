@@ -21,7 +21,11 @@ class Admin_SettingsController extends Zend_Controller_Action {
      */
 
     public function countriesDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $locationsModel = Admin_Model_Location::getInstance();
 
         $countrys = $locationsModel->getCountrys();
@@ -51,6 +55,11 @@ class Admin_SettingsController extends Zend_Controller_Action {
      */
 
     public function statesDetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $locationsModel = Admin_Model_Location::getInstance();
 
         $states = $locationsModel->getStates();
@@ -85,6 +94,11 @@ class Admin_SettingsController extends Zend_Controller_Action {
      */
 
     public function cityDetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $locationsModel = Admin_Model_Location::getInstance();
         $citys = $locationsModel->getCitys();
         if ($citys) {
@@ -120,6 +134,11 @@ class Admin_SettingsController extends Zend_Controller_Action {
      */
 
     public function locationDetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $locationsModel = Admin_Model_Location::getInstance();
         $locations = $locationsModel->getLocations();
         if ($locations) {
@@ -158,6 +177,7 @@ class Admin_SettingsController extends Zend_Controller_Action {
         $locationsModel = Admin_Model_Location::getInstance();
         $cuisinesModel = Admin_Model_FamousCuisines::getInstance();
         $categoryModel = Admin_Model_MenuCategory::getInstance();
+        $groceryCategoryModel = Admin_Model_GroceryCategory::getInstance();
         $hotelcuisinesModel = Admin_Model_HotelCuisines::getInstance();
         if ($this->getRequest()->isPost()) {
             $method = $this->getRequest()->getParam('method');
@@ -235,7 +255,7 @@ class Admin_SettingsController extends Zend_Controller_Action {
                         die();
                     }
                     break;
-                // added by sowmya 2/4/2016
+// added by sowmya 2/4/2016
                 case 'cuisinedeactive':
                     $cuisineid = $this->getRequest()->getParam('cuisineid');
                     $result = $cuisinesModel->changeCuisineStatus($cuisineid);
@@ -245,7 +265,7 @@ class Admin_SettingsController extends Zend_Controller_Action {
                         echo "error";
                     }
                     break;
-                // added by sowmya 2/4/2016
+// added by sowmya 2/4/2016
                 case 'cuisineactive':
                     $cuisineid = $this->getRequest()->getParam('cuisineid');
                     $result = $cuisinesModel->changeCuisineStatus($cuisineid);
@@ -264,7 +284,7 @@ class Admin_SettingsController extends Zend_Controller_Action {
                         echo "error";
                     }
                     break;
-                // added by sowmya 2/4/2016
+// added by sowmya 2/4/2016
                 case 'categoryactive':
                     $categoryid = $this->getRequest()->getParam('categoryid');
                     $result = $categoryModel->changeCategoryStatus($categoryid);
@@ -274,7 +294,7 @@ class Admin_SettingsController extends Zend_Controller_Action {
                         echo "error";
                     }
                     break;
-                //added by sowmya 5/4/2016
+//added by sowmya 5/4/2016
                 case 'categorydelete':
                     $categoryid = $this->getRequest()->getParam('categoryid');
                     $result = $categoryModel->categorydelete($categoryid);
@@ -284,7 +304,7 @@ class Admin_SettingsController extends Zend_Controller_Action {
                         echo "error";
                     }
                     break;
-                //added by sowmya 5/4/2016
+//added by sowmya 5/4/2016
                 case 'getcategory':
                     $categoryid = $this->getRequest()->getParam('categoryid');
                     $result = $categoryModel->getCategoryById($categoryid);
@@ -300,7 +320,7 @@ class Admin_SettingsController extends Zend_Controller_Action {
                         die();
                     }
                     break;
-                //added by sowmya 5/4/2016
+//added by sowmya 5/4/2016
                 case 'cuisinedelete':
                     $cuisineid = $this->getRequest()->getParam('cuisineid');
                     $result = $cuisinesModel->Cuisinedelete($cuisineid);
@@ -312,7 +332,7 @@ class Admin_SettingsController extends Zend_Controller_Action {
                         echo "error";
                     }
                     break;
-                //added by sowmya 5/4/2016
+//added by sowmya 5/4/2016
                 case 'getcuisine':
                     $cuisineid = $this->getRequest()->getParam('cuisineid');
                     $result = $cuisinesModel->getCuisineById($cuisineid);
@@ -326,6 +346,92 @@ class Admin_SettingsController extends Zend_Controller_Action {
                         $arr['data'] = null;
                         echo json_encode($arr, true);
                         die();
+                    }
+                    break;
+                // added by sowmya 23/4/2016
+                case 'grocerycategorydeactive':
+                    $categoryid = $this->getRequest()->getParam('categoryid');
+                    $result = $groceryCategoryModel->changeCategoryStatus($categoryid);
+                    if ($result) {
+                        echo $categoryid;
+                    } else {
+                        echo "error";
+                    }
+                    break;
+// added by sowmya 23/4/2016
+                case 'grocerycategoryactive':
+                    $categoryid = $this->getRequest()->getParam('categoryid');
+                    $result = $groceryCategoryModel->changeCategoryStatus($categoryid);
+                    if ($result) {
+                        echo $categoryid;
+                    } else {
+                        echo "error";
+                    }
+                    break;
+//added by sowmya 23/4/2016
+                case 'grocerycategorydelete':
+                    $categoryid = $this->getRequest()->getParam('categoryid');
+                    $result = $groceryCategoryModel->categorydelete($categoryid);
+                    if ($result) {
+                        echo $result;
+                    } else {
+                        echo "error";
+                    }
+                    break;
+//added by sowmya 23/4/2016
+                case 'getgrocerycategory':
+                    $categoryid = $this->getRequest()->getParam('categoryid');
+                    $result = $groceryCategoryModel->getCategoryById($categoryid);
+                    if ($result) {
+                        $arr['code'] = 200;
+                        $arr['data'] = $result;
+                        echo json_encode($arr, true);
+                        die();
+                    } else {
+                        $arr['code'] = 198;
+                        $arr['data'] = null;
+                        echo json_encode($arr, true);
+                        die();
+                    }
+                    break;
+                //added by sowmya 25/4/2016
+                case 'citydelete':
+                    $locationid = $this->getRequest()->getParam('locationid');
+                    $result = $locationsModel->cityDelete($locationid);
+                    if ($result) {
+                        echo $result;
+                    } else {
+                        echo "error";
+                    }
+                    break;
+                //added by sowmya 25/4/2016
+                case 'statedelete':
+                    $locationid = $this->getRequest()->getParam('locationid');
+                    $result = $locationsModel->stateDelete($locationid);
+                    if ($result) {
+                        echo $result;
+                    } else {
+                        echo "error";
+                    }
+                    break;
+                //added by sowmya 25/4/2016
+                case 'countrydelete':
+                    $locationid = $this->getRequest()->getParam('locationid');
+                    $result = $locationsModel->countryDelete($locationid);
+                    if ($result) {
+                        echo $result;
+                    } else {
+                        echo "error";
+                    }
+                    break;
+                //added by sowmya 25/4/2016
+                case 'locationdelete':
+                    $locationid = $this->getRequest()->getParam('locationid');
+                    $result = $locationsModel->locationDelete($locationid);
+                    if ($result) {
+                        echo $result;
+                    } else {
+                        echo "error";
                     }
                     break;
             }
@@ -391,7 +497,11 @@ class Admin_SettingsController extends Zend_Controller_Action {
      */
 
     public function cuisinesDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $cuisinesModel = Admin_Model_FamousCuisines::getInstance();
         $hotelModel = Admin_Model_HotelDetails::getInstance();
         $hotelcuisinesModel = Admin_Model_HotelCuisines::getInstance();
@@ -454,7 +564,11 @@ class Admin_SettingsController extends Zend_Controller_Action {
      */
 
     public function categoryDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $categoryModel = Admin_Model_MenuCategory::getInstance();
         $category = $categoryModel->selectAllCategorys();
         if ($category) {
@@ -495,6 +609,170 @@ class Admin_SettingsController extends Zend_Controller_Action {
                         $this->redirect('/admin/category-details');
                     } else {
                         $this->redirect('/admin/category-details');
+                    }
+                }
+            }
+        }
+    }
+
+    /*
+     * Dev: sowmya
+     * Desc: edit profile
+     * date :19/4/2016
+     */
+
+    public function editProfileAction() {
+
+        $objCountry = Admin_Model_Country::getInstance();
+        $usermetaModel = Admin_Model_Usermeta::getInstance();
+        $userModel = Admin_Model_Users::getInstance();
+        $user_id = $this->view->session->storage->user_id;
+        $countryCodeDetails = $objCountry->getAllCountryCode();
+        if ($countryCodeDetails) {
+            $this->view->countryCodeDetails = $countryCodeDetails;
+        }
+        if ($this->_request->isPost()) {
+            $userid = $user_id;
+            $userdata['uname'] = $this->getRequest()->getPost('uname');
+            $userdata['email'] = $this->getRequest()->getPost('email');
+            $userdata['status'] = 1;
+            $usermetadata['first_name'] = $this->getRequest()->getPost('first_name');
+            $usermetadata['last_name'] = $this->getRequest()->getPost('last_name');
+            $usermetadata['phone'] = $this->getRequest()->getPost('phone');
+            $usermetadata['city'] = $this->getRequest()->getPost('city');
+            $usermetadata['state'] = $this->getRequest()->getPost('state');
+            $usermetadata['country'] = $this->getRequest()->getPost('country');
+            $usermetadata['contact_country_code'] = $this->getRequest()->getPost('contact_country_code');
+            $coverphoto = $_FILES["fileToUpload"]["name"];
+
+            $dirpath = getcwd() . "/assets/userimages/$userid/";
+            if (!file_exists($dirpath)) {
+                mkdir($dirpath, 0777, true);
+            }
+            if (!empty($coverphoto)) {
+                $imagepath = $dirpath . $coverphoto;
+                $savepath = "/assets/userimages/$userid/$coverphoto";
+                $imageTmpLoc = $_FILES["fileToUpload"]["tmp_name"];
+                $ext = pathinfo($coverphoto, PATHINFO_EXTENSION);
+                if ($ext != "jpg" && $ext != "png" && $ext != "jpeg" && $ext != "gif") {
+                    echo json_encode("Something went wrong image upload");
+                } else {
+                    $imagemoveResult = (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $imagepath));
+                    if ($imagemoveResult) {
+                        $link = $this->_appSetting->hostLink;
+                        $usermetadata['profilepic_url'] = $link . $savepath;
+                        $result1 = $userModel->updateUserdetails($userid, $userdata);
+                        $result2 = $usermetaModel->updateUsermetadetails($userid, $usermetadata);
+                        if ($result1 || $result2) {
+                            $this->redirect('/admin/edit-profile');
+                        } else {
+                            $this->view->errormessage = 'user details not updated properly';
+                        }
+                    } else {
+                        $result1 = $userModel->updateUserdetails($userid, $userdata);
+                        $result2 = $usermetaModel->updateUsermetadetails($userid, $usermetadata);
+                    }
+                }
+            } else {
+                $result1 = $userModel->updateUserdetails($userid, $userdata);
+                $result2 = $usermetaModel->updateUsermetadetails($userid, $usermetadata);
+            }
+        }
+        $result = $userModel->getAdminDetails();
+
+        if ($result) {
+            $this->view->admindetails = $result;
+        } else {
+            echo 'controller error occured';
+        }
+    }
+
+    public function changePasswordAction() {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $userModel = Admin_Model_Users::getInstance();
+        $userId = $this->view->session->storage->user_id;
+
+        if ($this->_request->isPost()) {
+
+            $old_password = $this->getRequest()->getPost('password');
+            $new_password = $this->getRequest()->getPost('password1');
+            $retype_password = $this->getRequest()->getPost('password2');
+            if ($old_password != '' && $new_password != '' && $retype_password != '') {
+                if ($old_password != $new_password) {
+                    $old_password = sha1(md5($old_password));
+                    $new_password = sha1(md5($new_password));
+                    $retype_password = sha1(md5($retype_password));
+                    $data = array('password' => $new_password);
+                    $wherecondition = "user_id = '" . $userId . "' and password = '" . $old_password . "'";
+                    $Updatepassword = $userModel->updateUsercredsWhere($data, $wherecondition);
+
+                    if ($Updatepassword) {
+                        $this->view->successMsg = "Password Changed Successfully";
+                    } else {
+                        $this->view->errorMsg = "Invalid Password";
+                    }
+                } else {
+                    $this->view->errorMsg = "* Current and New Password should not be same";
+                }
+            } else {
+                $this->view->errorMsg = "Please Enter all Passwords";
+            }
+        }
+    }
+
+    /*
+     * Dev: sowmya
+     * Desc: fetch  grocery category
+     * date : 23/4/2016
+     */
+
+    public function groceryCategoryDetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
+        $categoryModel = Admin_Model_GroceryCategory::getInstance();
+        $category = $categoryModel->selectAllCategorys();
+        if ($category) {
+            $this->view->categorydetails = $category;
+        }
+        if ($this->getRequest()->isPost()) {
+            $data['cat_name'] = $this->getRequest()->getPost('categoryname');
+            $data['cat_desc'] = $this->getRequest()->getPost('cat_desc');
+            $data['cat_status'] = $this->getRequest()->getPost('cat_status');
+            $result = $categoryModel->addCategory($data);
+            if ($result) {
+                $this->redirect('/admin/grocery-category-details');
+            }
+        }
+    }
+
+    /*
+     * Dev: sowmya
+     * Desc: edit category
+     * date : 2/4/2016
+     */
+
+    public function editGroceryCategoryAction() {
+
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $categoryModel = Admin_Model_GroceryCategory::getInstance();
+        if ($this->getRequest()->isPost()) {
+            $data['cat_name'] = $this->getRequest()->getPost('category');
+            $data['cat_desc'] = $this->getRequest()->getPost('catdesc');
+            $category_id = $this->getRequest()->getPost('category_id');
+            $categoryname = $this->getRequest()->getPost('categorybtn');
+
+            if ($category_id) {
+                $result = $categoryModel->updateCategory($data, $category_id);
+                if ($categoryname == 'category') {
+                    if ($result) {
+                        $this->redirect('/admin/grocery-category-details');
+                    } else {
+                        $this->redirect('/admin/grocery-category-details');
                     }
                 }
             }

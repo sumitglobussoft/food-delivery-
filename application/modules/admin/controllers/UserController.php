@@ -9,6 +9,11 @@ class Admin_UserController extends Zend_Controller_Action {
     }
 
     public function userdetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $userModel = Admin_Model_Users::getInstance();
         $result = $userModel->getUserdetails();
 
@@ -26,8 +31,35 @@ class Admin_UserController extends Zend_Controller_Action {
      */
 
     public function editUserDetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $userModel = Admin_Model_Users::getInstance();
         $userId = $this->getRequest()->getParam("userId");
+
+        $objCountry = Admin_Model_Country::getInstance();
+        $countryCodeDetails = $objCountry->getAllCountryCode();
+        if ($countryCodeDetails) {
+            $this->view->countryCodeDetails = $countryCodeDetails;
+        }
+        $objCountries = Admin_Model_Countries::getInstance();
+
+        $CountriesDetails = $objCountries->getAllCountries();
+        if ($CountriesDetails) {
+            $this->view->countryDetails = $CountriesDetails;
+        }
+        $objStates = Admin_Model_States::getInstance();
+        $StatesDetails = $objStates->getAllStates();
+        if ($StatesDetails) {
+            $this->view->statesDetails = $StatesDetails;
+        }
+        $objCities = Admin_Model_Cities::getInstance();
+        $CitiesDetails = $objCities->getAllCities();
+        if ($CitiesDetails) {
+            $this->view->CitiesDetails = $CitiesDetails;
+        }
         $usermetaModel = Admin_Model_Usermeta::getInstance();
 
         if ($this->_request->isPost()) {
@@ -42,12 +74,39 @@ class Admin_UserController extends Zend_Controller_Action {
             $usermetadata['state'] = $this->getRequest()->getPost('state');
             $usermetadata['country'] = $this->getRequest()->getPost('country');
             $usermetadata['contact_country_code'] = $this->getRequest()->getPost('contact_country_code');
-            $result1 = $userModel->updateUserdetails($userid, $userdata);
-            $result2 = $usermetaModel->updateUsermetadetails($userid, $usermetadata);
-            if ($result1 || $result2) {
-                $this->redirect('/admin/userdetails');
+            $coverphoto = $_FILES["fileToUpload"]["name"];
+
+            $dirpath = getcwd() . "/assets/userimages/$userId/";
+            if (!file_exists($dirpath)) {
+                mkdir($dirpath, 0777, true);
+            }
+            if (!empty($coverphoto)) {
+                $imagepath = $dirpath . $coverphoto;
+                $savepath = "/assets/userimages/$userId/$coverphoto";
+                $imageTmpLoc = $_FILES["fileToUpload"]["tmp_name"];
+                $ext = pathinfo($coverphoto, PATHINFO_EXTENSION);
+                if ($ext != "jpg" && $ext != "png" && $ext != "jpeg" && $ext != "gif") {
+                    echo json_encode("Something went wrong image upload");
+                } else {
+                    $imagemoveResult = (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $imagepath));
+                    if ($imagemoveResult) {
+                        $link = $this->_appSetting->hostLink;
+                        $usermetadata['profilepic_url'] = $link . $savepath;
+                        $result1 = $userModel->updateUserdetails($userid, $userdata);
+                        $result2 = $usermetaModel->updateUsermetadetails($userid, $usermetadata);
+                        if ($result1 || $result2) {
+                            $this->redirect('/admin/userdetails');
+                        } else {
+                            $this->view->errormessage = 'user details not updated properly';
+                        }
+                    } else {
+                        $result1 = $userModel->updateUserdetails($userid, $userdata);
+                        $result2 = $usermetaModel->updateUsermetadetails($userid, $usermetadata);
+                    }
+                }
             } else {
-                $this->view->errormessage = 'user details not updated properly';
+                $result1 = $userModel->updateUserdetails($userid, $userdata);
+                $result2 = $usermetaModel->updateUsermetadetails($userid, $usermetadata);
             }
         }
         $result = $userModel->getAllUserdetails($userId);
@@ -66,9 +125,19 @@ class Admin_UserController extends Zend_Controller_Action {
      */
 
     public function addUserDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $userModel = Admin_Model_Users::getInstance();
         $usermetaModel = Admin_Model_Usermeta::getInstance();
+
+        $objCountry = Admin_Model_Country::getInstance();
+        $countryCodeDetails = $objCountry->getAllCountryCode();
+        if ($countryCodeDetails) {
+            $this->view->countryCodeDetails = $countryCodeDetails;
+        }
 
         if ($this->_request->isPost()) {
             $userdata['uname'] = $this->getRequest()->getPost('uname');
@@ -86,11 +155,41 @@ class Admin_UserController extends Zend_Controller_Action {
             $usermetadata['state'] = $this->getRequest()->getPost('state');
             $usermetadata['country'] = $this->getRequest()->getPost('country');
             $usermetadata['contact_country_code'] = $this->getRequest()->getPost('contact_country_code');
+            if ($usermetadata) {
+                $result2 = $usermetaModel->addUsermetadetails($usermetadata);
 
-            $result2 = $usermetaModel->addUsermetadetails($usermetadata);
-
-            if ($result2) {
-                $this->redirect('/admin/userdetails');
+                if ($result2) {
+                    $coverphoto = $_FILES["fileToUpload"]["name"];
+                    $dirpath = getcwd() . "/assets/userimages/$userId/";
+                    if (!file_exists($dirpath)) {
+                        mkdir($dirpath, 0777, true);
+                    }
+                    if (!empty($coverphoto)) {
+                        $imagepath = $dirpath . $coverphoto;
+                        $savepath = "/assets/userimages/$userId/$coverphoto";
+                        $imageTmpLoc = $_FILES["fileToUpload"]["tmp_name"];
+                        $ext = pathinfo($coverphoto, PATHINFO_EXTENSION);
+                        if ($ext != "jpg" && $ext != "png" && $ext != "jpeg" && $ext != "gif") {
+                            echo json_encode("Something went wrong image upload");
+                        } else {
+                            $imagemoveResult = (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $imagepath));
+                            if ($imagemoveResult) {
+                                $link = $this->_appSetting->hostLink;
+                                $usermetadata['profilepic_url'] = $link . $savepath;
+                                $result3 = $usermetaModel->updateUsermetadetails($userId, $usermetadata);
+                                if ($result3) {
+                                    $this->redirect('/admin/userdetails');
+                                } else {
+                                    $this->view->errormessage = 'User image not updated ';
+                                }
+                            } else {
+                                $this->view->errormessage = 'User image not updated ';
+                            }
+                        }
+                    } else {
+                        $this->redirect('/admin/userdetails');
+                    }
+                }
             }
         }
     }
@@ -170,7 +269,7 @@ class Admin_UserController extends Zend_Controller_Action {
                         echo "Error";
                     }
                     break;
-                         // added by sowmya 11/4/2016
+                // added by sowmya 11/4/2016
                 case 'agentdelete':
                     $agentid = $this->getRequest()->getParam('agentid');
                     $result = $agentsModal->agentdelete($agentid);
@@ -184,7 +283,7 @@ class Admin_UserController extends Zend_Controller_Action {
                         '<br>';
                         echo $result2;
                         '<br>';
-                        echo $result3;                      
+                        echo $result3;
                     } else {
                         echo "error";
                     }
@@ -273,6 +372,11 @@ class Admin_UserController extends Zend_Controller_Action {
      */
 
     public function viewUserDetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $userModel = Admin_Model_Users::getInstance();
         $userId = $this->getRequest()->getParam("userId");
         $result = $userModel->getAllUserdetails($userId);

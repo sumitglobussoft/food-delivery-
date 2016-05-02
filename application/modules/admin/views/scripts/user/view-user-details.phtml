@@ -1,10 +1,8 @@
-
 <?php
 $alluserdetailsArray = $this->alluserdetails;
 ?>
 <div id="page-title">
     <h2>View Users Details</h2>
-    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -37,15 +35,7 @@ $alluserdetailsArray = $this->alluserdetails;
                                                         }
                                                         ?>" alt="">
                                                     </div>
-                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
-                                                    <!--                                                <div>
-                                                                                                        <span class="btn btn-default btn-file">
-                                                                                                            <span class="fileinput-new">Select Image</span>
-                                                                                                            <span class="fileinput-exists">Replace</span>
-                                                                                                            <input type="file" name="fileToUpload">
-                                                                                                        </span>
-                                                                                                        <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
-                                                                                                    </div>-->
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>        
                                                 </div>
                                             </td>
                                         </tr>
@@ -83,8 +73,15 @@ $alluserdetailsArray = $this->alluserdetails;
                                                 <?php echo $alluserdetailsArray['last_name']; ?>
                                             </td>
                                         </tr>
-
-
+<!--
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Password</label>
+                                            </td>
+                                            <td>
+                                                <?php //echo ($alluserdetailsArray['password'] ); ?>
+                                            </td>
+                                        </tr>-->
 
                                     </tbody>
                                 </table>
@@ -103,7 +100,7 @@ $alluserdetailsArray = $this->alluserdetails;
                                                 <label class="control-label">Phone</label>
                                             </td>
                                             <td>
-                                                <?php echo $alluserdetailsArray['contact_country_code']; ?> &nbsp; <?php echo $alluserdetailsArray['phone']; ?>
+                                                <?php echo $alluserdetailsArray['phonecode']; ?> &nbsp; <?php echo $alluserdetailsArray['phone']; ?>
 
 
                                             <td>

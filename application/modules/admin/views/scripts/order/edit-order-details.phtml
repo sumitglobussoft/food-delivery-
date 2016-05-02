@@ -1,9 +1,9 @@
 <?php
 $allorderdetailsArray = $this->orderdetails;
+//echo '<pre>';print_r($allorderdetailsArray);die;
 ?>
 <div id="page-title">
     <h2>View Order Details</h2>
-    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -17,10 +17,18 @@ $allorderdetailsArray = $this->orderdetails;
                                     <tbody>
                                         <tr>
                                             <td>
+                                                <label class="control-label">Order Id</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['order_id']; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
                                                 <label class="control-label">User Name</label>
                                             </td>
                                             <td>
-                                                <?php echo $allorderdetailsArray['uname'] ?>
+                                                <?php echo $allorderdetailsArray['uname']; ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -28,7 +36,7 @@ $allorderdetailsArray = $this->orderdetails;
                                                 <label class="control-label">User Email</label>
                                             </td>
                                             <td>
-                                                <?php echo $allorderdetailsArray['email'] ?>
+                                                <?php echo $allorderdetailsArray['email']; ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -36,16 +44,16 @@ $allorderdetailsArray = $this->orderdetails;
                                                 <label class="control-label">Hotel Name</label>
                                             </td>
                                             <td>
-                                                <?php echo $allorderdetailsArray['hotel_name'] ?>
+                                                <?php echo $allorderdetailsArray['hotel_name']; ?>
 
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <label class="control-label">Product Name</label>
+                                                <label class="control-label">Product ID</label>
                                             </td>
                                             <td>
-                                                <?php echo $allorderdetailsArray['name'] ?>
+                                                <?php echo $allorderdetailsArray['product_id']; ?>
 
                                             </td>
                                         </tr>
@@ -54,7 +62,7 @@ $allorderdetailsArray = $this->orderdetails;
                                                 <label class="control-label">Product Amount</label>
                                             </td>
                                             <td>
-                                                <?php echo $allorderdetailsArray['product_amount'] ?>
+                                                <?php echo $allorderdetailsArray['product_amount']; ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -62,16 +70,16 @@ $allorderdetailsArray = $this->orderdetails;
                                                 <label class="control-label">Quantity</label>
                                             </td>
                                             <td>
-                                                <?php echo $allorderdetailsArray['quantity'] ?>
+                                                <?php echo $allorderdetailsArray['quantity']; ?>
                                             </td>
                                         </tr>                                      
                                         <tr>
                                             <td>
-                                                <label class="control-label">Pay Type</label>
+                                                <label class="control-label">Transaction Type</label>
                                             </td>
                                             <td>
                                                 <?php
-                                                if ($allorderdetailsArray['pay_type'] == 0) {
+                                                if ($allorderdetailsArray['tx_type'] == 0) {
                                                     echo" COD";
                                                 } else {
                                                     echo" Paypal";
@@ -80,6 +88,30 @@ $allorderdetailsArray = $this->orderdetails;
 
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Transaction Amount</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['tx_amount']; ?>
+                                            </td>
+                                        </tr> 
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Tax Code</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['tx_code']; ?>
+                                            </td>
+                                        </tr>  
+                                        <tr>
+                                            <td>
+                                                <label class="control-label"> Code</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['COD_Code']; ?>
+                                            </td>
+                                        </tr>  
                                         <tr>
                                             <td>
                                                 <label class="control-label">Pay Amount</label>
@@ -94,14 +126,14 @@ $allorderdetailsArray = $this->orderdetails;
                                             </td>
                                             <td>
                                                 <?php
-                                                if ($allorderdetailsArray['pay_status'] == 0) {
-                                                    echo"Pending";
-                                                } elseif ($allorderdetailsArray['pay_status'] == 1) {
-                                                    echo"Completed";
-                                                } elseif ($allorderdetailsArray['pay_status'] == 2) {
+                                                if ($allorderdetailsArray['tx_status'] == 1) {
+                                                    echo 'Success';
+                                                } elseif ($allorderdetailsArray['tx_status'] == 2) {
+                                                    echo 'Pending';
+                                                } elseif ($allorderdetailsArray['tx_status'] == 3) {
                                                     echo" Failed";
                                                 } else {
-                                                    echo" COD";
+                                                    echo 'Canceled';
                                                 }
                                                 ?>
                                             </td> 
@@ -125,16 +157,11 @@ $allorderdetailsArray = $this->orderdetails;
                                             <td>  
                                                 <?php
                                                 if ($allorderdetailsArray['order_status'] == 0) {
-                                                    echo"selected";
+                                                    echo"Pending";
                                                 } elseif ($allorderdetailsArray['order_status'] == 1) {
-                                                    echo"In Process";
-                                                } elseif ($allorderdetailsArray['order_status'] == 2) {
-                                                    echo"Delivered";
-                                                } elseif ($allorderdetailsArray['order_status'] == 3) {
+                                                    echo"Approved";
+                                                } elseif ($allorderdetailsArray['order_status'] == 6) {
                                                     echo"Canceled ";
-                                                }echo"Dispatch ";
-                                                {
-                                                    
                                                 }
                                                 ?>
                                             </td>
@@ -175,15 +202,24 @@ $allorderdetailsArray = $this->orderdetails;
                                                 <label class="control-label">Delivery  Charge</label>
                                             </td>
                                             <td>
-<?php echo $allorderdetailsArray['delivery_charge'] ?>
+                                                <?php echo $allorderdetailsArray['delivery_charge'] ?>
                                             </td>
                                         </tr>
+                                        
+                                           <tr>
+                                            <td>
+                                                <label class="control-label">Cancel Refund Reason</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['cancel_refund_reason'] ?>
+                                            </td>
+                                        </tr> 
                                         <tr>
                                             <td>
                                                 <label class="control-label">User Message</label>
                                             </td>
                                             <td>
-<?php echo $allorderdetailsArray['user_message'] ?>
+                                                <?php echo $allorderdetailsArray['user_message'] ?>
                                             </td>
                                         </tr>                                     
                                     </tbody>
@@ -193,9 +229,8 @@ $allorderdetailsArray = $this->orderdetails;
                     </div>
                 </div>
             </div>
+        </form>
     </div>
-</form>
-</div>
 </div>
 
 

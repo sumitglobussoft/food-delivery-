@@ -16,7 +16,28 @@ class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
             self::$_instance = new Admin_Model_HotelDetails();
         return self::$_instance;
     }
+ /*
+     * Dev : Sowmya
+     * Date: 19/4/2015
+     * Desc: TO get all hotels in db
+     */
 
+    public function getAllHotels() {
+        try {
+
+            $select = $this->select()
+                   ->from($this);  
+            $result = $this->getAdapter()->fetchAll($select);
+            if ($result) {
+                return $result;
+            } else {
+
+                return null;
+            }
+        } catch (Exception $e) {
+            throw new Exception('Unable to access data :' . $e);
+        }
+    }
     /*
      * Dev : Sowmya
      * Date: 5/4/2015
@@ -223,7 +244,7 @@ class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
             $agent_id = func_get_arg(0);
             try {
                 $db = Zend_Db_Table::getDefaultAdapter();
-                $where = (array('agent_id = ?' => $id));
+                $where = (array('agent_id = ?' => $agent_id));
                 $db->delete('hotel_details', $where);
             } catch (Exception $e) {
                 throw new Exception($e);
@@ -233,7 +254,31 @@ class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         endif;
     }
+    /*
+     * Dev : Sowmya
+     * Date: 23/4/2015
+      function :function to get all hotel details by address */
 
+    public function getHotelDetailsByAddress() {
+        if (func_num_args() > 0) {
+            $id = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('hd' => 'hotel_details'))
+                        ->joinLeft(array('dg' => 'delivery_guys'), 'hd.address= dg.address', array('dg.del_guy_id', 'dg.address'))
+                        ->where('hd.id = ?', $id);
+
+                $result = $this->getAdapter()->fetchAll($select);
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+
+            if ($result) {
+                return $result;
+            }
+        }
+    }
 }
 
 ?>

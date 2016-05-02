@@ -16,7 +16,11 @@ class Admin_HotelDetailsController extends Zend_Controller_Action {
      */
 
     public function editHotelDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $hotelDetailsModel = Admin_Model_HotelDetails::getInstance();
 
         $hotelCuisinesModel = Admin_Model_HotelCuisines::getInstance();
@@ -34,7 +38,7 @@ class Admin_HotelDetailsController extends Zend_Controller_Action {
         if ($this->getRequest()->isPost()) {
 
             $data['id'] = $hotel_id;
-            $data['primary_phone'] = $this->getRequest()->getPost('primary_phone');
+            $data['hotel_contact_number'] = $this->getRequest()->getPost('primary_phone');
             $data['secondary_phone'] = $this->getRequest()->getPost('secondary_phone');
             $data['hotel_name'] = $this->getRequest()->getPost('hotel_name');
             $data['open_time'] = $this->getRequest()->getPost('open_time');
@@ -63,8 +67,8 @@ class Admin_HotelDetailsController extends Zend_Controller_Action {
                     $imagemoveResult = (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $imagepath));
 
                     if ($imagemoveResult) {
-                        $link = "http://" . $_SERVER["HTTP_HOST"];
-
+//                        $link = "http://" . $_SERVER["HTTP_HOST"];
+                        $link = $this->_appSetting->hostLink;
                         $data['hotel_image'] = $link . $savepath;
 //                          print_r($data);die("fbh");
                         $result1 = $hotelDetailsModel->updateHotelDetails($hotel_id, $data);
@@ -142,6 +146,11 @@ class Admin_HotelDetailsController extends Zend_Controller_Action {
      */
 
     public function hotelDetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $hotelDetailsModel = Admin_Model_HotelDetails::getInstance();
         $result = $hotelDetailsModel->selectAllHotels();
 
@@ -213,7 +222,11 @@ class Admin_HotelDetailsController extends Zend_Controller_Action {
      */
 
     public function viewHotelDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $hotelDetailsModel = Admin_Model_HotelDetails::getInstance();
         $hotelCuisinesModel = Admin_Model_HotelCuisines::getInstance();
         $hotel_id = $this->getRequest()->getParam('id');

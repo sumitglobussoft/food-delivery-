@@ -1,7 +1,5 @@
-                                     
 <div id="page-title">
-    <h2>Send Agent Notification</h2>
-    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
+    <h2>Send Agent Notification</h2>  
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -227,16 +225,16 @@ if (isset($this->data)) {
     $row = 0;
     foreach ($this->data as $collectionData) {     // echo '<pre>';print_r($collectionData);die;
         ?>
-                                                            <tr class="selectable">
-                                                                <td class="center"><?php echo ++$row; ?></td>
-                                                                <td><input class="case" type="checkbox" name="case" id="<?php echo $collectionData['agent_id']; ?>"/><?php
+                                                                    <tr class="selectable">
+                                                                        <td class="center"><?php echo ++$row; ?></td>
+                                                                        <td><input class="case" type="checkbox" name="case" id="<?php echo $collectionData['agent_id']; ?>"/><?php
         echo $collectionData['first_name'];
         echo ' ';
         echo $collectionData['last_name'];
         ?></td>                                 
-                                                                <td class="center"><?php echo $collectionData['email']; ?></td>
-                                                                <td class="center"><?php echo $collectionData['reg_date']; ?></td>
-                                                            </tr>
+                                                                        <td class="center"><?php echo $collectionData['email']; ?></td>
+                                                                        <td class="center"><?php echo $collectionData['reg_date']; ?></td>
+                                                                    </tr>
         <?php
     }
 }

@@ -36,10 +36,10 @@
 
         $('#data-table').dataTable();
 
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-        elems.forEach(function(html) {
-            var switchery = new Switchery(html);
-        });
+//        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+//        elems.forEach(function(html) {
+//            var switchery = new Switchery(html);
+//        });
 
         /*
          * DEV :priyanka varanasi
@@ -68,6 +68,7 @@
 
                 },
                 success: function(response) {
+                    console.log(response);
                     var response = JSON.parse(response);
                     if (response.code == "200") {
                         var uid = response['data'].replace(/ /g, '');
@@ -372,9 +373,9 @@
 
             },
             success: function(response) {
-              
+
                 var res = jQuery.parseJSON(response);
-                  console.log(res);
+                console.log(res);
                 if (res.code === 200) {
                     console.log(res.code);
                     $('#cuisine').html('');
@@ -424,7 +425,7 @@
             }
         });
     });
- /*
+    /*
      * DEV :sowmya
      * Desc : Delete hotel
      * Date : 14/4/2016
@@ -452,6 +453,229 @@
                         var uid = response['data'].replace(/ /g, '');
 
                         $('#' + "hoteldelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Status  change for grocery
+     * Date : 26/4/2016
+     */
+    $(document.body).on('change', '.grocerydeactive', function() {
+        var groceryid = $(this).attr('id');
+        var groceryid = groceryid.replace("grocery_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'groceryactive',
+                groceryid: groceryid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var response = JSON.parse(response);
+                if (response.code == "200") {
+                    var uid = response['data'].replace(/ /g, '');
+                    $('#' + "activeclass_" + uid).html("SUSPENDED");
+                    $('#' + "activeclass_" + uid).removeClass('label label-success');
+                    $('#' + "activeclass_" + uid).addClass('label label-danger');
+                    $('#grocery_' + uid).removeClass('grocerydeactive');
+                    $('#grocery_' + uid).addClass('groceryactive');
+
+
+                } else {
+                    alert('Request could not served');
+                }
+            }
+        });
+
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Status  change for grocery
+     * Date : 26/4/2016
+     */
+    $(document.body).on('change', '.groceryactive', function() {
+        var groceryid = $(this).attr('id');
+        var groceryid = groceryid.replace("grocery_", "");
+
+        console.log('activate called');
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'groceryactive',
+                groceryid: groceryid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var response = JSON.parse(response);
+                if (response.code === "200") {
+                    var uid = response['data'].replace(/ /g, '');
+                    $('#' + "activeclass_" + uid).html("ACTIVE");
+                    $('#' + "activeclass_" + uid).removeClass('label label-danger');
+                    $('#' + "activeclass_" + uid).addClass('label label-success');
+                    $('#grocery_' + uid).removeClass('groceryactive');
+                    $('#grocery_' + uid).addClass('grocerydeactive');
+
+
+                } else {
+                    alert('Request could not served');
+                }
+            }
+        });
+
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Delete grocery
+     * Date : 26/4/2016
+     */
+
+    $(document.body).on('click', '.deletegrocery', function() {
+        var groceryid = $(this).attr('id');
+        var deleteid = groceryid.replace("grocerydelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'grocerydelete',
+                    groceryid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+
+                    var response = JSON.parse(response);
+                    console.log(response);
+                    if (response) {
+                        var uid = response['data'].replace(/ /g, '');
+
+                        $('#' + "grocerydelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+    });
+
+    /*
+     * DEV :sowmya
+     * Desc : Status  change for reviews
+     * Date : 27/4/2016
+     */
+    $(document.body).on('change', '.reviewdeactive', function() {
+        var reviewid = $(this).attr('id');
+        var reviewid = reviewid.replace("review_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'reviewactive',
+                reviewid: reviewid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var response = JSON.parse(response);
+                if (response.code === "200") {
+                    var uid = response['data'].replace(/ /g, '');
+                    $('#' + "activeclass_" + uid).html("SUSPENDED");
+                    $('#' + "activeclass_" + uid).removeClass('label label-success');
+                    $('#' + "activeclass_" + uid).addClass('label label-danger');
+                    $('#review_' + uid).removeClass('reviewdeactive');
+                    $('#review_' + uid).addClass('reviewactive');
+                }
+            }
+        });
+
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Status  change for review
+     * Date : 27/4/2016
+     */
+    $(document.body).on('change', '.reviewactive', function() {
+        var reviewid = $(this).attr('id');
+        var reviewid = reviewid.replace("review_", "");
+
+        console.log('activate called');
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'reviewactive',
+                reviewid: reviewid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var response = JSON.parse(response);
+                if (response.code === "200") {
+                    var uid = response['data'].replace(/ /g, '');
+                    $('#' + "activeclass_" + uid).html("ACTIVE");
+                    $('#' + "activeclass_" + uid).removeClass('label label-danger');
+                    $('#' + "activeclass_" + uid).addClass('label label-success');
+                    $('#review_' + uid).removeClass('reviewactive');
+                    $('#review_' + uid).addClass('reviewdeactive');
+                }
+            }
+        });
+
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Delete review
+     * Date : 27/4/2016
+     */
+
+    $(document.body).on('click', '.deletereview', function() {
+        var reviewid = $(this).attr('id');
+        var deleteid = reviewid.replace("reviewdelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'reviewdelete',
+                    reviewid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+
+                    var response = JSON.parse(response);
+                    console.log(response);
+                    if (response) {
+                        var uid = response['data'].replace(/ /g, '');
+
+                        $('#' + "reviewdelete_" + uid).parent().parent().remove();
 
                     }
                 }

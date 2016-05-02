@@ -1,3 +1,4 @@
+<?php // echo '<pre>';print_r($this->hoteldetails); die; ?>
 <div id="content" class="content">
     <ol class="breadcrumb pull-right">
         <li><a href="index.html">Home</a></li>
@@ -18,7 +19,7 @@
                 <div class="panel-body">
                     <form class="" role="form" enctype="multipart/form-data" method="POST">
                         <div class="row">
-                            <div class="col-md-12">
+<!--                            <div class="col-md-12">
                                 <legend class="heading">Location:</legend>
 
                                 <div class="row">
@@ -70,7 +71,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="col-md-12">
                                 <legend class="heading">Details:</legend>
 
@@ -87,9 +88,9 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label">Select Cuisine</label>
-                                            <select class="form-control selectpicker width-full" value="<?php echo $this->cuisine123; ?>" multiple="" name="selectcuisine[]" data-size="10" data-live-search="true">
-                                                <optgroup label="Select Cuisine">
+                                            <label class="control-label">Hotel Cuisine</label>
+<!--                                            <select class="form-control selectpicker width-full" value="<?php echo $this->cuisine123; ?>" multiple="" name="selectcuisine[]" data-size="10" data-live-search="true">-->
+<!--                                                <optgroup label="Select Cuisine">-->
                                                     <?php
 //                                                                                        echo $this->cuisine123 ;die;
                                                     if (isset($this->cuisine123)) {
@@ -100,8 +101,8 @@
                                                     }
 //                                                }
                                                     ?>
-                                                </optgroup>
-                                            </select>
+<!--                                                </optgroup>-->
+<!--                                            </select>-->
 
                                         </div>
 

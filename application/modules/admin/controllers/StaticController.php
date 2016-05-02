@@ -15,6 +15,11 @@ class Admin_StaticController extends Zend_Controller_Action {
     }
 
     public function deliveryGuysDetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $deliveryGuysModel = Admin_Model_DeliveryGuys::getInstance();
         $result = $deliveryGuysModel->getAllDeliveryGuys();
         if ($result) {
@@ -26,8 +31,22 @@ class Admin_StaticController extends Zend_Controller_Action {
 
 //alter by sowmya 18 march 2016
     public function addDeliveryGuyAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $deliveryGuysModel = Admin_Model_DeliveryGuys::getInstance();
+        $hotelModel = Admin_Model_HotelDetails::getInstance();
+        $hoteldetails = $hotelModel->getAllHotels();
+        if ($hoteldetails) {
+            $this->view->hotelslist = $hoteldetails;
+        }
+        $hotelId = array();
 
+//        foreach ($hoteldetails as $key => $value) {
+//            $hotelId[] = $value['id'];
+//        }
         if ($this->_request->isPost()) {
             $deliverydata['login_name'] = $this->getRequest()->getPost('login_name');
             $deliverydata['firstname'] = $this->getRequest()->getPost('firstname');
@@ -40,8 +59,13 @@ class Admin_StaticController extends Zend_Controller_Action {
             $deliverydata['country'] = $this->getRequest()->getPost('country');
             $deliverydata['address'] = $this->getRequest()->getPost('address');
             $deliverydata['status'] = $this->getRequest()->getPost('status');
+//            $deliverydata['hotel_id'] = $this->getRequest()->getPost('hotel_id');
+            $hotelId[] = $this->getRequest()->getPost('hotel_id');
+            $deliverydata['hotel_id'] = json_encode($hotelId);
             $deliverydata['reg_date'] = date('Y-m-d H-i-s');
-
+            echo'<pre>';
+            print_r($deliverydata);
+            die;
             $result = $deliveryGuysModel->addDeliveryGuydetails($deliverydata);
             if ($result) {
                 $this->redirect('/admin/delivery-guys-details');
@@ -51,7 +75,11 @@ class Admin_StaticController extends Zend_Controller_Action {
 
 //alter by sowmya 18 march 2016
     public function editDeliveryguyDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $deliveryGuysModel = Admin_Model_DeliveryGuys::getInstance();
         $delguyid = $this->getRequest()->getParam('delguyid');
         if ($this->_request->isPost()) {
@@ -85,6 +113,11 @@ class Admin_StaticController extends Zend_Controller_Action {
 
 //added by sowmya 5 april 2016
     public function deliveryGuyOrdersAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $deliveryGuysModel = Admin_Model_DeliveryGuys::getInstance();
 
         $delguyid = $this->getRequest()->getParam('delguy-id');
@@ -114,6 +147,11 @@ class Admin_StaticController extends Zend_Controller_Action {
 
 //added by sowmya 5 april 2016
     public function deliveryGuyOrderLogsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $DeliveryStatusLogModel = Admin_Model_DeliveryStatusLog::getInstance();
         $result = $DeliveryStatusLogModel->getAllOrderStatus();
         if ($result) {
@@ -138,15 +176,19 @@ class Admin_StaticController extends Zend_Controller_Action {
 
 //added by sowmya 8/4/2016
     public function viewDeliveryguyDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $deliveryGuysModel = Admin_Model_DeliveryGuys::getInstance();
-        $delguyid = $this->getRequest()->getParam('delguyid');      
+        $delguyid = $this->getRequest()->getParam('delguyid');
         if ($delguyid) {
             $deliveryguydetails = $deliveryGuysModel->getDeliveryGuyById($delguyid);
             if ($deliveryguydetails) {
                 $this->view->deliveryguydetails = $deliveryguydetails;
-               
             }
         }
     }
+
 }

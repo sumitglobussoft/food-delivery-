@@ -162,7 +162,7 @@ class Admin_Model_Products extends Zend_Db_Table_Abstract {
             $agent_id = func_get_arg(0);
             try {
                 $db = Zend_Db_Table::getDefaultAdapter();
-                $where = (array('agent_id = ?' => $id));
+                $where = (array('agent_id = ?' => $agent_id));
                 $db->delete('products', $where);
             } catch (Exception $e) {
                 throw new Exception($e);

@@ -45,8 +45,8 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
         try {
             $select = $this->select()
                     ->from($this)
-                    ->where('location_type=?', 0)
-                    ->where('location_status=?', 1);
+                    ->where('location_type=?', 0);
+//                    ->where('location_status=?', 1);
             $result = $this->getAdapter()->fetchAll($select);
 
             if ($result) {
@@ -349,6 +349,87 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
             }
         }
     }
+
+    //dev:sowmya
+    //desc: to delete city
+    //date:25/4/2016
+
+    public function cityDelete() {
+        if (func_num_args() > 0):
+            $lid = func_get_arg(0);
+            try {
+                $db = Zend_Db_Table::getDefaultAdapter();
+                $where = (array('location_id = ?' => $lid));
+                $db->delete('location', $where);
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+            return $lid;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
+    //dev:sowmya
+    //desc: to delete location
+    //date:25/4/2016
+
+    public function locationDelete() {
+        if (func_num_args() > 0):
+            $lid = func_get_arg(0);
+            try {
+                $db = Zend_Db_Table::getDefaultAdapter();
+                $where = (array('location_id = ?' => $lid));
+                $db->delete('location', $where);
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+            return $lid;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
+    //dev:sowmya
+    //desc: to delete country
+    //date:25/4/2016
+
+    public function countryDelete() {
+        if (func_num_args() > 0):
+            $lid = func_get_arg(0);
+            try {
+                $db = Zend_Db_Table::getDefaultAdapter();
+                $where = (array('location_id = ?' => $lid));
+                $db->delete('location', $where);
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+            return $lid;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
+    //dev:sowmya
+    //desc: to delete state
+    //date:25/4/2016
+
+    public function stateDelete() {
+        if (func_num_args() > 0):
+            $lid = func_get_arg(0);
+            try {
+                $db = Zend_Db_Table::getDefaultAdapter();
+                $where = (array('location_id = ?' => $lid));
+                $db->delete('location', $where);
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+            return $lid;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
 }
 
 ?>

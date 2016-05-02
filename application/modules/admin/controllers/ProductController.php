@@ -21,7 +21,11 @@ class Admin_ProductController extends Zend_Controller_Action {
      */
 
     public function productDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $productsModel = Admin_Model_Products::getInstance();
         $hotelModel = Admin_Model_HotelDetails::getInstance();
         $hoteldetails = $hotelModel->selectAllHotels();
@@ -63,7 +67,11 @@ class Admin_ProductController extends Zend_Controller_Action {
      */
 
     public function editProductDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $productsModel = Admin_Model_Products::getInstance();
         $productId = $this->getRequest()->getParam("productId");
         $objcuisines = Admin_Model_FamousCuisines::getInstance();
@@ -154,7 +162,11 @@ class Admin_ProductController extends Zend_Controller_Action {
      */
 
     public function addProductDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $productsModel = Admin_Model_Products::getInstance();
         $agentModel = Admin_Model_Agents::getInstance();
         $agentdetails = $agentModel->getAgentsDetails();
@@ -320,14 +332,19 @@ class Admin_ProductController extends Zend_Controller_Action {
             }
         }
     }
- /*
+
+    /*
      * desc : to view product details
      * Dev: sowmya
      * date: 8/4/2016
      */
 
     public function viewProductDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $productsModel = Admin_Model_Products::getInstance();
         $productId = $this->getRequest()->getParam("productId");
         $result = $productsModel->getAllProductdetails($productId);

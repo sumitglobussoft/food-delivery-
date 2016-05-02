@@ -35,7 +35,7 @@
                 ->appendStylesheet($this->baseUrl() . $this->theme_base_path . '/css/select2.min.css');
 
         if ($this->auth->hasIdentity()) {
-            if ($this->session->storage->role == 1||$this->session->storage->role == 4) {
+            if ($this->session->storage->role == 1 || $this->session->storage->role == 4) {
 
                 echo $this->headScript()
                         ->appendFile($this->baseUrl() . $this->theme_base_path . '/js/jquery-1.9.1.min.js', 'text/javascript')
@@ -75,7 +75,7 @@
 
         <?php
         if ($this->auth->hasIdentity()) {
-            if ($this->session->storage->role == 1||$this->session->storage->role == 4) {
+            if ($this->session->storage->role == 1 || $this->session->storage->role == 4) {
                 ?>
                 <!-- begin #page-loader -->
                 <div id="page-loader" class="page-loader fade in"><span class="spinner">Loading...</span></div>
@@ -218,18 +218,40 @@
                                     <ul class="sub-menu">
                                         <li><a href="/agent/hotel-details">Hotel Details</a></li>
                                         <li><a href="/agent/add-hotel-details">Add New Hotel</a></li>
+                                         <li><a href="/agent/hotel-cuisine"> Hotel Cuisine</a></li>
+                                          <li><a href="/agent/hotel-category">Hotel Category</a></li>
                                     </ul>
                                 </li>
-
-<!--                                <li class="has-sub">
+                                <li class="has-sub">
                                     <a href="javascript:;">
-                                        <i class="fa fa-file-text-o"></i>
-                                        <span>Order Details</span>
+                                        <i class="fa fa-cutlery"></i>
+                                        <span>Grocery Details</span>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li><a href="/agent/restuarent-orders">Order Details</a></li>                                      
+                                        <li><a href="/agent/grocery-details">Grocery Details</a></li>
+                                        <li><a href="/agent/add-grocery-details">Add New Grocery</a></li>
+                                         <li><a href="/agent/grocery-category">Grocery Category</a></li>
                                     </ul>
-                                </li>-->
+                                </li>
+                                <li class="has-sub">
+                                    <a href="javascript:;">
+                                        <i class="fa fa-cutlery"></i>
+                                        <span>Reviews</span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="/agent/hotel-reviews">Hotel Reviews</a></li>
+                                        <li><a href="/agent/grocery-reviews">Grocery Reviews</a></li>
+                                    </ul>
+                                </li>
+                                <!--                                <li class="has-sub">
+                                                                    <a href="javascript:;">
+                                                                        <i class="fa fa-file-text-o"></i>
+                                                                        <span>Order Details</span>
+                                                                    </a>
+                                                                    <ul class="sub-menu">
+                                                                        <li><a href="/agent/restuarent-orders">Order Details</a></li>                                      
+                                                                    </ul>
+                                                                </li>-->
 
                                 <li class="has-sub">
                                     <a href="javascript:;">
@@ -251,7 +273,19 @@
                                         <li><a href="/agent/agent-payment-details">Agent Payment Details</a></li>                                        
                                     </ul>
                                 </li>
-
+                                <li class="has-sub active">
+                                    <a href="javascript:;">
+                                        <i class="fa fa-cog"></i>
+                                        <span>Settings</span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                         <li class=""><a href="/agent/edit-profile">Edit Profile Details</a></li>
+                                        <li class=""><a href="/agent/country-details">Country Details</a></li>
+                                        <li class=""><a href="/agent/state-details">State Details</a></li>
+                                        <li class=""><a href="/agent/city-details">City Details</a></li>
+                                        <li class="active"><a href="/agent/location-details">Location Details</a></li>
+                                    </ul>
+                                </li>
                                 <li class="divider has-minify-btn">
                                     <!-- begin sidebar minify button -->
                                     <a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-left"></i></a>

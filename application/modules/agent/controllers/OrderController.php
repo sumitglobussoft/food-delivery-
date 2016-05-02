@@ -316,9 +316,175 @@ class Agent_OrderController extends Zend_Controller_Action {
 
                 break;
 
+  ////////////////Grocery ACTIONS  by sowmya 26//4/2016 //////////////////////////////
+            case 'groceryactive':
 
+                $groceryid = $this->getRequest()->getParam('groceryid');
+                if ($groceryid) {
+                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=changegrocerystatus';
+                    $data['grocery_id'] = $groceryid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+                        $array['code'] = 200;
+                        $array['data'] = $curlResponse->data['grocery_id'];
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array['code'] = 198;
+                        $array['data'] = null;
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
 
+                    $array['code'] = 197;
+                    $array['data'] = null;
+                    echo json_encode($array, true);
+                    die();
+                }
 
+                break;
+
+            case 'grocerydeactive':
+
+                $groceryid = $this->getRequest()->getParam('groceryid');
+                if ($groceryid) {
+                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=changegrocerystatus';
+                    $data['grocery_id'] = $groceryid;
+                   
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+                        $array = array('code' => 200,
+                            'data' => $curlResponse->data['grocery_id']);
+
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array = array('code' => 198,
+                            'data' => null);
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array = array('code' => 198,
+                        'data' => null);
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+
+            case 'grocerydelete':
+                $groceryid = $this->getRequest()->getParam('groceryid');
+                if ($groceryid) {
+                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=grocerydelete';
+                    $data['grocery_id'] = $groceryid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+
+                    if ($curlResponse->code == 200) {
+                        $array = array('code' => 200,
+                            'data' => $curlResponse->data['grocery_id']);
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array = array('code' => 198,
+                            'data' => null);
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+                    $array = array('code' => 198,
+                        'data' => null);
+                    echo json_encode($array, true);
+                    die();
+                }
+                break;
+
+  ////////////////reviews ACTIONS  by sowmya 26//4/2016 //////////////////////////////
+            case 'reviewactive':
+
+                $reviewid = $this->getRequest()->getParam('reviewid');
+                if ($reviewid) {
+                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=changereviewstatus';
+                    $data['review_id'] = $reviewid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+                        $array['code'] = 200;
+                        $array['data'] = $curlResponse->data['review_id'];
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array['code'] = 198;
+                        $array['data'] = null;
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array['code'] = 197;
+                    $array['data'] = null;
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+
+            case 'reviewdeactive':
+
+                $reviewid = $this->getRequest()->getParam('reviewid');
+                if ($reviewid) {
+                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=changereviewstatus';
+                    $data['review_id'] = $reviewid;
+                   
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+                        $array = array('code' => 200,
+                            'data' => $curlResponse->data['review_id']);
+
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array = array('code' => 198,
+                            'data' => null);
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array = array('code' => 198,
+                        'data' => null);
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+
+            case 'reviewdelete':
+                $reviewid = $this->getRequest()->getParam('reviewid');
+                if ($reviewid) {
+                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=reviewdelete';
+                    $data['review_id'] = $reviewid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+
+                    if ($curlResponse->code == 200) {
+                        $array = array('code' => 200,
+                            'data' => $curlResponse->data['review_id']);
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array = array('code' => 198,
+                            'data' => null);
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+                    $array = array('code' => 198,
+                        'data' => null);
+                    echo json_encode($array, true);
+                    die();
+                }
+                break;
 
             default :
                 break;
@@ -387,7 +553,6 @@ class Agent_OrderController extends Zend_Controller_Action {
         $dt['order_id'] = $order_id;
         $url = $this->_appSetting->apiLink . '/edit-order-products';
         $curlResponse = $objCurlHandler->curlUsingPost($url, $dt);
-//        echo '<pre>';print_r($curlResponse);die;
         if ($curlResponse->code == 200) {
 
             $this->view->orderdetails = $curlResponse->data;

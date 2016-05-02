@@ -1,7 +1,6 @@
 <?php $alluserdetailsArray = $this->agentdetails; ?>
 <div id="page-title">
     <h2>View Agents Details</h2>
-    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -15,7 +14,32 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <label class="control-label">User Name</label>
+                                                <label class="control-label">Agent ID</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $alluserdetailsArray['agent_id'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Agent Image</label>
+                                            </td>
+                                            <td>
+                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                        <img src="<?php
+                                                        if (isset($alluserdetailsArray['profilepic_url'])) {
+                                                            echo $alluserdetailsArray['profilepic_url'];
+                                                        }
+                                                        ?>" alt="">
+                                                    </div>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>        
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Agent Name</label>
                                             </td>
                                             <td>
                                                 <?php echo $alluserdetailsArray['loginname'] ?>
@@ -46,22 +70,15 @@
                                             <td>
                                                 <?php echo $alluserdetailsArray['last_name'] ?>
                                             </td>
-                                        </tr>
-
-                                        <tr>
+                                        </tr>  
+<!--                                        <tr>
                                             <td>
-                                                <label class="control-label">status</label>
+                                                <label class="control-label">Password</label>
                                             </td>
                                             <td>
-                                                <?php
-                                                if ($alluserdetailsArray['agent_status'] == 1) {
-                                                    echo"Active ";
-                                                } else {
-                                                    echo"Deactivate";
-                                                }
-                                                ?>                                                                                                     
+                                        <?php //echo ($alluserdetailsArray['password'] ); ?>
                                             </td>
-                                        </tr>
+                                        </tr>-->
                                     </tbody>
                                 </table>
                             </div>
@@ -74,6 +91,16 @@
                             <div class="example-box-wrapper">
                                 <table class="table table-responsive">
                                     <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Phone</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $alluserdetailsArray['phonecode']; ?> &nbsp; <?php echo $alluserdetailsArray['phone']; ?>
+
+
+                                            <td>
+                                        </tr>
                                         <tr>
                                             <td>
                                                 <label class="control-label">MemberShip Status</label>
@@ -96,7 +123,7 @@
                                             </td>
                                             <td>
                                                 <div class="input-group">
-<?php echo $alluserdetailsArray['city'] ?>
+                                                    <?php echo $alluserdetailsArray['city'] ?>
                                                 </div>
                                             </td>
                                         </tr>
@@ -105,7 +132,21 @@
                                                 <label class="control-label">Address</label>
                                             </td>
                                             <td>
-<?php echo $alluserdetailsArray['address'] ?>
+                                                <?php echo $alluserdetailsArray['addresss'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Status</label>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($alluserdetailsArray['agent_status'] == 1) {
+                                                    echo"Active ";
+                                                } else {
+                                                    echo"Deactivate";
+                                                }
+                                                ?>                                                                                                     
                                             </td>
                                         </tr>
                                     </tbody>

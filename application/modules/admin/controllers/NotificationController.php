@@ -20,7 +20,11 @@ class Admin_NotificationController extends Zend_Controller_Action {
      */
 
     public function notificationLogAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $objNotificationModel = Admin_Model_Notification::getInstance();
         $NotificationDetail = $objNotificationModel->getNotificationDetail();
         $this->view->data = $NotificationDetail;
@@ -32,8 +36,8 @@ class Admin_NotificationController extends Zend_Controller_Action {
      */
 
     public function notificationAjaxHandlerAction() {
-        
-        
+
+
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(TRUE);
         $userId = $this->view->session->storage->user_id;
@@ -54,7 +58,7 @@ class Admin_NotificationController extends Zend_Controller_Action {
                     break;
 
                 case 'sendNotification':
-           
+
                     if ($this->getRequest()->getPost()) {
 
                         $message = $this->getRequest()->getPost('Message');
@@ -137,7 +141,11 @@ class Admin_NotificationController extends Zend_Controller_Action {
      */
 
     public function sendUserNotificationAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $objUserModel = Admin_Model_Users::getInstance();
         $where = 'role = 1 and status = 1';
         $UserDetail = $objUserModel->getUsersWhere($where);
@@ -145,14 +153,22 @@ class Admin_NotificationController extends Zend_Controller_Action {
     }
 
     public function sendAgentNotificationAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $objAgentsModel = Admin_Model_Agents::getInstance();
         $AgentsDetails = $objAgentsModel->getAgentsDetails();
         $this->view->data = $AgentsDetails;
     }
 
     public function notificationAction() {
-        
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
     }
 
 }

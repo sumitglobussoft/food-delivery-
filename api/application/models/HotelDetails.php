@@ -124,10 +124,10 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
             try {
                 $select = $this->select()
                         ->setIntegrityCheck(false)
-                        ->from(array('hd' => 'hotel_details'), array('hd.agent_id', 'hd.address', 'hd.primary_phone', 'hd.secondary_phone', 'hd.hotel_name', 'hd.hotel_image', 'hd.open_time', 'hd.closing_time', 'hd.hotel_status', 'hd.notice', 'hd.id'))
+                        ->from(array('hd' => 'hotel_details'))
                         ->joinLeft(array('ag' => 'agents'), 'hd.agent_id= ag.agent_id')
                         ->joinLeft(array('l' => 'location'), 'hd.hotel_location= l.location_id')
-                        ->where('id=?', $hotel_id);
+                        ->where('hd.id=?', $hotel_id);
                 $result = $this->getAdapter()->fetchRow($select);
 
                 if ($result) {
@@ -484,7 +484,7 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
         }
     }
 
-    /*
+   /*
      * Dev: Sibani Mishra
      * Desc: fetch Hotels based on cuisines.
      * date : 4/2/2016
@@ -500,7 +500,7 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
             try {
                 $select = $this->select()
                         ->setIntegrityCheck(false)
-                        ->from(array('hd' => 'hotel_details'), array('hd.id', 'hd.hotel_location', 'hd.address', 'hd.hotel_name', 'hd.hotel_image', 'hd.open_time', 'hd.closing_time', 'hd.hotel_status', 'hd.notice', 'hd.min order', 'hd.deliverycharge'))
+                        ->from(array('hd' => 'hotel_details'), array('hd.id', 'hd.hotel_location', 'hd.address', 'hd.hotel_rating', 'hd.hotel_name', 'hd.hotel_image', 'hd.open_time', 'hd.closing_time', 'hd.hotel_status', 'hd.notice', 'hd.minorder', 'hd.deliverycharge'))
                         ->where('hd.hotel_location=?', $hotel_locations);
                 $gethotelsdetails = $this->getAdapter()->fetchAll($select);
 
@@ -508,42 +508,7 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
                 foreach ($gethotelsdetails as $key => $val) {
                     $hotelIds[] = $val['id'];
                 }
-<<<<<<< .mine
-                $gethotelsdetails[$key]['Cuisines_details'] = $gethotelsdetails;
-=======
 
->>>>>>> .theirs
-
-<<<<<<< .mine
-
-                return $gethotelsdetails;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
                 $select = $this->select()
                         ->setIntegrityCheck(false)
                         ->from(array('hc' => 'hotel_cuisines'), array('hc.hotel_id', 'hc.cuisine_id'))
@@ -572,7 +537,44 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
 //                print_r($gethotelsdetails);
 //                die("Test");
                 return $gethotelsdetails;
->>>>>>> .theirs
+            } catch (Exception $ex) {
+                throw new Exception('Unable To retrieve data :' . $ex);
+            }
+        } else {
+            throw new Exception('Argument Not Passed');
+        }
+    }
+
+    public function updatehotels() {
+        if (func_num_args() > 0) {
+
+            $hotel_id = func_get_arg(0);
+            $avaragestarratings = func_get_arg(1);
+            try {
+                $data = array(
+                    'hotel_rating' => $avaragestarratings,
+                );
+
+                $result = $this->update($data, 'id = "' . $hotel_id . '"');
+            } catch (Exception $ex) {
+                throw new Exception('Unable To retrieve data :' . $ex);
+            }
+        } else {
+            throw new Exception('Argument Not Passed');
+        }
+    }
+
+    public function gethotalsnamebasedReviewandratings() {
+        if (func_num_args() > 0) {
+            $hotellocationid = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->from($this, array('id','hotel_name', 'hotel_rating', 'address', 'hotel_contact_number', 'hotel_image', 'open_time', 'closing_time', 'notice', 'minorder', 'deliverycharge'))
+                        ->where('hotel_location=?', $hotellocationid)
+                        ->order('hotel_rating DESC');
+
+                $result = $this->getAdapter()->fetchAll($select);
+                return $result;
             } catch (Exception $ex) {
                 throw new Exception('Unable To retrieve data :' . $ex);
             }

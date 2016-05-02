@@ -1,8 +1,5 @@
-
-
 <div id="page-title">
-    <h2>State Details</h2>
-    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
+    <h2>State Details</h2>   
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -56,9 +53,9 @@
                     </div>
                 </div>
             </div>
-  
+
         </div>
-         <div class="panel editContent">
+        <div class="panel editContent">
             <div class="panel-body">
                 <h3 class="title-hero">Edit State </h3>
                 <div class="example-box-wrapper">
@@ -70,7 +67,7 @@
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="editlocation"  name="location" placeholder="" value="" required />
                                     </div>
-                                       <div class="col-sm-10 hidden">
+                                    <div class="col-sm-10 hidden">
                                         <input type="text" class="form-control" id="locationid"  name="location_id" placeholder="" value="" required />
                                     </div>
                                 </div>
@@ -112,7 +109,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                 <th>S. No.</th>
+                                <th>S. No.</th>
                                 <th> State Name </th>
                                 <th> Status </th>
                                 <th> Action </th>
@@ -120,41 +117,50 @@
                             </tr>
                         </tfoot>
                         <tbody>
-<?php
-                $i = 1;
-                foreach ($this->statesdetails as $value) {
-                    ?>
-                 
-                        <tr id="<?php echo $value['location_id']; ?>">
-                            <td><strong><?php echo $i; ?></strong></td>
-                          <td><strong><?php echo $value['name']; ?></strong></td>
+                            <?php if (empty($this->statesdetails)) { ?>
+                            <br><br><br><br><br><br><br><br>
+                            <center>
+                                <h3> No Result Found For  State Details</h3> </center>
+                            <br><br><br><br><br><br><br><br>
+                            <?php
+                        } else {
+                            $i = 1;
+                            foreach ($this->statesdetails as $value) {
+                                ?>
 
-                            <?php if ($value['location_status'] == 1): ?>
-                                <td id="activelocation_<?php echo $value['location_id']; ?>" class="locationactive">Active</td>
-                                <td class="center"><a style="cursor:pointer" id="<?php if (isset($value['location_id'])): echo "location_" . $value['location_id'];
-                        endif;
-                                ?>" class="locationdeactive">
-                                        <span id="activeclass_<?php echo $value['location_id']; ?>" class="bs-label label-danger">Deactivate</span></a></td>
-    <?php else: ?>
-                                <td id="activelocation_<?php echo $value['location_id']; ?>" class="locationdeactive">Suspended</td>
-                                <td class="center" ><a  style="cursor:pointer" id="<?php if (isset($value['location_id'])): echo "location_" . $value['location_id'];
-        endif;
-        ?>" class="locationactive">
-                                        <span id="activeclass_<?php echo $value['location_id']; ?>"  class="bs-label label-success">Activate</span></a></td>
-    <?php endif; ?> 
-                            <td class="center">
-                                <a  href="javascript:;" class="btn btn-default locationedit" id="showEdit_<?php echo $value['location_id']; ?>"><i class="glyph-icon icon-linecons-pencil"></i></a>
-<!--                                <span  id="<?php// echo "statedelete_" . $value['location_id']; ?>"  class="btn btn-default statedelete"><i class="glyph-icon icon-linecons-trash"></i></span>-->
-                            </td>
-                        </tr>
+                                <tr id="<?php echo $value['location_id']; ?>">
+                                    <td><strong><?php echo $i; ?></strong></td>
+                                    <td><strong><?php echo $value['name']; ?></strong></td>
 
-                  
+                                    <?php if ($value['location_status'] == 1): ?>
+                                        <td id="activelocation_<?php echo $value['location_id']; ?>" class="locationactive">Active</td>
+                                        <td class="center"><a style="cursor:pointer" id="<?php
+                                            if (isset($value['location_id'])): echo "location_" . $value['location_id'];
+                                            endif;
+                                            ?>" class="locationdeactive">
+                                                <span id="activeclass_<?php echo $value['location_id']; ?>" class="bs-label label-danger">Deactivate</span></a></td>
+                                    <?php else: ?>
+                                        <td id="activelocation_<?php echo $value['location_id']; ?>" class="locationdeactive">Suspended</td>
+                                        <td class="center" ><a  style="cursor:pointer" id="<?php
+                                            if (isset($value['location_id'])): echo "location_" . $value['location_id'];
+                                            endif;
+                                            ?>" class="locationactive">
+                                                <span id="activeclass_<?php echo $value['location_id']; ?>"  class="bs-label label-success">Activate</span></a></td>
+                                    <?php endif; ?> 
+                                    <td class="center">
+                                        <a  href="javascript:;" class="btn btn-default locationedit" id="showEdit_<?php echo $value['location_id']; ?>"><i class="glyph-icon icon-linecons-pencil"></i></a>
+                                        <span  id="<?php echo "statedelete_" . $value['location_id']; ?>"  class="btn btn-default statedelete"><i class="glyph-icon icon-linecons-trash"></i></span>
+                                    </td>
+                                </tr>
 
-                    <?php
-                    $i++;
-                }
-                ?>
-  </tbody>
+
+
+                                <?php
+                                $i++;
+                            }
+                        }
+                        ?>
+                        </tbody>
                     </table>
                 </div>
             </div>

@@ -1,7 +1,7 @@
-<?php $alluserdetailsArray = $this->agentdetails;?>
+<?php $alluserdetailsArray = $this->agentdetails;
+$countryCodeDetails = $this->countryCodeDetails; ?>
 <div id="page-title">
-    <h2>Edit Agents Details</h2>
-    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
+    <h2>Edit Agents Details</h2>  
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -15,7 +15,40 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <label class="control-label">User Name</label>
+                                                <label class="control-label">Agent ID</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $alluserdetailsArray['agent_id']; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User Image</label>
+                                            </td>
+                                            <td>
+                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                        <img src="<?php
+                                                        if (isset($alluserdetailsArray['profilepic_url'])) {
+                                                            echo $alluserdetailsArray['profilepic_url'];
+                                                        }
+                                                        ?>" alt="">
+                                                    </div>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                                    <div>
+                                                        <span class="btn btn-default btn-file">
+                                                            <span class="fileinput-new">Select Image</span>
+                                                            <span class="fileinput-exists">Replace</span>
+                                                            <input type="file" name="fileToUpload">
+                                                        </span>
+                                                        <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Agent Name</label>
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control" name="loginname" id="loginname" value="<?php echo $alluserdetailsArray['loginname'] ?>" placeholder="" required />
@@ -46,33 +79,7 @@
                                             <td>
                                                 <input type="text" class="form-control" name="last_name"  id="last_name" value="<?php echo $alluserdetailsArray['last_name'] ?>" placeholder="" required />
                                             </td>
-                                        </tr>
-          
-                                        <tr>
-                                            <td>
-                                                <label class="control-label">status</label>
-                                            </td>
-                                            <td>
-                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="status"> 
-                                                    <option value="1" <?php
-                                                    if ($alluserdetailsArray['agent_status'] == 1) {
-                                                        echo"selected";
-                                                    }
-                                                    ?>>
-                                                        Active 
-                                                    </option>
-                                                    <option value="2" <?php
-                                                    if ($alluserdetailsArray['agent_status'] == 2) {
-                                                        echo"selected";
-                                                    }
-                                                    ?>>
-                                                        Deactive 
-                                                    </option>
-                                                </select>
-                                            </td>
-
-                                        </tr>
-
+                                        </tr>                                           
                                     </tbody>
                                 </table>
                             </div>
@@ -85,7 +92,28 @@
                             <div class="example-box-wrapper">
                                 <table class="table table-responsive">
                                     <tbody>
-                                         <tr>
+                                                                         <tr>
+                                            <td>
+                                                <label class="control-label">Phone</label>
+                                            </td>
+                                        
+                                            <td>
+                                                <select class="js-example-responsive form-control"  id="contact_country_code" name="contact_country_code" style="width:100%;">
+                                                    <?php foreach ($countryCodeDetails as $value) { ?>
+                                                        <option value="<?php echo $value['country_id']; ?>">
+                                                             
+                                                            <?php echo $value['name']; ?>  &nbsp; <?php echo $value['phonecode']; ?>
+                                                        </option>
+                                                         
+                                                    <?php }
+                                                    ?>
+                                                </select>
+                                            </td>
+
+                                            <td> <input id="phone" type="text" name="phone" value="<?php echo $alluserdetailsArray['phone']; ?>" class="form-control" />
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td>
                                                 <label class="control-label">MemberShip Status</label>
                                             </td>
@@ -103,13 +131,13 @@
                                                         echo"selected";
                                                     }
                                                     ?>>
-                                                        Deactive Member
+                                                        Deactivate Member
                                                     </option>
                                                 </select>
                                             </td>
 
                                         </tr>
-                                        
+
                                         <tr>
                                             <td>
                                                 <label class="control-label">City</label>
@@ -120,13 +148,37 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                      <tr>
+                                        <tr>
                                             <td>
                                                 <label class="control-label">Address</label>
                                             </td>
                                             <td>
-                                                <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ><?php echo $alluserdetailsArray['address'] ?></textarea>
+                                                <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ><?php echo $alluserdetailsArray['addresss'] ?></textarea>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Status</label>
+                                            </td>
+                                            <td>
+                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="status"> 
+                                                    <option value="1" <?php
+                                                    if ($alluserdetailsArray['agent_status'] == 1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Active 
+                                                    </option>
+                                                    <option value="2" <?php
+                                                    if ($alluserdetailsArray['agent_status'] == 2) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Deactivate 
+                                                    </option>
+                                                </select>
+                                            </td>
+
                                         </tr>
                                     </tbody>
                                 </table>

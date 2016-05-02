@@ -31,8 +31,8 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('guest', 'web::home::restaurents-list')
                 ->allow('guest', 'web::home::restaurant-details');
 
-        
-        
+
+
         $this->add(new Zend_Acl_Resource('web::error'), 'web')
                 ->add(new Zend_Acl_Resource('web::error::error'), 'web::error');
 
@@ -130,8 +130,49 @@ class Engine_Vault_Acl extends Zend_Acl {
 
         $this->allow('user', 'agent::transaction::agent-payments');
 
+// added by sowmya 25/4/2016 grocery module
+        $this->add(new Zend_Acl_Resource('agent::grocery'), 'agent')
+                ->add(new Zend_Acl_Resource('agent::grocery::grocery-details'), 'agent::grocery')
+                ->add(new Zend_Acl_Resource('agent::grocery::edit-grocery-details'), 'agent::grocery')
+                ->add(new Zend_Acl_Resource('agent::grocery::add-grocery-details'), 'agent::grocery')
+                ->add(new Zend_Acl_Resource('agent::grocery::view-grocery-details'), 'agent::grocery'); // added by sowmya 11/4/2016
 
-//                   
+        $this->allow('user', 'agent::grocery::grocery-details')
+                ->allow('user', 'agent::grocery::edit-grocery-details')
+                ->allow('user', 'agent::grocery::add-grocery-details')
+                ->allow('user', 'agent::grocery::view-grocery-details'); // added by sowmya 25/4/2016
+        // added by sowmya 26/4/2016 review module
+        $this->add(new Zend_Acl_Resource('agent::reviews'), 'agent')
+                ->add(new Zend_Acl_Resource('agent::reviews::grocery-reviews'), 'agent::reviews')
+                ->add(new Zend_Acl_Resource('agent::reviews::hotel-reviews'), 'agent::reviews'); // added by sowmya 26/4/2016
+
+        $this->allow('user', 'agent::reviews::grocery-reviews')
+                ->allow('user', 'agent::reviews::hotel-reviews'); // added by sowmya 26/4/2016
+        //
+                //      // added by sowmya 26/4/2016 review module
+        $this->add(new Zend_Acl_Resource('agent::profile'), 'agent')
+                ->add(new Zend_Acl_Resource('agent::profile::edit-profile'), 'agent::profile')
+                ->add(new Zend_Acl_Resource('agent::profile::change-password'), 'agent::profile')
+                  ->add(new Zend_Acl_Resource('agent::profile::country'), 'agent::profile')// added by sowmya 29/4/2016
+                  ->add(new Zend_Acl_Resource('agent::profile::state'), 'agent::profile')
+                  ->add(new Zend_Acl_Resource('agent::profile::city'), 'agent::profile')
+                  ->add(new Zend_Acl_Resource('agent::profile::location'), 'agent::profile')
+                  ->add(new Zend_Acl_Resource('agent::profile::hotel-cuisines'), 'agent::profile')
+                  ->add(new Zend_Acl_Resource('agent::profile::hotel-category'), 'agent::profile')
+                  ->add(new Zend_Acl_Resource('agent::profile::grocery-category'), 'agent::profile');//upto here added by sowmya 26/4/2016
+
+        $this->allow('user', 'agent::profile::edit-profile')
+                ->allow('user', 'agent::profile::change-password')
+                 ->allow('user', 'agent::profile::country')
+                ->allow('user', 'agent::profile::state')
+                 ->allow('user', 'agent::profile::city')
+                 ->allow('user', 'agent::profile::location')
+                ->allow('user', 'agent::profile::hotel-cuisines')
+                 ->allow('user', 'agent::profile::hotel-category')
+                 ->allow('user', 'agent::profile::grocery-category')
+                
+                ;
+//                                 
 //                   
 //====================end Agent module=======================  
         //========================Admin module=======================
@@ -196,7 +237,10 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->add(new Zend_Acl_Resource('admin::settings::category-details'), 'admin::settings')
                 ->add(new Zend_Acl_Resource('admin::settings::edit-cuisines'), 'admin::settings')
                 ->add(new Zend_Acl_Resource('admin::settings::edit-category'), 'admin::settings')
-
+                ->add(new Zend_Acl_Resource('admin::settings::edit-profile'), 'admin::settings') //by sowmya 19/4/2016
+                ->add(new Zend_Acl_Resource('admin::settings::change-password'), 'admin::settings')//by sowmya 19/4/2016
+                ->add(new Zend_Acl_Resource('admin::settings::grocery-category-details'), 'admin::settings')//by sowmya 23/4/2016
+                ->add(new Zend_Acl_Resource('admin::settings::edit-grocery-category'), 'admin::settings')//by sowmya 23/4/2016
                 // admin transactions panel///
                 ->add(new Zend_Acl_Resource('admin::transaction'), 'admin')
                 ->add(new Zend_Acl_Resource('admin::transaction::admin-user-transactions'), 'admin::transaction')
@@ -217,8 +261,19 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->add(new Zend_Acl_Resource('admin::hotel-details::add-hotel-details'), 'admin::hotel-details')
                 ->add(new Zend_Acl_Resource('admin::hotel-details::edit-hotel-details'), 'admin::hotel-details')
                 ->add(new Zend_Acl_Resource('admin::hotel-details::hotel-details-ajax-handler'), 'admin::hotel-details')
-                ->add(new Zend_Acl_Resource('admin::hotel-details::view-hotel-details'), 'admin::hotel-details'); // added by sowmya 9/4/2016
-//                
+                ->add(new Zend_Acl_Resource('admin::hotel-details::view-hotel-details'), 'admin::hotel-details') // added by sowmya 9/4/2016
+                // admin grocery-details panel///  20/4/2016
+                ->add(new Zend_Acl_Resource('admin::grocery-details'), 'admin')
+                ->add(new Zend_Acl_Resource('admin::grocery-details::grocery-details'), 'admin::grocery-details')
+                ->add(new Zend_Acl_Resource('admin::grocery-details::add-grocery-details'), 'admin::grocery-details')
+                ->add(new Zend_Acl_Resource('admin::grocery-details::edit-grocery-details'), 'admin::grocery-details')
+                ->add(new Zend_Acl_Resource('admin::grocery-details::grocery-details-ajax-handler'), 'admin::grocery-details')
+                ->add(new Zend_Acl_Resource('admin::grocery-details::view-grocery-details'), 'admin::grocery-details') // added by sowmya 20/4/2016  
+                // admin review panel///  20/4/2016
+                ->add(new Zend_Acl_Resource('admin::reviews'), 'admin')
+                ->add(new Zend_Acl_Resource('admin::reviews::hotel-reviews'), 'admin::reviews')
+                ->add(new Zend_Acl_Resource('admin::reviews::grocery-reviews'), 'admin::reviews')
+                ->add(new Zend_Acl_Resource('admin::reviews::reviews-ajax-handler'), 'admin::reviews');
 //                
         // admin panel landing page///
         $this->allow('guest', 'admin::admin::index')
@@ -254,7 +309,10 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('admin', 'admin::settings::cuisines-details')
                 ->allow('admin', 'admin::settings::edit-category')
                 ->allow('admin', 'admin::settings::edit-cuisines')
-
+                ->allow('admin', 'admin::settings::edit-profile')// added by sowmya 19/4/2016
+                ->allow('admin', 'admin::settings::change-password')// added by sowmya 19/4/2016
+                ->allow('admin', 'admin::settings::grocery-category-details')// added by sowmya 23/4/2016
+                ->allow('admin', 'admin::settings::edit-grocery-category')// added by sowmya 23/4/2016
                 // admin transaction panel///
                 ->allow('admin', 'admin::transaction::admin-user-transactions')
                 ->allow('admin', 'admin::transaction::admin-agent-transactions')
@@ -288,7 +346,18 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('admin', 'admin::hotel-details::add-hotel-details')
                 ->allow('admin', 'admin::hotel-details::edit-hotel-details')
                 ->allow('admin', 'admin::hotel-details::hotel-details-ajax-handler')
-                ->allow('admin', 'admin::hotel-details::view-hotel-details'); // added by sowmya 9/4/2016
+                ->allow('admin', 'admin::hotel-details::view-hotel-details')
+                // admin grocery-details panel///added by sowmya 20/4/2016
+                ->allow('admin', 'admin::grocery-details::grocery-details')
+                ->allow('admin', 'admin::grocery-details::add-grocery-details')
+                ->allow('admin', 'admin::grocery-details::edit-grocery-details')
+                ->allow('admin', 'admin::grocery-details::grocery-details-ajax-handler')
+                ->allow('admin', 'admin::grocery-details::view-grocery-details')
+                // admin review panel///added by sowmya 20/4/2016
+                ->allow('admin', 'admin::reviews::hotel-reviews')
+                ->allow('admin', 'admin::reviews::grocery-reviews')
+                ->allow('admin', 'admin::reviews::reviews-ajax-handler')
+        ; // added by sowmya 20/4/2016
 //====================end Admin module=======================  
     }
 

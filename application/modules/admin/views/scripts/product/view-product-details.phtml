@@ -1,7 +1,5 @@
-
 <div id="page-title">
     <h2>View Product Details</h2>
-    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -137,11 +135,8 @@
                                                 <label class="control-label">Cost</label>
                                             </td>
                                             <td>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon addon-inside bg-black">
-                                                        <i class="glyph-icon icon-dollar"></i>
-                                                    </span>
-                                                    <?php echo $this->allproductdetails['cost'] ?>
+                                                <div class="input-group">                                                   
+                                                    $<?php echo $this->allproductdetails['cost'] ?>
                                                 </div>
                                             </td>
                                         </tr>
@@ -164,12 +159,9 @@
                                                 <label class="control-label">Delivery Timing</label>
                                             </td>
                                             <td>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon addon-inside bg-black">
-                                                        <i class="glyph-icon icon-clock-o"></i>
-                                                    </span>
+                                                <div class="input-group">                                              
                                                     <?php echo $this->allproductdetails['delivery_time'] ?>
-                                                    <span class="input-group-addon">min</span>
+                                                    min
                                                 </div>
                                             </td>
                                         </tr>

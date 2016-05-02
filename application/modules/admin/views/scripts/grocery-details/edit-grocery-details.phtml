@@ -1,0 +1,191 @@
+<?php
+$allgrocerydetailsArray = $this->allgrocerydetails;
+?>
+<div id="page-title">
+    <h2>Edit Grocery Details</h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal bordered-row" enctype="multipart/form-data" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Agent ID</label>
+                                            </td>
+                                            <td>
+
+                                                <?php echo $allgrocerydetailsArray['agent_id'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Agent Name</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allgrocerydetailsArray['loginname'] ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Grocery Name</label>
+                                            </td>
+                                            <td>
+
+                                                <input type="text" class="form-control"  name="grocery_name" value="<?php echo $allgrocerydetailsArray['Grocery_name'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>                                     
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Grocery Address</label>
+                                            </td>
+                                            <td>
+
+                                                <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ><?php echo $allgrocerydetailsArray['Address'] ?></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Timing</label>
+                                            </td>
+                                            <td>
+                                                <div class="" style="display: inline-flex;">
+
+                                                    <input type="text" class="form-control" name="open_time"  id="open_time" value="<?php echo $allgrocerydetailsArray['Open_time'] ?>" placeholder="" required style="width: 39%;" /> &nbsp; AM                                                   
+                                                    <input type="text" class="form-control" name="closing_time"  id="closing_time" value="<?php echo $allgrocerydetailsArray['Closing_time'] ?>" placeholder="" required style="width: 39%; margin-left: 5%;" /> &nbsp; PM
+                                                </div>
+                                            </td>
+                                        </tr>                                  
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Status</label>
+                                            </td>
+                                            <td>                                                                                           <select  class="js-example-responsive js-example-basic-hide-search form-control" name="grocery_status"> 
+                                                    <option value="1" <?php
+                                                    if ($allgrocerydetailsArray['grocery_status'] == 1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Active 
+                                                    </option>
+                                                    <option value="2" <?php
+                                                    if ($allgrocerydetailsArray['grocery_status'] == 2) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Inactive 
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Primary Phone No.</label>
+                                            </td>
+                                            <td>
+
+                                                <input type="text" class="form-control" name="primary_phone"  id="primary_phone" value="<?php echo $allgrocerydetailsArray['grocery_contact_number'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Secondary Phone No.</label>
+                                            </td>
+                                            <td>
+
+                                                <input type="text" class="form-control" name="secondary_phone"  id="last_name" value="<?php echo $allgrocerydetailsArray['Secondary_phone'] ?>" placeholder=""  />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Grocery Image</label>
+                                            </td>
+                                            <td>
+                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                        <img src="<?php
+                                                        if (isset($this->allgrocerydetails['Grocery_image'])) {
+                                                            echo $this->allgrocerydetails['Grocery_image'];
+                                                        }
+                                                        ?>" alt="">
+                                                    </div>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                                    <div>
+                                                        <span class="btn btn-default btn-file">
+                                                            <span class="fileinput-new">Select Image</span>
+                                                            <span class="fileinput-exists">Replace</span>
+                                                            <input type="file" name="fileToUpload">
+                                                        </span>
+                                                        <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Min. Order</label>
+                                            </td>
+                                            <td>
+
+                                                <input type="text" class="form-control" name="minorder"  id="minorder" value="<?php echo $allgrocerydetailsArray['Minorder'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Delivery Charges</label>
+                                            </td>
+                                            <td>
+
+                                                <input type="text" class="form-control" name="deliverycharge"  id="last_name" value="<?php echo $allgrocerydetailsArray['Deliverycharge'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>                                   
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Grocery Notice</label>
+                                            </td>
+                                            <td>
+
+                                                <textarea class="form-control" name="notice" id="notice" cols="20" rows="2"  ><?php echo $allgrocerydetailsArray['Notice'] ?></textarea>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="form-group pull-right">
+                                    <button type="submit" class="btn btn-alt btn-hover btn-primary">
+                                        <span>SAVE</span> <i class="glyph-icon icon-arrow-right"></i>
+                                        <div class="ripple-wrapper"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .select2.select2-container {
+        width: 100% !important;
+    }
+</style>

@@ -1,3 +1,6 @@
+
+<?php
+$alladmindetailsArray = $this->admindetails;?>
 <style>
     html,
     body {
@@ -10,12 +13,12 @@
     <div class="center-content">
         <form  id="login-validation" class="col-md-4 col-sm-5 col-xs-11 col-lg-3 center-margin" method="POST">
             <div id="header-logo" class="logo-bg">
-                <a href="index.html" class="logo-content-big logo-left" title="Ziingo">Ziingo <i>UI</i> <span>Dashboard</span></a>
-                <a href="index.html" class="logo-content-small" title="Ziingo">Ziingo <i>UI</i> <span>Dashboard</span></a>
+                <a href="/admin" class="logo-content-big logo-left" title="Ziingo">Ziingo <i>UI</i> <span>Dashboard</span></a>
+                <a href="/admin" class="logo-content-small" title="Ziingo">Ziingo <i>UI</i> <span>Dashboard</span></a>
             </div>
             <div id="login-form" class="content-box bg-default">
                 <div class="content-box-wrapper pad20A">
-                    <img class="mrg25B center-margin radius-all-100 display-block login-user-pic" src="assets/admin/images/pic.jpg" alt="" />
+                    <img class="mrg25B center-margin radius-all-100 display-block login-user-pic" src="<?php echo $alladmindetailsArray[0]['profilepic_url']; ?>" alt="assets/admin/images/pic.jpg" />
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon addon-inside bg-gray"><i class="glyph-icon icon-envelope-o"></i></span>

@@ -1,11 +1,11 @@
 <?php
 
-/*
- * Dev : Sibani Mishra
- * Date: 3/17/2016
- * Desc: User delivery address Modal Design
+/**
+ * User Delivery Address detail
+ * @return type
+ * @throws Exception
+ * @author Sibani Mishra(sibanimishra@globussoft.in)
  */
-
 class Application_Model_UserDeliveryAddress extends Zend_Db_Table_Abstract {
 
     private static $_instance = null;
@@ -17,6 +17,12 @@ class Application_Model_UserDeliveryAddress extends Zend_Db_Table_Abstract {
         return self::$_instance;
     }
 
+    /**
+     * Insert Data for user Delivery Address detail
+     * @return type
+     * @throws Exception
+     * @author Sibani Mishra(sibanimishra@globussoft.in)
+     */
     public function insertUserDeliveryAddress() {
 
         if (func_num_args() > 0) {
@@ -41,6 +47,12 @@ class Application_Model_UserDeliveryAddress extends Zend_Db_Table_Abstract {
         }
     }
 
+    /**
+     * Update User Delivery Address details 
+     * @return type
+     * @throws Exception
+     * @author Sibani Mishra(sibanimishra@globussoft.in)
+     */
     public function updateUserDeliveryAddress() {
 
         if (func_num_args() > 0) {
@@ -59,7 +71,14 @@ class Application_Model_UserDeliveryAddress extends Zend_Db_Table_Abstract {
         }
     }
 
+    /**
+     * Select  User Delivery Address detail
+     * @return type
+     * @throws Exception
+     * @author Sibani Mishra(sibanimishra@globussoft.in)
+     */
     public function fetchUserDeliveryAddress() {
+
         if (func_num_args() > 0) {
             $userid = func_get_arg(0);
 
@@ -79,6 +98,12 @@ class Application_Model_UserDeliveryAddress extends Zend_Db_Table_Abstract {
         }
     }
 
+    /**
+     * Fetch according to User id User Delivery Address detail
+     * @return type
+     * @throws Exception
+     * @author Sibani Mishra(sibanimishra@globussoft.in)
+     */
     public function selectuserid() {
 
         if (func_num_args() > 0) {
@@ -119,6 +144,12 @@ class Application_Model_UserDeliveryAddress extends Zend_Db_Table_Abstract {
         }
     }
 
+    /**
+     *  Remove User Delivery Address detail
+     * @return type
+     * @throws Exception
+     * @author Sibani Mishra(sibanimishra@globussoft.in)
+     */
     public function removeUserDeliveryAddress() {
         if (func_num_args() > 0) {
             $addressid = func_get_arg(0);
@@ -132,6 +163,28 @@ class Application_Model_UserDeliveryAddress extends Zend_Db_Table_Abstract {
             } catch (Exception $ex) {
                 throw new Exception('Unable To Insert Exception Occured :' . $ex);
             }
+        }
+    }
+
+    public function fetchDetails() {
+
+        if (func_num_args() > 0) {
+
+            $addressid = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('uda' => 'user_delivery_address'))
+                        ->join(array('oa' => 'order_address'), 'uda.user_name=oa.user_name')
+                        ->where('uda.user_delivery_address_id=?', $addressid);
+
+                $row = $this->getAdapter()->fetchRow($select);
+                return $row;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            throw new Exception("Argument not passed");
         }
     }
 
@@ -158,60 +211,11 @@ class Application_Model_UserDeliveryAddress extends Zend_Db_Table_Abstract {
         }
     }
 
-//
-//    public function updatePhoneNumber() {
-//        if (func_num_args() > 0) {
-//
-//            $addressid = func_get_arg(0);
-//            $newphonenumber = func_get_arg(1);
-//            $select = $this->select()
-//                    ->setIntegrityCheck(false)
-//                    ->from(array('uda' => 'user_delivery_address'))
-//                    ->join(array('oa' => 'order_address'), 'uda.user_name=oa.user_name')
-//                    ->where('uda.user_delivery_address_id=?', $addressid);
-//
-//            $row = $this->getAdapter()->fetchRow($select);
-//
-//            $orderaddressid = $row['order_address_id'];
-//
-//            if ($row) {
-//
-//                try {
-//
-//                    $data = array('contact_number' => $newphonenumber);
-//
-//                    $where[] = from(array('user_delivery_address'))->getAdapter()->quoteInto('user_delivery_address_id = ?', $addressid);
-//                    $where[] = from(array('order_address'))->getAdapter()->quoteInto('order_address_id= ?', $orderaddressid);
-//                    $where = array(
-//                        'user_delivery_address_id = ?' => $addressid,
-//                        'order_address_id= ?' => $orderaddressid
-//                    );
-//
-//                    $updated = $this->getAdapter()->update($data, $where);
-//                    $updated = $this->update($data, "user_delivery_address_id = '" . $addressid . "'", "order_address_id = '" . $orderaddressid . "'");
-//                    if ($updated) {
-//                        return $updated;
-//                    } else {
-//                        return false;
-//                        $updated = $this->update($data, "user_delivery_address_id = '" . $addressid . "'", "order_address_id = '" . $orderaddressid . "'");
-//                    }
-//                } catch (Exception $exc) {
-//                    throw new Exception('Unable to update, exception occured' . $exc);
-//                }
-//            } else {
-//                return false;
-//            }
-//        } else {
-//            throw new Exception('Argument not passed');
-//        }
-//    }
-
     /**
-     * Update user delivery address detail
+     * Update Contact Number  User Delivery Address detail
      * @return type
      * @throws Exception
-     * @author Sibani Mishra(asdfjdasf@gmail.com)
-     * @since 14-04-2016
+     * @author Sibani Mishra(sibanimishra@globussoft.in)
      */
     public function updateUserDeliveryAddressWhere() {
         if (func_num_args() > 0) {
@@ -222,76 +226,6 @@ class Application_Model_UserDeliveryAddress extends Zend_Db_Table_Abstract {
                 return $update;
             } catch (Exception $ex) {
                 return $ex->getMessage();
-            }
-        } else {
-            throw new Exception("Argument not passed");
-        }
-    }
-
-    /**
-     * Get a user delivery address detail
-     * @return array|string
-     * @throws Exception
-     * @author Sibani Mishra(asdfjdasf@gmail.com)
-     * @since 14-04-2016
-     */
-//    public function getUserDeliveryAddressDetailWhere() {
-//        if (func_num_args() > 0) {
-//            $where = func_get_arg(0);
-//            try {
-//                $select = $this->select()
-//                        ->from($this)
-//                        ->where($where);
-//                $result = $this->getAdapter()->fetchRow($select);
-//                return $result;
-//            } catch (Exception $e) {
-//                return $e->getMessage();
-//            }
-//        } else {
-//            throw new Exception("Argument not passed");
-//        }
-//    }
-
-    /**
-     * Get all user delivery details
-     * @return array|string
-     * @throws Exception
-     * @author Sibani Mishra(asdfjdasf@gmail.com)
-     * @since 14-04-2016
-     */
-//    public function getAllUserDeliveryAddressDetailWhere() {
-//        if (func_num_args() > 0) {
-//            $where = func_get_arg(0);
-//            try {
-//                $select = $this->select()
-//                        ->from($this)
-//                        ->where($where);
-//                $result = $this->getAdapter()->fetchAll($select);
-//                return $result;
-//            } catch (Exception $e) {
-//                return $e->getMessage();
-//            }
-//        } else {
-//            throw new Exception("Argument not passed");
-//        }
-//    }
-
-    public function fetchDetails() {
-
-        if (func_num_args() > 0) {
-
-            $addressid = func_get_arg(0);
-            try {
-                $select = $this->select()
-                        ->setIntegrityCheck(false)
-                        ->from(array('uda' => 'user_delivery_address'))
-                        ->join(array('oa' => 'order_address'), 'uda.user_name=oa.user_name')
-                        ->where('uda.user_delivery_address_id=?', $addressid);
-
-                $row = $this->getAdapter()->fetchRow($select);
-                return $row;
-            } catch (Exception $e) {
-                return $e->getMessage();
             }
         } else {
             throw new Exception("Argument not passed");

@@ -1,0 +1,171 @@
+<style>
+    #editCountry {
+        display: none;
+    }
+</style>
+
+<div id="content" class="content">
+    <ol class="breadcrumb pull-right">
+        <li><a href="/agent/dashboard">Dashboard</a></li>
+        <li><a href="javascript:;">Settings</a></li>
+        <li class="active"><a href="/agent/country-details">Country Details</a></li>
+    </ol>
+    <h1 class="page-header">Country Details </h1>
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0" id="addCountry">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Add Country</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <form class="" role="form">
+                                <div class="form-group row m-t-20 m-b-10">
+                                    <label class="col-sm-2 control-label">Enter the Country</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" required="" placeholder="" id="" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row m-t-20 m-b-10">
+                                    <label class="col-sm-2 control-label">Status</label>
+                                    <div class="col-sm-5">
+                                        <select  class="selectpicker width-full js-example-basic-hide-search " name="location_status"> 
+                                            <option value="1">
+                                                Active 
+                                            </option>
+                                            <option value="2">
+                                                Deactivate
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group text-right m-b-20">
+                                    <button class="btn btn-theme">SAVE</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0" id="editCountry">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Edit Country</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <form class="" role="form">
+                                <div class="form-group row m-t-20 m-b-10">
+                                    <label class="col-sm-2 control-label">Country Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" required="" placeholder="" id="" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group text-right m-b-20">
+                                    <button class="btn btn-theme">UPDATE</button>
+                                    <button class="btn btn-default clearCountry">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+
+    <!-- begin row -->
+    <div class="row m-t-20">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Country Details</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="data-table" data-order='[[0,"asc"]]' class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="default">
+                                        <th> S.No.</th>
+                                        <th> Country Name </th>
+                                        <th> Status </th>
+                                        <th> Action </th>
+                                        <th> View / Delete </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <?php
+                                    if (isset($this->countrydetails)) {
+                                        $i = 0;
+                                        foreach ($this->countrydetails as $value) {
+                                            ?>
+                                            <tr id="<?php echo $value['location_id']; ?>">
+                                                <td><?php echo ++$i ?></td>
+                                                <td><?php echo $value['name']; ?></td>
+                                                <?php if ($value['location_status'] == 1): ?>
+                                                    <td id="activelocation_<?php echo $value['location_id']; ?>" class="locationactive">Active</td>
+                                                    <td class="center"><a style="cursor:pointer"  id="<?php
+                                                        if (isset($value['location_id'])): echo "location_" . $value['location_id'];
+                                                        endif;
+                                                        ?>" class="locationdeactive">
+                                                            <span id="activeclass_<?php echo $value['location_id']; ?>" class="label label-danger">Deactivate</span></a></td>
+                                                <?php else: ?>
+                                                    <td id="activelocation_<?php echo $value['location_id']; ?>" class="locationdeactive">Suspended</td>
+                                                    <td class="center" ><a style="cursor:pointer" id="<?php
+                                                        if (isset($value['location_id'])): echo "location_" . $value['location_id'];
+                                                        endif;
+                                                        ?>" class="locationactive">
+                                                            <span id="activeclass_<?php echo $value['location_id']; ?>"  class="label label-success">Activate</span></a></td>
+                                                <?php endif; ?> 
+                                                <td class="text-center">
+                                                    <a href="javascript:;" class="btn btn-purple btn-icon btn-circle btn-sm countryedit" id="showEdit_<?php echo $value['location_id']; ?>">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                    <a href="javascript:;" id="<?php echo "coutrydelete_" . $value['location_id']; ?>" class="btn btn-danger btn-icon btn-circle btn-sm countrydelete">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+</div>
+
+
+<script>
+    $(function() {
+        $('.countryedit').click(function() {
+            $('#editCountry').show();
+            $('#addCountry').hide();
+        });
+        $('.clearCountry').click(function() {
+            $('#editCountry').hide();
+            $('#addCountry').show();
+        });
+    });
+</script>

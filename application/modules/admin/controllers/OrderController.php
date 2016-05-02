@@ -13,29 +13,30 @@ class Admin_OrderController extends Zend_Controller_Action {
      * details: get all order details */
 
     public function orderDetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $ordersModel = Admin_Model_Orders::getInstance();
         $result = $ordersModel->getAllOrder();
 
         if ($result) {
-            $inprocessArr = $deliveredArr = $cancelledArr = $dispatchArr = array();
+            $pendingArr = $adminArr = $cancelledArr = array();
             foreach ($result as $key => $value) {
                 if ($value['order_status'] == 0) {
                     $pendingArr[] = $value;
                 } elseif ($value['order_status'] == 1) {
-                    $inprocessArr[] = $value;
+                    $adminArr[] = $value;
                 } else if ($value['order_status'] == 2) {
                     $deliveredArr[] = $value;
-                } else if ($value['order_status'] == 3) {
+                } else if ($value['order_status'] == 6) {
                     $cancelledArr[] = $value;
-                } else if ($value['order_status'] == 4) {
-                    $dispatchArr[] = $value;
                 }
             }
             $this->view->pendingStatus = $pendingArr;
-            $this->view->processStatus = $inprocessArr;
-            $this->view->deliveredStatus = $deliveredArr;
+            $this->view->processStatus = $adminArr;
             $this->view->canceledStatus = $cancelledArr;
-            $this->view->dispatchStatus = $dispatchArr;
         } else {
             echo 'controller error occured';
         }
@@ -49,7 +50,11 @@ class Admin_OrderController extends Zend_Controller_Action {
      */
 
     public function editOrderDetailsAction() {
-
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
         $order_id = $this->getRequest()->getParam('oId');
         $ordersModel = Admin_Model_Orders::getInstance();
         $result = $ordersModel->getAllOrdersById($order_id);
@@ -140,7 +145,7 @@ class Admin_OrderController extends Zend_Controller_Action {
 
         switch ($method) {
             case "allOrders":
-              
+
                 $iTotalRecords = $iDisplayLength = intval($_REQUEST['length']);
                 $iDisplayLength = $iDisplayLength < 0 ? $iTotalRecords : $iDisplayLength;
                 $iDisplayStart = intval($_REQUEST['start']);
@@ -150,7 +155,7 @@ class Admin_OrderController extends Zend_Controller_Action {
                 $where = ' 1 ';
                 $iTotalRecords = count($objOrdersModel->getAllOrders($where));
                 $iTotalFilteredRecords = $iTotalRecords;
-          
+
                 $records = array();
                 $records["data"] = array();
 
@@ -158,14 +163,14 @@ class Admin_OrderController extends Zend_Controller_Action {
 
                 $sortingOrder = "";
                 if (isset($_REQUEST['order'])) {
-                    $sortingOrder = $columns[$_REQUEST['order'][0]['column']-1] . " " . $_REQUEST['order'][0]['dir'];
+                    $sortingOrder = $columns[$_REQUEST['order'][0]['column'] - 1] . " " . $_REQUEST['order'][0]['dir'];
                 }
 
                 if (isset($_REQUEST["customActionType"]) && $_REQUEST["customActionType"] == "group_action") {
                     if ($_REQUEST['customActionValue'] != '' && !empty($_REQUEST['orderId'])) {
                         $statusData = array('order_status' => new Zend_Db_Expr('CONCAT(`order_status`,",' . $_REQUEST['customActionValue'] . '-' . time() . '")'), 'order_status' => $_REQUEST['customActionValue']);
                         $whereForStatusUpdate = 'order_id IN (' . implode(',', $_REQUEST['orderId']) . ')';
-                
+
                         $updateResult = $objOrdersModel->updateOrderDetails($statusData, $whereForStatusUpdate);
                         if ($updateResult) {
                             //NOTIFICATION TO USER FOR ORDER STATUS CHANGE

@@ -47,7 +47,8 @@ class Admin_Model_Users extends Zend_Db_Table_Abstract {
                 $select = $this->select()
                         ->setIntegrityCheck(false)
                         ->from(array('u' => 'users'))
-                        ->joinLeft(array('um' => 'usermeta'), 'u.user_id= um.user_id', array('um.first_name', 'um.last_name', 'um.phone', 'um.city', 'um.state', 'um.country', 'um.contact_country_code','um.profilepic_url'))
+                        ->joinLeft(array('um' => 'usermeta'), 'u.user_id= um.user_id', array('um.first_name', 'um.last_name', 'um.phone', 'um.city', 'um.state', 'um.country', 'um.contact_country_code', 'um.profilepic_url'))
+                        ->joinLeft(array('c' => 'country'), 'c.country_id= um.contact_country_code', array('c.country_id', 'c.phonecode'))
                         ->where('u.user_id = ?', $userid);
 
                 $result = $this->getAdapter()->fetchRow($select);
@@ -62,7 +63,6 @@ class Admin_Model_Users extends Zend_Db_Table_Abstract {
     }
 
     public function updateUserdetails() {
-//        die("ok");
         if (func_num_args() > 0) {
             $userid = func_get_arg(0);
             $userdata = func_get_arg(1);
@@ -170,5 +170,50 @@ class Admin_Model_Users extends Zend_Db_Table_Abstract {
             }
         }
     }
+   /*
+      developer: sowmya
+     * date :20 april 2016 
+      function :function to get all admin details */
 
+    public function getAdminDetails() {
+        try {
+            $select = $this->select()
+                    ->setIntegrityCheck(false)
+                    ->from(array('u' => 'users'))
+                    ->joinLeft(array('um' => 'usermeta'), 'u.user_id= um.user_id', array('um.first_name', 'um.last_name', 'um.phone', 'um.city', 'um.state', 'um.country', 'um.contact_country_code', 'um.profilepic_url'))
+                        ->joinLeft(array('c' => 'country'), 'c.country_id= um.contact_country_code', array('c.country_id', 'c.phonecode'))
+                    ->where('u.role = ?', 2);
+
+            $result = $this->getAdapter()->fetchAll($select);
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
+        }
+
+        if ($result) {
+            return $result;
+        }
+    }
+    /*
+      developer: sowmya
+     * date :20 april 2016 
+      function :function to change admin password */
+      function updateUsercredsWhere() {
+        if (func_num_args() > 0) {
+            $data = func_get_arg(0);
+            $where = func_get_arg(1);
+            
+            try {
+                $result = $this->update($data, "$where");
+            } catch (Exception $e) {
+                throw new Exception('Unable To Select Exception Occured :' . $e);
+            }
+            if ($result) {
+                return $result;
+            } else {
+                return 0;
+            }
+        } else {
+            throw new Exception('Argument Not Passed');
+        }
+    }
 }

@@ -644,6 +644,106 @@ class AuthenticationController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die();
                     break;
+                // added by sowmya 27/4/2016
+                case'agentdetails':
+                    if ($this->getRequest()->isPost()) {
+                        $data = $this->getRequest()->getPost('agent_id');
+                        $dearr = json_decode($data, true);
+                        $arrayinobject = (array) $dearr;
+                        $insertId = $agentsModal->getAgentDetails($arrayinobject);
+                        if ($insertId) {
+                            $response->message = 'Successfull';
+                            $response->code = 200;
+                            $response->data = $insertId;
+                        } else {
+                            $response->message = 'Could not Serve the Request';
+                            $response->code = 197;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                    }
+                    echo json_encode($response, true);
+                    die();
+                    break;
+                // added by sowmya 27/4/2016
+                case'updateagentdetails':
+                    if ($this->getRequest()->isPost()) {
+                        $agentid = $this->getRequest()->getPost('agent_id');
+                        $data['loginname'] = $this->getRequest()->getPost('loginname');
+                        $data['first_name'] = $this->getRequest()->getPost('first_name');
+                        $data['last_name'] = $this->getRequest()->getPost('last_name');
+                        $data['email'] = $this->getRequest()->getPost('email');
+                        $data['city'] = $this->getRequest()->getPost('city');
+                        $data['agent_status'] = 1;
+                        $data['addresss'] = $this->getRequest()->getPost('addresss');
+                        $data['membership'] = 1;
+                        $data['role'] = 4;
+                        $profilepic_url = $this->getRequest()->getPost('profilepic_url');
+                        if (!empty($profilepic_url)) {
+                            $data['profilepic_url'] = $profilepic_url;
+                        }
+                        $data['phone'] = $this->getRequest()->getPost('phone');
+                        $data['contact_country_code'] = $this->getRequest()->getPost('contact_country_code');
+                        if ($agentid) {
+                            $updatestatus = $agentsModal->updateAgentsdetails($agentid, $data);
+                            if ($updatestatus) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $updatestatus;
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'Could Not Serve The Request';
+                            $response->code = 401;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                        $response->data = Null;
+                    }
+                    echo json_encode($response, true);
+                    die;
+
+                    break;
+                // added by sowmya 28/4/2016
+                case'changepassword':
+                    if ($this->_request->isPost()) {
+                        $agentid = $this->getRequest()->getPost('agent_id');
+                 
+                        $old_password = $this->getRequest()->getPost('password');
+                        $new_password = $this->getRequest()->getPost('password1');
+                        $retype_password = $this->getRequest()->getPost('password2');
+                        
+                        if ($old_password != '' && $new_password != '' && $retype_password != '') {
+                            if ($old_password != $new_password) {
+                                $old_password = (md5($old_password));
+                                $new_password = (md5($new_password));
+                                $retype_password = (md5($retype_password));
+                                $data = array('password' => $new_password);
+                                $wherecondition = "agent_id = '" . $agentid . "' and password = '" . $old_password . "'";
+                                $Updatepassword = $agentsModal->updateAgentcredsWhere($data, $wherecondition);
+
+                                if ($Updatepassword) {
+                                    $this->view->successMsg = "Password Changed Successfully";
+                                } else {
+                                    $this->view->errorMsg = "Invalid Password";
+                                }
+                            } else {
+                                $this->view->errorMsg = "* Current and New Password should not be same";
+                            }
+                        } else {
+                            $this->view->errorMsg = "Please Enter all Passwords";
+                        }
+                    }
+                    echo json_encode($response, true);
+                    die;
+
+                    break;
             }
         } else {
             $response->message = 'Invalid Request';

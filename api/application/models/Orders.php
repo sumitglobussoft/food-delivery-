@@ -106,9 +106,9 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
                         ->from(array('o' => 'orders'))
                         ->join(array('od' => 'order_address'), 'o.order_id=od.order_id')
                         ->join(array('u' => 'users'), 'o.user_id=u.user_id')
-                        ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.id', 'hd.hotel_name', 'hd.agent_id'))                     
+                        ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.id', 'hd.hotel_name', 'hd.agent_id'))
                         ->where('o.order_id=?', $order_id);
-             
+
                 $result = $this->getAdapter()->fetchAll($select);
 
                 if ($result) {
@@ -130,12 +130,10 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
 
         if (func_num_args() > 0) {
 
-            $userid = func_get_arg(0);
-
+            $data = func_get_arg(0);
+            $order_id = func_get_arg(1);
             try {
-                $select = $this->select()
-                        ->from($this)
-                        ->where('user_id=?', $userid);
+                $result = $this->update($data, 'order_id =' . $order_id);
                 if ($result) {
                     return $result;
                 } else {
@@ -167,6 +165,7 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
                         ->setIntegrityCheck(false)
                         ->from(array('o' => 'orders'), array('o.order_id', 'total_amount' => new Zend_Db_Expr('o.total_amount + o.delivery_charge'), 'order_date'))
                         ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.hotel_name', 'hd.address'))
+                        ->join(array('ut' => 'user_transactions'), 'o.order_id=ut.order_id')// added by sowmya 29/4/2016
                         ->where('o.user_id=?', $userid)
                         ->limit($limit, $offset)
                         ->order('order_date DESC');
@@ -190,6 +189,11 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
      * Date: 10/12/2015
      * Desc: Select  Orders Status
      */
+    /*
+     * Dev : sowmya
+     * Date: 28/4/2016
+     * Desc: Select  Orders Status
+     */
 
     public function selectorderstatus() {
         if (func_num_args() > 0) {
@@ -202,6 +206,7 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
                         ->setIntegrityCheck(false)
                         ->from(array('o' => 'orders'))
                         ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.hotel_name', 'hd.address'))
+                        ->join(array('ut' => 'user_transactions'), 'o.order_id=ut.order_id', array('ut.user_tx_id', 'ut.tx_type', 'ut.tx_status'))
                         ->join(array('oa' => 'order_address'), 'o.order_id=oa.order_id', array('oa.landmark', 'oa.Location', 'oa.address_line1', 'oa.address_line2', 'oa.pin'))
                         ->where('o.order_id=?', $orderid);
 
@@ -239,9 +244,9 @@ class Application_Model_Orders extends Zend_Db_Table_Abstract {
 
                     unset($orderResult[0]['order_id']);
                     unset($orderResult[0]['hotel_id']);
-                    unset($orderResult[0]['pay_status']);
-                    unset($orderResult[0]['pay_type']);
-                    unset($orderResult[0]['delivery_status']);
+//                    unset($orderResult[0]['pay_status']);
+//                    unset($orderResult[0]['pay_type']);
+//                    unset($orderResult[0]['delivery_status']);
                     unset($orderResult[0]['delivery_type']);
                     unset($orderResult[0]['user_message']);
                     unset($orderResult[0]['user_id']);

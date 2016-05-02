@@ -1,0 +1,168 @@
+<?php
+$allgrocerydetailsArray = $this->allgrocerydetails;
+?>
+<div id="page-title">
+    <h2>View Grocery Details</h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal bordered-row" enctype="multipart/form-data" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Agent ID</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allgrocerydetailsArray['agent_id'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Agent Name</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allgrocerydetailsArray['loginname'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Grocery Name</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allgrocerydetailsArray['Grocery_name'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Grocery Rating</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allgrocerydetailsArray['Grocery_rating'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Grocery Address</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allgrocerydetailsArray['Address'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Timing</label>
+                                            </td>
+                                            <td>
+                                                <div class="" style="display: inline-flex;">
+                                                    <?php echo $allgrocerydetailsArray['Open_time'] ?>&nbsp; AM&nbsp; &nbsp;- &nbsp;<?php echo $allgrocerydetailsArray['Closing_time'] ?>&nbsp; PM
+                                                </div>
+                                            </td>
+                                        </tr>                                  
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Status</label>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($allgrocerydetailsArray['grocery_status'] == 1) {
+                                                    echo"Active";
+                                                } else {
+                                                    echo"Deactivate";
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Primary Phone No.</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allgrocerydetailsArray['grocery_contact_number'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Secondary Phone No.</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allgrocerydetailsArray['Secondary_phone'] ?>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Grocery Image</label>
+                                            </td>
+                                            <td>
+                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                        <img src="<?php
+                                                        if (isset($this->allgrocerydetails['Grocery_image'])) {
+                                                            echo $this->allgrocerydetails['Grocery_image'];
+                                                        }
+                                                        ?>" >
+                                                    </div>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>               
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Min. Order</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allgrocerydetailsArray['Minorder'] ?>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Delivery Charges</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allgrocerydetailsArray['Deliverycharge'] ?>
+
+                                            </td>
+                                        </tr>                                   
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Grocery Notice</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allgrocerydetailsArray['Notice'] ?>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .select2.select2-container {
+        width: 100% !important;
+    }
+</style>

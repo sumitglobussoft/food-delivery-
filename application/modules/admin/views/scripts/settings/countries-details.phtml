@@ -1,6 +1,5 @@
 <div id="page-title">
     <h2>Country Details</h2>
-    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -105,8 +104,13 @@
                             </tr>
                         </tfoot>
                         <tbody>
-
+                            <?php if (empty($this->countriesdetails)) { ?>
+                            <br><br><br><br><br><br><br><br>
+                            <center>
+                                <h3> No Result Found For Country Details</h3> </center>
+                            <br><br><br><br><br><br><br><br>
                             <?php
+                        } else {
                             $i = 1;
                             foreach ($this->countriesdetails as $value) {
                                 ?>
@@ -121,26 +125,24 @@
                                             endif;
                                             ?>" class="locationdeactive">
                                                 <span id="activeclass_<?php echo $value['location_id']; ?>" class="bs-label label-danger">Deactivate</span></a></td>
-    <?php else: ?>
+                                    <?php else: ?>
                                         <td id="activelocation_<?php echo $value['location_id']; ?>" class="locationdeactive">Suspended</td>
                                         <td class="center" ><a style="cursor:pointer" id="<?php
-                                                               if (isset($value['location_id'])): echo "location_" . $value['location_id'];
-                                                               endif;
-                                                               ?>" class="locationactive">
+                                            if (isset($value['location_id'])): echo "location_" . $value['location_id'];
+                                            endif;
+                                            ?>" class="locationactive">
                                                 <span id="activeclass_<?php echo $value['location_id']; ?>"  class="bs-label label-success">Activate</span></a></td>
-    <?php endif; ?> 
+                                    <?php endif; ?> 
                                     <td class="center">
                                         <a  href="javascript:;" class="btn btn-default locationedit" id="showEdit_<?php echo $value['location_id']; ?>"><i class="glyph-icon icon-linecons-pencil"></i></a>
-                                        <!--<span  id="<?php // echo "coutrydelete_" . $value['location_id'];  ?>" class="btn btn-default countrydelete" ><i class="glyph-icon icon-linecons-trash"></i></span>-->
+                                        <span  id="<?php echo "coutrydelete_" . $value['location_id']; ?>" class="btn btn-default countrydelete" ><i class="glyph-icon icon-linecons-trash"></i></span>
                                     </td>
                                 </tr>
-
-
-
                                 <?php
                                 $i++;
                             }
-                            ?>
+                        }
+                        ?>
 
 
                         </tbody>

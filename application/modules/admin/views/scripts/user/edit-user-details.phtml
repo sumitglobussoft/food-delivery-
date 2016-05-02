@@ -1,10 +1,9 @@
-<link rel="stylesheet" href="/assets/intl-tel-input-master/build/css/intlTelInput.css">
 <?php
 $alluserdetailsArray = $this->alluserdetails;
+$countryCodeDetails = $this->countryCodeDetails;
 ?>
 <div id="page-title">
     <h2>Edit Users Details</h2>
-    <p>The most complete user interface framework that can be used to create stunning admin dashboards and presentation websites.</p>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -83,8 +82,6 @@ $alluserdetailsArray = $this->alluserdetails;
                                                 <input type="text" class="form-control" name="last_name"  id="last_name" value="<?php echo $alluserdetailsArray['last_name']; ?>" placeholder="" required />
                                             </td>
                                         </tr>
-
-
                                     </tbody>
                                 </table>
                             </div>
@@ -101,12 +98,22 @@ $alluserdetailsArray = $this->alluserdetails;
                                             <td>
                                                 <label class="control-label">Phone</label>
                                             </td>
+                                        
                                             <td>
-                                                <input id="phone" type="tel" name="phone" value="<?php echo $alluserdetailsArray['phone']; ?>" class="form-control" />
+                                                <select class="js-example-responsive form-control"  id="contact_country_code" name="contact_country_code" style="width:100%;">
+                                                    <?php foreach ($countryCodeDetails as $value) { ?>
+                                                        <option value="<?php echo $value['country_id']; ?>">
+                                                             
+                                                            <?php echo $value['name']; ?>  &nbsp; <?php echo $value['phonecode']; ?>
+                                                        </option>
+                                                         
+                                                    <?php }
+                                                    ?>
+                                                </select>
+                                            </td>
 
-                                                <input id="hidden" type="hidden" name="contact_country_code" value="<?php echo $alluserdetailsArray['contact_country_code']; ?>" class="form-control" >
-<!--                                                <input type="tel" class="form-control" id="contact_country_code" placeholder="e.g. +1 702 123 4567">-->
-                                            <td>
+                                            <td> <input id="phone" type="text" name="phone" value="<?php echo $alluserdetailsArray['phone']; ?>" class="form-control" />
+                                            </td>
                                         </tr>
 
                                         <tr>
@@ -174,15 +181,13 @@ $alluserdetailsArray = $this->alluserdetails;
         </form>
     </div>
 </div>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="/assets/intl-tel-input-master/build/js/intlTelInput.js"></script>
-<script>
-    $("#phone").intlTelInput({
-        utilsScript: "../../build/js/utils.js" // just for formatting/placeholders etc
-    });
 
-// update the hidden input on submit
-    $("form").submit(function() {
-        $("#hidden").val($("#phone").intlTelInput("getNumber"));
+<!-- <script type="text/javascript">
+    $(function () {
+        $("#contact_country_code").click(function () {
+            var selectedText = $(this).find("option:selected").text();
+            var selectedValue = $(this).val();
+            alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+        });
     });
-</script>
+</script>-->
