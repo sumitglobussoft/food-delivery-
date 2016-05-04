@@ -116,7 +116,7 @@ class Agent_ProfileController extends Zend_Controller_Action {
         $url = $this->_appSetting->apiLink . '/get-locations?method=getcountry';
 
         $curlResponse = $objCurlHandler->curlUsingGet($url);
-     
+
         if ($curlResponse->code == 200) {
             $this->view->countrydetails = $curlResponse->data;
         }
@@ -130,7 +130,7 @@ class Agent_ProfileController extends Zend_Controller_Action {
         $url = $this->_appSetting->apiLink . '/get-locations?method=getcountrys';
 
         $curlResponse = $objCurlHandler->curlUsingGet($url);
-       
+
         if ($curlResponse->code == 200) {
             $this->view->countrydetails = $curlResponse->data;
         }
@@ -144,7 +144,7 @@ class Agent_ProfileController extends Zend_Controller_Action {
         $url = $this->_appSetting->apiLink . '/get-locations?method=getcity';
 
         $curlResponse = $objCurlHandler->curlUsingGet($url);
-       
+
         if ($curlResponse->code == 200) {
             $this->view->countrydetails = $curlResponse->data;
         }
@@ -158,7 +158,7 @@ class Agent_ProfileController extends Zend_Controller_Action {
         $url = $this->_appSetting->apiLink . '/get-locations?method=getlocation';
 
         $curlResponse = $objCurlHandler->curlUsingGet($url);
-       
+
         if ($curlResponse->code == 200) {
             $this->view->countrydetails = $curlResponse->data;
         }
@@ -173,7 +173,53 @@ class Agent_ProfileController extends Zend_Controller_Action {
     }
 
     public function groceryCategoryAction() {
-        
+        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+        $objCore = Engine_Core_Core::getInstance();
+        $objSecurity = Engine_Vault_Security::getInstance();
+        $this->_appSetting = $objCore->getAppSetting();
+
+        if ($this->getRequest()->isPost()) {
+            $data['cat_name'] = $this->getRequest()->getPost('categoryname');
+            $data['cat_desc'] = $this->getRequest()->getPost('cat_desc');
+            $data['cat_status'] = $this->getRequest()->getPost('cat_status');
+            $url = $this->_appSetting->apiLink . '/grocerydetails?method=addGroceryCategory';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+            if ($curlResponse) {
+                $this->redirect('/agent/grocery-category');
+            }
+        }
+        $url1 = $this->_appSetting->apiLink . '/grocerydetails?method=groceryCategory';
+        $curlResponse1 = $objCurlHandler->curlUsingGet($url1);
+        if ($curlResponse1->code == 200) {
+            $this->view->categorydetails = $curlResponse1->data;
+        }
+    }
+
+    /*
+     * Dev: sowmya
+     * Desc: edit category
+     * date : 2/4/2016
+     */
+
+    public function editGroceryCategoryAction() {
+
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+        $objCore = Engine_Core_Core::getInstance();
+        $objSecurity = Engine_Vault_Security::getInstance();
+        $this->_appSetting = $objCore->getAppSetting();
+        if ($this->getRequest()->isPost()) {
+            $data['cat_name'] = $this->getRequest()->getPost('category');
+            $data['cat_desc'] = $this->getRequest()->getPost('catdesc');
+            $category_id = $this->getRequest()->getPost('category_id');
+            $categoryname = $this->getRequest()->getPost('categorybtn');
+            $url = $this->_appSetting->apiLink . '/grocerydetails?method=updateGroceryCategory';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data,$category_id,$categoryname);
+            if ($curlResponse) {
+                $this->redirect('/agent/grocery-category');
+            }
+        }
     }
 
 }

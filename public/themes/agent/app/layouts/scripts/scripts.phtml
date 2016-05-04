@@ -684,5 +684,168 @@
             });
         }
     });
+    /*
+     * DEV :sowmya
+     * Desc : edit grocerycategory
+     * Date :23/4/2016
+     */
+    $(document.body).on('click', '.grocerycategoryedit', function() {
+        var categoryid = $(this).attr('id');
+        var categoryid = categoryid.replace("showEdit_", "");
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'getgrocerycategory',
+                categoryid: categoryid
+            },
+            beforeSend: function() {
 
+            },
+            success: function(response) {
+                var res = JSON.parse(response);
+
+                if (res.code === 200) {
+
+                    $('.editContent').find('#editcategory').val('');
+                    $('.editContent').find('#categoryid').val(res.data['category_id']);
+                    $('.editContent').find('#editcategory').val(res.data['cat_name']);
+                    $('.editContent').find('#categorydesc').val(res.data['cat_desc']);
+                    $('.editContent').find('#editcategorydesc').val(res.data['cat_desc']);
+                    $('.editContent').show();
+                    $('.addContent').hide();
+
+                } else {
+
+                    window.location.reload(true);
+                }
+
+            }
+
+
+        });
+
+    });
+
+    /*
+     * DEV :sowmya
+     * Desc : Delete grocery category
+     * Date : 3/5/2016
+     */
+
+    $(document.body).on('click', '.grocerycategorydelete', function() {
+        var id = $(this).attr('id');
+        var deleteid = id.replace("categorydelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'grocerycategorydelete',
+                    categoryid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    console.log(response);
+                    var response = JSON.parse(response);
+
+                    if (response) {
+                        var uid = response['code'].replace(/ /g, '');
+
+                        $('#' + "categorydelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+    });
+
+    /*
+     * DEV :sowmya
+     * Desc : Deactivate grocery category
+     * Date : 4/5/2016
+     */
+    $(document.body).on('change', '.grocerycategorydeactive', function() {
+        var categoryid = $(this).attr('id');
+        var categoryid = categoryid.replace("category_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'grocerycategoryactive',
+                categoryid: categoryid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var response = JSON.parse(response);
+                if (response.code === "200") {
+                    var uid = response['data'].replace(/ /g, '');
+                    $('#' + "activeclass_" + uid).removeClass('label label-danger');
+                    $('#' + "activeclass_" + uid).addClass('label label-success');
+                    $('#' + "activeclass_" + uid).html("Activate");
+                    $('#category_' + uid).removeClass('grocerycategorydeactive');
+                    $('#category_' + uid).addClass('grocerycategoryactive');
+                    $('#' + "activecategory_" + uid).html("Suspended");
+                } else {
+
+                    alert('Request could not served');
+
+                }
+            }
+        });
+
+    });
+    /*
+     * DEV :priyanka varanasi
+     * Desc : Activate hotel
+     * Date : 18/12/2015
+     */
+    $(document.body).on('click', '.grocerycategoryactive', function() {
+        var categoryid = $(this).attr('id');
+        var categoryid = categoryid.replace("category_", "");
+        console.log('activate called');
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'grocerycategoryactive',
+                categoryid: categoryid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var response = JSON.parse(response);
+                if (response.code === "200") {
+                    var uid = response['data'].replace(/ /g, '');
+                    $('#' + "activeclass_" + uid).removeClass('label label-success');
+                    $('#' + "activeclass_" + uid).addClass('label label-danger');
+                    $('#' + "activeclass_" + uid).html("Dectivate");
+                    $('#category_' + uid).removeClass('grocerycategoryactive');
+                    $('#category_' + uid).addClass('grocerycategorydeactive');
+                    $('#' + "activecategory_" + uid).html("Active");
+
+
+                } else {
+
+                    alert('Request could not served');
+
+                }
+            }
+
+        });
+
+    });
 </script>

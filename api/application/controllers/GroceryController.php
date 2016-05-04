@@ -12,6 +12,7 @@ class GroceryController extends Zend_Controller_Action {
     public function grocerySummaryAction() {
         $grocerysummaryModel = Application_Model_GroceryDetails::getInstance();
         $ReviewsModel = Application_Model_Reviews::getInstance();
+        $grocerycategoryModel = Application_Model_GroceryCategory::getInstance();
         $response = new stdClass();
         $method = $this->getRequest()->getParam('method');
 
@@ -307,7 +308,7 @@ class GroceryController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die;
                     break;
-                     case'getGroceryReviewsByAgentId':
+                case'getGroceryReviewsByAgentId':
                     if ($this->getRequest()->isPost()) {
 
                         $agent_id = $this->getRequest()->getPost('agent_id');
@@ -336,7 +337,7 @@ class GroceryController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die;
                     break;
-                    
+
                 case'changereviewstatus':
                     if ($this->getRequest()->isPost()) {
 
@@ -399,13 +400,145 @@ class GroceryController extends Zend_Controller_Action {
                     die;
 
                     break;
-            }
-        } else {
+                // added by sowmya 2/5/2016
+                case'groceryCategory':
+                    $grocerydetails = $grocerycategoryModel->selectAllCategorys();
 
-            $response->message = 'Invalid Request';
-            $response->code = 401;
-            $response->data = "No Method Passed";
-            echo json_encode($response, true);
+                    if ($grocerydetails) {
+                        $response->message = 'Successfull';
+                        $response->code = 200;
+                        $response->data = $grocerydetails;
+                    } else {
+                        $response->message = 'Could not Serve the Response';
+                        $response->code = 197;
+                        $response->data = NUll;
+                    }
+
+                    echo json_encode($response, true);
+                    die();
+                    break;
+                // added by sowmya 2/5/2016
+                case'addGroceryCategory':
+                    if ($this->getRequest()->isPost()) {
+                        $data['cat_name'] = $this->getRequest()->getPost('cat_name');
+                        $data['cat_desc'] = $this->getRequest()->getPost('cat_desc');
+                        $data['cat_status'] = $this->getRequest()->getPost('cat_status');
+
+                        $updatestatus = $grocerycategoryModel->addCategory($data);
+                        if ($updatestatus) {
+                            $response->message = 'successfull';
+                            $response->code = 200;
+                            $response->data = $updatestatus;
+                        } else {
+                            $response->message = 'Could Not Serve The Request';
+                            $response->code = 197;
+                            $response->data = null;
+                        }
+                    } else {
+                        $response->message = 'Could Not Serve The Request';
+                        $response->code = 401;
+                        $response->data = NULL;
+                    }
+
+                    echo json_encode($response, true);
+                    die;
+                    break;
+                    break;
+                // added by sowmya 2/5/2016
+                case'getgrocerycategoryById':
+                    if ($this->getRequest()->isPost()) {
+                        $categoryid = $this->getRequest()->getParam('categoryid');
+                        ;
+
+                        $updatestatus = $grocerycategoryModel->getCategoryById($categoryid);
+                        if ($updatestatus) {
+                            $response->message = 'successfull';
+                            $response->code = 200;
+                            $response->data = $updatestatus;
+                        } else {
+                            $response->message = 'Could Not Serve The Request';
+                            $response->code = 197;
+                            $response->data = null;
+                        }
+                    } else {
+                        $response->message = 'Could Not Serve The Request';
+                        $response->code = 401;
+                        $response->data = NULL;
+                    }
+
+                    echo json_encode($response, true);
+                    die;
+                    break;
+                case'grocerycategorydelete':
+                    if ($this->getRequest()->isPost()) {
+
+                        $categoryid = $this->getRequest()->getParam('categoryid');
+                        if ($categoryid) {
+                            $updatestatus = $grocerycategoryModel->categorydelete($categoryid);
+
+                            if ($updatestatus) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data['category_id'] = $categoryid;
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'Could Not Serve The Request';
+                            $response->code = 401;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                        $response->data = Null;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+                case'updateGroceryCategory':
+                    if ($this->getRequest()->isPost()) {
+                        $data['cat_name'] = $this->getRequest()->getPost('cat_name');
+                        $data['cat_desc'] = $this->getRequest()->getPost('cat_desc');
+                        $category_id = $this->getRequest()->getPost('category_id');
+                        $categoryname = $this->getRequest()->getPost('categorybtn');
+
+                        if ($category_id) {
+                            $result = $grocerycategoryModel->updateCategory($data, $category_id);
+                            if ($categoryname == 'cat_name') {
+
+                                if ($result) {
+                                    $response->message = 'successfull';
+                                    $response->code = 200;
+                                    $response->data = $updatestatus;
+                                } else {
+                                    $response->message = 'Could Not Serve The Request';
+                                    $response->code = 197;
+                                    $response->data = null;
+                                }
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 401;
+                                $response->data = NULL;
+                            }
+                        } else {
+                            $response->message = 'Invalid Request';
+                            $response->code = 401;
+                            $response->data = Null;
+                        }
+                        echo json_encode($response, true);
+                        die;
+                        break;
+                    } else {
+
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                        $response->data = "No Method Passed";
+                        echo json_encode($response, true);
+                    }
+            }
         }
     }
 

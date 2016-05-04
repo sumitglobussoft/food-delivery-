@@ -1996,4 +1996,144 @@
         }
 
     });
+    
+     /*
+     * DEV :sowmya
+     * Desc : Delete coupons
+     * Date : 5/3/2016
+     */
+
+    $(document.body).on('click', '.deletecoupon', function() {
+        var couponId = $(this).attr('id');
+        var deleteid = couponId.replace("coupondelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './coupons-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'deleteCoupon',
+                    couponId: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+                        $('#' + "coupondelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+    });
+/*
+     * DEV :sowmya
+     * Desc : Deactivate coupons status
+     * Date : 3/5/2016
+     */
+    $(document.body).on('click', '.coupondeactive', function() {
+        var couponId = $(this).attr('id');
+        console.log(couponId);
+        var couponId = couponId.replace("coupon_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './coupons-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'changeCouponStatus',
+                couponId: couponId
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                console.log(response);
+                var uid = response.replace(/ /g, '');
+
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).html("Activate");
+                $('#coupon_' + uid).removeClass('coupondeactive');
+                $('#coupon_' + uid).addClass('couponactive');
+                $('#' + "activecoupon_" + uid).html("Suspended");
+
+            }
+        });
+
+    });
+    /*
+     * DEV :sowmya
+     * Desc : Activate coupons status
+     * Date : 4/5/2016
+     */
+    $(document.body).on('click', '.couponactive', function() {
+        var id = $(this).attr('id');
+        var id = id.replace("coupon_", "");
+        console.log('activate called');
+        $.ajax({
+            url: './coupons-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'changeCouponStatus',
+                couponId: id
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var uid = response.replace(/ /g, '');
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).html("Dectivate");
+                $('#coupon_' + uid).removeClass('couponactive');
+                $('#coupon_' + uid).addClass('coupondeactive');
+                $('#' + "activecoupon_" + uid).html("Active");
+
+            }
+
+
+        });
+
+    });
+    
+    /*
+     * DEV :sowmya
+     * Desc : Delete coupons user
+     * Date : 5/3/2016
+     */
+
+    $(document.body).on('click', '.deletecouponuser', function() {
+        var couponId = $(this).attr('id');
+        var deleteid = couponId.replace("couponuserdelete_", "");
+        if (deleteid) {
+            $.ajax({
+                url: './coupons-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'deleteCouponUser',
+                    couponuserId: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response) {
+                        var uid = response.replace(/ /g, '');
+                        $('#' + "couponuserdelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+    });
 </script>

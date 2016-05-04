@@ -485,8 +485,59 @@ class Agent_OrderController extends Zend_Controller_Action {
                     die();
                 }
                 break;
+///////////////////////////////////////// grocery category 3/5/2016 ////////////////////////////////////
+                //added by sowmya 23/4/2016
+                case 'getgrocerycategory':
+                    $categoryid = $this->getRequest()->getParam('categoryid');
+                    if ($categoryid) {
+                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=getgrocerycategoryById';
+                    $data['category_id'] = $categoryid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
 
+                    if ($curlResponse->code == 200) {
+                        $array = array('code' => 200,
+                            'data' => $curlResponse->data['category_id']);
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array = array('code' => 198,
+                            'data' => null);
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+                    $array = array('code' => 198,
+                        'data' => null);
+                    echo json_encode($array, true);
+                    die();
+                }
             default :
+                break;
+                  case 'grocerycategorydelete':
+              
+                 $categoryid = $this->getRequest()->getParam('categoryid');
+                    if ($categoryid) {
+                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=grocerycategorydelete';
+                    $data['category_id'] = $categoryid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+
+                    if ($curlResponse->code == 200) {
+                        $array = array('code' => 200,
+                            'data' => $curlResponse->data['category_id']);
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array = array('code' => 198,
+                            'data' => null);
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+                    $array = array('code' => 198,
+                        'data' => null);
+                    echo json_encode($array, true);
+                    die();
+                }
                 break;
         }
     }

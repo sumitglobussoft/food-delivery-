@@ -21,7 +21,8 @@
                 ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/admin.min.css')
                 ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/select2.min.css')
                 ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/jasny-bootstrap.min.css')
-                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/custom.css');
+                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/css/custom.css')
+                ->appendStylesheet($this->baseUrl() . $this->appSetting->assestPath . 'admin/bootstrap-datetimepicker/css/datetimepicker.min.css');
 //     print_r($this->appSetting->assestPath);
         if ($this->auth->hasIdentity()) {
             if ($this->session->storage->role == 2) {
@@ -44,7 +45,11 @@
                         ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/custom.js', 'text/javascript')
                         ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/layout.js', 'text/javascript')
                         ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/datatable-bootstrap.js', 'text/javascript')
-                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/time/time_ago.js', 'text/javascript');
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/time/time_ago.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/jquery-validation/js/jquery.validate.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/bootstrap-checkbox/js/bootstrap-checkbox.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/bootstrap-datetimepicker/js/datetimepicker.min.js', 'text/javascript');
+
 //                       
             }
         } else {
@@ -67,7 +72,10 @@
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/custom.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/layout.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/js/datatable-bootstrap.js', 'text/javascript')
-                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/time/time_ago.js', 'text/javascript');
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/time/time_ago.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/jquery-validation/js/jquery.validate.js', 'text/javascript')
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/bootstrap-checkbox/js/bootstrap-checkbox.js', 'text/javascript')
+                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/bootstrap-datetimepicker/js/datetimepicker.min.js', 'text/javascript');
         }
         ?>  
         <style>
@@ -234,6 +242,19 @@
                                                 <li><a href="/admin/hotel-reviews" title="hotel-review"><span>Hotel Reviews</span></a></li>
                                                 <li><a href="/admin/grocery-reviews" title="grocery-review"><span>Grocery Reviews</span></a></li>
 
+
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" title="Coupons">
+                                            <i class="glyph-icon icon-linecons-cog"></i> <span>Coupon Details</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li><a href="/admin/manage-coupons" title="Coupon Details"><span>Coupon Details</span></a></li>
+                                                <li><a href="/admin/add-new-coupon" title="Add New Coupon Details"><span>Add New Coupon Details</span></a></li>
+                                                <li><a href="/admin/coupons-log" title="Coupon Logs"><span>Coupon Logs</span></a></li>
 
                                             </ul>
                                         </div>

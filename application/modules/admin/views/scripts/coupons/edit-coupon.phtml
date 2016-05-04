@@ -1,0 +1,374 @@
+
+<style>
+    input.error{border:1px solid #FF0000 !important; }
+    label.error,div.error{
+        font-weight:normal;
+        color:#FF0000 !important;
+    }
+    .checker {
+        height: auto !important;
+        margin: auto !important;
+        width: auto !important;
+    }
+    .checker a {
+        height: auto !important;
+        margin: auto !important;
+        width: auto !important;
+    }
+    .display-none, .display-hide {
+        display: none;
+    }
+</style>
+
+
+
+<div id="page-title">
+    <h2>Edit Coupon Details</h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="example-box-wrapper">
+                            <form class="form-horizontal form-bordered" id="addnewcouponform" enctype="multipart/form-data" method="post">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Coupon Code:</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <div>
+                                                    <input class="form-control" type="text" maxlength="8" autocomplete="off" placeholder="Ex. K5G113FZ" data-name="<?php echo $this->couponDetails['coupon_code']; ?>" value="<?php echo $this->couponDetails['coupon_code']; ?>"  name="couponCode" id='couponCode'/>
+                                                </div>
+                                                <span class="input-group-btn">
+                                                    <button id="generate-random-code" type="button" class="btn btn-success" onClick="randomCode();"><i class="fa fa-random"></i> Random</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+
+                                    <div class="form-group">
+
+                                        <label class="control-label col-md-2">Availability:</label>
+                                        <div class="col-md-3">
+                                            <input type="checkbox" class="form-control" id="availability" name="availability"/>
+                                        </div>
+
+                                        <label class="control-label col-md-1"> No. :</label>
+                                        <div class="col-md-4">
+                                            <div style="width:240px;">
+                                                <input type="text" class=" form-control" id="availabilityno" disabled name="availabilityno" style="cursor: text">
+                                            </div>
+                                            <span class="help-block">  </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Discount Type:</label>
+                                        <div class="col-md-2">
+                                            <div class="margin-bottom-10">
+                                                <select class="bs-select form-control input-small" data-style="btn-info" id="discounttype" name="discounttype">
+                                                    <option value="">select</option>
+                                                    <option value="0">Percentage</option>
+                                                    <option value="1">Flat</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <label class="control-label col-md-2">Value:</label>
+                                        <div class="col-md-3" id="flatdiscount">
+                                            <div class="input-inline input-medium input-icon right">
+                                                <i class="fa fa-rupee" id="discount-icon" style="display:none;"></i>
+                                                <input id="flatdiscountval" type="text" 
+                                                       <?php if ($this->couponDetails['discount_value'] > 0) { ?> value="<?php
+                                                           echo $this->couponDetails['discount_value'];
+                                                           echo '"';
+                                                       } else {
+                                                           ?>" value="Choose discount type first." disabled=""<?php } ?> name="flatdiscount" class="form-control integer-only"  style="cursor: text">
+                                            </div>
+
+                                        </div>
+                                        <div class="display-none col-md-3" id="percentagediscount">
+                                            <div class="input-inline input-medium input-icon right">
+                                                <i class="icon-percent"></i>
+                                                <input id="percentagediscountval" type="text" <?php if ($this->couponDetails['discount_value'] > 0) { ?> 
+                                                           value="<?php
+                                                           echo $this->couponDetails['discount_value'];
+                                                           echo '"';
+                                                       } else {
+                                                           ?>" value="0" <?php } ?> name="percentagediscount" class="form-control integer-only">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="form-group has-feedback">
+                                        <label class="col-md-2 control-label">Available from:</label>
+                                        <div class="col-md-5">
+                                            <div class="input-append date form_datetime right-inner-addon">
+                                                <input id="availablefromdate" name="availablefromdate"  size="16" type="text" class="form-control" <?php if ($this->couponDetails['coupon_valid_from'] != '') { ?> value="<?php echo date('d F Y - h:i A', $this->couponDetails['coupon_valid_from']); ?>" <?php } ?>>
+                                                <i class="fa fa-calendar"></i>
+                                                <span  class="input-group-btn add-on" style="opacity:0;"><i class="icon-th"></i></span>
+                                                <span id="availablefromdateError">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Available upto:</label>
+                                        <div class="col-md-5">
+                                            <div class="input-append date form_datetime right-inner-addon">
+                                                <input id="availableuptodate" name="availableuptodate" size="16" type="text" class="form-control" <?php if ($this->couponDetails['coupon_valid_upto'] != '') { ?> value="<?php echo date('d F Y - h:i A', $this->couponDetails['coupon_valid_upto']); ?>" <?php } ?>>
+                                                <i class="fa fa-calendar"></i>
+                                                <span class="input-group-btn add-on" style="opacity:0;"><i class="icon-th"></i></span>
+                                                <span id="availableuptodateError">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions text-left">
+                                    <div>
+                                        <button  type="submit" class="btn btn-theme" type="submit">Save Changes</button>
+                                    </div>
+                                </div>
+                            </form>     
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+<style>
+    .right-inner-addon {
+        position: relative;
+    }
+    .right-inner-addon input {
+        padding-right: 30px;    
+    }
+    .right-inner-addon i {
+        padding: 0;
+        pointer-events: none;
+        position: absolute;
+        right: 8px;
+        top: 10px;
+    }
+</style>
+<script>
+    $(".form_datetime").datetimepicker({
+        format: "dd MM yyyy - HH:ii P",
+        showMeridian: true,
+        autoclose: true,
+        todayBtn: true
+    });
+</script>            
+<script>
+    $(document).ready(function() {
+        $(function() {
+            $('#availability').checkboxpicker();
+            $('#availability').parent().parent().removeClass('checker');
+        });
+
+        $("#couponCode").keyup(function(e) {
+            $(this).val($(this).val().toUpperCase());
+        });
+
+        $(document).on('change', '#availability', function(e) {
+            if ($('#availability').is(":checked")) {
+                $('#availabilityno').prop('disabled', false);
+                $('#availabilitynoplus').prop('disabled', false);
+                $('#availabilitynominus').prop('disabled', false);
+                $('#availabilityno').val('<?php echo $this->couponDetails['availability_value']; ?>');
+            } else {
+                $('#availabilityno').prop('disabled', true);
+                $('#availabilitynoplus').prop('disabled', true);
+                $('#availabilitynominus').prop('disabled', true);
+                $('#availabilityno').val('');
+            }
+        });
+
+<?php if ($this->couponDetails['availability'] == 1) { ?>
+            $('#availability').attr('checked', '');
+            $('#availabilityno').prop('disabled', false);
+            $('#availabilityno').val('<?php echo $this->couponDetails['availability_value']; ?>');
+<?php } ?>
+<?php if ($this->couponDetails['discount_value'] > 0) { ?>
+            $('#discounttype option[value=<?php echo $this->couponDetails['discount_type']; ?>]').attr('selected', 'selected');
+<?php } ?>
+
+        if ($('#discounttype').val() === 1) {
+            $('#discount-icon').show();
+        } else if ($('#discounttype').val() === 0) {
+            $('#discount-icon').removeClass('fa fa-rupee');
+            $('#discount-icon').addClass('icon-percent');
+            $('#discount-icon').show();
+        }
+
+        $(document).on('change', '#discounttype', function(e) {
+            if ($('#discounttype').val() === "0") {
+                $('#percentagediscount').removeClass("display-none");
+                $('#flatdiscount').addClass("display-none");
+            } else if ($('#discounttype').val() === "1") {
+                $('#flatdiscount').removeClass("display-none");
+                $('#flatdiscountval').prop("disabled", false);
+                $('#flatdiscountval').val('0');
+                $('#percentagediscount').addClass("display-none");
+                $('#discount-icon').show();
+            } else if ($('#discounttype').val() === "") {
+                $('#percentagediscount').addClass("display-none");
+                $('#flatdiscount').removeClass("display-none");
+                $('#flatdiscountval').val('Choose discount type first.');
+                $('#flatdiscountval').prop("disabled", true);
+                $('#discount-icon').hide();
+            }
+        });
+
+        $.validator.addMethod("couponregex", function(value, element) {
+            return this.optional(element) || /^[A-Z0-9]*$/.test(value);
+        }, "Coupon code must contain only Alphanumeric.");
+
+        $.validator.addMethod("greaterdate", function(value, element) {
+            var availablefromdate = new Date($('#availablefromdate').val().replace("-", ","));
+            var availableuptodate = new Date($('#availableuptodate').val().replace("-", ","));
+
+            return this.optional(element) || availablefromdate < availableuptodate;
+        }, "This must be greater than 'Available From'.");
+
+        $.validator.addMethod("checkforcurrentdate", function(value, element) {
+            var availablefromdate = new Date($('#availablefromdate').val().replace("-", ","));
+
+            return this.optional(element) || (new Date(new Date() - 1 * 60000)) < availablefromdate;
+        }, "This must be greater than current date and time.");
+
+        $('#addnewcouponform').validate({
+            rules: {
+                couponCode: {
+                    required: true,
+                    couponregex: true,
+                    minlength: 8,
+                    maxlength: 8,
+                    remote: {
+                        url: "/admin/coupons-ajax-handler",
+                        type: 'POST',
+                        datatype: 'json',
+                        data: {
+                            method: 'checkForCouponCode',
+                            couponCode: function() {
+                                return $("#couponCode").val();
+                            },
+                            modeName: "edit",
+                            originalCouponCode: function() {
+                                return $("#couponCode").attr('data-name');
+                            }
+                        }
+                    }
+                },
+                availability: {
+                    required: true
+                },
+                availabilityno: {
+                    required: "#availability:checked",
+                    digits: true,
+                    min: 1
+                },
+                discounttype: {
+                    required: true
+                },
+                percentagediscount: {
+                    number: true,
+                    min: 1,
+                    required: function() {
+                        return $('#discounttype').val() == '0';
+                    }
+                },
+                flatdiscount: {
+                    number: true,
+                    min: 1,
+                    required: function() {
+                        return $('#discounttype').val() == '1';
+                    }
+                },
+                availablefromdate: {
+                    required: true,
+                    checkforcurrentdate: true
+                },
+                availableuptodate: {
+                    required: true,
+                    greaterdate: true
+                },
+                availableuptotime: {
+                    required: true,
+                    greatertime: true
+                }
+            },
+            messages: {
+                couponCode: {
+                    required: "Please enter a coupon code.",
+                    minlength: "Coupon code must be 8 letters long.",
+                    maxlength: "Coupon code must be 8 letters long.",
+                    couponregex: "Coupon must contain only Alphanumeric.",
+                    remote: "Coupon code already in use."
+                },
+                discounttype: {
+                    required: "Please select a discount type."
+                },
+                availablefromdate: {
+                    required: "Please select a date."
+                },
+                availableuptodate: {
+                    required: "Please select a date."
+                }
+            },
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "availablefromdate") {
+                    $('#availablefromdateError').css('display', 'table-row-group');
+                    $("#availablefromdateError").html(error);
+                } else if (element.attr("name") == "availableuptodate") {
+                    $('#availableuptodateError').css('display', 'table-row-group');
+                    $("#availableuptodateError").html(error);
+                } else if (element.attr("name") == "couponCode") {
+                    $('#couponCodeError').css('display', 'table-row-group');
+                    $("#couponCodeError").html(error);
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+    });
+
+    function randomCode() {
+        var chars = "01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ";
+        var string_length = 8;
+        var randomstring = '';
+        for (var i = 0; i < string_length; i++) {
+            var rnum = Math.floor(Math.random() * chars.length);
+            randomstring += chars.substring(rnum, rnum + 1);
+        }
+        $.ajax({
+            url: "/admin/coupons-ajax-handler",
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                method: 'checkForCouponCode',
+                couponCode: randomstring
+            },
+            success: function(response) {
+                if (response) {
+                    $("#couponCode").val(randomstring);
+                } else {
+                    $("#generate-random-code").trigger('click');
+                }
+            }
+        });
+    }
+
+</script>

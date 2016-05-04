@@ -149,29 +149,31 @@ class Engine_Vault_Acl extends Zend_Acl {
         $this->allow('user', 'agent::reviews::grocery-reviews')
                 ->allow('user', 'agent::reviews::hotel-reviews'); // added by sowmya 26/4/2016
         //
-                //      // added by sowmya 26/4/2016 review module
+                //      // added by sowmya 26/4/2016 profile module
         $this->add(new Zend_Acl_Resource('agent::profile'), 'agent')
                 ->add(new Zend_Acl_Resource('agent::profile::edit-profile'), 'agent::profile')
                 ->add(new Zend_Acl_Resource('agent::profile::change-password'), 'agent::profile')
-                  ->add(new Zend_Acl_Resource('agent::profile::country'), 'agent::profile')// added by sowmya 29/4/2016
-                  ->add(new Zend_Acl_Resource('agent::profile::state'), 'agent::profile')
-                  ->add(new Zend_Acl_Resource('agent::profile::city'), 'agent::profile')
-                  ->add(new Zend_Acl_Resource('agent::profile::location'), 'agent::profile')
-                  ->add(new Zend_Acl_Resource('agent::profile::hotel-cuisines'), 'agent::profile')
-                  ->add(new Zend_Acl_Resource('agent::profile::hotel-category'), 'agent::profile')
-                  ->add(new Zend_Acl_Resource('agent::profile::grocery-category'), 'agent::profile');//upto here added by sowmya 26/4/2016
+                ->add(new Zend_Acl_Resource('agent::profile::country'), 'agent::profile')// added by sowmya 29/4/2016
+                ->add(new Zend_Acl_Resource('agent::profile::state'), 'agent::profile')
+                ->add(new Zend_Acl_Resource('agent::profile::city'), 'agent::profile')
+                ->add(new Zend_Acl_Resource('agent::profile::location'), 'agent::profile')
+                ->add(new Zend_Acl_Resource('agent::profile::hotel-cuisines'), 'agent::profile')
+                ->add(new Zend_Acl_Resource('agent::profile::hotel-category'), 'agent::profile')
+                ->add(new Zend_Acl_Resource('agent::profile::grocery-category'), 'agent::profile')
+                ->add(new Zend_Acl_Resource('agent::profile::edit-grocery-category'), 'agent::profile'); //upto here added by sowmya 26/4/2016
 
         $this->allow('user', 'agent::profile::edit-profile')
                 ->allow('user', 'agent::profile::change-password')
-                 ->allow('user', 'agent::profile::country')
+                ->allow('user', 'agent::profile::country')
                 ->allow('user', 'agent::profile::state')
-                 ->allow('user', 'agent::profile::city')
-                 ->allow('user', 'agent::profile::location')
+                ->allow('user', 'agent::profile::city')
+                ->allow('user', 'agent::profile::location')
                 ->allow('user', 'agent::profile::hotel-cuisines')
-                 ->allow('user', 'agent::profile::hotel-category')
-                 ->allow('user', 'agent::profile::grocery-category')
-                
-                ;
+                ->allow('user', 'agent::profile::hotel-category')
+                ->allow('user', 'agent::profile::grocery-category')
+                ->allow('user', 'agent::profile::edit-grocery-category')
+
+        ;
 //                                 
 //                   
 //====================end Agent module=======================  
@@ -273,8 +275,15 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->add(new Zend_Acl_Resource('admin::reviews'), 'admin')
                 ->add(new Zend_Acl_Resource('admin::reviews::hotel-reviews'), 'admin::reviews')
                 ->add(new Zend_Acl_Resource('admin::reviews::grocery-reviews'), 'admin::reviews')
-                ->add(new Zend_Acl_Resource('admin::reviews::reviews-ajax-handler'), 'admin::reviews');
-//                
+                ->add(new Zend_Acl_Resource('admin::reviews::reviews-ajax-handler'), 'admin::reviews')
+                // admin coupons panel///  3/5/2016
+                ->add(new Zend_Acl_Resource('admin::coupons'), 'admin')
+                ->add(new Zend_Acl_Resource('admin::coupons::add-new-coupon'), 'admin::coupons')
+                ->add(new Zend_Acl_Resource('admin::coupons::manage-coupons'), 'admin::coupons')
+                ->add(new Zend_Acl_Resource('admin::coupons::coupons-log'), 'admin::coupons')
+                ->add(new Zend_Acl_Resource('admin::coupons::edit-coupon'), 'admin::coupons')
+                ->add(new Zend_Acl_Resource('admin::coupons::coupons-ajax-handler'), 'admin::coupons');
+
         // admin panel landing page///
         $this->allow('guest', 'admin::admin::index')
                 ->allow('admin', 'admin::admin::dashboard')
@@ -357,6 +366,12 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('admin', 'admin::reviews::hotel-reviews')
                 ->allow('admin', 'admin::reviews::grocery-reviews')
                 ->allow('admin', 'admin::reviews::reviews-ajax-handler')
+                // admin coupons panel///added by sowmya 20/4/2016
+                ->allow('admin', 'admin::coupons::add-new-coupon')
+                ->allow('admin', 'admin::coupons::manage-coupons')
+                ->allow('admin', 'admin::coupons::coupons-log')
+                ->allow('admin', 'admin::coupons::edit-coupon')
+                ->allow('admin', 'admin::coupons::coupons-ajax-handler')
         ; // added by sowmya 20/4/2016
 //====================end Admin module=======================  
     }
