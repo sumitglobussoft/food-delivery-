@@ -22,19 +22,19 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
-                            <form class="" role="form">
+                            <form class="" role="form" method="POST">
                                 <div class="form-group row m-t-20 m-b-10">
                                     <label class="col-sm-2 control-label">Enter the Country</label>
                                     <div class="col-sm-10">
-                                        <input type="text" required="" placeholder="" id="" class="form-control">
+                                        <input type="text" name="name" class="form-control" id="" placeholder="" required />
                                     </div>
                                 </div>
                                 <div class="form-group row m-t-20 m-b-10">
                                     <label class="col-sm-2 control-label">Status</label>
                                     <div class="col-sm-5">
-                                        <select  class="selectpicker width-full js-example-basic-hide-search " name="location_status"> 
+                                        <select  class="selectpicker width-full js-example-basic-hide-search " name="location_status">
                                             <option value="1">
-                                                Active 
+                                                Active
                                             </option>
                                             <option value="2">
                                                 Deactivate
@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group text-right m-b-20">
-                                    <button class="btn btn-theme">SAVE</button>
+                                    <button type="submit" class="btn btn-theme">SAVE</button>
                                 </div>
                             </form>
                         </div>
@@ -54,25 +54,36 @@
 
             <!-- begin panel -->
             <div class="panel pagination-theme clearfix m-b-0" id="editCountry">
-                <div class="panel-heading">
-                    <h4 class="panel-title">Edit Country</h4>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1">
-                            <form class="" role="form">
-                                <div class="form-group row m-t-20 m-b-10">
-                                    <label class="col-sm-2 control-label">Country Name</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" required="" placeholder="" id="" class="form-control">
-                                    </div>
-                                </div>
 
-                                <div class="form-group text-right m-b-20">
-                                    <button class="btn btn-theme">UPDATE</button>
-                                    <button class="btn btn-default clearCountry">Cancel</button>
+                <div class="panel editContent">
+                    <div class="panel-body">
+                        <h3 class="title-hero">Edit Country</h3>
+                        <div class="example-box-wrapper">
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <form class="form-horizontal bordered-row" method="POST" action="/agent/edit-location">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Country Name</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="editlocation" name="location"placeholder="" value="" required />
+                                            </div>
+                                            <div class="col-sm-10 hidden">
+                                                <input type="text" class="form-control" id="locationid" name="location_id" placeholder="" value="" required />
+                                            </div>
+                                        </div>
+                                        <div class="form-group pull-right">
+                                            <button type="submit" name="locationbtn"  value="country" class="btn btn-alt btn-hover btn-primary">
+                                                <span>UPDATE</span> <i class="glyph-icon icon-refresh"></i>
+                                                <div class="ripple-wrapper"></div>
+                                            </button>
+                                            <button class="btn btn-alt btn-hover btn-info">
+                                                <span>CANCEL</span> <i class="glyph-icon icon-trash"></i>
+                                                <div class="ripple-wrapper"></div>
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,21 +131,21 @@
                                                     <td class="center"><a style="cursor:pointer"  id="<?php
                                                         if (isset($value['location_id'])): echo "location_" . $value['location_id'];
                                                         endif;
-                                                        ?>" class="locationdeactive">
+                                                        ?>" class="locationdeactive" >
                                                             <span id="activeclass_<?php echo $value['location_id']; ?>" class="label label-danger">Deactivate</span></a></td>
                                                 <?php else: ?>
                                                     <td id="activelocation_<?php echo $value['location_id']; ?>" class="locationdeactive">Suspended</td>
                                                     <td class="center" ><a style="cursor:pointer" id="<?php
                                                         if (isset($value['location_id'])): echo "location_" . $value['location_id'];
                                                         endif;
-                                                        ?>" class="locationactive">
+                                                        ?>" class="locationactive" >
                                                             <span id="activeclass_<?php echo $value['location_id']; ?>"  class="label label-success">Activate</span></a></td>
-                                                <?php endif; ?> 
+                                                <?php endif; ?>
                                                 <td class="text-center">
-                                                    <a href="javascript:;" class="btn btn-purple btn-icon btn-circle btn-sm countryedit" id="showEdit_<?php echo $value['location_id']; ?>">
+                                                    <a href="#" class="btn btn-purple btn-icon btn-circle btn-sm countryedit" id="showEdit_<?php echo $value['location_id']; ?>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
-                                                    <a href="javascript:;" id="<?php echo "coutrydelete_" . $value['location_id']; ?>" class="btn btn-danger btn-icon btn-circle btn-sm countrydelete">
+                                                    <a href="javascript:;" id="<?php echo "countrydelete_" . $value['location_id']; ?>" class="btn btn-danger btn-icon btn-circle btn-sm countrydelete">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 </td>

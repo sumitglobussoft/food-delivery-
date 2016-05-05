@@ -126,7 +126,10 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
                         ->setIntegrityCheck(false)
                         ->from(array('hd' => 'hotel_details'))
                         ->joinLeft(array('ag' => 'agents'), 'hd.agent_id= ag.agent_id')
-                        ->joinLeft(array('l' => 'location'), 'hd.hotel_location= l.location_id')
+                        ->joinLeft(array('l' => 'location'), 'hd.hotel_location= l.location_id', ['areaName' => 'l.name'])     //area*
+                        ->joinLeft(array('l1' => 'location'), 'l1.location_id= l.parent_id', ['cityName' => 'l1.name'])          //city*
+                        ->joinLeft(array('l2' => 'location'), 'l2.location_id= l1.parent_id', ['stateName' => 'l2.name'])        //state*
+                        ->joinLeft(array('l3' => 'location'), 'l3.location_id= l2.parent_id', ['countryName' => 'l3.name'])        //country*
                         ->where('hd.id=?', $hotel_id);
                 $result = $this->getAdapter()->fetchRow($select);
 
@@ -484,7 +487,7 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
         }
     }
 
-   /*
+    /*
      * Dev: Sibani Mishra
      * Desc: fetch Hotels based on cuisines.
      * date : 4/2/2016
@@ -569,7 +572,7 @@ class Application_Model_HotelDetails extends Zend_Db_Table_Abstract {
             $hotellocationid = func_get_arg(0);
             try {
                 $select = $this->select()
-                        ->from($this, array('id','hotel_name', 'hotel_rating', 'address', 'hotel_contact_number', 'hotel_image', 'open_time', 'closing_time', 'notice', 'minorder', 'deliverycharge'))
+                        ->from($this, array('id', 'hotel_name', 'hotel_rating', 'address', 'hotel_contact_number', 'hotel_image', 'open_time', 'closing_time', 'notice', 'minorder', 'deliverycharge'))
                         ->where('hotel_location=?', $hotellocationid)
                         ->order('hotel_rating DESC');
 

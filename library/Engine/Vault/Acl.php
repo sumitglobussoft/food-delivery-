@@ -160,7 +160,8 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->add(new Zend_Acl_Resource('agent::profile::hotel-cuisines'), 'agent::profile')
                 ->add(new Zend_Acl_Resource('agent::profile::hotel-category'), 'agent::profile')
                 ->add(new Zend_Acl_Resource('agent::profile::grocery-category'), 'agent::profile')
-                ->add(new Zend_Acl_Resource('agent::profile::edit-grocery-category'), 'agent::profile'); //upto here added by sowmya 26/4/2016
+                ->add(new Zend_Acl_Resource('agent::profile::edit-grocery-category'), 'agent::profile')
+                ->add(new Zend_Acl_Resource('agent::profile::edit-location'), 'agent::profile'); //upto here added by sowmya 26/4/2016
 
         $this->allow('user', 'agent::profile::edit-profile')
                 ->allow('user', 'agent::profile::change-password')
@@ -172,6 +173,7 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('user', 'agent::profile::hotel-category')
                 ->allow('user', 'agent::profile::grocery-category')
                 ->allow('user', 'agent::profile::edit-grocery-category')
+                ->allow('user', 'agent::profile::edit-location')
 
         ;
 //                                 
@@ -282,7 +284,14 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->add(new Zend_Acl_Resource('admin::coupons::manage-coupons'), 'admin::coupons')
                 ->add(new Zend_Acl_Resource('admin::coupons::coupons-log'), 'admin::coupons')
                 ->add(new Zend_Acl_Resource('admin::coupons::edit-coupon'), 'admin::coupons')
-                ->add(new Zend_Acl_Resource('admin::coupons::coupons-ajax-handler'), 'admin::coupons');
+                ->add(new Zend_Acl_Resource('admin::coupons::coupons-ajax-handler'), 'admin::coupons')
+                // admin newletters panel///  4/5/2016
+                ->add(new Zend_Acl_Resource('admin::newsletter'), 'admin')
+                ->add(new Zend_Acl_Resource('admin::newsletter::newsletter-ajax-handler'), 'admin::newsletter')
+                ->add(new Zend_Acl_Resource('admin::newsletter::send-newsletter'), 'admin::newsletter')
+                ->add(new Zend_Acl_Resource('admin::newsletter::add-newsletter'), 'admin::newsletter')
+                ->add(new Zend_Acl_Resource('admin::newsletter::edit-newsletter'), 'admin::newsletter')
+                ->add(new Zend_Acl_Resource('admin::newsletter::manage-newsletters'), 'admin::newsletter');
 
         // admin panel landing page///
         $this->allow('guest', 'admin::admin::index')
@@ -372,6 +381,12 @@ class Engine_Vault_Acl extends Zend_Acl {
                 ->allow('admin', 'admin::coupons::coupons-log')
                 ->allow('admin', 'admin::coupons::edit-coupon')
                 ->allow('admin', 'admin::coupons::coupons-ajax-handler')
+                // admin newlettes panel///added by sowmya 4/5/2016
+                ->allow('admin', 'admin::newsletter::newsletter-ajax-handler')
+                ->allow('admin', 'admin::newsletter::add-newsletter')
+                ->allow('admin', 'admin::newsletter::send-newsletter')
+                ->allow('admin', 'admin::newsletter::edit-newsletter')
+                ->allow('admin', 'admin::newsletter::manage-newsletters')
         ; // added by sowmya 20/4/2016
 //====================end Admin module=======================  
     }

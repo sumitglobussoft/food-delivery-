@@ -1,7 +1,7 @@
 <?php // echo '<pre>';print_r($this->hoteldetails); die; ?>
 <div id="content" class="content">
     <ol class="breadcrumb pull-right">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="/agent/dashboard">Dashboard</a></li>
         <li><a href="javascript:;">Hotel Details</a></li>
         <li class="active">Edit Hotel Details</li>
     </ol>
@@ -19,16 +19,27 @@
                 <div class="panel-body">
                     <form class="" role="form" enctype="multipart/form-data" method="POST">
                         <div class="row">
-<!--                            <div class="col-md-12">
+                           <div class="col-md-12">
+  <!--==============================================edited by sreekanth================================================================================                         -->
                                 <legend class="heading">Location:</legend>
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">Select the Country</label>
-                                            <select class="form-control selectpicker width-full selectcountry" name="selectcountry" da selectpicker width-full ta-size="10" data-live-search="true">
+                                            <select class="form-control selectpicker width-full selectcountry" name="selectcountry"  selectpicker width-full data-size="10" data-live-search="true">
                                                 <optgroup label="Select Country">
-                                                    <option> Select Country </option>
+                                                    <option value="<?php echo $value['location_id'];?>"><?php  if (isset($this->hoteldetails['countryName'])) {
+
+                                                            echo $this->hoteldetails['countryName'] ;
+
+                                                        }else{
+
+                                                            echo "Select Country";
+
+                                                        }
+                                                        ?>
+                                                    </option>
                                                     <?php
                                                     if (isset($this->countrylist)) {
                                                         foreach ($this->countrylist as $value) {
@@ -43,9 +54,20 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Select the State</label>
-                                            <select class="form-control selectpicker width-full selectstate" name="selectstate" data-size="10" data-live-search="true">
-                                                <optgroup label="Select State" id="state">                                                    
-                                                    <option> Select State </option>
+                                            <select id="state" class="form-control selectpicker width-full selectstate" name="selectstate" data-size="10" data-live-search="true">
+                                                <optgroup label="Select State" id="state1">
+                                                    <option value="<?php echo $value['location_id'];?>"><?php  if (isset($this->hoteldetails['stateName'])) {
+
+                                                            echo $this->hoteldetails['stateName'] ;
+
+                                                        }else{
+
+                                                            echo "Select state";
+
+                                                        }
+                                                        ?></option>
+
+
                                                 </optgroup>
                                             </select>
                                         </div>
@@ -53,17 +75,35 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">Select the City</label>
-                                            <select class="form-control selectpicker width-full selectcity" name="selectcity" data-size="10" data-live-search="true">
+                                            <select id="city" class="form-control selectpicker width-full selectcity" name="selectcity" data-size="10" data-live-search="true">
                                                 <optgroup label="Select City" id="city">
-                                                    <option> Select City </option>
+                                                    <option value="<?php echo $value['location_id'];?>"><?php  if (isset($this->hoteldetails['cityName'])) {
+
+                                                            echo $this->hoteldetails['cityName'] ;
+
+                                                        }else{
+
+                                                            echo "Select city";
+
+                                                        }
+                                                        ?></option>
                                                 </optgroup>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Select the Location</label>
-                                            <select class="form-control selectpicker loc-disable width-full" name="selectlocation" data-size="10" data-live-search="true">
+                                            <select id="location" class="form-control selectpicker loc-disable width-full" name="selectlocation" data-size="10" data-live-search="true">
                                                 <optgroup label="Select Location" id="location">
-                                                    <option value=""> Select Location </option>
+                                                    <option value="<?php echo $value['location_id'];?>"><?php  if (isset($this->hoteldetails['areaName'])) {
+
+                                                            echo $this->hoteldetails['areaName'] ;
+
+                                                        }else{
+
+                                                            echo "Select Location";
+
+                                                        }
+                                                        ?></option>
                                                 </optgroup>
                                             </select>
                                             <small><i>if your location is not listed, Click <a href="javascript:;" class="add-loc">here</a></i></small>
@@ -71,7 +111,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>-->
+                            </div>
+   <!--===============================================edited by sreekanth=========END========================================================-->
                             <div class="col-md-12">
                                 <legend class="heading">Details:</legend>
 

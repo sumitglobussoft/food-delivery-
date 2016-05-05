@@ -124,10 +124,13 @@ class Application_Model_GroceryDetails extends Zend_Db_Table_Abstract {
             try {
                 $select = $this->select()
                         ->setIntegrityCheck(false)
-                        ->from(array('hd' => 'grocery_details'))
-                        ->joinLeft(array('ag' => 'agents'), 'hd.agent_id= ag.agent_id')
-                        ->joinLeft(array('l' => 'location'), 'hd.grocery_location= l.location_id')
-                        ->where('hd.grocery_id=?', $grocery_id);
+                        ->from(array('gd' => 'grocery_details'))
+                        ->joinLeft(array('ag' => 'agents'), 'gd.agent_id= ag.agent_id')
+                        ->joinLeft(array('l' => 'location'), 'gd.grocery_location= l.location_id', ['areaName' => 'l.name'])     //area*
+                        ->joinLeft(array('l1' => 'location'), 'l1.location_id= l.parent_id', ['cityName' => 'l1.name'])          //city*
+                        ->joinLeft(array('l2' => 'location'), 'l2.location_id= l1.parent_id', ['stateName' => 'l2.name'])        //state*
+                        ->joinLeft(array('l3' => 'location'), 'l3.location_id= l2.parent_id', ['countryName' => 'l3.name'])        //country*
+                        ->where('gd.grocery_id=?', $grocery_id);
                 $result = $this->getAdapter()->fetchRow($select);
 
                 if ($result) {
@@ -485,7 +488,7 @@ class Application_Model_GroceryDetails extends Zend_Db_Table_Abstract {
         }
     }
 
-   /*
+    /*
      * Dev: Sibani Mishra
      * Desc: fetch Grocerys based on cuisines.
      * date : 4/2/2016

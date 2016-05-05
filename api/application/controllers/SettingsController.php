@@ -58,7 +58,60 @@ class SettingsController extends Zend_Controller_Action {
                     die();
                     break;
 
+//   =================================== get states &cities action===== by sreekanth-===============================
 
+                case'getstates':
+
+                    $countrieslist = $locationsmodal->getallStates();
+                    if ($countrieslist) {
+                        $response->message = 'Successfull';
+                        $response->code = 200;
+                        $response->data = $countrieslist;
+                    } else {
+                        $response->message = 'Could not Serve the Response';
+                        $response->code = 197;
+                        $response->data = NUll;
+                    }
+
+                    echo json_encode($response, true);
+                    die();
+                    break;
+
+                case'getcities':
+
+                    $countrieslist = $locationsmodal->getallcities();
+                    if ($countrieslist) {
+                        $response->message = 'Successfull';
+                        $response->code = 200;
+                        $response->data = $countrieslist;
+                    } else {
+                        $response->message = 'Could not Serve the Response';
+                        $response->code = 197;
+                        $response->data = NUll;
+                    }
+
+                    echo json_encode($response, true);
+                    die();
+                    break;
+
+                case'getlocations':
+
+                    $countrieslist = $locationsmodal->getAllLocations();
+                    if ($countrieslist) {
+                        $response->message = 'Successfull';
+                        $response->code = 200;
+                        $response->data = $countrieslist;
+                    } else {
+                        $response->message = 'Could not Serve the Response';
+                        $response->code = 197;
+                        $response->data = NUll;
+                    }
+
+                    echo json_encode($response, true);
+                    die();
+                    break;
+
+//   =================================== get states &cities action===== by sreekanth-=======END========================
 
 
                 case'getStatesByCountrys':

@@ -1,6 +1,6 @@
 <div id="content" class="content">
     <ol class="breadcrumb pull-right">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="/agent/dashboard">Dashboard</a></li>
         <li><a href="javascript:;">Hotel Details</a></li>
         <li class="active">View Hotel Details</li>
     </ol>
@@ -27,8 +27,8 @@
                                             <label class="control-label">Country</label>
 
                                             <?php
-                                            if (isset($this->hoteldetails['name'])) {
-                                                echo $this->hoteldetails['name'];
+                                            if (isset($this->hoteldetails['countryName'])) {
+                                                echo $this->hoteldetails['countryName'];
                                             }
                                             ?>
 
@@ -37,8 +37,8 @@
                                             <label class="control-label"> State</label>
 
                                             <?php
-                                            if (isset($this->hoteldetails['name'])) {
-                                                echo $this->hoteldetails['name'];
+                                            if (isset($this->hoteldetails['stateName'])) {
+                                                echo $this->hoteldetails['stateName'];
                                             }
                                             ?>
                                         </div>
@@ -47,8 +47,8 @@
                                                 <label class="control-label"> City</label>
 
                                                 <?php
-                                                if (isset($this->hoteldetails['name'])) {
-                                                    echo $this->hoteldetails['name'];
+                                                if (isset($this->hoteldetails['cityName'])) {
+                                                    echo $this->hoteldetails['cityName'];
                                                 }
                                                 ?>
                                             </div>
@@ -56,8 +56,8 @@
                                                 <label class="control-label"> Location</label>
 
                                                 <?php
-                                                if (isset($this->hoteldetails['name'])) {
-                                                    echo $this->hoteldetails['name'];
+                                                if (isset($this->hoteldetails['areaName'])) {
+                                                    echo $this->hoteldetails['areaName'];
                                                 }
                                                 ?>                                        
                                             </div>

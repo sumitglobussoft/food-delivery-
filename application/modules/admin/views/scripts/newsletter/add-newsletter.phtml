@@ -1,0 +1,77 @@
+<script type="text/javascript" src="/assets/admin/js/ckeditornew/ckeditor.js"></script>
+<div class="cl-mcont">
+    <ul class="breadcrumb" style="float:right">
+        <li><a href="/admin/dashboard">Dashboard </a></li>
+        <li><a href="/admin/manage-newsletters">Manage Newsletters</a></li>
+        <li>Add newsletter</li>
+    </ul>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="block-flat">
+                <div class="header">
+                    <h3><strong>Newsletters</strong></h3>
+                </div>
+                <div class="content">
+                    <div class="page-content-wrapper">
+                        <div class="page-content">
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="portlet light bordered">
+                                        <div class="widget-head">
+                                            <h4 class="heading glyphicons list"><b>Add Newsletter:</b></h4>
+                                        </div>
+                                        <form method="post" id="addnewsletterform">
+                                            <div id="abcd"><p class="error" style="color: red"></p><br></div>
+                                            <label>Newsletter Subject:</label>
+                                            <input type="text" class="form-control" name="subject" placeholder="Subject"><br>
+                                            <label>Newsletter Content:</label>
+                                            <textarea class="ckeditor" name="description" ></textarea>
+                                            </br></br>
+                                            <button class="btn btn-primary" type="submit">Add newsletter</button>
+                                            <span style="color:green"><?php if (isset($this->msg)) echo $this->msg; ?></span>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#addnewsletterform').validate({
+            ignore: [],
+            debug: false,
+            rules: {
+                description: {
+                    required: function ()
+                    {
+                        CKEDITOR.instances.description.updateElement();
+                    }
+                },
+                subject: {
+                    required: true
+                }
+            },
+            messages:
+                    {
+                        subject: {
+                            required: "Please enter Subject"
+                        },
+                        description: {
+                            required: "Please enter Newsletter Content"
+                        }
+                    },
+            errorPlacement: function (error, element) {
+                $(element).each(function () {
+                    $("#abcd").find('p.error').html(error);
+                })
+            }
+        });
+    });
+</script>          

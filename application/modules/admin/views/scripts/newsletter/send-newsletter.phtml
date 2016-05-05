@@ -1,0 +1,268 @@
+<?php
+$newsletterCode = $this->newsletter['code'];
+$newsletterArray = $this->newsletter['data'];
+?>
+<div class="cl-mcont">
+    <ul class="breadcrumb" style="float:right">
+        <li><a href="/admin/dashboard">Dashboard </a></li>
+        <li><a href="/admin/manage-newsletters">Manage Newsletters</a></li>
+        <li>Add newsletter</li>
+    </ul>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="block-flat">
+                <div class="header">
+                    <h3><strong>Newsletters</strong></h3>
+                </div>
+                <div class="content">
+                    <div class="page-content-wrapper">
+                        <div class="page-content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="portlet light bordered">
+                                        <div class="widget-head">
+                                            <h4 class="heading glyphicons list">Send Newsletter:</h4>
+
+                                            <p style="float:right"><button  class="btn btn-info btn-sm sendnewsletter" >Send</button><a id="submit" class="btn btn-warning" style="margin-left: 20px" name="formbutton" value="edit-profile" type="submit" href="/admin/add-newsletter">Add Newsletter</a></p>
+                                        </div>
+                                        <div class="widget-body">
+                                        </div>
+                                        <span class="newsletter-suc-err"></span></br></br>
+                                        <?php
+                                        if (isset($this->newsletterdata)) {
+                                            $row = 0;
+                                            //foreach ($this->newsletterdata as $collectionData) { //print_r($collectionData);die;
+                                            ?>
+                                            <div class="form-group" style="float: center; width: 400px ">
+                                                <select class="form-control" name="selectopt" id="selectnews">
+                                                    <option value="">Select Newsletter</option>
+                                                    <?php foreach ($this->newsletterdata as $collectionData) { ?>
+                                                        <option value="<?php echo $collectionData['content']; ?>"><?php echo $collectionData['newsletter_subject']; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div></br>
+                                            <?php
+                                        }
+                                        //}
+                                        ?>
+                                        <?php
+                                        if ($newsletterCode == 200) {
+                                            ?>
+                                            <table class="dynamicTable table table-striped table-bordered table-condensed" id="newslettertable">
+                                                <thead>
+                                                    <tr>
+                                <!--                        <th style="width: 1%;" ><input id="collectioncheckcall" type="checkbox" /></th>-->
+                                                        <th style="width: 1%;"><input type="checkbox" id="selecctall"/></th>
+                                                        <th class="center">No</th>                            
+                                                        <th>Subscriber email</th>
+                                                        <th>Subscribed on</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    $i = 0;
+                                                    foreach ($newsletterArray as $value) {
+                                                        ?>
+                                                        <tr class="odd gradeX" id='<?php echo $value['newsId']; ?>'>
+                                                            <td style="width: 1%;"><input class="case" type="checkbox" name="case" id="<?php echo $value['email']; ?>"/></td>                                    
+                                                            <td><strong><?php echo ++$i ?></strong></td>
+                                                                <!--<td id="newsID" data-val ="<?php echo $value['newsId']; ?>"><strong><?php echo $value['newsId']; ?></strong></td>-->
+                                                            <td id="email"  data-email ="<?php echo $value['email']; ?>"><strong><?php echo $value['email']; ?></strong></td>
+                                                            <!--<td id="verified"  data-verified ="<?php echo $value['isVerified']; ?>"><strong><?php echo $value['isVerified']; ?></strong></td>-->
+                                                            <td><strong><?php echo date('d-F-Y', strtotime($value['createdON'])); ?></strong></td>
+                                                        </tr>
+                                                    <?php }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                            <?php
+                                        } else
+                                            echo '<h2>' . "No subscribers available" . '</h2>';
+                                        ?>
+                                        <div style="padding-bottom: 50px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>	
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script type="text/javascript" src="/assets/admin/js/ckeditornew/ckeditor.js"></script>-->
+<script>
+    jQuery(document).ready(function () {
+        var MyFunction = function () {
+            var isIE8 = false;
+            var isIE9 = false;
+            var isIE10 = false;
+            var handleInit = function () {
+                isIE8 = !!navigator.userAgent.match(/MSIE 8.0/);
+                isIE9 = !!navigator.userAgent.match(/MSIE 9.0/);
+                isIE10 = !!navigator.userAgent.match(/MSIE 10.0/);
+                if (isIE10) {
+                    $('html').addClass('ie10'); // detect IE10 version
+                }
+                if (isIE10 || isIE9 || isIE8) {
+                    $('html').addClass('ie'); // detect IE10 version
+                }
+            };
+            var handleUniform = function () {
+                if (!$().uniform) {
+                    return;
+                }
+                var test = $("input[type=checkbox]:not(.toggle, .md-check, .md-radiobtn, .make-switch, .icheck), input[type=radio]:not(.toggle, .md-check, .md-radiobtn, .star, .make-switch, .icheck)");
+                if (test.size() > 0) {
+                    test.each(function () {
+                        if ($(this).parents(".checker").size() === 0) {
+                            $(this).show();
+                            $(this).uniform();
+                        }
+                    });
+                }
+            };
+            return {
+                init: function () {
+                    handleInit();
+                    handleUniform(); // hanfle custom radio & checkboxes
+                },
+                initUniform: function (els) {
+                    if (els) {
+                        $(els).each(function () {
+                            if ($(this).parents(".checker").size() === 0) {
+                                $(this).show();
+                                $(this).uniform();
+                            }
+                        });
+                    } else {
+                        handleUniform();
+                    }
+                },
+            };
+        }();
+
+//        MyFunction.init();
+//        MyFunction.initUniform();
+
+        var table = $('#newslettertable');
+        var oTable = table.dataTable({
+//            "lengthMenu": [
+//                [10, 20, 100, -1],
+//                [10, 20, 100, "All"]
+//            ],
+//            "bAutoWidth": false,
+            "scrollY": "800px",
+            "scrollCollapse": true,
+            "paging": false,
+            "bSort": false
+
+        });
+
+        $(document.body).on("click", ".changestatus", function () {
+            var obj = $(this);
+            var newsid = $(this).attr('data-id');
+            $(this).parent().siblings().children("id").toggle();
+            $.ajax({
+                url: '/admin/newsletter-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'changestatus',
+                    newsId: newsid
+                },
+                success: function (response) {
+                    if (response) {
+                        // alert(response);
+                        obj.parent().parent().hide();
+                        location.reload();
+                        if (obj.hasClass('btn-info')) {
+                            obj.removeClass('btn-info');
+                            obj.addClass('btn-danger');
+                            obj.text('Inactive');
+                        } else {
+                            obj.removeClass('btn-danger');
+                            obj.addClass('btn-info');
+                            obj.text('Active');
+                        }
+                    }
+                }
+            });
+        });
+
+        var sel = [];
+        $('#selecctall').click(function (event) {
+            if (this.checked) { // check select status
+                $('.case').each(function () {
+//                    $(this).click();
+                    $(this).attr('checked', true);
+                    $(this).addClass('checked');//parent().
+                });
+                var i = 0;
+                $('.checked').each(function () {
+                    var obj = $(this).children()[0];
+                    sel.push($(obj).attr('id'));
+                    if (i == 0)
+                        sel.pop();
+                    i++;
+                });
+            } else {
+                $('.case').each(function () {
+//                    $(this).click();
+                    $(this).removeAttr('checked');
+                    $(this).removeClass('checked');//parent().
+                });
+                while (sel.length)
+                    sel.pop();
+            }
+        });
+
+        $(document.body).on("click", ".sendnewsletter", function () {
+            var obj = $(this);
+            $('.case:checked').each(function () {
+                sel.push($(this).attr('id'));
+            });
+            var content = $('#selectnews').val();
+            if (($('#selectnews').val() != "") && (sel != '')) {
+                $.ajax({
+                    url: '/admin/newsletter-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'sendnewsletter',
+                        emailobj: sel,
+                        contentofMail: content
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response == 1) {
+                            alert("Newsletter sent");
+                            while (sel.length)
+                                sel.pop();
+                        } else {
+                            alert("Newsletter not sent. Pleasetry again.");
+                        }
+                        $('.case').each(function () {
+                            $(this).removeAttr('checked');
+                            $(this).removeClass('checked');//parent().
+                        });
+                    },
+                    error: function (response) {
+                        console.log(response);
+                        $('.case').each(function () {
+                            $(this).removeAttr('checked');
+                            $(this).removeClass('checked');//parent().
+                        });
+                    }
+                });
+            } else {
+                $('.newsletter-suc-err').show();
+                $('.newsletter-suc-err').html('Please select a newsletter and select subscribers.');
+                $('.newsletter-suc-err').css('color', 'red');
+                $('.newsletter-suc-err').delay(3000).hide('slow');
+            }
+        });
+
+    });
+</script>

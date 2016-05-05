@@ -756,14 +756,10 @@ class OrdersController extends Zend_Controller_Action {
                 case'updatehoteldetails':
                     if ($this->getRequest()->isPost()) {
                         $hotel_id = $this->getRequest()->getPost('id');
-                        $ownername = $this->getRequest()->getPost('owner_fname');
-                        if (!empty($ownername)) {
-                            $data['owner_fname'] = $ownername;
-                        }
-
-                        $ownerlname = $this->getRequest()->getPost('owner_lname');
-                        if (!empty($ownelname)) {
-                            $data['owner_lname'] = $ownerlname;
+                     
+                        $selectlocation = $this->getRequest()->getPost('selectlocation');
+                        if (!empty($selectlocation)) {
+                            $data['hotel_location'] = $selectlocation;
                         }
                         $primary_phone = $this->getRequest()->getPost('primary_phone');
                         if (!empty($primary_phone)) {
@@ -815,6 +811,8 @@ class OrdersController extends Zend_Controller_Action {
                         if (!empty($address)) {
                             $data['address'] = $address;
                         }
+                        
+                    
                         if ($hotel_id) {
                             $updatestatus = $hotelssummaryModel->updateHotelDetails($hotel_id, $data);
                             if ($updatestatus) {

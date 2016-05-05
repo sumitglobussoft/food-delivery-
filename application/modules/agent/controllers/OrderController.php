@@ -316,7 +316,7 @@ class Agent_OrderController extends Zend_Controller_Action {
 
                 break;
 
-  ////////////////Grocery ACTIONS  by sowmya 26//4/2016 //////////////////////////////
+            ////////////////Grocery ACTIONS  by sowmya 26//4/2016 //////////////////////////////
             case 'groceryactive':
 
                 $groceryid = $this->getRequest()->getParam('groceryid');
@@ -351,7 +351,7 @@ class Agent_OrderController extends Zend_Controller_Action {
                 if ($groceryid) {
                     $url = $this->_appSetting->apiLink . '/grocerydetails?method=changegrocerystatus';
                     $data['grocery_id'] = $groceryid;
-                   
+
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
                     if ($curlResponse->code == 200) {
                         $array = array('code' => 200,
@@ -401,7 +401,7 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
                 break;
 
-  ////////////////reviews ACTIONS  by sowmya 26//4/2016 //////////////////////////////
+            ////////////////reviews ACTIONS  by sowmya 26//4/2016 //////////////////////////////
             case 'reviewactive':
 
                 $reviewid = $this->getRequest()->getParam('reviewid');
@@ -436,7 +436,7 @@ class Agent_OrderController extends Zend_Controller_Action {
                 if ($reviewid) {
                     $url = $this->_appSetting->apiLink . '/grocerydetails?method=changereviewstatus';
                     $data['review_id'] = $reviewid;
-                   
+
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
                     if ($curlResponse->code == 200) {
                         $array = array('code' => 200,
@@ -486,10 +486,10 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
                 break;
 ///////////////////////////////////////// grocery category 3/5/2016 ////////////////////////////////////
-                //added by sowmya 23/4/2016
-                case 'getgrocerycategory':
-                    $categoryid = $this->getRequest()->getParam('categoryid');
-                    if ($categoryid) {
+            //added by sowmya 23/4/2016
+            case 'getgrocerycategory':
+                $categoryid = $this->getRequest()->getParam('categoryid');
+                if ($categoryid) {
                     $url = $this->_appSetting->apiLink . '/grocerydetails?method=getgrocerycategoryById';
                     $data['category_id'] = $categoryid;
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
@@ -511,12 +511,11 @@ class Agent_OrderController extends Zend_Controller_Action {
                     echo json_encode($array, true);
                     die();
                 }
-            default :
                 break;
-                  case 'grocerycategorydelete':
-              
-                 $categoryid = $this->getRequest()->getParam('categoryid');
-                    if ($categoryid) {
+            case 'grocerycategorydelete':
+
+                $categoryid = $this->getRequest()->getParam('categoryid');
+                if ($categoryid) {
                     $url = $this->_appSetting->apiLink . '/grocerydetails?method=grocerycategorydelete';
                     $data['category_id'] = $categoryid;
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
@@ -539,6 +538,88 @@ class Agent_OrderController extends Zend_Controller_Action {
                     die();
                 }
                 break;
+            case 'locationactive':
+
+                $locationid = $this->getRequest()->getParam('locationid');
+                if ($locationid) {
+                    $url = $this->_appSetting->apiLink . '/settingdetails?method=locationactive';
+                    $data['locationid'] = $locationid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+                        $array = $curlResponse->data;
+                        echo $array;
+                        die();
+                    } else {
+                        $array['code'] = 198;
+                        $array['data'] = null;
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array['code'] = 197;
+                    $array['data'] = null;
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+
+            case 'getlocation':
+
+                $locationid = $this->getRequest()->getParam('locationid');
+                if ($locationid) {
+                    $url = $this->_appSetting->apiLink . '/settingdetails?method=getlocation';
+                    $data['locationid'] = $locationid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+                        $arr['code'] = 200;
+                        $arr['data'] = $curlResponse->data;
+                        echo json_encode($arr, true);
+                        die();
+                    } else {
+                        $array['code'] = 198;
+                        $array['data'] = null;
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array['code'] = 197;
+                    $array['data'] = null;
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+
+            case 'countrydelete':
+
+                $locationid = $this->getRequest()->getParam('deleteid');
+                if ($locationid) {
+                    $url = $this->_appSetting->apiLink . '/settingdetails?method=countrydelete';
+                    $data['locationid'] = $locationid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+
+                        echo $curlResponse->data;
+                    } else {
+                        $array['code'] = 198;
+                        $array['data'] = null;
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array['code'] = 197;
+                    $array['data'] = null;
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+            default :
+                break;
         }
     }
 
@@ -555,9 +636,9 @@ class Agent_OrderController extends Zend_Controller_Action {
         $objCore = Engine_Core_Core::getInstance();
         $objSecurity = Engine_Vault_Security::getInstance();
         $this->_appSetting = $objCore->getAppSetting();
-         $hotel_id = $this->getRequest()->getParam('hotelid');
+        $hotel_id = $this->getRequest()->getParam('hotelid');
         $data['hotel_id'] = $hotel_id;
-        $url = $this->_appSetting->apiLink . '/order-products'; 
+        $url = $this->_appSetting->apiLink . '/order-products';
         $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
         if ($curlResponse->code == 200) {
             $this->view->orderedproducts = $curlResponse->data;

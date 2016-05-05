@@ -1,0 +1,101 @@
+<div class="cl-mcont">
+    <ul class="breadcrumb" style="float:right">
+        <li><a href="/admin/dashboard">Dashboard </a></li>
+        <li>Manage Newsletter</li>
+        <li>Newsletters list</li>
+    </ul>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="block-flat">
+                <div class="header">
+                    <h3><strong>Newsletters</strong></h3>
+                </div>
+                <div class="content">
+                    <div class="page-content-wrapper">
+                        <div class="page-content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="portlet light bordered">
+                                        <div class="widget-head">
+                                            <h4 class="heading glyphicons list">Manage Newsletters:</h4>
+                                        </div>
+                                        <div class="widget-body">
+                                        </div>
+                                        <table class="dynamicTable table table-striped table-bordered table-condensed" id="subjecttable">
+                                            <thead>
+                                                <tr>
+                            <!--                        <th style="width: 1%;" ><input id="collectioncheckcall" type="checkbox" /></th>-->
+                                                    <th style="width: 1%;" class="center">No</th>
+                                                    <th style="width: 20%;">Subject</th>
+                                                    <th style="width: 20%;">Added Date</th>
+                                                    <th style="width: 20%;">Action</th>                            
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <?php
+                                                if (isset($this->data)) {
+                                                    $row = 0;
+                                                    foreach ($this->data as $collectionData) {
+                                                        ?>
+                                                        <tr class="selectable">
+                                                            <td class="center"><?php echo ++$row; ?></td>
+                                                            <td><?php echo $collectionData['newsletter_subject']; ?></td>                                    
+                                                            <td>(<?php echo date("M d, Y h:i A", $collectionData['added_date']); ?>)</td>                                                              
+                                                            <td class="center">
+                                                                <span class="tooltips" title="Edit Newsletter Content." data-placement="top"> <a href="/admin/edit-newsletter/<?php echo $collectionData['newsletter_log_id']; ?>" class="btn btn-sm grey-cascade" style='margin-left: 10%;'>
+                                                                        <i class="fa fa-pencil-square-o"></i>
+                                                                    </a>
+                                                                </span>
+                                                                <span class="tooltips" title="Delete Newsletter." data-placement="top"><button id="<?php echo $collectionData['newsletter_log_id']; ?>" class="btn btn-danger btn-sm deleteNewsletter" style='margin-left: 10%;'><i class="fa fa-trash-o"></i></button></span>
+                                                            </td>
+                                                        </tr>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>	
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>	
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    jQuery(document).ready(function () {
+        $(document).ready(function () {
+            $('#subjecttable').DataTable();
+        });
+
+        $(document.body).on("click", ".deleteNewsletter", function () {
+
+            var obj = $(this);
+            var newsletter_log_id = $(this).attr('id');
+            //alert(subjectId);
+            $.ajax({
+                url: '/admin/newsletter-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'deleteNewsletter',
+                    newsLogId: newsletter_log_id
+                },
+                success: function (response) {
+                    if (response) {
+                        // alert(response);
+                        if (response == "1") {
+                            obj.parents("tr").remove();
+                        }
+                    }
+                }
+            });
+
+        });
+    });
+</script>

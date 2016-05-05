@@ -75,7 +75,7 @@ class Agent_SettingsController extends Zend_Controller_Action {
         if ($this->getRequest()->isPost()) {
 
             $data['id'] = $hotel_id;
-            $data['select_country'] = $this->getRequest()->getPost('selectcountry');
+            $data['selectlocation'] = $this->getRequest()->getPost('selectlocation');
             $data['select_state'] = $this->getRequest()->getPost('selectstate');
             $data['select_city'] = $this->getRequest()->getPost('selectcity');
             $data['primary_phone'] = $this->getRequest()->getPost('primary_phone');
@@ -89,7 +89,7 @@ class Agent_SettingsController extends Zend_Controller_Action {
             $data['deliverycharge'] = $this->getRequest()->getPost('deliverycharge');
             $data['minorder'] = $this->getRequest()->getPost('minorder');
             $coverphoto = $_FILES["fileToUpload"]["name"];
-
+           
             $dirpath = getcwd() . "/themes/agent/skin/hotelimages/$agentid/$hotel_id/";
 
             if (!file_exists($dirpath)) {

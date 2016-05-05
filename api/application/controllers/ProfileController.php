@@ -104,4 +104,119 @@ class ProfileController extends Zend_Controller_Action {
         }
     }
 
+    public function profileSummaryAction() {
+        $location = Application_Model_location::getInstance();
+        $menu_category = Application_Model_MenuCategory::getInstance();
+        $response = new stdClass();
+        $method = $this->getRequest()->getParam('method');
+
+        if ($method) {
+
+            switch ($method) {
+
+                case'addcountry':
+
+                    if ($this->getRequest()->isPost()) {
+                        $data['name'] = $this->getRequest()->getPost('name');
+                        $data['location_status'] = $this->getRequest()->getPost('location_status');
+                        $data['location_type'] = $this->getRequest()->getPost('location_type');
+                        $data['parent_id'] = $this->getRequest()->getPost('parent_id');
+                        $addcountry = $location->addcountry($data);
+
+                        if ($addcountry) {
+                            $response->code = 200;
+                            $response->message = "added Successful";
+                            $response->data = $addcountry;
+                        } else {
+                            $response->code = 100;
+                            $response->message = "Invalid Password format";
+                            $response->data = null;
+                        }
+                        echo json_encode($response, true);
+                    }
+                    break;
+                case'locationactive':
+
+                    if ($this->getRequest()->isPost()) {
+                        $locationid = $this->getRequest()->getPost('locationid');
+                        $addcountry = $location->changeLocationStatus($locationid);
+
+                        if ($addcountry) {
+                            $response->code = 200;
+                            $response->message = "added Successful";
+                            $response->data = $locationid;
+                        } else {
+                            $response->code = 100;
+                            $response->message = "Invalid Password format";
+                            $response->data = null;
+                        }
+                        echo json_encode($response, true);
+                    }
+                    break;
+
+                case 'editcountry':
+                    $data['name'] = $this->getRequest()->getPost('name');
+                    $locationid = $this->getRequest()->getPost('location_id');
+                    $result = $location->updateLocation($data, $locationid);
+                    if ($result) {
+                        $arr['code'] = 200;
+                        $arr['data'] = $result;
+                        echo json_encode($arr, true);
+                        die();
+                    } else {
+                        $arr['code'] = 198;
+                        $arr['data'] = null;
+                        echo json_encode($arr, true);
+                        die();
+                    }
+                    break;
+
+                case 'countrydelete':
+                    $locationid = $this->getRequest()->getPost('locationid');
+                    $result = $location->countryDelete($locationid);
+                    if ($result) {
+                        $arr['code'] = 200;
+                        $arr['data'] = $result;
+                        echo json_encode($arr, true);
+                        die();
+                    } else {
+                        echo "error";
+                    }
+                    break;
+                case 'getlocation':
+                    $locationid = $this->getRequest()->getParam('locationid');
+                    $result = $location->getLocationsByLocationId($locationid);
+                    if ($result) {
+                        $arr['code'] = 200;
+                        $arr['data'] = $result;
+                        echo json_encode($arr, true);
+                        die();
+                    } else {
+                        $arr['code'] = 198;
+                        $arr['data'] = null;
+                        echo json_encode($arr, true);
+                        die();
+                    }
+                    break;
+
+                //Dev:sreekanth
+                //Date: 4-may-16
+                case 'getCategories':
+                    $result = $menu_category->selectAllCategorys();
+                    if ($result) {
+                        $arr['code'] = 200;
+                        $arr['data'] = $result;
+                        echo json_encode($arr, true);
+                        die();
+                    } else {
+                        $arr['code'] = 198;
+                        $arr['data'] = null;
+                        echo json_encode($arr, true);
+                        die();
+                    }
+                    break;
+            }
+        }
+    }
+
 }

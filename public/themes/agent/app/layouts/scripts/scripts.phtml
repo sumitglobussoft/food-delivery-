@@ -252,10 +252,10 @@
 
     $(document.body).on('change', '.selectcountry', function() {
         var id = $(this).val();
-
+        var element = "";
         if (id) {
             $.ajax({
-                url: './agent-ajax-handler',
+                url: '/agent/agent-ajax-handler',
                 type: 'POST',
                 datatype: 'json',
                 data: {
@@ -266,9 +266,13 @@
 
                 },
                 success: function(response) {
-
+                    $('#state').empty();
+                    $('#city').empty();
+                    $('#location').empty();
                     var response = JSON.parse(response);
+                    console.log(response);
                     if (response.code == 200) {
+                        $('#state').append('<option>Select State</option>');
                         $.each(response.data, function(i, a) {
                             $('#state').append('<option value="' + a.location_id + '">' + a.name + '</option>');
                         });
@@ -281,8 +285,6 @@
         }
     });
 
-
-
     /*
      * DEV :priyanka varanasi
      * Desc : slect citys based on state id
@@ -294,7 +296,7 @@
 
         if (id) {
             $.ajax({
-                url: './agent-ajax-handler',
+                url: '/agent/agent-ajax-handler',
                 type: 'POST',
                 datatype: 'json',
                 data: {
@@ -307,8 +309,12 @@
                 success: function(response) {
 
                     var response = JSON.parse(response);
+                    $('#city').empty();
+                    
                     if (response.code == 200) {
+                        $('#city').append('<option> Select City </option>');
                         $.each(response.data, function(i, a) {
+
                             $('#city').append('<option value="' + a.location_id + '">' + a.name + '</option>');
                         });
 
@@ -331,7 +337,7 @@
 
         if (id) {
             $.ajax({
-                url: './agent-ajax-handler',
+                url: '/agent/agent-ajax-handler',
                 type: 'POST',
                 datatype: 'json',
                 data: {
@@ -344,7 +350,11 @@
                 success: function(response) {
 
                     var response = JSON.parse(response);
+                    $('#city').empty();
+                    $('#location').empty();
+
                     if (response.code == 200) {
+                        $('#location').append('<option>Select location</option>');
                         $.each(response.data, function(i, a) {
                             $('#location').append('<option value="' + a.location_id + '">' + a.name + '</option>');
                         });
@@ -357,7 +367,6 @@
             });
         }
     });
-
 
     $('#type_cusine').change(function() {
         var typevalue = $(this).val();
@@ -376,7 +385,7 @@
 
                 var res = jQuery.parseJSON(response);
                 console.log(res);
-                if (res.code === 200) {
+                if (res.code == 200) {
                     console.log(res.code);
                     $('#cuisine').html('');
                     $('#cuisine').append('<option disabled selected>Select Cuisine</option>');
@@ -410,7 +419,89 @@
             },
             success: function(response) {
                 var res = jQuery.parseJSON(response);
-                if (res.code === 200) {
+                if (res.code == 200) {
+
+                    $('#category').html('');
+                    $('#category').append('<option disabled selected>Select category</option>');
+                    $.each(res.data, function(i, a) {
+                        $('#category').append('<option value="' + a.category_id + '">' + a.cat_name + '</option>');
+                    });
+                    $('.show-category').show();
+                    $('.show-cusine').hide();
+                }
+
+
+            }
+        });
+    });
+    /*		
+     * DEV :sreekanth		
+     * Desc : edit product details		
+     * Date : 2/5/2016		
+     */
+    $('#type_cusine2').change(function() {
+        $('.show-cusine').show();
+        $('.show-category').hide();
+
+        var typevalue = $(this).val();
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'getcuisines',
+                typevalue: typevalue
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+
+                var res = jQuery.parseJSON(response);
+                console.log(res);
+                if (res.code == 200) {
+                    console.log(res.code);
+                    $('#cuisine').html('');
+                    $('#cuisine').append('<option disabled selected>Select Cuisine</option>');
+                    $.each(res.data, function(i, a) {
+                        $('#cuisine').append('<option value="' + a.cuisine_id + '">' + a.Cuisine_name + '</option>');
+                    });
+                    $('.show-cusine').show();
+                    $('.show-category').hide();
+                }
+                else {
+                    //                    console.log('res.code');		
+                    $('.show-cusine').show();
+                    $('.show-category').hide();
+                }
+
+            }
+        });
+    });
+
+    /*		
+     * DEV :sreekanth		
+     * Desc : edit product		
+     * Date : 2/5/2016		
+     */
+    $('#type_category2').change(function() {
+        $('.show-category').show();
+        $('.show-cusine').hide();
+        var typevalue = $(this).val();
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'getcategories',
+                typevalue: typevalue
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var res = jQuery.parseJSON(response);
+                if (res.code == 200) {
 
                     $('#category').html('');
                     $('#category').append('<option disabled selected>Select category</option>');
@@ -523,7 +614,7 @@
             },
             success: function(response) {
                 var response = JSON.parse(response);
-                if (response.code === "200") {
+                if (response.code == "200") {
                     var uid = response['data'].replace(/ /g, '');
                     $('#' + "activeclass_" + uid).html("ACTIVE");
                     $('#' + "activeclass_" + uid).removeClass('label label-danger');
@@ -600,7 +691,7 @@
             },
             success: function(response) {
                 var response = JSON.parse(response);
-                if (response.code === "200") {
+                if (response.code == "200") {
                     var uid = response['data'].replace(/ /g, '');
                     $('#' + "activeclass_" + uid).html("SUSPENDED");
                     $('#' + "activeclass_" + uid).removeClass('label label-success');
@@ -635,7 +726,7 @@
             },
             success: function(response) {
                 var response = JSON.parse(response);
-                if (response.code === "200") {
+                if (response.code == "200") {
                     var uid = response['data'].replace(/ /g, '');
                     $('#' + "activeclass_" + uid).html("ACTIVE");
                     $('#' + "activeclass_" + uid).removeClass('label label-danger');
@@ -706,7 +797,7 @@
             success: function(response) {
                 var res = JSON.parse(response);
 
-                if (res.code === 200) {
+                if (res.code == 200) {
 
                     $('.editContent').find('#editcategory').val('');
                     $('.editContent').find('#categoryid').val(res.data['category_id']);
@@ -735,8 +826,10 @@
      */
 
     $(document.body).on('click', '.grocerycategorydelete', function() {
-        var id = $(this).attr('id');
-        var deleteid = id.replace("categorydelete_", "");
+        var deleteid = $(this).attr('id');
+      
+        var deleteid = deleteid.replace("categorydelete_", "");
+       
         if (deleteid) {
             $.ajax({
                 url: './agent-ajax-handler',
@@ -749,12 +842,11 @@
                 beforeSend: function() {
 
                 },
-                success: function(response) {
-                    console.log(response);
+                 success: function(response) {
                     var response = JSON.parse(response);
-
+                    console.log(response);
                     if (response) {
-                        var uid = response['code'].replace(/ /g, '');
+                        var uid = response['data'].replace(/ /g, '');
 
                         $('#' + "categorydelete_" + uid).parent().parent().remove();
 
@@ -788,8 +880,7 @@
 
             },
             success: function(response) {
-                var response = JSON.parse(response);
-                if (response.code === "200") {
+    
                     var uid = response['data'].replace(/ /g, '');
                     $('#' + "activeclass_" + uid).removeClass('label label-danger');
                     $('#' + "activeclass_" + uid).addClass('label label-success');
@@ -797,11 +888,7 @@
                     $('#category_' + uid).removeClass('grocerycategorydeactive');
                     $('#category_' + uid).addClass('grocerycategoryactive');
                     $('#' + "activecategory_" + uid).html("Suspended");
-                } else {
-
-                    alert('Request could not served');
-
-                }
+               
             }
         });
 
@@ -827,8 +914,7 @@
 
             },
             success: function(response) {
-                var response = JSON.parse(response);
-                if (response.code === "200") {
+
                     var uid = response['data'].replace(/ /g, '');
                     $('#' + "activeclass_" + uid).removeClass('label label-success');
                     $('#' + "activeclass_" + uid).addClass('label label-danger');
@@ -838,14 +924,150 @@
                     $('#' + "activecategory_" + uid).html("Active");
 
 
-                } else {
-
-                    alert('Request could not served');
-
-                }
+               
             }
 
         });
 
     });
+
+    /*
+     * DEV :sreekanth
+     * Desc : country status change
+     * Date : 2/5/2016
+     */
+
+
+
+    $(document.body).on('click', '.locationdeactive', function() {
+        var locationid = $(this).attr('id');
+        var locationid = locationid.replace("location_", "");
+//        window.alert(locationid)
+        console.log('deactivate called');
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'locationactive',
+                locationid: locationid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                console.log(response);
+                var uid = response.replace(/ /g, "");
+
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).html("Activate");
+                $('#location_' + uid).removeClass('locationdeactive');
+                $('#location_' + uid).addClass('locationactive');
+                $('#' + "activelocation_" + uid).html("Suspended");
+
+            }
+        });
+
+    });
+    /*
+     * DEV :sreekanth
+     * Desc : country status change
+     * Date : 2/5/2016
+     */
+    $(document.body).on('click', '.locationactive', function() {
+//        window.alert("came here")
+        var locationid = $(this).attr('id');
+        var locationid = locationid.replace("location_", "");
+        console.log('activate called');
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'locationactive',
+                locationid: locationid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var uid = response.replace(/ /g, '');
+                $('#' + "activeclass_" + uid).removeClass('bs-label label-success');
+                $('#' + "activeclass_" + uid).addClass('bs-label label-danger');
+                $('#' + "activeclass_" + uid).html("Dectivate");
+                $('#location_' + uid).removeClass('locationactive');
+                $('#location_' + uid).addClass('locationdeactive');
+                $('#' + "activelocation_" + uid).html("Active");
+
+            }
+
+
+        });
+
+    });
+
+    $(document.body).on('click', '.countryedit', function() {
+//        window.alert("came here")
+        var locationid = $(this).attr('id');
+        var locationid = locationid.replace("showEdit_", "");
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'getlocation',
+                locationid: locationid
+            },
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                var res = jQuery.parseJSON(response);
+                if (res.code == 200) {
+
+                    $('.editContent').find('#editlocation').val('');
+                    $('.editContent').find('#locationid').val(res.data['location_id']);
+                    $('.editContent').find('#editlocation').val(res.data['name']);
+                    1
+                    $('.editContent').show();
+                    $('.addContent').hide();
+
+                } else {
+
+                    window.location.reload(true);
+                }
+
+            }
+
+
+        });
+    });
+
+    $(document.body).on('click', '.countrydelete', function() {
+        var deleteid = $(this).attr('id');
+        var deleteid = deleteid.replace("countrydelete_", "");
+
+        if (deleteid) {
+            $.ajax({
+                url: './agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'countrydelete',
+                    deleteid: deleteid
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    var response = JSON.parse(response);
+                    $('#' + "countrydelete_" + response).parent().parent().remove();
+                }
+
+
+            });
+        }
+    });
+
 </script>

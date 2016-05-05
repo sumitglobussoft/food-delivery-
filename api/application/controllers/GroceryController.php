@@ -167,6 +167,11 @@ class GroceryController extends Zend_Controller_Action {
                         if (!empty($primary_phone)) {
                             $data['grocery_contact_number'] = $primary_phone;
                         }
+                         $selectlocation = $this->getRequest()->getPost('selectlocation');
+                        if (!empty($selectlocation)) {
+                            $data['grocery_location'] = $selectlocation;
+                        }
+                        
 
                         $secondary_phone = $this->getRequest()->getPost('secondary_phone');
                         if (!empty($secondary_phone)) {
@@ -447,9 +452,7 @@ class GroceryController extends Zend_Controller_Action {
                 // added by sowmya 2/5/2016
                 case'getgrocerycategoryById':
                     if ($this->getRequest()->isPost()) {
-                        $categoryid = $this->getRequest()->getParam('categoryid');
-                        ;
-
+                        $categoryid = $this->getRequest()->getParam('categoryid');                   
                         $updatestatus = $grocerycategoryModel->getCategoryById($categoryid);
                         if ($updatestatus) {
                             $response->message = 'successfull';
@@ -472,7 +475,7 @@ class GroceryController extends Zend_Controller_Action {
                 case'grocerycategorydelete':
                     if ($this->getRequest()->isPost()) {
 
-                        $categoryid = $this->getRequest()->getParam('categoryid');
+                        $categoryid = $this->getRequest()->getParam('categoryid');                      
                         if ($categoryid) {
                             $updatestatus = $grocerycategoryModel->categorydelete($categoryid);
 

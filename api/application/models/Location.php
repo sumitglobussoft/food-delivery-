@@ -14,29 +14,6 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
 
     /*
      * Dev: priyanka varanasi
-     * Desc: add locations in db
-     * date : 13/1/2015;
-     */
-
-    public function addLocation() {
-        if (func_num_args() > 0) {
-            $location = func_get_arg(0);
-
-            try {
-                $row = $this->insert($location);
-                if ($row) {
-                    return $row;
-                } else {
-                    return null;
-                }
-            } catch (Exception $e) {
-                throw new Exception('Unable To insert data :' . $e);
-            }
-        }
-    }
-
-    /*
-     * Dev: priyanka varanasi
      * Desc: fetch countrys from db
      * date : 13/1/2015;
      */
@@ -69,6 +46,28 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
                     ->from($this)
                     ->where('location_type=?', 1)
                     ->where('location_status=?', 1);
+            $result = $this->getAdapter()->fetchAll($select);
+
+            if ($result) {
+                return $result;
+            }
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
+        }
+    }
+
+    /*
+     * Dev: sreekanth
+     * Desc: fetch all states from db
+     * date : 3/5/2016;
+     */
+
+    public function getallStates() {
+        try {
+            $select = $this->select()
+                    ->from($this)
+                    ->where('location_type=?', 1);
+
             $result = $this->getAdapter()->fetchAll($select);
 
             if ($result) {
@@ -360,55 +359,25 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
 
     /*
      * Dev: sowmya
-     * Desc: add locations in db
-     * date : 13/1/2015;
+     * Desc: fetch countrys from db
+     * date : 29/4/2016;
      */
 
-    public function getLocationByParentIds() {
-        if (func_num_args() > 0) {
-            $hotel_id = func_get_arg(0);         
-            if ($hotel_id['parent_id']) {
-                try {
-                    $select = $this->select()
-                            ->from($this)
-                            ->where('location_type=?', 1)
-                            ->where('location_id=?', $hotel_id);
-                    $result = $this->getAdapter()->fetchRow($select);
-                    if ($result['parent_id'] == $country) {
-                        try {
-                            $select = $this->select()
-                                    ->from($this)
-                                    ->where('location_type=?', 2)
-                                    ->where('location_id=?', $location['parent_id']);
-                            $result = $this->getAdapter()->fetchRow($select);
-                            if ($result['parent_id'] == $stateid) {
-                                try {
+    public function getCountry() {
+        try {
+            $select = $this->select()
+                    ->from($this)
+                    ->where('location_type=?', 0);
+            $result = $this->getAdapter()->fetchAll($select);
 
-                                    if ($row) {
-                                        return $row;
-                                    } else {
-                                        return null;
-                                    }
-                                } catch (Exception $e) {
-                                    throw new Exception('Unable To insert data :' . $e);
-                                }
-                            } else {
-                                return null;
-                            }
-                        } catch (Exception $e) {
-                            throw new Exception('Unable To retrieve data :' . $e);
-                        }
-                    } else {
-                        return null;
-                    }
-                } catch (Exception $e) {
-                    throw new Exception('Unable To retrieve data :' . $e);
-                }
-            } else {
-                return null;
+            if ($result) {
+                return $result;
             }
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
         }
     }
+
     /*
      * Dev: sowmya
      * Desc: fetch citys from db
@@ -430,17 +399,106 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
         }
     }
 
+    public function addcountry() {
+        if (func_num_args() > 0) {
+            $country = func_get_arg(0);
+            try {
+                $row = $this->insert($country);
+                if ($row) {
+                    return $row;
+                } else {
+                    return null;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+        }
+    }
+
+    public function changeLocationStatus() {
+        if (func_num_args() > 0):
+            $locationid = func_get_arg(0);
+            try {
+                $data = array('location_status' => new Zend_DB_Expr('IF(location_status=1, 0, 1)'));
+                $result = $this->update($data, 'location_id = "' . $locationid . '"');
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+            if ($result):
+                return $result;
+            else:
+                return 0;
+            endif;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
+    public function updateLocation() {
+        if (func_num_args() > 0) {
+            $data = func_get_arg(0);
+            $id = func_get_arg(1);
+            try {
+                $result1 = $this->update($data, 'location_id = "' . $id . '"');
+
+                if ($result1) {
+                    return $result1;
+                } else {
+                    return null;
+                }
+            } catch (Exception $e) {
+
+                throw new Exception('Unable To update data :' . $e);
+            }
+        }
+    }
+
+    public function getLocationsByLocationId() {
+        if (func_num_args() > 0) {
+            $location = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->from($this)
+                        ->where('location_id=?', $location);
+                $result = $this->getAdapter()->fetchRow($select);
+
+                if ($result) {
+                    return $result;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+        }
+    }
+
+    public function countryDelete() {
+        if (func_num_args() > 0):
+            $lid = func_get_arg(0);
+            try {
+                $db = Zend_Db_Table::getDefaultAdapter();
+                $where = (array('location_id = ?' => $lid));
+                $db->delete('location', $where);
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+            return $lid;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
     /*
-     * Dev: sowmya
-     * Desc: fetch countrys from db
-     * date : 29/4/2016;
+     * Dev: sreekanth
+     * Desc: fetch all states from db
+     * date : 3/5/2016;
      */
 
-    public function getCountry() {
+    public function getallcities() {
         try {
             $select = $this->select()
                     ->from($this)
-                    ->where('location_type=?', 0);
+                    ->where('location_type=?', 2);
+
             $result = $this->getAdapter()->fetchAll($select);
 
             if ($result) {
@@ -451,6 +509,28 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
         }
     }
 
+    
+    /*
+     * Dev: sreekanth
+     * Desc: fetch all states from db
+     * date : 3/5/2016;
+     */
+    public function getAllLocations() {
+        try {
+            $select = $this->select()
+                    ->from($this)
+                ->where('location_type=?', 3);
+
+            $result = $this->getAdapter()->fetchAll($select);
+
+            if ($result) {
+                return $result;
+            }
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
+        }
+    }
 }
+
 
 ?>

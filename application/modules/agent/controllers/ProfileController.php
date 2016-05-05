@@ -113,8 +113,22 @@ class Agent_ProfileController extends Zend_Controller_Action {
         $objCore = Engine_Core_Core::getInstance();
         $objSecurity = Engine_Vault_Security::getInstance();
         $this->_appSetting = $objCore->getAppSetting();
-        $url = $this->_appSetting->apiLink . '/get-locations?method=getcountry';
 
+
+        if ($this->getRequest()->isPost()) {
+            $data['name'] = $this->getRequest()->getPost('name');
+            $data['location_status'] = $this->getRequest()->getPost('location_status');
+            $data['location_type'] = 0;
+            $data['parent_id'] = 0;
+
+            $url = $this->_appSetting->apiLink . '/settingdetails?method=addcountry';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+            if ($curlResponse) {
+                $this->redirect('/agent/country-details');
+            }
+        }
+
+        $url = $this->_appSetting->apiLink . '/get-locations?method=getcountry';
         $curlResponse = $objCurlHandler->curlUsingGet($url);
 
         if ($curlResponse->code == 200) {
@@ -127,12 +141,32 @@ class Agent_ProfileController extends Zend_Controller_Action {
         $objCore = Engine_Core_Core::getInstance();
         $objSecurity = Engine_Vault_Security::getInstance();
         $this->_appSetting = $objCore->getAppSetting();
-        $url = $this->_appSetting->apiLink . '/get-locations?method=getcountrys';
 
+        if ($this->getRequest()->isPost()) {
+            $data['name'] = $this->getRequest()->getPost('name');
+            $data['location_status'] = $this->getRequest()->getPost('location_status');
+            $data['location_type'] = 1;
+            $data['parent_id'] = $this->getRequest()->getPost('parent_id');
+          
+
+            $url = $this->_appSetting->apiLink . '/settingdetails?method=addcountry';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+            if ($curlResponse) {
+                $this->redirect('/agent/state-details');
+            }
+        }
+
+
+
+        $url = $this->_appSetting->apiLink . '/get-locations?method=getstates';
         $curlResponse = $objCurlHandler->curlUsingGet($url);
 
+        $url = $this->_appSetting->apiLink . '/get-locations?method=getcountrys';
+        $curlResponse2 = $objCurlHandler->curlUsingGet($url);
+
         if ($curlResponse->code == 200) {
-            $this->view->countrydetails = $curlResponse->data;
+            $this->view->statedetails = $curlResponse->data;
+            $this->view->countrylist = $curlResponse2->data;
         }
     }
 
@@ -141,12 +175,33 @@ class Agent_ProfileController extends Zend_Controller_Action {
         $objCore = Engine_Core_Core::getInstance();
         $objSecurity = Engine_Vault_Security::getInstance();
         $this->_appSetting = $objCore->getAppSetting();
-        $url = $this->_appSetting->apiLink . '/get-locations?method=getcity';
 
+        if ($this->getRequest()->isPost()) {
+            $data['name'] = $this->getRequest()->getPost('name');
+            $data['location_status'] = $this->getRequest()->getPost('location_status');
+            $data['location_type'] = 2;
+            $data['parent_id'] = $this->getRequest()->getPost('parent_id');
+            
+
+            $url = $this->_appSetting->apiLink . '/settingdetails?method=addcountry';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+
+
+            if ($curlResponse) {
+                $this->redirect('/agent/city-details');
+            }
+        }
+
+
+        $url = $this->_appSetting->apiLink . '/get-locations?method=getcities';
         $curlResponse = $objCurlHandler->curlUsingGet($url);
 
+        $url = $this->_appSetting->apiLink . '/get-locations?method=getcountrys';
+        $curlResponse2 = $objCurlHandler->curlUsingGet($url);
+
         if ($curlResponse->code == 200) {
-            $this->view->countrydetails = $curlResponse->data;
+            $this->view->citydetails = $curlResponse->data;
+            $this->view->countrylist = $curlResponse2->data;
         }
     }
 
@@ -155,12 +210,78 @@ class Agent_ProfileController extends Zend_Controller_Action {
         $objCore = Engine_Core_Core::getInstance();
         $objSecurity = Engine_Vault_Security::getInstance();
         $this->_appSetting = $objCore->getAppSetting();
-        $url = $this->_appSetting->apiLink . '/get-locations?method=getlocation';
+
+        if ($this->getRequest()->isPost()) {
+            $data['name'] = $this->getRequest()->getPost('name');
+            $data['location_status'] = $this->getRequest()->getPost('location_status');
+            $data['location_type'] = 3;
+            $data['parent_id'] = $this->getRequest()->getPost('parent_id');
+            
+
+            $url = $this->_appSetting->apiLink . '/settingdetails?method=addcountry';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+            if ($curlResponse) {
+                $this->redirect('/agent/location-details');
+            }
+        }
+
+        $url = $this->_appSetting->apiLink . '/get-locations?method=getlocations';
 
         $curlResponse = $objCurlHandler->curlUsingGet($url);
+        $url = $this->_appSetting->apiLink . '/get-locations?method=getcountrys';
+        $curlResponse2 = $objCurlHandler->curlUsingGet($url);
+
 
         if ($curlResponse->code == 200) {
-            $this->view->countrydetails = $curlResponse->data;
+            $this->view->locationdetails = $curlResponse->data;
+            $this->view->countrylist = $curlResponse2->data;
+        }
+    }
+
+    public function editLocationAction() {
+        $this->_helper->_layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+        $objCore = Engine_Core_Core::getInstance();
+        $objSecurity = Engine_Vault_Security::getInstance();
+        $this->_appSetting = $objCore->getAppSetting();
+
+
+
+        if ($this->getRequest()->isPost()) {
+            $data['name'] = $this->getRequest()->getPost('location');
+            $data['location_id'] = $this->getRequest()->getPost('location_id');
+            $locationname = $this->getRequest()->getPost('locationbtn');
+
+            $url = $this->_appSetting->apiLink . '/settingdetails?method=editcountry';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+            if ($locationname == 'country') {
+                if ($curlResponse) {
+                    $this->redirect('/agent/country-details');
+                } else {
+                    $this->redirect('/agent/country-details');
+                }
+            } else if ($locationname == 'state') {
+                if ($curlResponse) {
+                    $this->redirect('/agent/state-details');
+                } else {
+                    $this->redirect('/agent/state-details');
+                }
+            } else if ($locationname == 'city') {
+                if ($curlResponse) {
+                    $this->redirect('/agent/city-details');
+                } else {
+                    $this->redirect('/agent/city-details');
+                }
+            } else if ($locationname == 'location') {
+                if ($curlResponse) {
+                    $this->redirect('/agent/location-details');
+                } else {
+                    $this->redirect('/agent/location-details');
+                }
+            } else {
+                $this->redirect('/agent/country-details');
+            }
         }
     }
 
@@ -169,7 +290,17 @@ class Agent_ProfileController extends Zend_Controller_Action {
     }
 
     public function hotelCategoryAction() {
-        
+        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+        $objCore = Engine_Core_Core::getInstance();
+        $objSecurity = Engine_Vault_Security::getInstance();
+        $this->_appSetting = $objCore->getAppSetting();
+
+        $url = $this->_appSetting->apiLink . '/settingdetails?method=getCategories';
+        $curlResponse = $objCurlHandler->curlUsingGet($url);
+
+        if ($curlResponse->code == 200) {
+            $this->view->categorydetails = $curlResponse->data;
+        }
     }
 
     public function groceryCategoryAction() {
@@ -215,7 +346,7 @@ class Agent_ProfileController extends Zend_Controller_Action {
             $category_id = $this->getRequest()->getPost('category_id');
             $categoryname = $this->getRequest()->getPost('categorybtn');
             $url = $this->_appSetting->apiLink . '/grocerydetails?method=updateGroceryCategory';
-            $curlResponse = $objCurlHandler->curlUsingPost($url, $data,$category_id,$categoryname);
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data, $category_id, $categoryname);
             if ($curlResponse) {
                 $this->redirect('/agent/grocery-category');
             }
