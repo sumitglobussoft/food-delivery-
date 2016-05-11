@@ -145,6 +145,7 @@ class Admin_CouponsController extends Zend_Controller_Action {
     }
 
     public function couponsLogAction() {
+        $adminproducts = Admin_Model_Products::getInstance();
         $adminModel = Admin_Model_Users::getInstance();
         $result = $adminModel->getAdminDetails(); // showing image
         if ($result) {
@@ -152,6 +153,19 @@ class Admin_CouponsController extends Zend_Controller_Action {
         }
         $objModelCouponUsers = Admin_Model_CouponUsers::getInstance();
         $couponsLog = $objModelCouponUsers->getCouponsLog();
+        $j = 0;
+//        ---------code to convert json encoded product_id's to product names-----------
+        foreach ($couponsLog as $value) {
+            $value1 = json_decode($value['product_id'], true);
+            for ($i = 0; $i < count($value1); $i++) {
+                $productname = $value1[$i];
+                $productname = $adminproducts->getProductsById($productname);
+                $productnames[$i] = $productname['name'];
+            }
+            $couponsLog[$j]['product_id'] = $productnames;
+            $j++;
+        }
+//        -------------------------------------------------------------------------------------
 //        $couponsLog = array_map(function($coupon) {
 //            $coupon['product_id'] = explode(',', str_replace('"', '', rtrim(ltrim($coupon['product_id'], '['), ']')));
 //            return $coupon;

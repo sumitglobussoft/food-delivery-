@@ -1,7 +1,7 @@
 <?php
 
 /**
- * AdminController
+ * AgentController
  *
  * @author
  * @version
@@ -25,6 +25,11 @@ class Agent_OrderController extends Zend_Controller_Action {
 
         switch ($method) {
             ////////////////HOTEL ACTIONS //////////////////////////////
+            /*
+             * DEV :sowmya
+             * Desc : to activate hotel status
+             * Date : 5/5/2016
+             */
             case 'hotelactive':
 
                 $hotelid = $this->getRequest()->getParam('hotelid');
@@ -52,7 +57,11 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
-
+            /*
+             * DEV :sowmya
+             * Desc : to deactivate hotel status
+             * Date : 5/5/2016
+             */
             case 'hoteldeactive':
 
                 $hotelid = $this->getRequest()->getParam('hotelid');
@@ -81,7 +90,11 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
-
+            /*
+             * DEV :sowmya
+             * Desc : to delete hotel
+             * Date : 5/5/2016
+             */
             case 'hoteldelete':
                 $hotelid = $this->getRequest()->getParam('hotelid');
                 if ($hotelid) {
@@ -109,7 +122,11 @@ class Agent_OrderController extends Zend_Controller_Action {
                 break;
 
             /////////////////////////////// PRODUCT ACTIONS /////////////////////////////         
-
+            /*
+             * DEV :sowmya
+             * Desc : to activate product staus
+             * Date : 5/5/2016
+             */
             case 'productactive':
 
                 $productid = $this->getRequest()->getParam('productid');
@@ -137,7 +154,11 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
-
+            /*
+             * DEV :sowmya
+             * Desc : to deactivate product status
+             * Date : 5/5/2016
+             */
             case 'productdeactive':
 
                 $productid = $this->getRequest()->getParam('productid');
@@ -166,7 +187,11 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
-
+            /*
+             * DEV :sowmya
+             * Desc : to delete product
+             * Date : 5/5/2016
+             */
             case 'productdelete':
                 $productid = $this->getRequest()->getParam('productid');
                 if ($productid) {
@@ -192,7 +217,11 @@ class Agent_OrderController extends Zend_Controller_Action {
                     die();
                 }
                 break;
-
+            /*
+             * DEV :sowmya
+             * Desc : tofind states
+             * Date : 5/5/2016
+             */
             case 'findstates':
                 $countryid = $this->getRequest()->getParam('countryid');
                 if ($countryid) {
@@ -218,6 +247,11 @@ class Agent_OrderController extends Zend_Controller_Action {
                     die();
                 }
                 break;
+            /*
+             * DEV :sowmya
+             * Desc : to find citys
+             * Date : 5/5/2016
+             */
             case 'findcitys':
                 $stateid = $this->getRequest()->getParam('stateid');
                 if ($stateid) {
@@ -243,10 +277,15 @@ class Agent_OrderController extends Zend_Controller_Action {
                     die();
                 }
                 break;
+            /*
+             * DEV :sowmya
+             * Desc : to find location
+             * Date : 5/5/2016
+             */
             case 'findlocations':
                 $locationid = $this->getRequest()->getParam('locationid');
                 if ($locationid) {
-                    $url = $this->_appSetting->apiLink . '/get-locations?method=getlocations';
+                    $url = $this->_appSetting->apiLink . '/get-locations?method=getlocation';
                     $data['location_id'] = $locationid;
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
 
@@ -268,6 +307,11 @@ class Agent_OrderController extends Zend_Controller_Action {
                     die();
                 }
                 break;
+            /*
+             * DEV :sowmya
+             * Desc : to get hotel cuisines
+             * Date : 5/5/2016
+             */
             case 'getcuisines':
                 $val = $this->getRequest()->getParam('typevalue');
                 if ($val == 2) {
@@ -290,7 +334,11 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
-
+            /*
+             * DEV :sowmya
+             * Desc : to get hotel categories
+             * Date : 5/5/2016
+             */
             case 'getcategories':
                 $val = $this->getRequest()->getParam('typevalue');
                 if ($val == 1) {
@@ -316,17 +364,22 @@ class Agent_OrderController extends Zend_Controller_Action {
 
                 break;
 
-            ////////////////Grocery ACTIONS  by sowmya 26//4/2016 //////////////////////////////
-            case 'groceryactive':
+            ////////////////store ACTIONS  by sowmya 26//4/2016 //////////////////////////////
+            /*
+             * DEV :sowmya
+             * Desc : to activate store status
+             * Date : 5/5/2016
+             */
+            case 'storeactive':
 
-                $groceryid = $this->getRequest()->getParam('groceryid');
-                if ($groceryid) {
-                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=changegrocerystatus';
-                    $data['grocery_id'] = $groceryid;
+                $storeid = $this->getRequest()->getParam('storeid');
+                if ($storeid) {
+                    $url = $this->_appSetting->apiLink . '/storedetails?method=changestorestatus';
+                    $data['store_id'] = $storeid;
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
                     if ($curlResponse->code == 200) {
                         $array['code'] = 200;
-                        $array['data'] = $curlResponse->data['grocery_id'];
+                        $array['data'] = $curlResponse->data['store_id'];
                         echo json_encode($array, true);
                         die();
                     } else {
@@ -344,18 +397,22 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
+            /*
+             * DEV :sowmya
+             * Desc : to deactivate store status
+             * Date : 5/5/2016
+             */
+            case 'storedeactive':
 
-            case 'grocerydeactive':
-
-                $groceryid = $this->getRequest()->getParam('groceryid');
-                if ($groceryid) {
-                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=changegrocerystatus';
-                    $data['grocery_id'] = $groceryid;
+                $storeid = $this->getRequest()->getParam('storeid');
+                if ($storeid) {
+                    $url = $this->_appSetting->apiLink . '/storedetails?method=changestorestatus';
+                    $data['store_id'] = $storeid;
 
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
                     if ($curlResponse->code == 200) {
                         $array = array('code' => 200,
-                            'data' => $curlResponse->data['grocery_id']);
+                            'data' => $curlResponse->data['store_id']);
 
                         echo json_encode($array, true);
                         die();
@@ -374,17 +431,21 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
-
-            case 'grocerydelete':
-                $groceryid = $this->getRequest()->getParam('groceryid');
-                if ($groceryid) {
-                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=grocerydelete';
-                    $data['grocery_id'] = $groceryid;
+            /*
+             * DEV :sowmya
+             * Desc : to delete store status
+             * Date : 5/5/2016
+             */
+            case 'storedelete':
+                $storeid = $this->getRequest()->getParam('storeid');
+                if ($storeid) {
+                    $url = $this->_appSetting->apiLink . '/storedetails?method=storedelete';
+                    $data['store_id'] = $storeid;
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
 
                     if ($curlResponse->code == 200) {
                         $array = array('code' => 200,
-                            'data' => $curlResponse->data['grocery_id']);
+                            'data' => $curlResponse->data['store_id']);
                         echo json_encode($array, true);
                         die();
                     } else {
@@ -402,11 +463,16 @@ class Agent_OrderController extends Zend_Controller_Action {
                 break;
 
             ////////////////reviews ACTIONS  by sowmya 26//4/2016 //////////////////////////////
+            /*
+             * DEV :sowmya
+             * Desc : to activate review status
+             * Date : 5/5/2016
+             */
             case 'reviewactive':
 
                 $reviewid = $this->getRequest()->getParam('reviewid');
                 if ($reviewid) {
-                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=changereviewstatus';
+                    $url = $this->_appSetting->apiLink . '/storedetails?method=changereviewstatus';
                     $data['review_id'] = $reviewid;
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
                     if ($curlResponse->code == 200) {
@@ -429,12 +495,16 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
-
+            /*
+             * DEV :sowmya
+             * Desc : to deactivate review status
+             * Date : 5/5/2016
+             */
             case 'reviewdeactive':
 
                 $reviewid = $this->getRequest()->getParam('reviewid');
                 if ($reviewid) {
-                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=changereviewstatus';
+                    $url = $this->_appSetting->apiLink . '/storedetails?method=changereviewstatus';
                     $data['review_id'] = $reviewid;
 
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
@@ -459,11 +529,15 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
-
+            /*
+             * DEV :sowmya
+             * Desc : to delete review
+             * Date : 5/5/2016
+             */
             case 'reviewdelete':
                 $reviewid = $this->getRequest()->getParam('reviewid');
                 if ($reviewid) {
-                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=reviewdelete';
+                    $url = $this->_appSetting->apiLink . '/storedetails?method=reviewdelete';
                     $data['review_id'] = $reviewid;
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
 
@@ -485,12 +559,16 @@ class Agent_OrderController extends Zend_Controller_Action {
                     die();
                 }
                 break;
-///////////////////////////////////////// grocery category 3/5/2016 ////////////////////////////////////
-            //added by sowmya 23/4/2016
-            case 'getgrocerycategory':
+///////////////////////////////////////// stores category 3/5/2016 ////////////////////////////////////
+            /*
+             * DEV :sowmya
+             * Desc : to get store category
+             * Date : 5/5/2016
+             */
+            case 'getstorecategory':
                 $categoryid = $this->getRequest()->getParam('categoryid');
                 if ($categoryid) {
-                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=getgrocerycategoryById';
+                    $url = $this->_appSetting->apiLink . '/storedetails?method=getstorecategoryById';
                     $data['category_id'] = $categoryid;
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
 
@@ -512,12 +590,17 @@ class Agent_OrderController extends Zend_Controller_Action {
                     die();
                 }
                 break;
-            case 'grocerycategorydelete':
+            /*
+             * DEV :sowmya
+             * Desc : to delete store category
+             * Date : 5/5/2016
+             */
+            case 'storecategorydelete':
 
                 $categoryid = $this->getRequest()->getParam('categoryid');
                 if ($categoryid) {
-                    $url = $this->_appSetting->apiLink . '/grocerydetails?method=grocerycategorydelete';
-                    $data['category_id'] = $categoryid;
+                    $url = $this->_appSetting->apiLink . '/storedetails?method=storecategorydelete';
+                    $data['categoryid'] = $categoryid;
                     $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
 
                     if ($curlResponse->code == 200) {
@@ -538,6 +621,13 @@ class Agent_OrderController extends Zend_Controller_Action {
                     die();
                 }
                 break;
+            ////////////////////////////////////////////// ends here////////////////////////
+            /////////// setting module  //////////////////////////
+            /*
+             * DEV :sowmya
+             * Desc : to activate location status
+             * Date : 5/5/2016
+             */
             case 'locationactive':
 
                 $locationid = $this->getRequest()->getParam('locationid');
@@ -564,7 +654,11 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
-
+            /*
+             * DEV :sowmya
+             * Desc : to get location
+             * Date : 5/5/2016
+             */
             case 'getlocation':
 
                 $locationid = $this->getRequest()->getParam('locationid');
@@ -592,7 +686,11 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
-
+            /*
+             * DEV :sowmya
+             * Desc : to delete country
+             * Date : 5/5/2016
+             */
             case 'countrydelete':
 
                 $locationid = $this->getRequest()->getParam('deleteid');
@@ -618,16 +716,308 @@ class Agent_OrderController extends Zend_Controller_Action {
                 }
 
                 break;
+            /*
+             * DEV :sowmya
+             * Desc : to activate store category
+             * Date : 5/5/2016
+             */
+            case 'storecategoryactive':
+
+                $categoryid = $this->getRequest()->getParam('categoryid');
+                if ($categoryid) {
+                    $url = $this->_appSetting->apiLink . '/storedetails?method=changestorecategorystatus';
+                    $data['categoryid'] = $categoryid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+                        $array['code'] = 200;
+                        $array['data'] = $curlResponse->data['categoryid'];
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array['code'] = 198;
+                        $array['data'] = null;
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array['code'] = 197;
+                    $array['data'] = null;
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+            /*
+             * DEV :sowmya
+             * Desc : to deactivate store category
+             * Date : 5/5/2016
+             */
+            case 'storecategorydeactive':
+
+                $categoryid = $this->getRequest()->getParam('categoryid');
+                if ($categoryid) {
+                    $url = $this->_appSetting->apiLink . '/storedetails?method=changestorecategorystatus';
+                    $data['categoryid'] = $categoryid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+                        $array = array('code' => 200,
+                            'data' => $curlResponse->data['categoryid']);
+
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array = array('code' => 198,
+                            'data' => null);
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array = array('code' => 198,
+                        'data' => null);
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+
+
+            /*
+             * DEV :sowmya
+             * Desc : to activatehotel category
+             * Date : 5/5/2016
+             */
+
+            case 'hotelcategoryactive':
+
+                $hotelid = $this->getRequest()->getParam('hotelid');
+
+                if ($hotelid) {
+                    $url = $this->_appSetting->apiLink . '/hoteldetails?method=changehotelcategorystatus';
+                    $data['hotel_id'] = $hotelid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+                        $array['code'] = 200;
+                        $array['data'] = $curlResponse->data['hotel_id'];
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array['code'] = 198;
+                        $array['data'] = null;
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array['code'] = 197;
+                    $array['data'] = null;
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+            /*
+             * DEV :sowmya
+             * Desc : to deactivate hotel category
+             * Date : 5/5/2016
+             */
+            case 'hotelcategorydeactive':
+
+                $hotelid = $this->getRequest()->getParam('hotelid');
+                if ($hotelid) {
+                    $url = $this->_appSetting->apiLink . '/hoteldetails?method=changehotelcategorystatus';
+                    $data['hotel_id'] = $hotelid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+                        $array = array('code' => 200,
+                            'data' => $curlResponse->data['hotel_id']);
+
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array = array('code' => 198,
+                            'data' => null);
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array = array('code' => 198,
+                        'data' => null);
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+            /*
+             * DEV :sowmya
+             * Desc : to activate hotel cuisine status
+             * Date : 5/5/2016
+             */
+            case 'changeHotelCuisineStatus':
+
+                $cuisineid = $this->getRequest()->getParam('cuisineid');
+                if ($cuisineid) {
+                    $url = $this->_appSetting->apiLink . '/hoteldetails?method=changeHotelCuisineStatus';
+                    $data['cuisineid'] = $cuisineid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+                        $array = array('code' => 200,
+                            'data' => $curlResponse->data['cuisineid']);
+
+                        echo json_encode($array, true);
+                        die();
+                    } else {
+                        $array = array('code' => 198,
+                            'data' => null);
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array = array('code' => 198,
+                        'data' => null);
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+
+            /*
+             * DEV :sowmya
+             * Desc : to delete hotel category
+             * Date : 5/5/2016
+             */
+
+            case 'hotelcategorydelete':
+
+                $categoryid = $this->getRequest()->getParam('deleteid');
+                if ($categoryid) {
+                    $url = $this->_appSetting->apiLink . '/settingdetails?method=hotelcategorydelete';
+                    $data['categoryid'] = $categoryid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+
+                        echo $curlResponse->data;
+                    } else {
+                        $array['code'] = 198;
+                        $array['data'] = null;
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array['code'] = 197;
+                    $array['data'] = null;
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+            /*
+             * DEV :sowmya
+             * Desc : to delete hotel cuisines
+             * Date : 5/5/2016
+             */
+            case 'hotelcuisinedelete':
+
+                $cuisine_id = $this->getRequest()->getParam('deleteid');
+                if ($cuisine_id) {
+                    $url = $this->_appSetting->apiLink . '/settingdetails?method=hotelcuisinedelete';
+                    $data['cuisine_id'] = $cuisine_id;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+
+                        echo $curlResponse->data;
+                    } else {
+                        $array['code'] = 198;
+                        $array['data'] = null;
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array['code'] = 197;
+                    $array['data'] = null;
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+            /*
+             * DEV :sowmya
+             * Desc : to get hotel category by categoyry id
+             * Date : 5/5/2016
+             */
+            case 'getcategoriesByCategoryId':
+
+                $categoryid = $this->getRequest()->getParam('categoryid');
+                if ($categoryid) {
+                    $url = $this->_appSetting->apiLink . '/settingdetails?method=getcategoriesByCategoryId';
+                    $data['categoryid'] = $categoryid;
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+                        $arr['code'] = 200;
+                        $arr['data'] = $curlResponse->data;
+                        echo json_encode($arr, true);
+                        die();
+                    } else {
+                        $array['code'] = 198;
+                        $array['data'] = null;
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array['code'] = 197;
+                    $array['data'] = null;
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
+                 /*
+             * DEV :sowmya
+             * Desc : to delete payement in agent panel
+             * Date : 5/5/2016
+             */
+
+            case 'payementdelete':
+
+                $deleteid = $this->getRequest()->getParam('deleteid');
+                if ($deleteid) {
+                    $url = $this->_appSetting->apiLink . '/agent-transaction-process?method=payementdelete';
+                    $data['deleteid'] = $deleteid;
+                 
+                    $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+                    if ($curlResponse->code == 200) {
+
+                        echo $curlResponse->data;
+                    } else {
+                        $array['code'] = 198;
+                        $array['data'] = null;
+                        echo json_encode($array, true);
+                        die();
+                    }
+                } else {
+
+                    $array['code'] = 197;
+                    $array['data'] = null;
+                    echo json_encode($array, true);
+                    die();
+                }
+
+                break;
             default :
                 break;
         }
     }
 
     /*
-     * Dev: priyanka varanasi 
-     * date: 22/12/2015
-     * Desc: To work on restauarent orders 
-     * 
+     * DEV :sowmya
+     * Desc : to get hotel order
+     * Date : 5/5/2016
      */
 
     public function restuarentOrdersAction() {

@@ -46,7 +46,6 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
             $select = $this->select()
                     ->from($this)
                     ->where('location_type=?', 0);
-//                    ->where('location_status=?', 1);
             $result = $this->getAdapter()->fetchAll($select);
 
             if ($result) {
@@ -311,6 +310,12 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
         }
     }
 
+    /*
+     * Dev: sowmya
+     * Desc: to change the status of locations in db
+     * date : 5/5/2016;
+     */
+
     public function changeLocationStatus() {
         if (func_num_args() > 0):
             $locationid = func_get_arg(0);
@@ -329,6 +334,12 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         endif;
     }
+
+    /*
+     * Dev: sowmya
+     * Desc: to update the details of locations in db
+     * date : 5/5/2016;
+     */
 
     public function updateLocation() {
 
@@ -425,6 +436,78 @@ class Admin_Model_Location extends Zend_Db_Table_Abstract {
                 throw new Exception($e);
             }
             return $lid;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
+    //dev:sreekanth
+    //desc: to delete country's child state
+    //date:25/4/2016
+
+    public function countries_childstate_delete() {
+        if (func_num_args() > 0):
+            $lid = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->from($this, ['location_id'])
+                        ->where('parent_id=?', $lid);
+                $result = $this->getAdapter()->fetchAll($select);
+                $db = Zend_Db_Table::getDefaultAdapter();
+                $where = (array('parent_id = ?' => $lid));
+                $db->delete('location', $where);
+            } catch (Exception $e) {
+                return null;
+            }
+            return $result;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
+    //dev:sreekanth
+    //desc: to delete country's child state
+    //date:25/4/2016
+
+    public function countries_childcity_delete() {
+        if (func_num_args() > 0):
+            $lid = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->from($this, ['location_id'])
+                        ->where('parent_id=?', $lid);
+                $result = $this->getAdapter()->fetchAll($select);
+                $db = Zend_Db_Table::getDefaultAdapter();
+                $where = (array('parent_id = ?' => $lid));
+                $db->delete('location', $where);
+            } catch (Exception $e) {
+                return null;
+            }
+            return $result;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
+    //dev:sreekanth
+    //desc: to delete country's child state
+    //date:10/5/2016
+
+    public function countries_childlocation_delete() {
+        if (func_num_args() > 0):
+            $lid = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->from($this)
+                        ->where('parent_id=?', $lid);
+                $result = $this->getAdapter()->fetchRow($select);
+                $db = Zend_Db_Table::getDefaultAdapter();
+                $where = (array('parent_id = ?' => $lid));
+                $db->delete('location', $where);
+            } catch (Exception $e) {
+                return null;
+            }
+            return $result;
         else:
             throw new Exception('Argument Not Passed');
         endif;

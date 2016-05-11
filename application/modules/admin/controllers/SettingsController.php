@@ -177,7 +177,7 @@ class Admin_SettingsController extends Zend_Controller_Action {
         $locationsModel = Admin_Model_Location::getInstance();
         $cuisinesModel = Admin_Model_FamousCuisines::getInstance();
         $categoryModel = Admin_Model_MenuCategory::getInstance();
-        $groceryCategoryModel = Admin_Model_GroceryCategory::getInstance();
+        $storeCategoryModel = Admin_Model_StoreCategory::getInstance();
         $hotelcuisinesModel = Admin_Model_HotelCuisines::getInstance();
         if ($this->getRequest()->isPost()) {
             $method = $this->getRequest()->getParam('method');
@@ -349,9 +349,9 @@ class Admin_SettingsController extends Zend_Controller_Action {
                     }
                     break;
                 // added by sowmya 23/4/2016
-                case 'grocerycategorydeactive':
+                case 'storecategorydeactive':
                     $categoryid = $this->getRequest()->getParam('categoryid');
-                    $result = $groceryCategoryModel->changeCategoryStatus($categoryid);
+                    $result = $storeCategoryModel->changeCategoryStatus($categoryid);
                     if ($result) {
                         echo $categoryid;
                     } else {
@@ -359,9 +359,9 @@ class Admin_SettingsController extends Zend_Controller_Action {
                     }
                     break;
 // added by sowmya 23/4/2016
-                case 'grocerycategoryactive':
+                case 'storecategoryactive':
                     $categoryid = $this->getRequest()->getParam('categoryid');
-                    $result = $groceryCategoryModel->changeCategoryStatus($categoryid);
+                    $result = $storeCategoryModel->changeCategoryStatus($categoryid);
                     if ($result) {
                         echo $categoryid;
                     } else {
@@ -369,9 +369,9 @@ class Admin_SettingsController extends Zend_Controller_Action {
                     }
                     break;
 //added by sowmya 23/4/2016
-                case 'grocerycategorydelete':
+                case 'storecategorydelete':
                     $categoryid = $this->getRequest()->getParam('categoryid');
-                    $result = $groceryCategoryModel->categorydelete($categoryid);
+                    $result = $storeCategoryModel->categorydelete($categoryid);
                     if ($result) {
                         echo $result;
                     } else {
@@ -379,9 +379,9 @@ class Admin_SettingsController extends Zend_Controller_Action {
                     }
                     break;
 //added by sowmya 23/4/2016
-                case 'getgrocerycategory':
+                case 'getstorecategory':
                     $categoryid = $this->getRequest()->getParam('categoryid');
-                    $result = $groceryCategoryModel->getCategoryById($categoryid);
+                    $result = $storeCategoryModel->getCategoryById($categoryid);
                     if ($result) {
                         $arr['code'] = 200;
                         $arr['data'] = $result;
@@ -395,9 +395,11 @@ class Admin_SettingsController extends Zend_Controller_Action {
                     }
                     break;
                 //added by sowmya 25/4/2016
+                //edit by sreekanth 9-5-2016 desc: deleting child items if parent is deleted
                 case 'citydelete':
                     $locationid = $this->getRequest()->getParam('locationid');
                     $result = $locationsModel->cityDelete($locationid);
+                    $locationsModel->countries_childlocation_delete($locationid);
                     if ($result) {
                         echo $result;
                     } else {
@@ -405,9 +407,19 @@ class Admin_SettingsController extends Zend_Controller_Action {
                     }
                     break;
                 //added by sowmya 25/4/2016
+                //edit by sreekanth 9-5-2016 desc: deleting child items if parent is deleted
                 case 'statedelete':
                     $locationid = $this->getRequest()->getParam('locationid');
                     $result = $locationsModel->stateDelete($locationid);
+                    $countries_childcity_id = $locationsModel->countries_childcity_delete($locationid);
+                    if ($countries_childcity_id) {
+                        foreach ($countries_childcity_id as $value1) {
+                            $countries_childcity_id = $value1['location_id'];
+                            $locationsModel->countries_childlocation_delete($countries_childcity_id);
+                            $result2 = $hotelModel->updatelocationDelete($countries_childcity_id);
+                            $result3 = $storeModel->updatelocationDelete($countries_childcity_id);
+                        }
+                    }
                     if ($result) {
                         echo $result;
                     } else {
@@ -415,11 +427,29 @@ class Admin_SettingsController extends Zend_Controller_Action {
                     }
                     break;
                 //added by sowmya 25/4/2016
+                //desc: deleting child items if parent is deleted
                 case 'countrydelete':
                     $locationid = $this->getRequest()->getParam('locationid');
-                    $result = $locationsModel->countryDelete($locationid);
-                    if ($result) {
-                        echo $result;
+                    $country_delete = $locationsModel->countryDelete($locationid);
+                    $countries_childstate_delete = $locationsModel->countries_childstate_delete($locationid);
+                    if ($countries_childstate_delete) {
+                        foreach ($countries_childstate_delete as $value) {
+                            $countries_childstate_id = $value['location_id'];
+                            $countries_childcity_id = $locationsModel->countries_childcity_delete($countries_childstate_id);
+
+                            if ($countries_childcity_id) {
+                                foreach ($countries_childcity_id as $value1) {
+                                    $countries_childcity_id = $value1['location_id'];
+                                    $locationsModel->countries_childlocation_delete($countries_childcity_id);
+                                    $result2 = $hotelModel->updatelocationDelete($countries_childcity_id);
+                                    $result3 = $storeModel->updatelocationDelete($countries_childcity_id);
+                                }
+                            }
+                        }
+                    }
+                    if ($country_delete) {
+                        echo $country_delete;
+                        die;
                     } else {
                         echo "error";
                     }
@@ -427,7 +457,12 @@ class Admin_SettingsController extends Zend_Controller_Action {
                 //added by sowmya 25/4/2016
                 case 'locationdelete':
                     $locationid = $this->getRequest()->getParam('locationid');
+                    $result2 = $hotelModel->updatelocationDelete($locationid);
+                    $result3 = $storeModel->updatelocationDelete($locationid);
+
                     $result = $locationsModel->locationDelete($locationid);
+
+
                     if ($result) {
                         echo $result;
                     } else {
@@ -723,17 +758,17 @@ class Admin_SettingsController extends Zend_Controller_Action {
 
     /*
      * Dev: sowmya
-     * Desc: fetch  grocery category
+     * Desc: fetch  store category
      * date : 23/4/2016
      */
 
-    public function groceryCategoryDetailsAction() {
+    public function storeCategoryDetailsAction() {
         $adminModel = Admin_Model_Users::getInstance();
         $result = $adminModel->getAdminDetails(); // showing image
         if ($result) {
             $this->view->admindetails = $result;
         }
-        $categoryModel = Admin_Model_GroceryCategory::getInstance();
+        $categoryModel = Admin_Model_StoreCategory::getInstance();
         $category = $categoryModel->selectAllCategorys();
         if ($category) {
             $this->view->categorydetails = $category;
@@ -744,7 +779,7 @@ class Admin_SettingsController extends Zend_Controller_Action {
             $data['cat_status'] = $this->getRequest()->getPost('cat_status');
             $result = $categoryModel->addCategory($data);
             if ($result) {
-                $this->redirect('/admin/grocery-category-details');
+                $this->redirect('/admin/store-category-details');
             }
         }
     }
@@ -755,11 +790,11 @@ class Admin_SettingsController extends Zend_Controller_Action {
      * date : 2/4/2016
      */
 
-    public function editGroceryCategoryAction() {
+    public function editStoreCategoryAction() {
 
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
-        $categoryModel = Admin_Model_GroceryCategory::getInstance();
+        $categoryModel = Admin_Model_StoreCategory::getInstance();
         if ($this->getRequest()->isPost()) {
             $data['cat_name'] = $this->getRequest()->getPost('category');
             $data['cat_desc'] = $this->getRequest()->getPost('catdesc');
@@ -770,9 +805,9 @@ class Admin_SettingsController extends Zend_Controller_Action {
                 $result = $categoryModel->updateCategory($data, $category_id);
                 if ($categoryname == 'category') {
                     if ($result) {
-                        $this->redirect('/admin/grocery-category-details');
+                        $this->redirect('/admin/store-category-details');
                     } else {
-                        $this->redirect('/admin/grocery-category-details');
+                        $this->redirect('/admin/store-category-details');
                     }
                 }
             }

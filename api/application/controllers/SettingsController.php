@@ -166,7 +166,7 @@ class SettingsController extends Zend_Controller_Action {
                     die();
                     break;
 
-                case'getlocations':
+                case'getlocation':
 
                     if ($this->getRequest()->isPost()) {
                         $location_id = $this->getRequest()->getPost('location_id');

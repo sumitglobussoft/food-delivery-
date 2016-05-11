@@ -1,5 +1,5 @@
 <div id="page-title">
-    <h2>Delivery Guy Orders Details</h2>  
+    <h2>Delivery Guy Orders Details</h2>    
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -9,48 +9,121 @@
                 <div class="example-box-wrapper" id="delivery_status_log">
                     <!-- Nav tabs -->
                     <ul class="nav nav-pills" role="tablist">
-                        <li role="presentation" class="active">
-                            <a href="#pickupdone" aria-controls="pickupdone" role="tab" data-toggle="tab">Pick Up</a>
+                        <li role="presentation" class="active"> 
+                            <a href="#processing" aria-controls="processing" role="tab" data-toggle="tab">Processing</a>
                         </li>
                         <li role="presentation" >
-                            <a href="#intransit" aria-controls="intransit" role="tab" data-toggle="tab">In Transit</a>
+                            <a href="#pickup" aria-controls="pickup" role="tab" data-toggle="tab">Pick Up</a>
                         </li>                     
                         <li role="presentation">
+                            <a href="#outfordelivery" aria-controls="outfordelivery" role="tab" data-toggle="tab">Out for Delivery</a>
+                        </li>     
+                        <li role="presentation">
                             <a href="#delivered" aria-controls="delivered" role="tab" data-toggle="tab">Delivered</a>
-                        </li>                    
+                        </li>   
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane fade in active" id="pickupdone">
-                            <h3 class="title-hero">Pick Up </h3>
+                        <div role="tabpanel" class="tab-pane fade in active" id="processing">
+                            <h3 class="title-hero">Processing </h3>
                             <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th> S.No </th>
-                                        <th>Status ID</th>
-                                        <th>User Name</th>
+                                        <th>Hotel Name</th>
+                                        <th> Delivery UserName </th>
                                         <th>Delivery Status</th>
-                                        <th>Time</th>
-                                        <th>Order ID</th>
-                                        <th>Order status</th>
+                                        <th>Order ID</th>     
+                                        <th>Pay Type</th>
                                         <th>Pay Status</th>
-                                        <th>Delivery_status</th>
-                                        <th>Order Pay Amount </th>
-
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
                                         <th> S.No </th>
-                                        <th>Status ID</th>
-                                        <th>User Name</th>
+                                        <th>Hotel Name</th>
+                                        <th> Delivery UserName </th>
                                         <th>Delivery Status</th>
-                                        <th>Time</th>
-                                        <th>Order ID</th>
-                                        <th>Order status</th>
+                                        <th>Order ID</th>     
+                                        <th>Pay Type</th>
                                         <th>Pay Status</th>
-                                        <th>Delivery_status</th>
-                                        <th>Order Pay Amount </th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <?php
+                                    if (isset($this->processing)) {
+                                        $i = 1;
+                                        foreach ($this->processing as $value) {
+                                            ?>
+                                            <tr id="<?php echo $value['del_guy_id']; ?>" >
+                                                <td><?php echo ++$i; ?></td>
+                                                <td><?php echo $value['hotel_name']; ?></td>
+                                                <td><?php echo $value['login_name']; ?></td>                                               
+                                                <td><?php
+                                                    if ($value['order_status'] == 2) {
+                                                        echo 'Processing ';
+                                                    } else if ($value['order_status'] == 3) {
+                                                        echo 'Pick Up';
+                                                    } else if ($value['order_status'] == 4) {
+                                                        echo 'Out For Delivered';
+                                                    } else if ($value['order_status'] == 5) {
+                                                        echo 'Delivered';
+                                                        ;
+                                                    }
+                                                    ?></td>
+
+                                                <td><?php echo $value['order_id']; ?></td>
+                                                <td><?php
+                                                    if ($value['tx_type'] == 1) {
+                                                        echo 'COD';
+                                                    } else {
+                                                        echo "PaYpaL";
+                                                    }
+                                                    ?></td>
+                                                <td><?php
+                                                    if ($value['tx_status'] == 1) {
+                                                        echo 'Success';
+                                                    } else if ($value['tx_status'] == 2) {
+                                                        echo 'Pending';
+                                                    } else if ($value['tx_status'] == 3) {
+                                                        echo 'Failed';
+                                                    } else {
+                                                        echo 'Canceled';
+                                                    }
+                                                    ?></td> 
+                                            </tr>   
+
+                                            <?php
+                                            $i++;
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade " id="pickup">
+                            <h3 class="title-hero">Pick Up</h3>
+                            <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th> S.No </th>
+                                        <th>Hotel Name</th>
+                                        <th> Delivery UserName </th>
+                                        <th>Delivery Status</th>
+                                        <th>Order ID</th>     
+                                        <th>Pay Type</th>
+                                        <th>Pay Status</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th> S.No </th>
+                                        <th>Hotel Name</th>
+                                        <th> Delivery UserName </th>
+                                        <th>Delivery Status</th>
+                                        <th>Order ID</th>     
+                                        <th>Pay Type</th>
+                                        <th>Pay Status</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
@@ -61,63 +134,41 @@
                                             ?>
 
                                             <tr id="<?php echo $value['del_guy_id']; ?>" >
-                                                <td><?php echo $i; ?></td>
-                                                <td><?php echo $value['status_id']; ?></td>
-                                                <td><?php echo $value['login_name']; ?></td>
+                                                <td><?php echo ++$i; ?></td>
+                                                <td><?php echo $value['hotel_name']; ?></td>
+                                                <td><?php echo $value['login_name']; ?></td>                                            
                                                 <td><?php
-                                                    if ($value['status_type'] == 1) {
-                                                        echo 'Pick Up ';
-                                                    } else if ($value['status_type'] == 2) {
-                                                        echo 'In transit';
-                                                    } else if ($value['status_type'] == 3) {
+                                                    if ($value['order_status'] == 2) {
+                                                        echo 'Processing ';
+                                                    } else if ($value['order_status'] == 3) {
+                                                        echo 'Pick Up';
+                                                    } else if ($value['order_status'] == 4) {
+                                                        echo 'Out For Delivered';
+                                                    } else if ($value['order_status'] == 5) {
                                                         echo 'Delivered';
-                                                    } else {
-                                                        echo 'No Acknowledge';
+                                                        ;
                                                     }
                                                     ?></td>
-                                                <td><?php echo $value['time']; ?></td>
                                                 <td><?php echo $value['order_id']; ?></td>
                                                 <td><?php
-                                                    if ($value['order_status'] == 1) {
-                                                        echo 'In Process';
-                                                    } else if ($value['order_status'] == 2) {
-                                                        echo 'Delivered';
-                                                    } else if ($value['order_status'] == 3) {
-                                                        echo 'Cancelled';
-                                                    } else {
-                                                        echo 'No Acknowledge';
-                                                    }
-                                                    ?></td>
-                                                <td><?php
-                                                    if ($value['pay_status'] == 0) {
-                                                        echo 'Pending';
-                                                    } else if ($value['pay_status'] == 1) {
-                                                        echo 'Completed';
-                                                    } else if ($value['pay_status'] == 2) {
-                                                        echo 'Failed';
-                                                    } else if ($value['pay_status'] == 3) {
+                                                    if ($value['tx_type'] == 1) {
                                                         echo 'COD';
                                                     } else {
-                                                        echo 'No Acknowledgement';
+                                                        echo "PaYpaL";
                                                     }
                                                     ?></td>
                                                 <td><?php
-                                                    if ($value['delivery_status'] == 0) {
+                                                    if ($value['tx_status'] == 1) {
+                                                        echo 'Success';
+                                                    } else if ($value['tx_status'] == 2) {
                                                         echo 'Pending';
-                                                    } else if ($value['delivery_status'] == 1) {
-                                                        echo 'Completed';
-                                                    } else if ($value['delivery_status'] == 2) {
-                                                        echo 'Return/Cancelled';
-                                                    } else if ($value['delivery_status'] == 3) {
-                                                        echo 'Unable to Reach';
+                                                    } else if ($value['tx_status'] == 3) {
+                                                        echo 'Failed';
                                                     } else {
-                                                        echo 'No Acknowledgement';
+                                                        echo 'Canceled';
                                                     }
-                                                    ?></td>
-                                                <td><?php echo $value['total_amount']; ?></td>
-
+                                                    ?></td> 
                                             </tr>   
-
                                             <?php
                                             $i++;
                                         }
@@ -126,143 +177,107 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div role="tabpanel" class="tab-pane fade " id="intransit">
-                            <h3 class="title-hero">In Transit</h3>
+
+                        <div role="tabpanel" class="tab-pane fade" id="outfordelivery">
+                            <h3 class="title-hero">Out For Delivery </h3>
                             <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th> S.No </th>
-                                        <th>Status ID</th>
-                                        <th>User Name</th>
+                                        <th>Hotel Name</th>
+                                        <th> Delivery UserName </th>
                                         <th>Delivery Status</th>
-                                        <th>Time</th>
-                                        <th>Order ID</th>
-                                        <th>Order status</th>
+                                        <th>Order ID</th>     
+                                        <th>Pay Type</th>
                                         <th>Pay Status</th>
-                                        <th>Delivery_status</th>
-                                        <th>Order Pay Amount </th>
 
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
                                         <th> S.No </th>
-                                        <th>Status ID</th>
-                                        <th>User Name</th>
+                                        <th>Hotel Name</th>
+                                        <th> Delivery UserName </th>
                                         <th>Delivery Status</th>
-                                        <th>Time</th>
-                                        <th>Order ID</th>
-                                        <th>Order status</th>
+                                        <th>Order ID</th>     
+                                        <th>Pay Type</th>
                                         <th>Pay Status</th>
-                                        <th>Delivery_status</th>
-                                        <th>Order Pay Amount </th>
-
-
                                     </tr>
                                 </tfoot>
                                 <tbody>
                                     <?php
-                                    if (isset($this->transit)) {
+                                    if (isset($this->outfordelivery)) {
                                         $i = 1;
-                                        foreach ($this->transit as $value) {
+                                        foreach ($this->outfordelivery as $value) {
                                             ?>
-
                                             <tr id="<?php echo $value['del_guy_id']; ?>" >
-                                                <td><?php echo $i; ?></td>
+                                                <td><?php echo ++$i; ?></td>
+                                                <td><?php echo $value['hotel_name']; ?></td>
                                                 <td><?php echo $value['login_name']; ?></td>
-                                                <td><?php echo $value['status_id']; ?></td>
                                                 <td><?php
-                                                    if ($value['status_type'] == 1) {
-                                                        echo 'Pick Up ';
-                                                    } else if ($value['status_type'] == 2) {
-                                                        echo 'In transit';
-                                                    } else if ($value['status_type'] == 3) {
+                                                    if ($value['order_status'] == 2) {
+                                                        echo 'Processing ';
+                                                    } else if ($value['order_status'] == 3) {
+                                                        echo 'Pick Up';
+                                                    } else if ($value['order_status'] == 4) {
+                                                        echo 'Out For Delivered';
+                                                    } else if ($value['order_status'] == 5) {
                                                         echo 'Delivered';
-                                                    } else {
-                                                        echo 'No Acknowledge';
+                                                        ;
                                                     }
                                                     ?></td>
-                                                <td><?php echo $value['time']; ?></td>
+
                                                 <td><?php echo $value['order_id']; ?></td>
                                                 <td><?php
-                                                    if ($value['order_status'] == 1) {
-                                                        echo 'In Process';
-                                                    } else if ($value['order_status'] == 2) {
-                                                        echo 'Delivered';
-                                                    } else if ($value['order_status'] == 3) {
-                                                        echo 'Cancelled';
-                                                    } else {
-                                                        echo 'No Acknowledge';
-                                                    }
-                                                    ?></td>
-                                                <td><?php
-                                                    if ($value['pay_status'] == 0) {
-                                                        echo 'Pending';
-                                                    } else if ($value['pay_status'] == 1) {
-                                                        echo 'Completed';
-                                                    } else if ($value['pay_status'] == 2) {
-                                                        echo 'Failed';
-                                                    } else if ($value['pay_status'] == 3) {
+                                                    if ($value['tx_type'] == 1) {
                                                         echo 'COD';
                                                     } else {
-                                                        echo 'No Acknowledgement';
+                                                        echo "PaYpaL";
                                                     }
                                                     ?></td>
                                                 <td><?php
-                                                    if ($value['delivery_status'] == 0) {
+                                                    if ($value['tx_status'] == 1) {
+                                                        echo 'Success';
+                                                    } else if ($value['tx_status'] == 2) {
                                                         echo 'Pending';
-                                                    } else if ($value['delivery_status'] == 1) {
-                                                        echo 'Completed';
-                                                    } else if ($value['delivery_status'] == 2) {
-                                                        echo 'Return/Cancelled';
-                                                    } else if ($value['delivery_status'] == 3) {
-                                                        echo 'Unable to Reach';
+                                                    } else if ($value['tx_status'] == 3) {
+                                                        echo 'Failed';
                                                     } else {
-                                                        echo 'No Acknowledgement';
+                                                        echo 'Canceled';
                                                     }
-                                                    ?></td>
-                                                <td><?php echo $value['total_amount']; ?></td>
-
+                                                    ?></td> 
                                             </tr>   
                                             <?php
                                             $i++;
                                         }
                                     }
                                     ?>
-
                                 </tbody>
                             </table>
                         </div>
-
                         <div role="tabpanel" class="tab-pane fade" id="delivered">
                             <h3 class="title-hero">Delivered </h3>
                             <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th> S.No </th>
-                                        <th>Status ID</th>
-                                        <th>User Name</th>
+                                        <th>Hotel Name</th>
+                                        <th> Delivery UserName </th>
                                         <th>Delivery Status</th>
-                                        <th>Time</th>
-                                        <th>Order ID</th>
-                                        <th>Order status</th>
+                                        <th>Order ID</th>     
+                                        <th>Pay Type</th>
                                         <th>Pay Status</th>
-                                        <th>Delivery_status</th>
-                                        <th>Order Pay Amount </th>
-
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
                                         <th> S.No </th>
-                                        <th>Status ID</th>
+                                        <th>Hotel Name</th>
+                                        <th> Delivery UserName </th>
                                         <th>Delivery Status</th>
-                                        <th>Time</th>
-                                        <th>Order ID</th>
-                                        <th>Order status</th>
+                                        <th>Order ID</th>     
+                                        <th>Pay Type</th>
                                         <th>Pay Status</th>
-                                        <th>Delivery_status</th>
-                                        <th>Order Pay Amount </th>
 
                                     </tr>
                                 </tfoot>
@@ -273,60 +288,42 @@
                                         foreach ($this->delivered as $value) {
                                             ?>
                                             <tr id="<?php echo $value['del_guy_id']; ?>" >
-                                                <td><?php echo $i; ?></td>
-                                                <td><?php echo $value['status_id']; ?></td>
+                                                <td><?php echo ++$i; ?></td>
+                                                <td><?php echo $value['hotel_name']; ?></td>
                                                 <td><?php echo $value['login_name']; ?></td>
+
                                                 <td><?php
-                                                    if ($value['status_type'] == 1) {
-                                                        echo 'Pick Up ';
-                                                    } else if ($value['status_type'] == 2) {
-                                                        echo 'In transit';
-                                                    } else if ($value['status_type'] == 3) {
+                                                    if ($value['order_status'] == 2) {
+                                                        echo 'Processing ';
+                                                    } else if ($value['order_status'] == 3) {
+                                                        echo 'Pick Up';
+                                                    } else if ($value['order_status'] == 4) {
+                                                        echo 'Out For Delivered';
+                                                    } else if ($value['order_status'] == 5) {
                                                         echo 'Delivered';
-                                                    } else {
-                                                        echo 'No Acknowledge';
+                                                        ;
                                                     }
                                                     ?></td>
-                                                <td><?php echo $value['time']; ?></td>
+
                                                 <td><?php echo $value['order_id']; ?></td>
                                                 <td><?php
-                                                    if ($value['order_status'] == 1) {
-                                                        echo 'In Process';
-                                                    } else if ($value['order_status'] == 2) {
-                                                        echo 'Delivered';
-                                                    } else if ($value['order_status'] == 3) {
-                                                        echo 'Cancelled';
-                                                    } else {
-                                                        echo 'No Acknowledge';
-                                                    }
-                                                    ?></td>
-                                                <td><?php
-                                                    if ($value['pay_status'] == 0) {
-                                                        echo 'Pending';
-                                                    } else if ($value['pay_status'] == 1) {
-                                                        echo 'Completed';
-                                                    } else if ($value['pay_status'] == 2) {
-                                                        echo 'Failed';
-                                                    } else if ($value['pay_status'] == 3) {
+                                                    if ($value['tx_type'] == 1) {
                                                         echo 'COD';
                                                     } else {
-                                                        echo 'No Acknowledgement';
+                                                        echo "PaYpaL";
                                                     }
                                                     ?></td>
                                                 <td><?php
-                                                    if ($value['delivery_status'] == 0) {
+                                                    if ($value['tx_status'] == 1) {
+                                                        echo 'Success';
+                                                    } else if ($value['tx_status'] == 2) {
                                                         echo 'Pending';
-                                                    } else if ($value['delivery_status'] == 1) {
-                                                        echo 'Completed';
-                                                    } else if ($value['delivery_status'] == 2) {
-                                                        echo 'Return/Cancelled';
-                                                    } else if ($value['delivery_status'] == 3) {
-                                                        echo 'Unable to Reach';
+                                                    } else if ($value['tx_status'] == 3) {
+                                                        echo 'Failed';
                                                     } else {
-                                                        echo 'No Acknowledgement';
+                                                        echo 'Canceled';
                                                     }
-                                                    ?></td>
-                                                <td><?php echo $value['total_amount']; ?></td>
+                                                    ?></td> 
                                             </tr>   
                                             <?php
                                             $i++;

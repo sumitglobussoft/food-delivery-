@@ -28,45 +28,6 @@ class Admin_Model_DeliveryGuys extends Zend_Db_Table_Abstract {
         }
     }
 
-    public function getAllDeliveryGuystatus() {
-        try {
-            $select = $this->select()
-                    ->from($this);
-            $result = $this->getAdapter()->fetchAll($select);
-        } catch (Exception $e) {
-            throw new Exception('Unable To retrieve data :' . $e);
-        }
-
-        if ($result) {
-            return $result;
-        }
-    }
-
-    public function getAlldeliveryGuysdetails() {
-        if (func_num_args() > 0) {
-            $uname = func_get_arg(0);
-            $role = 1;
-            try {
-                $select = $this->select()
-                        ->setIntegrityCheck(false)
-                        ->from(array('dg' => 'delivery_guys'))
-                        ->joinLeft(array('o' => 'orders'), 'dg.del_guy_id= o.del_guy_id', array('o.user_id'))
-                        ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname', 'u.email'))
-                        ->where('u.role = ?', $role)
-                        ->where('u.uname = ?', $uname);
-
-                $result = $this->getAdapter()->fetchAll($select);
-//                echo '<pre>';print_r($result);die("ok");
-            } catch (Exception $e) {
-                throw new Exception('Unable To retrieve data :' . $e);
-            }
-
-            if ($result) {
-                return $result;
-            }
-        }
-    }
-
     public function addDeliveryGuydetails() {
         if (func_num_args() > 0) {
             $deliverydata = func_get_arg(0);
@@ -130,8 +91,9 @@ class Admin_Model_DeliveryGuys extends Zend_Db_Table_Abstract {
                 $select = $this->select()
                         ->setIntegrityCheck(false)
                         ->from(array('del' => 'delivery_guys'))
-                        ->join(array('dslo' => 'delivery_status_log'), 'del.del_guy_id = dslo.delivery_guy_id', array('dslo.order_id', 'dslo.status_type', 'dslo.time', 'dslo.status_id'))
-                        ->join(array('o' => 'orders'), 'dslo.order_id=o.order_id')
+                        ->join(array('o' => 'orders'), 'del.del_guy_id=o.deliveryguy_id')
+                        ->join(array('ut' => 'user_transactions'), 'ut.order_id=o.order_id')
+                        ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id')
                         ->where('del.del_guy_id=?', $delguyId);
 
                 $result = $this->getAdapter()->fetchAll($select);
@@ -185,6 +147,66 @@ class Admin_Model_DeliveryGuys extends Zend_Db_Table_Abstract {
         else:
             throw new Exception('Argument Not Passed');
         endif;
+    }
+
+    public function getDeliveryGuyOrderLogs() {
+        try {
+            $select = $this->select()
+                    ->setIntegrityCheck(false)
+                    ->from(array('del' => 'delivery_guys'))
+                    ->join(array('o' => 'orders'), 'del.del_guy_id=o.deliveryguy_id')
+                    ->join(array('ut' => 'user_transactions'), 'ut.order_id=o.order_id')
+                    ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id');
+            $result = $this->getAdapter()->fetchAll($select);
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
+        }
+
+        if ($result) {
+            return $result;
+        }
+    }
+
+    public function getStoreDeliveryGuyOrderLogs() {
+        try {
+            $select = $this->select()
+                    ->setIntegrityCheck(false)
+                    ->from(array('del' => 'delivery_guys'))
+                    ->join(array('o' => 'orders'), 'del.del_guy_id=o.deliveryguy_id')
+                    ->join(array('ut' => 'user_transactions'), 'ut.order_id=o.order_id')
+                    ->join(array('sd' => 'store_details'), 'o.store_id=sd.store_id');
+            $result = $this->getAdapter()->fetchAll($select);
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
+        }
+
+        if ($result) {
+            return $result;
+        }
+    }
+
+    public function getStoreDeliveryGuyOrders() {
+        if (func_num_args() > 0) {
+            $delguyId = func_get_arg(0);
+
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('del' => 'delivery_guys'))
+                        ->join(array('o' => 'orders'), 'del.del_guy_id=o.deliveryguy_id')
+                        ->join(array('ut' => 'user_transactions'), 'ut.order_id=o.order_id')
+                        ->join(array('sd' => 'store_details'), 'o.store_id=sd.store_id')
+                        ->where('del.del_guy_id=?', $delguyId);
+
+                $result = $this->getAdapter()->fetchAll($select);
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+
+            if ($result) {
+                return $result;
+            }
+        }
     }
 
 }

@@ -29,6 +29,7 @@
                                 <thead>
                                     <tr>
                                         <th>S.no</th>
+                                        <th>Hotel Name</th>            
                                         <th>User Name</th>                                       
                                         <th>Pay Type</th>
                                         <th>Pay Amount</th>
@@ -43,6 +44,7 @@
                                 <tfoot>
                                     <tr>
                                         <th>S.no</th>
+                                        <th>Hotel Name</th>   
                                         <th>User Name</th>                                       
                                         <th>Pay Type</th>
                                         <th>Pay Amount</th>
@@ -59,73 +61,76 @@
                                     if (isset($this->pendingStatus)) {
                                         $i = 1;
                                         foreach ($this->pendingStatus as $value) {
-                                            ?>
-                                            <tr>
-                                                <td><?php echo $i; ?></td>
-                                                <td><?php echo $value['uname']; ?></td>
-                                                <td><?php
-                                                    if ($value['tx_type'] == 1) {
-                                                        echo 'COD';
-                                                    } else {
-                                                        echo "PaYpaL";
-                                                    }
-                                                    ?></td>
-                                                <td><?php echo $value['total_amount']; ?></td>
-                                                <td><?php
-                                                    if ($value['tx_status'] == 1) {
-                                                        echo 'Success';
-                                                    } else if ($value['tx_status'] == 2) {
-                                                        echo 'Pending';
-                                                    } else if ($value['tx_status'] == 3) {
-                                                        echo 'Failed';
-                                                    } else {
-                                                        echo 'Canceled';
-                                                    }
-                                                    ?></td>
-                                                <td><?php echo $value['order_id']; ?></td>
-                                                <td><?php echo date("m/d/Y", strtotime($value['order_date'])); ?></td>
-                                                <td id="demo"><?php
-                                                    if ($value['order_status'] == 0) {
-                                                        echo 'Pending';
-                                                    } else if ($value['order_status'] == 1) {
-                                                        echo 'Approved';
-                                                    } else if ($value['order_status'] == 6) {
-                                                        echo 'Canceled';
-                                                    }
-                                                    ?></td>
-                                                <td class="trigger">  
-                                                    <select  class="js-example-responsive js-example-basic-hide-search form-control order_status" data-id="<?php echo $value['order_id']; ?>" name="order_status"> 
-                                                        <option value="0" <?php
+                                            if ($value['Hotel_Store'] == 1) {
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $i; ?></td>
+                                                    <td><?php echo $value['hotel_name']; ?></td>
+                                                    <td><?php echo $value['uname']; ?></td>
+                                                    <td><?php
+                                                        if ($value['tx_type'] == 1) {
+                                                            echo 'COD';
+                                                        } else {
+                                                            echo "PaYpaL";
+                                                        }
+                                                        ?></td>
+                                                    <td><?php echo $value['total_amount']; ?></td>
+                                                    <td><?php
+                                                        if ($value['tx_status'] == 1) {
+                                                            echo 'Success';
+                                                        } else if ($value['tx_status'] == 2) {
+                                                            echo 'Pending';
+                                                        } else if ($value['tx_status'] == 3) {
+                                                            echo 'Failed';
+                                                        } else {
+                                                            echo 'Canceled';
+                                                        }
+                                                        ?></td>
+                                                    <td><?php echo $value['order_id']; ?></td>
+                                                    <td><?php echo date("m/d/Y", strtotime($value['order_date'])); ?></td>
+                                                    <td id="demo"><?php
                                                         if ($value['order_status'] == 0) {
-                                                            echo"selected";
+                                                            echo 'Pending';
+                                                        } else if ($value['order_status'] == 1) {
+                                                            echo 'Approved';
+                                                        } else if ($value['order_status'] == 6) {
+                                                            echo 'Canceled';
                                                         }
-                                                        ?>>
-                                                            Pending
-                                                        </option>
-                                                        <option value="1" <?php
-                                                        if ($value['order_status'] == 1) {
-                                                            echo"selected";
-                                                        }
-                                                        ?>>
-                                                            Approved
-                                                        </option>                                                     
-                                                        <option value="6" <?php
-                                                        if ($value['order_status'] == 6) {
-                                                            echo"selected";
-                                                        }
-                                                        ?>>
-                                                            Canceled 
-                                                        </option>                                                     
-                                                    </select>
-                                                </td>
+                                                        ?></td>
+                                                    <td class="trigger">  
+                                                        <select  class="js-example-responsive js-example-basic-hide-search form-control order_status" data-id="<?php echo $value['order_id']; ?>" name="order_status"> 
+                                                            <option value="0" <?php
+                                                            if ($value['order_status'] == 0) {
+                                                                echo"selected";
+                                                            }
+                                                            ?>>
+                                                                Pending
+                                                            </option>
+                                                            <option value="1" <?php
+                                                            if ($value['order_status'] == 1) {
+                                                                echo"selected";
+                                                            }
+                                                            ?>>
+                                                                Approved
+                                                            </option>                                                     
+                                                            <option value="6" <?php
+                                                            if ($value['order_status'] == 6) {
+                                                                echo"selected";
+                                                            }
+                                                            ?>>
+                                                                Canceled 
+                                                            </option>                                                     
+                                                        </select>
+                                                    </td>
 
-                                                <td class="text-center">
-                                                    <a href="/admin/view-order-details/<?php echo $value['order_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-eye"></i></a>
-                                                    <a href="javascript:;" id="<?php echo "orderdelete_" . $value['order_id']; ?>" class="btn btn-default deleteorder"><i class="glyph-icon icon-linecons-trash"></i></a></td>
-                                            </tr>   
+                                                    <td class="text-center">
+                                                        <a href="/admin/view-order-details/<?php echo $value['order_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-eye"></i></a>
+                                                        <a href="javascript:;" id="<?php echo "orderdelete_" . $value['order_id']; ?>" class="btn btn-default deleteorder"><i class="glyph-icon icon-linecons-trash"></i></a></td>
+                                                </tr>   
 
-                                            <?php
-                                            $i++;
+                                                <?php
+                                                $i++;
+                                            }
                                         }
                                     }
                                     ?>
@@ -138,6 +143,7 @@
                                 <thead>
                                     <tr>
                                         <th>S.no</th>
+                                        <th>Hotel Name</th>                
                                         <th>User Name</th>                                       
                                         <th>Pay Type</th>
                                         <th>Pay Amount</th>
@@ -152,6 +158,7 @@
                                 <tfoot>
                                     <tr>
                                         <th>S.no</th>
+                                        <th>Hotel Name</th>                
                                         <th>User Name</th>                                       
                                         <th>Pay Type</th>
                                         <th>Pay Amount</th>
@@ -169,65 +176,68 @@
                                     if (isset($this->processStatus)) {
                                         $i = 1;
                                         foreach ($this->processStatus as $value) {
-                                            ?>
-                                            <tr>
-                                                <td><?php echo $i; ?></td>
-                                                <td><?php echo $value['uname']; ?></td>
-                                                <td><?php
-                                                    if ($value['tx_type'] == 1) {
-                                                        echo 'COD';
-                                                    } else {
-                                                        echo "PaYpaL";
-                                                    }
-                                                    ?></td>
-                                                <td><?php echo $value['total_amount']; ?></td>
-                                                <td><?php
-                                                    if ($value['tx_status'] == 1) {
-                                                        echo 'Success';
-                                                    } else if ($value['tx_status'] == 2) {
-                                                        echo 'Pending';
-                                                    } else if ($value['tx_status'] == 3) {
-                                                        echo 'Failed';
-                                                    } else {
-                                                        echo 'Canceled';
-                                                    }
-                                                    ?></td>
-                                                <td><?php echo $value['order_id']; ?></td>
-                                                <td><?php echo date("m/d/Y", strtotime($value['order_date'])); ?></td>
-                                                <td>Approved</td>
-                                                <td>  
-                                                    <select  class="js-example-responsive js-example-basic-hide-search form-control order_status" data-id="<?php echo $value['order_id']; ?>" name="order_status"> 
-                                                        <option value="0" <?php
-                                                        if ($value['order_status'] == 0) {
-                                                            echo"selected";
+                                            if ($value['Hotel_Store'] == 1) {
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $i; ?></td>
+                                                    <td><?php echo $value['hotel_name']; ?></td>
+                                                    <td><?php echo $value['uname']; ?></td>
+                                                    <td><?php
+                                                        if ($value['tx_type'] == 1) {
+                                                            echo 'COD';
+                                                        } else {
+                                                            echo "PaYpaL";
                                                         }
-                                                        ?>>
-                                                            Pending
-                                                        </option>
-                                                        <option value="1" <?php
-                                                        if ($value['order_status'] == 1) {
-                                                            echo"selected";
+                                                        ?></td>
+                                                    <td><?php echo $value['total_amount']; ?></td>
+                                                    <td><?php
+                                                        if ($value['tx_status'] == 1) {
+                                                            echo 'Success';
+                                                        } else if ($value['tx_status'] == 2) {
+                                                            echo 'Pending';
+                                                        } else if ($value['tx_status'] == 3) {
+                                                            echo 'Failed';
+                                                        } else {
+                                                            echo 'Canceled';
                                                         }
-                                                        ?>>
-                                                            Approved
-                                                        </option>                                                     
-                                                        <option value="6" <?php
-                                                        if ($value['order_status'] == 6) {
-                                                            echo"selected";
-                                                        }
-                                                        ?>>
-                                                            Canceled 
-                                                        </option>  
-                                                    </select>
-                                                </td>    
-                                                <td class="text-center">
-                                                    <a href="/admin/view-order-details/<?php echo $value['order_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-eye"></i></a>
-                                                    <a href="javascript:;" id="<?php echo "orderdelete_" . $value['order_id']; ?>" class="btn btn-default deleteorder"><i class="glyph-icon icon-linecons-trash"></i></a>
-                                                </td>
-                                            </tr>   
+                                                        ?></td>
+                                                    <td><?php echo $value['order_id']; ?></td>
+                                                    <td><?php echo date("m/d/Y", strtotime($value['order_date'])); ?></td>
+                                                    <td>Approved</td>
+                                                    <td>  
+                                                        <select  class="js-example-responsive js-example-basic-hide-search form-control order_status" data-id="<?php echo $value['order_id']; ?>" name="order_status"> 
+                                                            <option value="0" <?php
+                                                            if ($value['order_status'] == 0) {
+                                                                echo"selected";
+                                                            }
+                                                            ?>>
+                                                                Pending
+                                                            </option>
+                                                            <option value="1" <?php
+                                                            if ($value['order_status'] == 1) {
+                                                                echo"selected";
+                                                            }
+                                                            ?>>
+                                                                Approved
+                                                            </option>                                                     
+                                                            <option value="6" <?php
+                                                            if ($value['order_status'] == 6) {
+                                                                echo"selected";
+                                                            }
+                                                            ?>>
+                                                                Canceled 
+                                                            </option>  
+                                                        </select>
+                                                    </td>    
+                                                    <td class="text-center">
+                                                        <a href="/admin/view-order-details/<?php echo $value['order_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-eye"></i></a>
+                                                        <a href="javascript:;" id="<?php echo "orderdelete_" . $value['order_id']; ?>" class="btn btn-default deleteorder"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                                    </td>
+                                                </tr>   
 
-                                            <?php
-                                            $i++;
+                                                <?php
+                                                $i++;
+                                            }
                                         }
                                     }
                                     ?>
@@ -242,6 +252,7 @@
                                 <thead>
                                     <tr>
                                         <th>S.no</th>
+                                        <th>Hotel Name</th>                
                                         <th>User Name</th>                                       
                                         <th>Pay Type</th>
                                         <th>Pay Amount</th>
@@ -256,6 +267,7 @@
                                 <tfoot>
                                     <tr>
                                         <th>S.no</th>
+                                        <th>Hotel Name</th>                
                                         <th>User Name</th>                                       
                                         <th>Pay Type</th>
                                         <th>Pay Amount</th>
@@ -273,64 +285,67 @@
                                     if (isset($this->canceledStatus)) {
                                         $i = 1;
                                         foreach ($this->canceledStatus as $value) {
-                                            ?>
-                                            <tr>
-                                                <td><?php echo $i; ?></td>
-                                                <td><?php echo $value['uname']; ?></td>
-                                                <td><?php
-                                                    if ($value['tx_type'] == 1) {
-                                                        echo 'COD';
-                                                    } else {
-                                                        echo "PaYpaL";
-                                                    }
-                                                    ?></td>
-                                                <td><?php echo $value['total_amount']; ?></td>
-                                                <td><?php
-                                                    if ($value['tx_status'] == 1) {
-                                                        echo 'Success';
-                                                    } else if ($value['tx_status'] == 2) {
-                                                        echo 'Pending';
-                                                    } else if ($value['tx_status'] == 3) {
-                                                        echo 'Failed';
-                                                    } else {
-                                                        echo 'Canceled';
-                                                    }
-                                                    ?></td>
-                                                <td><?php echo $value['order_id']; ?></td>
-                                                <td><?php echo date("m/d/Y", strtotime($value['order_date'])); ?></td>
-                                                <td>Canceled</td>
-                                                <td>  
-                                                    <select  class="js-example-responsive js-example-basic-hide-search form-control order_status" data-id="<?php echo $value['order_id']; ?>" name="order_status"> 
-                                                        <option value="0" <?php
-                                                        if ($value['order_status'] == 0) {
-                                                            echo"selected";
+                                            if ($value['Hotel_Store'] == 1) {
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $i; ?></td>
+                                                    <td><?php echo $value['hotel_name']; ?></td>
+                                                    <td><?php echo $value['uname']; ?></td>
+                                                    <td><?php
+                                                        if ($value['tx_type'] == 1) {
+                                                            echo 'COD';
+                                                        } else {
+                                                            echo "PaYpaL";
                                                         }
-                                                        ?>>
-                                                            Pending
-                                                        </option>
-                                                        <option value="1" <?php
-                                                        if ($value['order_status'] == 1) {
-                                                            echo"selected";
+                                                        ?></td>
+                                                    <td><?php echo $value['total_amount']; ?></td>
+                                                    <td><?php
+                                                        if ($value['tx_status'] == 1) {
+                                                            echo 'Success';
+                                                        } else if ($value['tx_status'] == 2) {
+                                                            echo 'Pending';
+                                                        } else if ($value['tx_status'] == 3) {
+                                                            echo 'Failed';
+                                                        } else {
+                                                            echo 'Canceled';
                                                         }
-                                                        ?>>
-                                                            Approved
-                                                        </option>                                                     
-                                                        <option value="6" <?php
-                                                        if ($value['order_status'] == 6) {
-                                                            echo"selected";
-                                                        }
-                                                        ?>>
-                                                            Canceled 
-                                                        </option>  
-                                                    </select>
-                                                </td>
-                                                <td class="text-center">
-                                                    <a href="/admin/view-order-details/<?php echo $value['order_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-eye"></i></a>
-                                                    <a href="javascript:;" id="<?php echo "orderdelete_" . $value['order_id']; ?>" class="btn btn-default deleteorder"><i class="glyph-icon icon-linecons-trash"></i></a></td>
-                                            </tr>   
+                                                        ?></td>
+                                                    <td><?php echo $value['order_id']; ?></td>
+                                                    <td><?php echo date("m/d/Y", strtotime($value['order_date'])); ?></td>
+                                                    <td>Canceled</td>
+                                                    <td>  
+                                                        <select  class="js-example-responsive js-example-basic-hide-search form-control order_status" data-id="<?php echo $value['order_id']; ?>" name="order_status"> 
+                                                            <option value="0" <?php
+                                                            if ($value['order_status'] == 0) {
+                                                                echo"selected";
+                                                            }
+                                                            ?>>
+                                                                Pending
+                                                            </option>
+                                                            <option value="1" <?php
+                                                            if ($value['order_status'] == 1) {
+                                                                echo"selected";
+                                                            }
+                                                            ?>>
+                                                                Approved
+                                                            </option>                                                     
+                                                            <option value="6" <?php
+                                                            if ($value['order_status'] == 6) {
+                                                                echo"selected";
+                                                            }
+                                                            ?>>
+                                                                Canceled 
+                                                            </option>  
+                                                        </select>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="/admin/view-order-details/<?php echo $value['order_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-eye"></i></a>
+                                                        <a href="javascript:;" id="<?php echo "orderdelete_" . $value['order_id']; ?>" class="btn btn-default deleteorder"><i class="glyph-icon icon-linecons-trash"></i></a></td>
+                                                </tr>   
 
-                                            <?php
-                                            $i++;
+                                                <?php
+                                                $i++;
+                                            }
                                         }
                                     }
                                     ?>

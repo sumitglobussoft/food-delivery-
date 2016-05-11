@@ -16,7 +16,8 @@ class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
             self::$_instance = new Admin_Model_HotelDetails();
         return self::$_instance;
     }
- /*
+
+    /*
      * Dev : Sowmya
      * Date: 19/4/2015
      * Desc: TO get all hotels in db
@@ -26,7 +27,7 @@ class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
         try {
 
             $select = $this->select()
-                   ->from($this);  
+                    ->from($this);
             $result = $this->getAdapter()->fetchAll($select);
             if ($result) {
                 return $result;
@@ -38,6 +39,7 @@ class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
             throw new Exception('Unable to access data :' . $e);
         }
     }
+
     /*
      * Dev : Sowmya
      * Date: 5/4/2015
@@ -63,14 +65,15 @@ class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
             throw new Exception('Unable to access data :' . $e);
         }
     }
- /*
+
+    /*
      * Dev : Sowmya
      * Date: 18/3/2015
      * Desc: TO get all hotels based on Agent
      */
 
     public function getAllHotelsBasedOnAgent() {
-             if (func_num_args() > 0) {
+        if (func_num_args() > 0) {
             $agentId = func_get_arg(0);
             try {
                 $select = $this->select()
@@ -86,6 +89,7 @@ class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
             }
         }
     }
+
     /*
      * Dev : Sowmya
      * Date: 5/4/2015
@@ -99,6 +103,10 @@ class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
                         ->setIntegrityCheck(false)
                         ->from(array('hd' => 'hotel_details'))
                         ->joinLeft(array('a' => 'agents'), 'hd.agent_id= a.agent_id', array('a.agent_id', 'a.loginname'))
+                        ->joinLeft(array('l' => 'location'), 'hd.hotel_location= l.location_id', ['areaName' => 'l.name'])     //area*
+                        ->joinLeft(array('l1' => 'location'), 'l1.location_id= l.parent_id', ['cityName' => 'l1.name'])          //city*
+                        ->joinLeft(array('l2' => 'location'), 'l2.location_id= l1.parent_id', ['stateName' => 'l2.name'])        //state*
+                        ->joinLeft(array('l3' => 'location'), 'l3.location_id= l2.parent_id', ['countryName' => 'l3.name'])
                         ->where('hd.id = ?', $id);
 
                 $result = $this->getAdapter()->fetchRow($select);
@@ -254,20 +262,20 @@ class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         endif;
     }
+
     /*
      * Dev : Sowmya
      * Date: 23/4/2015
-      function :function to get all hotel details by address */
+      desc:function :function to get all hotel details by location */
 
-    public function getHotelDetailsByAddress() {
+    public function getHotelDetailsByLocation() {
         if (func_num_args() > 0) {
             $id = func_get_arg(0);
             try {
                 $select = $this->select()
                         ->setIntegrityCheck(false)
                         ->from(array('hd' => 'hotel_details'))
-                        ->joinLeft(array('dg' => 'delivery_guys'), 'hd.address= dg.address', array('dg.del_guy_id', 'dg.address'))
-                        ->where('hd.id = ?', $id);
+                        ->where('hd.hotel_location = ?', $id);
 
                 $result = $this->getAdapter()->fetchAll($select);
             } catch (Exception $e) {
@@ -279,6 +287,30 @@ class Admin_Model_HotelDetails extends Zend_Db_Table_Abstract {
             }
         }
     }
+
+    /* dev:sreekanth
+     * date:10-5-2016
+     * desc:  to update hotel location column when we delete location from location table */
+
+    public function updatelocationDelete() {
+        if (func_num_args() > 0):
+            $id = func_get_arg(0);
+            try {
+                $data = array('hotel_location' => '0');
+                $result = $this->update($data, 'hotel_location = "' . $id . '"');
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+            if ($result):
+                return $result;
+            else:
+                return 0;
+            endif;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
 }
 
 ?>

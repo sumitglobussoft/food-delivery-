@@ -1,0 +1,295 @@
+<?php
+$allstoredetailsArray = $this->allstoredetails;
+$allStoreCategorynames=$this->allStoreCategorynames;
+$allStoreCategoryids=$this->categoryid;
+?>
+<div id="page-title">
+    <h2>Edit Store Details</h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal bordered-row" enctype="multipart/form-data" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Agent ID</label>
+                                            </td>
+                                            <td>
+
+                                                <?php echo $allstoredetailsArray['agent_id'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Agent Name</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allstoredetailsArray['loginname'] ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Store Name</label>
+                                            </td>
+                                            <td>
+
+                                                <input type="text" class="form-control"  name="store_name" value="<?php echo $allstoredetailsArray['store_name'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>                                     
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Store Address</label>
+                                            </td>
+                                            <td>
+
+                                                <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ><?php echo $allstoredetailsArray['store_address'] ?></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Timing</label>
+                                            </td>
+                                            <td>
+                                                <div class="" style="display: inline-flex;">
+
+                                                    <input type="text" class="form-control" name="open_time"  id="open_time" value="<?php echo $allstoredetailsArray['Open_time'] ?>" placeholder="" required style="width: 39%;" /> &nbsp; AM                                                   
+                                                    <input type="text" class="form-control" name="closing_time"  id="closing_time" value="<?php echo $allstoredetailsArray['Closing_time'] ?>" placeholder="" required style="width: 39%; margin-left: 5%;" /> &nbsp; PM
+                                                </div>
+                                            </td>
+                                        </tr>                                  
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Status</label>
+                                            </td>
+                                            <td>                                                                                           <select  class="js-example-responsive js-example-basic-hide-search form-control" name="store_status"> 
+                                                    <option value="1" <?php
+                                                    if ($allstoredetailsArray['store_status'] == 1) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Active 
+                                                    </option>
+                                                    <option value="2" <?php
+                                                    if ($allstoredetailsArray['store_status'] == 2) {
+                                                        echo"selected";
+                                                    }
+                                                    ?>>
+                                                        Inactive 
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                               <tr class="show-hotel">
+                                            <td>
+                                                <label class="control-label">Category Name </label>
+                                            </td>
+                                            <td>
+                                                <select class="js-example-responsive form-control" name="category_id[]" id="category_id" style="width:100%;" multiple="multiple"  selectpicker width-full data-size="10" data-live-search="true">
+                                                <?php
+
+                                                for($i=0;$i<count($allStoreCategorynames);$i++){
+                                                    echo "<option selected value='$allStoreCategoryids[$i]'  >";
+                                                    echo $allStoreCategorynames[$i];
+                                                    echo "</option>";
+                                                }
+                                                ?>
+
+                                                    <?php  ?>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Primary Phone No.</label>
+                                            </td>
+                                            <td>
+
+                                                <input type="text" class="form-control" name="primary_phone"  id="primary_phone" value="<?php echo $allstoredetailsArray['store_contact_number'] ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Secondary Phone No.</label>
+                                            </td>
+                                            <td>
+
+                                                <input type="text" class="form-control" name="secondary_phone"  id="last_name" value="<?php echo $allstoredetailsArray['Secondary_phone'] ?>" placeholder=""  />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+
+                                <!--==============================================edited by sreekanth================================================================================                         -->
+                                <legend class="heading">Location:</legend>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Select the Country</label>
+                                            <select class="form-control selectpicker width-full selectcountry" name="selectcountry"  selectpicker width-full data-size="10" data-live-search="true">
+                                                <optgroup label="Select Country">
+                                                    <option value="<?php echo $value['location_id']; ?>"><?php
+                                                        if (isset($allstoredetailsArray['countryName'])) {
+
+                                                            echo $allstoredetailsArray['countryName'];
+                                                        } else {
+
+                                                            echo "Select Country";
+                                                        }
+                                                        ?>
+                                                    </option>
+                                                    <?php
+                                                    if (isset($this->countrylist)) {
+                                                        foreach ($this->countrylist as $value) {
+                                                            ?>
+                                                            <option value="<?php echo $value['location_id']; ?>"><?php echo $value['name']; ?></option>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Select the State</label>
+                                            <select id="state" class="form-control selectpicker width-full selectstate" name="selectstate" data-size="10" data-live-search="true">
+                                                <optgroup label="Select State" id="state1">
+                                                    <option value="<?php echo $value['location_id']; ?>"><?php
+                                                    if (isset($allstoredetailsArray['stateName'])) {
+
+                                                        echo $allstoredetailsArray['stateName'];
+                                                    } else {
+
+                                                        echo "Select state";
+                                                    }
+                                                    ?></option>
+
+
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Select the City</label>
+                                            <select id="city" class="form-control selectpicker width-full selectcity" name="selectcity" data-size="10" data-live-search="true">
+                                                <optgroup label="Select City" id="city">
+                                                    <option value="<?php echo $value['location_id']; ?>"><?php
+                                                        if (isset($allstoredetailsArray['cityName'])) {
+
+                                                            echo $allstoredetailsArray['cityName'];
+                                                        } else {
+
+                                                            echo "Select city";
+                                                        }
+                                                    ?></option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Select the Location</label>
+                                            <select id="location" class="form-control selectpicker loc-disable width-full" name="selectlocation" data-size="10" data-live-search="true">
+                                                <optgroup label="Select Location" id="location">
+                                                    <option value="<?php echo $value['location_id']; ?>"><?php
+                                                        if (isset($allstoredetailsArray['areaName'])) {
+
+                                                            echo $allstoredetailsArray['areaName'];
+                                                        } else {
+
+                                                            echo "Select Location";
+                                                        }
+                                                    ?></option>
+                                                </optgroup>
+                                            </select>
+                                            <small><i>if your location is not listed, Click <a href="javascript:;" class="add-loc">here</a></i></small>
+                                            <div id="addloc" > <input type="text"  class="form-control m-t-20 new-location" name="location_name" placeholder="Enter your Location" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--===============================================edited by sreekanth=========END========================================================-->
+
+                            <table class="table table-responsive">
+                                <tbody>
+
+                                    <tr>
+                                        <td>
+                                            <label class="control-label">Store Image</label>
+                                        </td>
+                                        <td>
+                                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                    <img src="<?php
+                                                        if (isset($this->allstoredetails['store_image'])) {
+                                                            echo $this->allstoredetails['store_image'];
+                                                        }
+                                                    ?>" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-default btn-file">
+                                                        <span class="fileinput-new">Select Image</span>
+                                                        <span class="fileinput-exists">Replace</span>
+                                                        <input type="file" name="fileToUpload">
+                                                    </span>
+                                                    <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="control-label">Delivery Charges</label>
+                                        </td>
+                                        <td>
+
+                                            <input type="text" class="form-control" name="deliverycharge"  id="last_name" value="<?php echo $allstoredetailsArray['Deliverycharge'] ?>" placeholder="" required />
+                                        </td>
+                                    </tr>                                   
+                                    <tr>
+                                        <td>
+                                            <label class="control-label">Store Notice</label>
+                                        </td>
+                                        <td>
+
+                                            <textarea class="form-control" name="notice" id="notice" cols="20" rows="2"  ><?php echo $allstoredetailsArray['Notice'] ?></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="form-group pull-right">
+                                <button type="submit" class="btn btn-alt btn-hover btn-primary">
+                                    <span>SAVE</span> <i class="glyph-icon icon-arrow-right"></i>
+                                    <div class="ripple-wrapper"></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<style>
+    .select2.select2-container {
+        width: 100% !important;
+    }
+</style>

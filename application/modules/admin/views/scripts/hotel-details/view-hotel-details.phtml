@@ -61,13 +61,13 @@ $allhoteldetailsArray = $this->allhoteldetails;
 
 
                                                         echo $value['Cuisine_name'];
-                                                        ?>    
-                                                    <?php
+                                                        ?>
+                                                        <?php
                                                     }
                                                 } else {
                                                     ?>
                                                     No Cuisine found !!
-                                                <?php
+                                                    <?php
                                                 }
                                                 $i++;
                                                 ?>
@@ -78,7 +78,7 @@ $allhoteldetailsArray = $this->allhoteldetails;
                                                 <label class="control-label">Hotel Address</label>
                                             </td>
                                             <td>
-<?php echo $allhoteldetailsArray['address'] ?>
+                                                <?php echo $allhoteldetailsArray['address'] ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -87,10 +87,10 @@ $allhoteldetailsArray = $this->allhoteldetails;
                                             </td>
                                             <td>
                                                 <div class="" style="display: inline-flex;">
-<?php echo $allhoteldetailsArray['open_time'] ?>&nbsp; AM&nbsp; &nbsp;- &nbsp;<?php echo $allhoteldetailsArray['closing_time'] ?>&nbsp; PM
+                                                    &nbsp; AM&nbsp; &nbsp;- &nbsp;<?php echo $allhoteldetailsArray['closing_time'] ?> &nbsp; PM
                                                 </div>
                                             </td>
-                                        </tr>                                  
+                                        </tr>
                                         <tr>
                                             <td>
                                                 <label class="control-label">Status</label>
@@ -98,11 +98,11 @@ $allhoteldetailsArray = $this->allhoteldetails;
                                             <td>
                                                 <?php
                                                 if ($allhoteldetailsArray['hotel_status'] == 1) {
-                                                    echo"Active";
+                                                    echo "Active";
                                                 } else {
-                                                    echo"Deactivate";
+                                                    echo "Deactivate";
                                                 }
-                                                ?>            
+                                                ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -110,7 +110,7 @@ $allhoteldetailsArray = $this->allhoteldetails;
                                                 <label class="control-label">Primary Phone No.</label>
                                             </td>
                                             <td>
-<?php echo $allhoteldetailsArray['hotel_contact_number'] ?>
+                                                <?php echo $allhoteldetailsArray['hotel_contact_number'] ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -118,7 +118,15 @@ $allhoteldetailsArray = $this->allhoteldetails;
                                                 <label class="control-label">Secondary Phone No.</label>
                                             </td>
                                             <td>
-<?php echo $allhoteldetailsArray['secondary_phone'] ?>
+                                                <?php echo $allhoteldetailsArray['secondary_phone'] ?>
+                                            </td>
+                                        </tr>  
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Min. Order</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allhoteldetailsArray['minorder'] ?>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -127,6 +135,8 @@ $allhoteldetailsArray = $this->allhoteldetails;
                         </div>
                     </div>
                 </div>
+
+
                 <div class="col-md-6">
                     <div class="panel">
                         <div class="panel-body">
@@ -136,46 +146,73 @@ $allhoteldetailsArray = $this->allhoteldetails;
 
                                         <tr>
                                             <td>
+                                                <label class="control-label">Delivery Charges</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allhoteldetailsArray['deliverycharge'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Country:</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allhoteldetailsArray['countryName'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">State:</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allhoteldetailsArray['stateName'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">City:</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allhoteldetailsArray['cityName'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Location:</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allhoteldetailsArray['areaName'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
                                                 <label class="control-label">Hotel Image</label>
                                             </td>
                                             <td>
                                                 <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                                    <div class="fileinput-new thumbnail"
+                                                         style="width: 200px; height: 150px;">
                                                         <img src="<?php
                                                         if (isset($this->allhoteldetails['hotel_image'])) {
                                                             echo $this->allhoteldetails['hotel_image'];
                                                         }
                                                         ?>" alt="">
                                                     </div>
-                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>                                
+                                                    <div class="fileinput-preview fileinput-exists thumbnail"
+                                                         style="max-width: 200px; max-height: 150px;"></div>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <label class="control-label">Min. Order</label>
-                                            </td>
-                                            <td>
-<?php echo $allhoteldetailsArray['minorder'] ?>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label class="control-label">Delivery Charges</label>
-                                            </td>
-                                            <td>
-<?php echo $allhoteldetailsArray['deliverycharge'] ?>
-                                            </td>
-                                        </tr>                                   
+
                                         <tr>
                                             <td>
                                                 <label class="control-label">Hotel Notice</label>
                                             </td>
                                             <td>
-<?php echo $allhoteldetailsArray['notice'] ?>                                   
+                                                <?php echo $allhoteldetailsArray['notice'] ?>
                                             </td>
                                         </tr>
                                     </tbody>
-                                </table>                             
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -183,6 +220,7 @@ $allhoteldetailsArray = $this->allhoteldetails;
             </div>
         </form>
     </div>
+</div>
 </div>
 
 <style>

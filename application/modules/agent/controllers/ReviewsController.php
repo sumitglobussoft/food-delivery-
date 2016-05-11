@@ -15,13 +15,13 @@ class Agent_ReviewsController extends Zend_Controller_Action {
     }
 
     /*
-     * Dev: Priyanka Varanasi
-     * Date : 17/12/2015
-     * Desc: To get all grocery details regarding logged agent
+     * Dev: sowmya 
+     * Date : 29/4/2016
+     * Desc: To get all store reviews regarding logged agent
      * 
      */
 
-    public function groceryReviewsAction() {
+    public function storeReviewsAction() {
 
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
         $objCore = Engine_Core_Core::getInstance();
@@ -29,7 +29,7 @@ class Agent_ReviewsController extends Zend_Controller_Action {
         $this->_appSetting = $objCore->getAppSetting();
         $agent_id = $this->view->session->storage->agent_id;
 
-        $url = $this->_appSetting->apiLink . '/grocerydetails?method=getGroceryReviewsByAgentId';
+        $url = $this->_appSetting->apiLink . '/storedetails?method=getStoreReviewsByAgentId';
         $data['agent_id'] = $agent_id;
         $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
 
@@ -38,7 +38,12 @@ class Agent_ReviewsController extends Zend_Controller_Action {
             $this->view->reviewdetails = $curlResponse->data;
         }
     }
-
+ /*
+     * Dev: sowmya 
+     * Date : 29/4/2016
+     * Desc: To get all hotel reviews regarding logged agent
+     * 
+     */
       public function hotelReviewsAction() {
 
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
@@ -47,7 +52,7 @@ class Agent_ReviewsController extends Zend_Controller_Action {
         $this->_appSetting = $objCore->getAppSetting();
         $agent_id = $this->view->session->storage->agent_id;
 
-        $url = $this->_appSetting->apiLink . '/grocerydetails?method=getHotelReviewsByAgentId';
+        $url = $this->_appSetting->apiLink . '/storedetails?method=getHotelReviewsByAgentId';
         $data['agent_id'] = $agent_id;
         $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
     

@@ -262,8 +262,6 @@ class OrdersController extends Zend_Controller_Action {
                         $addressid = $this->getRequest()->getPost('addressid');
 
                         if ($userid && $addressid) {
-
-//                            $removedeliveryaddress = $userdeliveryaddrmodal->removeUserDeliveryAddress($userid, $addressid);
                             $removedeliveryaddress = $userdeliveryaddrmodal->removeUserDeliveryAddress($addressid);
 
                             if ($removedeliveryaddress) {
@@ -325,7 +323,6 @@ class OrdersController extends Zend_Controller_Action {
                         $addressId = $this->getRequest()->getPost('addressid');
                         $cartid = $this->getRequest()->getPost('cartid');
                         $cartid = json_decode($cartid);
-//                        $cartid = explode(',', $cartid);
 
                         $fetchcartiddetails = $cartiddetailsModel->selectcartiddetails($cartid);
                         if (!empty($fetchcartiddetails)) {
@@ -364,8 +361,6 @@ class OrdersController extends Zend_Controller_Action {
 
                                     $response->message = 'successfull';
                                     $response->code = 200;
-                                    $response->data['order_id'] = $insertorderid;
-//                                    $response->data['order_address_id'] = $insertorderaddress;
                                 } else {
                                     $response->message = 'Fail';
                                     $response->code = 197;
@@ -431,15 +426,10 @@ class OrdersController extends Zend_Controller_Action {
                     if ($this->getRequest()->isPost()) {
 
                         $orderid = $this->getRequest()->getPost('order_id');
-//                        echo '<pre>';
-//                        print_r($orderid);
-//                        die("Test");
+                        ;
                         if (!empty($orderid)) {
 
                             $fetchorderstatus = $ordersModel->selectorderstatus($orderid);
-//                            echo '<pre>';
-//                            print_r($fetchorderstatus);
-//                            die("Test");
                             if (!empty($fetchorderstatus)) {
                                 $response->message = 'successfull';
                                 $response->code = 200;
@@ -470,116 +460,27 @@ class OrdersController extends Zend_Controller_Action {
     /*
      * Dev : Priyanka Varanasi
      * Date: 10/12/2015
-     * Desc: Insert all orders in db
-     * Modified Date: 22/1/2016
-     * Desc : Order's details
-     */
-
-//                        $data['user_id'] = $this->getRequest()->getPost('userid');
-//                        $totalamount = $this->getRequest()->getPost('totalamount');
-//                        if ($totalamount) {
-//                            $data['total_amount'] = $this->getRequest()->getPost('totalamount');
-//                        }
-//                        $data['pay_status'] = 0;
-//                        $data['order_status'] = 4;
-//                        $data['order_date'] = date('Y-m-d H-i-s');
-//                        if ($data['user_id']) {
-//                            $insertedorderid = $ordersModel->insertOrders($data);
-//                            if ($insertedorderid) {
-//
-//                                $dat['fullname'] = $this->getRequest()->getPost('fullname');
-//                                $dat['phone_no'] = $this->getRequest()->getPost('phonenum');
-//                                $dat['address'] = $this->getRequest()->getPost('address');
-//                                $dat['cityname'] = $this->getRequest()->getPost('cityname');
-//                                $dat['statename'] = $this->getRequest()->getPost('statename');
-//                                $dat['countryname'] = $this->getRequest()->getPost('countryname');
-//                                $dat['landMark'] = $this->getRequest()->getPost('landMark');
-//                                $info['ordered_user_id'] = $this->getRequest()->getPost('userid');
-//                                $info['order_id'] = $insertedorderid;
-//                                $info['delivery_addr'] = json_encode($dat, true);
-//                        $userdelid = $userdeliveryaddrmodal->insertUserDeliveryAddress($info);
-//                        if ($userdelid) {
-//                            $cartids = $this->getRequest()->getPost('cartids');
-//                            if ($cartids) {
-//                                $carts = json_decode($cartids, true);
-//                                $i = 0;
-//                                foreach ($carts as $val) {
-//                                    $da[$i]['order_id'] = $insertedorderid;
-//                                    $da[$i]['ordered_cart_id'] = $val;
-//                                    $i++;
-//                                }
-//                                $arrayofIds = $orderproductsmodal->insertOrderedCartProducts($da);
-//                                if ($arrayofIds) {
-//
-//                                    $response->message = 'successfull';
-//                                    $response->code = 200;
-//                                    $response->data['order_id'] = $insertedorderid;
-//                                    $response->data['delivery_id'] = $userdelid;
-//                                    $response->data['ordered_product_ids'] = $arrayofIds;
-//                                } else {
-//                                    $response->message = 'successfull, but issues with the  cart products';
-//                                    $response->code = 400;
-//                                    $response->data['order_id'] = $insertedorderid;
-//                                    $response->data['delivery_id'] = $userdelid;
-//                                }
-//                            } else {
-//                                $response->message = 'successfull,carts ids null given';
-//                                $response->code = 400;
-//                                $response->data['order_id'] = $insertedorderid;
-//                                $response->data['delivery_id'] = $userdelid;
-//                            }
-//                        } else {
-//                            $response->message = 'order successfully get inserted, but issues with delivery address';
-//                            $response->code = 400;
-//                            $response->data['order_id'] = $insertedorderid;
-//                        }
-//                    } else {
-//                        $response->message = 'Failed order';
-//                        $response->code = 197;
-//                        $response->data['order_id'] = null;
-//                    }
-//                } else {
-//                $response->message = 'Could Not Serve The Request,user id is required';
-//                $response->code = 198;
-//                $response->data = null;
-//            }
-//    } else {
-//        $response->message = 'Could Not Serve The Request';
-//        $response->code = 401;
-//        $response->data = NULL;
-//    }
-//    echo json_encode($response, true);
-//    die;
-//    break;
-//}
-//} else {
-//    $response->message = 'Invalid Request';
-//    $response->code = 401;
-//    $response->data = "No Method Passed";
-//    echo json_encode($response, true);
-//    die();
-//}
-
-
-    /*
-     * Dev : Priyanka Varanasi
-     * Date: 10/12/2015
      * Desc: fetch all hotel details from db
      */
 
     public function hotelsSummaryAction() {
         $hotelssummaryModel = Application_Model_HotelDetails::getInstance();
         $deliverystatusmodal = Application_Model_DeliveryStatusLog::getInstance();
+        $hotelmenucategorymodel = Application_Model_MenuCategory::getInstance();
+        $famouscuisinemodel = Application_Model_FamousCuisines::getInstance();
         $response = new stdClass();
         $method = $this->getRequest()->getParam('method');
 
         if ($method) {
 
             switch ($method) {
-
+                ///////////////////////////////// hotel details module////////////////////////////
+                /*
+                 * DEV :sowmya
+                 * Desc : to get hotel details
+                 * Date : 5/5/2016
+                 */
                 case'allhotels':
-
-//         $hoteldetails = $hotelssummaryModel->selectAllHotels(); 
                     $hoteldetails = $hotelssummaryModel->selectAllHotelsLocations();
 
                     if ($hoteldetails) {
@@ -596,7 +497,11 @@ class OrdersController extends Zend_Controller_Action {
                     die();
                     break;
 
-
+                /*
+                 * DEV :sowmya
+                 * Desc : to get order status
+                 * Date : 5/5/2016
+                 */
                 case'getorderstatus':
                     if ($this->getRequest()->isPost()) {
 
@@ -627,7 +532,11 @@ class OrdersController extends Zend_Controller_Action {
                     die;
 
                     break;
-
+                /*
+                 * DEV :sowmya
+                 * Desc : to get hotel details by agent id
+                 * Date : 5/5/2016
+                 */
 
                 case'getHotelDetailsByAgentId':
                     if ($this->getRequest()->isPost()) {
@@ -659,7 +568,11 @@ class OrdersController extends Zend_Controller_Action {
                     die;
 
                     break;
-
+                /*
+                 * DEV :sowmya
+                 * Desc : to cahnge hotel status
+                 * Date : 5/5/2016
+                 */
                 case'changehotelstatus':
                     if ($this->getRequest()->isPost()) {
 
@@ -690,7 +603,11 @@ class OrdersController extends Zend_Controller_Action {
                     die;
 
                     break;
-
+                /*
+                 * DEV :sowmya
+                 * Desc : to delete hotel
+                 * Date : 5/5/2016
+                 */
                 case'hoteldelete':
                     if ($this->getRequest()->isPost()) {
 
@@ -722,6 +639,11 @@ class OrdersController extends Zend_Controller_Action {
                     die;
 
                     break;
+                /*
+                 * DEV :sowmya
+                 * Desc : to get hotel by hotel id
+                 * Date : 5/5/2016
+                 */
                 case'getHotelDetailsByHotelId':
                     if ($this->getRequest()->isPost()) {
 
@@ -752,11 +674,15 @@ class OrdersController extends Zend_Controller_Action {
                     die;
 
                     break;
-
+                /*
+                 * DEV :sowmya
+                 * Desc : to update hotel details
+                 * Date : 5/5/2016
+                 */
                 case'updatehoteldetails':
                     if ($this->getRequest()->isPost()) {
                         $hotel_id = $this->getRequest()->getPost('id');
-                     
+
                         $selectlocation = $this->getRequest()->getPost('selectlocation');
                         if (!empty($selectlocation)) {
                             $data['hotel_location'] = $selectlocation;
@@ -811,8 +737,8 @@ class OrdersController extends Zend_Controller_Action {
                         if (!empty($address)) {
                             $data['address'] = $address;
                         }
-                        
-                    
+
+
                         if ($hotel_id) {
                             $updatestatus = $hotelssummaryModel->updateHotelDetails($hotel_id, $data);
                             if ($updatestatus) {
@@ -838,7 +764,11 @@ class OrdersController extends Zend_Controller_Action {
                     die;
 
                     break;
-
+                /*
+                 * DEV :sowmya
+                 * Desc : to add hotel details
+                 * Date : 5/5/2016
+                 */
                 case'addhoteldetails':
                     if ($this->getRequest()->isPost()) {
                         $data['hotel_contact_number'] = $this->getRequest()->getPost('primary_phone');
@@ -852,10 +782,10 @@ class OrdersController extends Zend_Controller_Action {
                         $data['deliverycharge'] = $this->getRequest()->getPost('deliverycharge');
                         $data['hotel_status'] = $this->getRequest()->getPost('hotel_status');
                         $data['hotel_location'] = $this->getRequest()->getPost('hotel_location');
-                        $data['agent_id'] = $this->getRequest()->getPost('agent_id');                        
+                        $data['agent_id'] = $this->getRequest()->getPost('agent_id');
                         if ($data['agent_id']) {
-                            $updatestatus = $hotelssummaryModel->insertHotelDetails($data);                         
-                            if ($updatestatus) {                
+                            $updatestatus = $hotelssummaryModel->insertHotelDetails($data);
+                            if ($updatestatus) {
                                 $response->message = 'successfull';
                                 $response->code = 200;
                                 $response->data['hotel_id'] = $updatestatus;
@@ -877,6 +807,77 @@ class OrdersController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die;
                     break;
+                ///////////////////////////// hotel module end here //////////////////////
+                ///////////////////// hotel category   & hotel cuisines///////////////////////
+                /*
+                 * DEV :sowmya
+                 * Desc : to change  hotel category status
+                 * Date : 5/5/2016
+                 */
+                case'changehotelcategorystatus':
+                    if ($this->getRequest()->isPost()) {
+
+                        $hotel_id = $this->getRequest()->getPost('hotel_id');
+
+                        if ($hotel_id) {
+                            $updatestatus = $hotelmenucategorymodel->getstatusChangeOfHotel($hotel_id);
+                            if ($updatestatus) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data['hotel_id'] = $hotel_id;
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'Could Not Serve The Request';
+                            $response->code = 401;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                        $response->data = Null;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+                /*
+                 * DEV :sowmya
+                 * Desc : to change hotel cuisines status
+                 * Date : 5/5/2016
+                 */
+                case'changeHotelCuisineStatus':
+                    if ($this->getRequest()->isPost()) {
+
+                        $cuisineid = $this->getRequest()->getPost('cuisineid');
+
+                        if ($cuisineid) {
+                            $updatestatus = $famouscuisinemodel->getstatusChangeOfHotelcuisine($cuisineid);
+                            if ($updatestatus) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data['cuisineid'] = $cuisineid;
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'Could Not Serve The Request';
+                            $response->code = 401;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                        $response->data = Null;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+                ///////////////////// hotel category   & hotel cuisines end here///////////////////////
             }
         } else {
 

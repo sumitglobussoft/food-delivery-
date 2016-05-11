@@ -1,0 +1,218 @@
+<div id="page-title">
+    <h2>Edit Delivery Guy Details</h2>    
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal bordered-row" enctype="multipart/form-data" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User Name</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="login_name" id="login_name" value="<?php echo $this->deliveryguydetails['login_name']; ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Email</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" type="text" name="email"  id="email" value="<?php
+                                                if (isset($this->deliveryguydetails['email'])) {
+                                                    echo $this->deliveryguydetails['email'];
+                                                }
+                                                ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">First Name</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control"  name="firstname" value="<?php
+                                                if (isset($this->deliveryguydetails['firstname'])) {
+                                                    echo $this->deliveryguydetails['firstname'];
+                                                }
+                                                ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Last Name</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="lastname"  id="last_name" value="<?php
+                                                if (isset($this->deliveryguydetails['lastname'])) {
+                                                    echo $this->deliveryguydetails['lastname'];
+                                                }
+                                                ?>" placeholder="" required />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Password</label>
+                                            </td>
+                                            <td>
+                                                <input type="password" placeholder=""   name="password"  id="password" value="<?php echo $this->deliveryguydetails['password']; ?>" class="form-control" />
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Phone</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" placeholder=""  name="phone"  id="phone" value="<?php
+                                                if (isset($this->deliveryguydetails['phone'])) {
+                                                    echo $this->deliveryguydetails['phone'];
+                                                }
+                                                ?>"class="form-control" />
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Status</label>
+                                            </td>
+                                            <td>
+                                                <select  class="js-example-responsive js-example-basic-hide-search form-control" name="status"> 
+                                                    <option value="1" <?php
+                                                    if (isset($this->deliveryguydetails['status']) == 1) {
+                                                        echo "selected";
+                                                    }
+                                                    ?> >
+                                                        Active 
+                                                    </option>
+                                                    <option value="2" <?php
+                                                    if (isset($this->deliveryguydetails['status']) == 2) {
+                                                        echo "selected";
+                                                    }
+                                                    ?>>
+                                                        Deactive 
+                                                    </option>
+                                                </select>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                    <label class="control-label">Select the Location</label>
+                                    <select class="form-control selectpicker width-full selectlocation1" name="location" da selectpicker width-full ta-size="10" data-live-search="true">
+                                        <optgroup label="Select Location">
+                                            <option> Select Location </option>
+                                            <?php
+                                            if (isset($this->locationdetails)) {
+                                                foreach ($this->locationdetails as $value) {
+                                                    ?>
+                                                    <option value="<?php echo $value['location_id']; ?>"><?php echo $value['name']; ?></option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </optgroup>
+                                    </select>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="control-label">City</label>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" placeholder="" type="text" name="city"  id="city" value="<?php
+                                                if (isset($this->deliveryguydetails['city'])) {
+                                                    echo $this->deliveryguydetails['city'];
+                                                }
+                                                ?>" class="form-control" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="control-label">State</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="state"  id="state" value="<?php
+                                            if (isset($this->deliveryguydetails['state'])) {
+                                                echo $this->deliveryguydetails['state'];
+                                            }
+                                            ?>"  placeholder="" required />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="control-label">Country</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="country"  id="country" value="<?php
+                                            if (isset($this->deliveryguydetails['country'])) {
+                                                echo $this->deliveryguydetails['country'];
+                                            }
+                                            ?>" placeholder="" required />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="control-label">Address</label>
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ><?php
+                                                if (isset($this->deliveryguydetails['address'])) {
+                                                    echo $this->deliveryguydetails['address'];
+                                                }
+                                                ?></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr class="show-store">
+                                        <td>
+                                            <label class="control-label">Store Name </label>
+                                        </td>
+                                        <td>
+                                            <select class="js-example-responsive form-control" name="store_id[]" id="store_id" style="width:100%;" multiple="multiple">
+                                                <optgroup label="Select Store" id="location">
+                                                    <option value=""> Select Store </option>
+                                                </optgroup>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="form-group pull-right">
+                                    <button type="submit" class="btn btn-alt btn-hover btn-primary">
+                                        <span>SAVE</span> <i class="glyph-icon icon-arrow-right"></i>
+                                        <div class="ripple-wrapper"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+

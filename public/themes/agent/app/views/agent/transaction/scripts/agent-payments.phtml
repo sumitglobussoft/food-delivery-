@@ -25,7 +25,8 @@
                             <th class="success-emphasis-dark">Transaction Amount</th>
                             <th class="success-emphasis-dark">Transaction Code </th>
                             <th class="success-emphasis-dark">Transaction Date </th>
-                            <th class="success-emphasis-dark">Transaction status </th>
+                            <th class="success-emphasis-dark">Transaction Status </th>
+                            <th class="success-emphasis-dark">Delete </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,17 +62,19 @@
                                                 <td><strong>Pending</strong></td> 
                                             <?php } else if ($value['tx_status'] == 3) { ?>
 
-                                                <td><strong>Failed</strong></td
+                                                <td><strong>Failed</strong></td>
                                             <?php } else if ($value['tx_status'] == 4) { ?>
 
-                                                <td><strong>Canceled</strong></td
+                                                <td><strong>Canceled</strong></td>
                                                 <?php
                                             }
-                                        } else {
-                                            ?>
-                                            <td><strong>Unknown</strong></td>  
-
-                                        <?php } ?>
+                                        }
+                                        ?>     
+                                        <td class="text-center">
+                                            <a href="javascript:;" id="<?php echo "payementdelete_" . $value['agent_tx_id']; ?>" class="btn btn-primary btn-icon btn-circle btn-sm deletepayement">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
                                         <?php
                                         $i++;
                                     }

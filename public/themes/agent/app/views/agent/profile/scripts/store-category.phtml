@@ -1,0 +1,222 @@
+<style>
+    #editCategory {
+        display: none;
+    }
+</style>
+
+<div id="content" class="content">
+    <ol class="breadcrumb pull-right">
+        <li><a href="/agent/dashboard">Dashboard</a></li>
+        <li><a href="javascript:;">Store Details</a></li>
+        <li class="active"><a href="/agent/store-category">Store Category</a></li>
+    </ol>
+    <h1 class="page-header">Store Category </h1>
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0 " id="addCategory">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Add Store Category</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <form class="form-horizontal bordered-row" method="POST">
+                                <div class="form-group row m-t-20 m-b-10">
+                                    <label class="col-sm-2 control-label">Enter the Store Category</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="categoryname" placeholder=""
+                                               required/>
+                                    </div>
+                                </div>
+                                <div class="form-group row m-t-20 m-b-10">
+                                    <label class="col-sm-2 control-label">Enter the Description</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="cat_desc" id="cat_desc"
+                                               placeholder=""/>
+                                    </div>
+                                </div>
+                                <div class="form-group row m-t-20 m-b-10">
+                                    <label class="col-sm-2 control-label">Status</label>
+                                    <div class="col-sm-5">
+                                        <select class="selectpicker width-full js-example-basic-hide-search "
+                                                name="cat_status">
+                                            <option value="1">
+                                                Active
+                                            </option>
+                                            <option value="2">
+                                                Deactivate
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group text-right m-b-20">
+                                    <button type="submit" class="btn btn-theme">SAVE</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0 " id="editCategory">
+
+                <div class="panel-heading editContent">
+                    <h4 class="panel-title">Edit Store Category</h4>
+                </div>
+                <div class="panel-body editContent">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <form class="" role="form" method="POST" action="/agent/edit-store-category">
+                                <div class="form-group row m-t-20 m-b-10">
+                                    <label class="col-sm-2 control-label">Store Category Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="editcategory" name="category"
+                                               placeholder="" value="" required/>
+                                    </div>
+                                    <div class="col-sm-10 hidden">
+                                        <input type="text" class="form-control" id="categoryid" name="category_id"
+                                               placeholder="" value=""/>
+                                    </div>
+                                </div>
+                                <div class="form-group row m-t-20 m-b-10 editContent">
+                                    <label class="col-sm-2 control-label">Category Description</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="editcategorydesc" name="catdesc"
+                                               placeholder="" value=""/>
+                                    </div>
+                                    <div class="col-sm-10 hidden">
+                                        <input type="text" class="form-control" id="categorydesc" name="cat_desc"
+                                               placeholder="" value=""/>
+                                    </div>
+                                </div>
+                                <div class="form-group text-right m-b-20">
+                                    <button type="submit" name="categorybtn" value="category" class="btn btn-theme">
+                                        UPDATE
+                                    </button>
+                                    <button class="btn btn-default clearCountry">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+
+    <!-- begin row -->
+    <div class="row m-t-20">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Store Category</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="data-table" data-order='[[0,"asc"]]' class="table table-bordered table-hover">
+                                <thead>
+                                <tr class="default">
+                                    <th>S. No.</th>
+                                    <th>Category Name</th>
+                                    <th>Category Description</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                    <th>Edit/Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <?php
+                                if (isset($this->categorydetails)) {
+                                    $i = 0;
+                                    foreach ($this->categorydetails as $value) {
+                                        $i++;
+                                        ?>
+                                        <tr id="<?php echo $value['category_id']; ?>">
+                                            <td><strong><?php echo $i; ?></strong></td>
+                                            <td><strong><?php echo $value['cat_name']; ?></strong></td>
+                                            <td><strong><?php echo $value['cat_desc']; ?></strong></td>
+
+
+                                            <?php if ($value['cat_status'] == 1) { ?>
+                                                <td>
+                                                    <label id="activeclass_<?php echo $value['category_id']; ?>"
+                                                           class="label label-success js-check-change-field">ACTIVE</label>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <input type="checkbox" data-render="switchery"
+                                                           id="<?php if (isset($value['category_id'])): echo "store_" . $value['category_id'];
+                                                           endif;
+                                                           ?>" class="js-switch js-check-change storecategorydeactive"
+                                                           data-theme="lime"
+                                                           checked/>
+                                                </td>
+                                            <?php } else { ?>
+                                                <td>
+                                                    <label id="activeclass_<?php echo $value['category_id']; ?>"
+                                                           class="label label-danger js-check-change-field">SUSPENDED</label>
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" data-render="switchery"
+                                                           id="<?php if (isset($value['category_id'])): echo "store_" . $value['category_id'];
+                                                           endif;
+                                                           ?>" class="js-switch js-check-change storecategoryactive"
+                                                           data-theme="lime"/>
+                                                </td>
+                                            <?php } ?>
+
+
+                                            <td class="text-center">
+                                                <a href="#"
+                                                   class="btn btn-purple btn-icon btn-circle btn-sm storecategoryedit" dataname="<?php echo $value['cat_name']; ?>" datadesc="<?php echo $value['cat_desc']; ?>"
+                                                   id="showEdit_<?php echo $value['category_id']; ?>">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                                <a href="javascript:;"
+                                                   id="<?php echo "categorydelete_" . $value['category_id']; ?>"
+                                                   class="btn btn-danger btn-icon btn-circle btn-sm storecategorydelete">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <?php
+                                    }
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+    <!-- end row -->
+</div>
+
+
+<script>
+    $(function () {
+        $('.storecategoryedit').click(function () {
+            $('#editCategory').show();
+            $('#addCategory').hide();
+        });
+        $('.clearCountry').click(function () {
+            $('#editCategory').hide();
+            $('#addCategory').show();
+        });
+    });
+</script>

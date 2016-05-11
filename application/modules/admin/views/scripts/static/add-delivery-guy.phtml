@@ -93,6 +93,7 @@
                             <div class="example-box-wrapper">
                                 <table class="table table-responsive">
                                     <tbody>
+
                                         <tr>
                                             <td>
                                                 <label class="control-label">City</label>
@@ -127,18 +128,82 @@
                                                 <textarea class="form-control" name="address" id="address" cols="20" rows="2"  ></textarea>
                                             </td>
                                         </tr>
-                                       
+                                        <tr>
+                                            <td>
+                                                <label class="control-label"> Delivery Guy For Hotel/Store </label>
+                                            </td>
+                                            <td>
+                                                <label class="radio-inline">
+                                                    <input type="radio" value="1" name="hotel_store"  id="hotel" /> Hotel 
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" value="2"  name="hotel_store"  id="store" />Store 
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr  class="show-hotel">
+                                            <td>
+                                                <label class="control-label">Select the Location</label>
+                                            </td>
+                                            <td>
+                                                <select class="form-control selectpicker width-full selectlocation" name="location" da selectpicker width-full ta-size="10" data-live-search="true">
+                                                    <optgroup label="Select Location">
+                                                        <option> Select Location </option>
+                                                        <?php
+                                                        if (isset($this->locationdetails)) {
+                                                            foreach ($this->locationdetails as $value) {
+                                                                ?>
+                                                                <option value="<?php echo $value['location_id']; ?>"><?php echo $value['name']; ?></option>
+                                                                <?php
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </optgroup>
+                                                </select>
+                                            </td>
+                                        </tr>
                                         <tr class="show-hotel">
                                             <td>
                                                 <label class="control-label">Hotel Name </label>
                                             </td>
                                             <td>
-                                                <select class="js-example-responsive form-control" name="hotel_id" id="hotel_id" style="width:100%;" multiple="multiple">
-                                                    <?php foreach ($this->hotelslist as $value) { ?>
-                                                        <option value="<?php echo $value['id'] ?>">
-                                                            <?php echo $value['hotel_name'] ?>
-                                                        </option>
-                                                    <?php } ?>
+                                                <select class="js-example-responsive form-control" name="hotel_id[]" id="hotel_id" style="width:100%;" multiple="multiple">
+                                                    <optgroup label="Select Hotel" id="location">
+                                                        <option value=""> Select Hotel </option>
+                                                    </optgroup>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                         <tr  class="show-store">
+                                            <td>
+                                                <label class="control-label">Select the Location</label>
+                                            </td>
+                                            <td>
+                                                <select class="form-control selectpicker width-full selectlocation1" name="location1" da selectpicker width-full ta-size="10" data-live-search="true">
+                                                    <optgroup label="Select Location">
+                                                        <option> Select Location </option>
+                                                        <?php
+                                                        if (isset($this->locationdetails)) {
+                                                            foreach ($this->locationdetails as $value) {
+                                                                ?>
+                                                                <option value="<?php echo $value['location_id']; ?>"><?php echo $value['name']; ?></option>
+                                                                <?php
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </optgroup>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="show-store">
+                                            <td>
+                                                <label class="control-label">Store Name </label>
+                                            </td>
+                                            <td>
+                                                <select class="js-example-responsive form-control" name="store_id[]" id="store_id" style="width:100%;" multiple="multiple">
+                                                    <optgroup label="Select Store" id="location1">
+                                                        <option value=""> Select Store </option>
+                                                    </optgroup>
                                                 </select>
                                             </td>
                                         </tr>
@@ -160,4 +225,21 @@
 </div>
 
 
+<style>
+    .show-hotel, .show-store {
+        display: none;
+    }
+</style>
 
+<script>
+    $(function() {
+        $('#hotel').click(function() {
+            $('.show-hotel').show();
+            $('.show-store').hide();
+        });
+        $('#store').click(function() {
+            $('.show-hotel').hide();
+            $('.show-store').show();
+        });
+    });
+</script>

@@ -75,7 +75,23 @@ class Application_Model_HotelCuisines extends Zend_Db_Table_Abstract {
             
         }
     }
-    
-    
+
+//Dev=sreekanth
+//date= 6-may-2016
+    public function addhotelcuisines() {
+        if (func_num_args() > 0) {
+            $hotelcuisinesdata = func_get_arg(0);
+            try {
+                $id = $this->insert($hotelcuisinesdata);
+                if ($id) {
+                    return $id;
+                } else {
+                    return null;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable To insert data :' . $e);
+            }
+        }
+    }
 
 }

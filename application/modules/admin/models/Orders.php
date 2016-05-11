@@ -12,17 +12,21 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
         return self::$_instance;
     }
 
-    // added by sowmya 4/2/2016
-    public function getAllOrder() {
+    /*
+     * Dev : Sowmya
+     * Date: 19/4/2015
+     * Desc: TO get all  orders in db
+     */
+
+    public function getAllHotelOrder() {
 
         try {
             $select = $this->select()
                     ->from(array('o' => 'orders'))
                     ->setIntegrityCheck(false)
                     ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname', 'u.email'))
-                    ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.hotel_name', 'hd.address'))
+                    ->join(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.hotel_name'))
                     ->join(array('ut' => 'user_transactions'), 'o.order_id=ut.order_id', array('ut.user_tx_id', 'ut.tx_type', 'ut.tx_status'))
-                    ->join(array('oa' => 'order_address'), 'o.order_id=oa.order_id', array('oa.landmark', 'oa.Location', 'oa.address_line1', 'oa.address_line2', 'oa.pin'))
                     ->order('order_date DESC');
 
             $result = $this->getAdapter()->fetchAll($select);
@@ -36,7 +40,13 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
 //        }
     }
 
-//added by sowmya 30.3.2016
+    /*
+     * Dev : Sowmya
+     * Date: 19/4/2015
+     * Desc: TO get all  orders in db 
+      (not used any where)
+     */
+
     public function getAllOrders($where = null, $order = null, $count = null, $offset = null) {
         try {
             $select = $this->select()
@@ -56,6 +66,12 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
             return $result;
         }
     }
+
+    /*
+     * Dev : Sowmya
+     * Date: 19/4/2015
+     * Desc: TO get all  orders in db(not used any where)
+     */
 
     public function getallorderdetails() {
 
@@ -86,35 +102,11 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
 
     /*
      * DEV :sowmya
-     * Desc : get All Orders By ID
+     * Desc : get All hotel Orders By ID
      * Date : 21/3/2016
      */
 
     public function getAllOrdersById() {
-//        if (func_num_args() > 0) {
-//            $order_id = func_get_arg(0);
-//            try {
-//                $select = $this->select()
-//                        ->from(array('o' => 'orders'))
-//                        ->setIntegrityCheck(false)
-//                        ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname', 'u.email'))
-//                        ->joinLeft(array('hd' => 'hotel_details'), 'o.hotel_id=hd.id', array('hd.id', 'hd.hotel_name'))
-//                        ->joinLeft(array('p' => 'products'), 'p.product_id=(' . new Zend_Db_Expr('SUBSTRING_INDEX(`o`.`product_id`, "[", 1)') . ')', array('p.product_id', 'p.name'))
-////                        ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname', 'u.email'))
-//                        ->joinLeft(array('um' => 'usermeta'), 'o.user_id= um.user_id', array('um.first_name', 'um.last_name', 'um.phone', 'um.city', 'um.state', 'um.country'))
-////                        ->joinLeft(array('od' => 'order_address'), 'o.order_id= od.order_id', array('od.user_name', 'od.landmark', 'od.Location', 'od.contact_number', 'od.address_line1', 'od.address_line2', 'od.district', 'od. 	state', 'od. 	country', 'od. pin'))
-////                        ->joinLeft(array('op' => 'order_products'), 'o.order_id= op.order_id', array('op.ordered_cart_id', 'op.product_cost', 'op.pay_amount', 'op.coupon_id', 'op.product_discount', 'op.quantity', 'op.hotel_id'))
-////                      
-//                        ->where('order_id = ?', $order_id);
-//                $result = $this->getAdapter()->fetchRow($select);
-//            } catch (Exception $e) {
-//                throw new Exception('Unable To retrieve data :' . $e);
-//            }
-//
-//            if ($result) {
-//                return $result;
-//            }
-//        }
         if (func_num_args() > 0) {
 
             $orderid = func_get_arg(0);
@@ -161,7 +153,12 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
         endif;
     }
 
-    /// added by sowmya 31/3/2016
+    /*
+     * Dev : Sowmya
+     * Date: 19/4/2015
+     * Desc: TO get all  orders in db (not used any where)
+     */
+
     public function getOrderDetailsWhere() {
         if (func_get_args() > 0) {
             $where = func_get_arg(0);
@@ -183,7 +180,12 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
         }
     }
 
-    /// added by sowmya 31/3/2016
+    /*
+     * Dev : Sowmya
+     * Date: 19/4/2015
+     * Desc: TO update  orders in db
+     */
+
     public function updateOrderDetails() {
         if (func_get_args() > 0) {
             $data = func_get_arg(0);
@@ -199,6 +201,12 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
         }
     }
 
+    /*
+     * Dev : Sowmya
+     * Date: 5/4/2015
+     * Desc: TO change orders status in db
+     */
+
     public function changeOrderStatus() {
         if (func_num_args() > 0) {
             $productId = func_get_arg(0);
@@ -209,6 +217,12 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
             return $result;
         }
     }
+
+    /*
+     * Dev : Sowmya
+     * Date: 5/4/2015
+     * Desc: TO update orders status in db
+     */
 
     public function updateOrderStatus() {
         if (func_num_args() > 0) {
@@ -263,5 +277,62 @@ class Admin_Model_Orders extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         endif;
     }
+    /*
+     * Dev : Sowmya
+     * Date: 19/4/2015
+     * Desc: TO get all  store orders in db
+     */
 
+    public function getAllStoreOrder() {
+
+        try {
+            $select = $this->select()
+                    ->from(array('o' => 'orders'))
+                    ->setIntegrityCheck(false)
+                    ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname', 'u.email'))
+                    ->join(array('hd' => 'store_details'), 'o.store_id=hd.store_id', array('hd.store_name'))
+                    ->join(array('ut' => 'user_transactions'), 'o.order_id=ut.order_id', array('ut.user_tx_id', 'ut.tx_type', 'ut.tx_status'))
+                    ->order('order_date DESC');
+
+            $result = $this->getAdapter()->fetchAll($select);
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
+        }
+
+        if ($result) {
+            return $result;
+        }
+    }
+       /*
+     * DEV :sowmya
+     * Desc : get All store Orders By ID
+     * Date : 21/3/2016
+     */
+
+    public function getAllStoreOrdersById() {
+        if (func_num_args() > 0) {
+
+            $orderid = func_get_arg(0);
+
+            try {
+
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('o' => 'orders'))
+                        ->joinLeft(array('u' => 'users'), 'o.user_id= u.user_id', array('u.uname', 'u.email'))
+                        ->join(array('hd' => 'store_details'), 'o.store_id=hd.store_id', array('hd.store_name', 'hd.store_address'))
+                        ->join(array('ut' => 'user_transactions'), 'o.order_id=ut.order_id')
+                        ->join(array('oa' => 'order_address'), 'o.order_id=oa.order_id', array('oa.landmark', 'oa.Location', 'oa.address_line1', 'oa.address_line2', 'oa.pin'))
+                        ->where('o.order_id=?', $orderid);
+
+                $result = $this->getAdapter()->fetchRow($select);
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+
+            if ($result) {
+                return $result;
+            }
+        }
+    }
 }

@@ -1,0 +1,197 @@
+<div id="content" class="content">
+    <!-- begin breadcrumb -->
+    <ol class="breadcrumb pull-right">
+        <li><a href="javascript:;">Home</a></li>
+        <li><a href="javascript:;">Product</a></li>
+        <li class="active">Store Product Details</li>
+    </ol>
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header">Store Product Details</h1>
+    <!-- end page-header -->
+
+    <!-- begin row -->
+
+    <div class="panel">
+        <div class="panel-body">
+            <h3 class="title-hero">Filter Products By Store</h3>
+            <div class="example-box-wrapper">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <form class="form-horizontal bordered-row" method="POST">
+
+
+                            <div class="form-group">
+                                <label class="control-label">Choose the Store</label>
+                                <select class="form-control selectpicker width-full" data-size="10" data-live-search="true" name="storename">
+                                    <option disabled selected>Select Store</option>
+                                    <?php foreach ($this->storelist as $value) { ?>
+                                        <option value="<?php echo $value['store_id'] ?>">
+                                            <?php echo $value['store_name'] ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+
+                            <div class="form-group pull-right">
+                                <button  type="submit"class="btn btn-alt btn-hover btn-primary">
+                                    <span>CHECK</span> <i class="glyph-icon icon-arrow-right"></i>
+                                    <div class="ripple-wrapper"></div>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <div class="text-right m-b-15">
+                <a href="/agent/add-product-details" class="btn btn-primary"> <i class="fa fa-plus-circle"></i> Add Product </a>
+            </div>
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0">
+                <table id="data-table" data-order='[[1,"asc"]]' class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="default">
+                            <th> S.No. </th>
+                            <th> Product Name </th>
+                            <th> Store Name </th>
+                            <th> Cost(&#36;) </th>
+                            <th> Discount </th>
+                            <th> Delivery Time(mins) </th>
+                            <th> Status </th>
+                            <th> Action </th>
+                            <th> View/Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (isset($this->productdetailsbyhotels)) {
+                            $i = 0;
+                            foreach ($this->productdetailsbyhotels as $value) {
+                                   if ($value['item_type']==2) {
+                                ?>
+                                <tr id="<?php echo $value['product_id']; ?>">
+                                    <td><?php echo ++$i; ?></td>
+                                    <td><?php echo $value['name']; ?></td>
+                                    <td><?php echo $value['store_name']; ?></td>
+                                    <td><?php echo $value['cost']; ?></td>
+                                    <td><?php echo $value['product_discount']; ?></td>
+                                    <td><?php echo $value['delivery_time']; ?></td>
+
+                                    <?php if ($value['prod_status'] == 1) { ?>
+                                        <td>
+                                            <label id="activeclass_<?php echo $value['product_id'] ?>" class="label label-success js-check-change-field">ACTIVE</label>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <input type="checkbox" data-render="switchery" id="<?php
+                                            if (isset($value['product_id'])): echo "product_" . $value['product_id'];
+                                            endif;
+                                            ?>"  class="js-switch js-check-change productdeactive" data-theme="lime" checked /> 
+                                        </td>
+                                    <?php }else { ?>
+                                        <td >
+                                            <label id="activeclass_<?php echo $value['product_id']; ?>" class="label label-danger js-check-change-field">SUSPENDED</label>
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="checkbox" data-render="switchery" id="<?php
+                                            if (isset($value['product_id'])): echo "product_" . $value['product_id'];
+                                            endif;
+                                            ?>"  class="js-switch js-check-change productactive" data-theme="lime" /> 
+                                        </td>
+                                    <?php } ?>
+
+                                    <td class="text-center">
+                                        <a href="/agent/view-product-details/<?php echo $value['product_id']; ?>" class="btn btn-purple btn-icon btn-circle btn-sm">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a href="/agent/edit-product-details/<?php echo $value['product_id']; ?>" class="btn btn-success btn-icon btn-circle btn-sm">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <a href="javascript:;" id="<?php echo "productdelete_" . $value['product_id']; ?>" class="btn btn-primary btn-icon btn-circle btn-sm deleteproduct">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                        }
+                        }else {
+                            if (isset($this->productdetails)) {
+                                $i = 0;
+                                foreach ($this->productdetails as $value) {
+                                     if ($value['item_type']==2) {
+                                    ?>
+                                    <tr id="<?php echo $value['product_id']; ?>">
+                                        <td><?php echo ++$i; ?></td>
+                                        <td><?php echo $value['name']; ?></td>
+                                        <td><?php echo $value['store_name']; ?></td>
+                                        <td><?php echo $value['cost']; ?></td>
+                                        <td><?php echo $value['product_discount']; ?></td>
+                                        <td><?php echo $value['delivery_time']; ?></td>
+
+                                        <?php if ($value['prod_status'] == 1) { ?>
+                                            <td>
+                                                <label id="activeclass_<?php echo $value['product_id'] ?>" class="label label-success js-check-change-field">ACTIVE</label>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <input type="checkbox" data-render="switchery" id="<?php
+                                                if (isset($value['product_id'])): echo "product_" . $value['product_id'];
+                                                endif;
+                                                ?>"  class="js-switch js-check-change productdeactive" data-theme="lime" checked /> 
+                                            </td>
+                                        <?php }else { ?>
+                                            <td >
+                                                <label id="activeclass_<?php echo $value['product_id']; ?>" class="label label-danger js-check-change-field">SUSPENDED</label>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="checkbox" data-render="switchery" id="<?php
+                                                if (isset($value['product_id'])): echo "product_" . $value['product_id'];
+                                                endif;
+                                                ?>"  class="js-switch js-check-change productactive" data-theme="lime" /> 
+                                            </td>
+                                        <?php } ?>
+
+                                        <td class="text-center">
+                                            <a href="/agent/view-product-details/<?php echo $value['product_id']; ?>" class="btn btn-purple btn-icon btn-circle btn-sm">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            <a href="/agent/edit-product-details/<?php echo $value['product_id']; ?>" class="btn btn-success btn-icon btn-circle btn-sm">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                            <a href="javascript:;" id="<?php echo "productdelete_" . $value['product_id']; ?>" class="btn btn-primary btn-icon btn-circle btn-sm deleteproduct">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                }
+                            }
+                        }
+                        ?>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end col-12 -->
+    </div>
+
+</div>
+<!-- end row -->
+
+<!-- end #footer -->
+
+
+
+
+

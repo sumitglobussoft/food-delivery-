@@ -102,29 +102,17 @@ class ProductController extends Zend_Controller_Action {
                         if (!empty($prod_desc)) {
                             $data['prod_desc'] = $prod_desc;
                         }
-                        $item_type = $this->getRequest()->getPost('item_type');
-                        if (!empty($item_type)) {
-                            $data['item_type'] = $item_type;
-                        }
+                        $item_type = 1;
 
-                        $product_type = $this->getRequest()->getPost('prod_type');
-                        if (!empty($product_type)) {
-                            $data['prod_type'] = $product_type;
+                        if ($data['item_type'] == 1) {
+                            $data['prod_type'] = $this->getRequest()->getPost('prod_type');
+                            if ($data['prod_type'] == 1) {
+                                $data['category_id'] = $this->getRequest()->getPost('category_id');
+                                $data['Subcategory_id'] = $this->getRequest()->getPost('Subcategory_id');
+                            } else if ($data['prod_type'] == 2) {
+                                $data['cuisine_id'] = $this->getRequest()->getPost('cuisine_id');
+                            }
                         }
-                        if ($data['prod_type'] == 1) {
-                            $data['category_id'] = $this->getRequest()->getPost('category_id');
-                        } elseif ($data['prod_type'] == 2) {
-                            $data['cuisine_id'] = $this->getRequest()->getPost('cuisine_id');
-                        } else {
-                            $data['prod_type'] = 0;
-                            $data['category_id'] = 0;
-                            $data['cuisine_id'] = 0;
-                        }
-                        $Subcategory_id = $this->getRequest()->getPost('Subcategory_id');
-                        if (!empty($Subcategory_id)) {
-                            $data['Subcategory_id'] = $Subcategory_id;
-                        }
-
                         $stock_quantity = $this->getRequest()->getPost('stock_quantity');
                         if (!empty($stock_quantity)) {
                             $data['stock_quantity'] = $stock_quantity;
@@ -211,18 +199,20 @@ class ProductController extends Zend_Controller_Action {
                         $productdata['product_discount_type'] = $this->getRequest()->getPost('product_discount_type');
                         $productdata['agent_id'] = $this->getRequest()->getPost('agent_id');
                         $productdata['prod_type'] = $this->getRequest()->getPost('prod_type');
-                        $productdata['Subcategory_id'] = $this->getRequest()->getPost('Subcategory_id');
                         $productdata['stock_quantity'] = $this->getRequest()->getPost('stock_quantity');
                         $productdata['servicetax'] = $this->getRequest()->getPost('servicetax');
-
-                        if ($productdata['prod_type'] == 1) {
-                            $productdata['category_id'] = $this->getRequest()->getPost('category_id');
-                        } else if ($productdata['prod_type'] == 2) {
-                            $productdata['cuisine_id'] = $this->getRequest()->getPost('cuisine_id');
-                        } else {
-                            $productdata['prod_type'] = 0;
-                            $productdata['category_id'] = 0;
-                            $productdata['cuisine_id'] = 0;
+                        if ($productdata['item_type'] == 1) {
+                            $productdata['hotel_id'] = $this->getRequest()->getPost('hotel_id');
+                            $productdata['prod_type'] = $this->getRequest()->getPost('prod_type');
+                            if ($productdata['prod_type'] == 1) {
+                                $productdata['category_id'] = $this->getRequest()->getPost('category_id');
+                                $productdata['Subcategory_id'] = $this->getRequest()->getPost('Subcategory_id');
+                            } else if ($productdata['prod_type'] == 2) {
+                                $productdata['cuisine_id'] = $this->getRequest()->getPost('cuisine_id');
+                            }
+                        } else if ($productdata['item_type'] == 2) {
+                            $productdata['store_id'] = $this->getRequest()->getPost('store_id');
+                            $productdata['store_category_id'] = $this->getRequest()->getPost('store_category_id');
                         }
                         $insertproductid = $productsummaryModel->AddProductDetails($productdata);
 
@@ -239,6 +229,38 @@ class ProductController extends Zend_Controller_Action {
                         $response->message = 'Could Not Serve The Request';
                         $response->code = 401;
                         $response->data = NULL;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+                // dev :sowmya
+                // to get store product by product id
+                //date 7/5/2016
+                case'getstoreproductbyproductId':
+                    if ($this->getRequest()->isPost()) {
+
+                        $product_id = $this->getRequest()->getPost('product_id');
+
+                        if ($product_id) {
+                            $proddetails = $productsummaryModel->getStoreProductByProductId($product_id);
+                            if ($proddetails) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $proddetails;
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'Could Not Serve The Request';
+                            $response->code = 401;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                        $response->data = Null;
                     }
                     echo json_encode($response, true);
                     die;
@@ -443,13 +465,14 @@ class ProductController extends Zend_Controller_Action {
             echo json_encode($response);
         }
     }
+
 //added by sowmya 13/4/2016
-    public function orderProductsAction() { 
+    public function orderProductsAction() {
         $ordersModel = Application_Model_Orders::getInstance();
         $response = new stdClass();
-        if ($this->getRequest()->isPost()) {           
-            $hotel_id = $this->getRequest()->getPost('hotel_id');      
-            $orderproductsdetails = $ordersModel->GetOrderProducts($hotel_id);    
+        if ($this->getRequest()->isPost()) {
+            $hotel_id = $this->getRequest()->getPost('hotel_id');
+            $orderproductsdetails = $ordersModel->GetOrderProducts($hotel_id);
             if ($orderproductsdetails) {
                 $response->message = 'Successfull';
                 $response->code = 200;
@@ -588,8 +611,68 @@ class ProductController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die;
                     break;
+// added by sowmya  6/5/2016 to get store product details  in agent panel
+                case'getagentstoreproducts':
 
+                    if ($this->getRequest()->isPost()) {
 
+                        $agent_id = $this->getRequest()->getPost('agent_id');
+
+                        if ($agent_id) {
+                            $agentproducts = $productsummaryModel->getALLAgentStoreProducts($agent_id);
+                            if ($agentproducts) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $agentproducts;
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'Could Not Serve The Request';
+                            $response->code = 401;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                        $response->data = Null;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+                // added by sowmya  6/5/2016 to get store product details by store id  in agent panel
+                case'getProductsByStoreId':
+
+                    if ($this->getRequest()->isPost()) {
+
+                        $store_id = $this->getRequest()->getPost('store_id');
+
+                        if ($store_id) {
+                            $agentproducts = $productsummaryModel->getProductsByStoreId($store_id);
+                            if ($agentproducts) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $agentproducts;
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'Could Not Serve The Request';
+                            $response->code = 401;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                        $response->data = Null;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
                 case'changeproductstatus':
                     if ($this->getRequest()->isPost()) {
 

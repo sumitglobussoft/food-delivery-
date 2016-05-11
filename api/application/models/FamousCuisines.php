@@ -46,21 +46,109 @@ class Application_Model_FamousCuisines extends Zend_Db_Table_Abstract {
         $select = $this->select()
                 ->from($this)
                 ->where('cuisine_status=?', 1);
-
-//        $select = $this->select()
-//                ->setIntegrityCheck(false)
-//                ->from(array('o' => 'orders'))
-//                ->join(array('u' => 'users'), 'o.user_id=u.user_id')
-//                ->join(array('hd' => 'hotel_details'), 'o.order_from_hotel=hd.id', array('hd.id', 'hd.hotel_name', 'hd.agent_id'))
-//                ->join(array('dsl' => 'delivery_status_log'), 'o.order_id= dsl.order_id')
-//                ->join(array('dg' => 'delivery_guys'), 'dsl.delivery_guy_id=dg.del_guy_id')
-//                ->where('hd.agent_id=?', $agent_id);
         $result = $this->getAdapter()->fetchAll($select);
 
         if ($result) {
             return $result;
         } else {
             return null;
+        }
+    }
+
+    //Dev=sreekanth
+//date= 6-may-2016
+    public function selectAllCuisines() {
+        try {
+            $select = $this->select()
+                    ->from(array('f' => 'famous_cuisines'))
+                    ->setIntegrityCheck(false)
+                    ->joinLeft(array('hc' => 'hotel_cuisines'), 'f.cuisine_id= hc.cuisine_id')
+                    ->joinLeft(array('hd' => 'hotel_details'), 'hd.id= hc.hotel_id', array('hd.id', 'hd.hotel_name'));
+            $result = $this->getAdapter()->fetchAll($select);
+            if ($result) {
+                return $result;
+            }
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
+        }
+    }
+
+    //Dev=sreekanth
+//date= 6-may-2016
+    public function getstatusChangeOfHotelcuisine() {
+        if (func_num_args() > 0):
+            $cuisineid = func_get_arg(0);
+            try {
+                $data = array('cuisine_status' => new Zend_DB_Expr('IF(cuisine_status=1, 0, 1)'));
+                $result = $this->update($data, 'cuisine_id = "' . $cuisineid . '"');
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+            if ($result):
+                return $result;
+            else:
+                return 0;
+            endif;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
+//Dev=sreekanth
+//date= 5-may-2016
+    public function hotelcuisinedelete() {
+        if (func_num_args() > 0):
+            $cuisine_id = func_get_arg(0);
+            try {
+                $db = Zend_Db_Table::getDefaultAdapter();
+                $where = (array('cuisine_id = ?' => $cuisine_id));
+                $db->delete('famous_cuisines', $where);
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+            return $cuisine_id;
+        else:
+            throw new Exception('Argument Not Passed');
+        endif;
+    }
+
+//Dev=sreekanth
+//date= 6-may-2016
+    public function addCuisinesDetails() {
+        if (func_num_args() > 0) {
+            $Cuisines = func_get_arg(0);
+
+            try {
+                $row = $this->insert($Cuisines);
+                if ($row) {
+                    return $row;
+                } else {
+                    return null;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable To insert data :' . $e);
+            }
+        }
+    }
+
+//Dev=sreekanth
+//date= 4-may-2016
+    public function updateHotelCuisines() {
+        if (func_num_args() > 0) {
+            $data = func_get_arg(0);
+            $cuisine_id = func_get_arg(1);
+            try {
+                $result1 = $this->update($data, 'cuisine_id = "' . $cuisine_id . '"');
+
+                if ($result1) {
+                    return $result1;
+                } else {
+                    return null;
+                }
+            } catch (Exception $e) {
+
+                throw new Exception('Unable To update data :' . $e);
+            }
         }
     }
 

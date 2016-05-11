@@ -122,6 +122,20 @@
                             <div class="example-box-wrapper">
                                 <table class="table table-responsive">
                                     <tbody>
+                                         <tr>
+                                            <td>
+                                                <label class="control-label">Location</label>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <?php
+                                                    if (isset($this->deliveryguydetails['location'])) {
+                                                        echo $this->deliveryguydetails['location'];
+                                                    }
+                                                    ?>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td>
                                                 <label class="control-label">City</label>

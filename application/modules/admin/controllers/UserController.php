@@ -211,7 +211,7 @@ class Admin_UserController extends Zend_Controller_Action {
         $productsModel = Admin_Model_Products::getInstance();
         $agentsModal = Admin_Model_Agents::getInstance();
         $delguyModal = Admin_Model_DeliveryGuys::getInstance();
-        $deliveryStatusLogModel = Admin_Model_DeliveryStatusLog::getInstance();
+        $storeDetailsModel = Admin_Model_StoreDetails::getInstance();
         $userTransModal = Admin_Model_UserTransactions::getInstance();
         $agentTransModal = Admin_Model_AgentTransactions::getInstance();
         $productTransModal = Admin_Model_ProductTransactions::getInstance();
@@ -359,6 +359,24 @@ class Admin_UserController extends Zend_Controller_Action {
                         echo 1;
                     } else {
                         echo 0;
+                    }
+                    break;
+                case 'findhotel':
+                    $locationid = $this->_request->getParam('locationid');
+                    $result = $hotelDetailsModel->getHotelDetailsByLocation($locationid);
+                    if ($result) {
+                        echo json_encode($result);
+                    } else {
+                        echo "error";
+                    }
+                    break;
+                case 'findstore':
+                    $locationid = $this->_request->getParam('locationid');
+                    $result = $storeDetailsModel->getStoreDetailsByLocation($locationid);
+                    if ($result) {
+                        echo json_encode($result);
+                    } else {
+                        echo "error";
                     }
                     break;
             }

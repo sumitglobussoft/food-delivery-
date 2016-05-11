@@ -355,4 +355,67 @@ class Admin_ProductController extends Zend_Controller_Action {
         }
     }
 
+    /*
+     * desc : to view store product details
+     * Dev: sowmya
+     * date:9/5/2016
+     */
+
+    public function storeProductDetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
+        $productsModel = Admin_Model_Products::getInstance();
+        $storeModel = Admin_Model_StoreDetails::getInstance();
+        $storedetails = $storeModel->getAllStore();
+
+        if ($storedetails) {
+            $this->view->storelist = $storedetails;
+        }
+        $result = $productsModel->getStoreProductsdetails();
+        if ($result) {
+            $this->view->productdetails = $result;
+        } else {
+            echo 'controller error occured';
+        }
+
+        if ($this->_request->isPost()) {
+            $storeId = $this->getRequest()->getPost('storename');
+            if ($storeId) {
+                $res = $productsModel->getProductsByStoreId($storeId);
+                if ($res) {
+                    $this->view->productsbyhotels = $res;
+                } else {
+                    $this->view->productdetails = $result;
+                }
+            } else {
+                $this->view->productdetails = $result;
+            }
+        }
+    }
+
+    /*
+     * desc : to view product details
+     * Dev: sowmya
+     * date: 9/5/2016
+     */
+
+    public function viewStoreProductDetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
+        $productsModel = Admin_Model_Products::getInstance();
+        $productId = $this->getRequest()->getParam("productId");
+        $result = $productsModel->getAllStoreProductdetails($productId);
+        if ($result) {
+            $this->view->allproductdetails = $result;
+        } else {
+            echo 'controller error occured';
+        }
+    }
+
 }

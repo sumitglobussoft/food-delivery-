@@ -17,7 +17,8 @@ $categoryDetails = $this->GetCategorys;
                     <div class="col-md-6">
                         <div class="panel pagination-theme clearfix m-b-0">
                             <div class="panel-body">
-                                <div class="form-group">
+
+                                <div class="form-group ">
                                     <label class="control-label">Hotel Name</label>
                                     <?php
                                     if (isset($this->editproductdetails)) {
@@ -25,39 +26,6 @@ $categoryDetails = $this->GetCategorys;
                                     }
                                     ?>
 
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Product Name</label>
-                                    <input type="text" class="form-control" name="name" value="<?php
-                                    if (isset($this->editproductdetails['name'])) {
-                                        echo $this->editproductdetails['name'];
-                                    }
-                                    ?>" placeholder="" required />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Product Description</label>
-                                    <textarea class="form-control" name="prod_desc" value="" placeholder="" required><?php
-                                        if (isset($this->editproductdetails['prod_desc'])) {
-                                            echo $this->editproductdetails['prod_desc'];
-                                        }
-                                        ?></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Item Type</label>
-                                    <div>
-                                        <label class="radio-inline">
-                                            <input type="radio" value="1" name="item_type"  <?php
-                                            if (isset($this->editproductdetails['item_type'])==1) {
-                                                echo"checked";
-                                            }?> id="" /> Hotel Items
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" value="2"  name="item_type" <?php
-                                            if (isset($this->editproductdetails['item_type'])==2) {
-                                                echo"checked";
-                                            }?>  id="" /> Grocery Items
-                                        </label>
-                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Product Type</label>
@@ -82,7 +50,9 @@ $categoryDetails = $this->GetCategorys;
                                     <label class="control-label">Cuisine :</label>
                                     <select class="selectpicker width-full form-control" id="cuisine" name="cuisine_id" style="width:100%;">
                                         <option disabled selected>Select Cuisine</option>
-                                        <?php foreach ($cuisinesdDetails as $value) { ?>
+                                        <?php  if (isset($cuisinesdDetails)) {
+                                        echo "No Result Found";
+                                            }foreach ($cuisinesdDetails as $value) { ?>
                                             <option value="<?php echo $value['cuisine_id'] ?>">
                                                 <?php echo $value['Cuisine_name'] ?>
                                             </option>
@@ -95,7 +65,9 @@ $categoryDetails = $this->GetCategorys;
                                     <label class="control-label">Category :</label>
                                     <select class="selectpicker width-full form-control"  id="category" name="category_id" style="width:100%;">
                                         <option disabled selected>Select Category</option>
-                                        <?php foreach ($categoryDetails as $value) { ?>
+                                        <?php  if (isset($categoryDetails)) {
+                                        echo "No Result Found";
+                                            }foreach ($categoryDetails as $value) { ?>
                                             <option value="<?php echo $value['category_id'] ?>">
                                                 <?php echo $value['cat_name'] ?>
                                             </option>
@@ -107,35 +79,45 @@ $categoryDetails = $this->GetCategorys;
                                 <div class="form-group show-category">
                                     <label class="control-label">Sub Category :</label>
                                     <select class="selectpicker width-full js-example-basic-hide-search form-control" name="Subcategory_id">
-                                        <option value="0" <?php
-                                        if (isset($this->editproductdetails['Subcategory_id']) == 0) {
-                                            echo "checked";
-                                        }
-                                        ?>>
-                                            Veg
-                                        </option>
                                         <option value="1" <?php
                                         if (isset($this->editproductdetails['Subcategory_id']) == 1) {
                                             echo "checked";
                                         }
                                         ?>>
-                                            Halal
+                                            Veg
                                         </option>
                                         <option value="2" <?php
                                         if (isset($this->editproductdetails['Subcategory_id']) == 2) {
                                             echo "checked";
                                         }
                                         ?>>
-                                            Non Halal
+                                            Halal
                                         </option>
                                         <option value="3" <?php
                                         if (isset($this->editproductdetails['Subcategory_id']) == 3) {
                                             echo "checked";
                                         }
                                         ?>>
-                                            None of These
-                                        </option>
+                                            Non Halal
+                                        </option>                                      
                                     </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">Product Name</label>
+                                    <input type="text" class="form-control" name="name" value="<?php
+                                    if (isset($this->editproductdetails['name'])) {
+                                        echo $this->editproductdetails['name'];
+                                    }
+                                    ?>" placeholder="" required />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Product Description</label>
+                                    <textarea class="form-control" name="prod_desc" value="" placeholder="" required><?php
+                                        if (isset($this->editproductdetails['prod_desc'])) {
+                                            echo $this->editproductdetails['prod_desc'];
+                                        }
+                                        ?></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Stock Quantity</label>
@@ -269,10 +251,11 @@ $categoryDetails = $this->GetCategorys;
         </div>
     </div>
 </div>
-
 <style>
-    .show-cusine, .show-category {
+    .show-cusine, .show-category{
         display: none;
     }
 </style>
+
+
 

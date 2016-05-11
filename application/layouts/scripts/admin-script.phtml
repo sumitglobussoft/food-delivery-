@@ -5,33 +5,6 @@
         eval(mod_pagespeed_YJn5ujga1x);
         eval(mod_pagespeed_ao7FkmdxcI);
         eval(mod_pagespeed_mIkonhgi7n);
-
-//        $('.datatable-responsive').DataTable({
-//            serverSide: true,
-//            ordering: false,
-//            searching: false,
-//            ajax: function(data, callback, settings) {
-//                var out = [];
-//
-//                for (var i = data.start, ien = data.start + data.length; i < ien; i++) {
-//                    out.push([i + '-1', i + '-2', i + '-3', i + '-4', i + '-5']);
-//                }
-//
-//                setTimeout(function() {
-//                    callback({
-//                        draw: data.draw,
-//                        data: out,
-//                        recordsTotal: 5000000,
-//                        recordsFiltered: 5000000
-//                    });
-//                }, 50);
-//            },
-//            scrollY: 200,
-//            scroller: {
-//                loadingIndicator: true
-//            }
-//        });
-//    });
         $('.datatable-responsive').DataTable({
             responsive: true,
             "aoColumnDefs": [
@@ -62,7 +35,7 @@
     });
     /*
      * DEV :priyanka varanasi
-     * Desc : Deactivate user
+     * Desc : fetch states by country id
      * Date : 16/12/2015
      */
     $(document.body).on('change', '#selectcountry', function() {
@@ -123,7 +96,7 @@
 
     /*
      * DEV :priyanka varanasi
-     * Desc : Deactivate user
+     * Desc : fetch city by state id
      * Date : 16/12/2015
      */
     $(document.body).on('change', '#selectstate', function() {
@@ -356,30 +329,32 @@
      */
 
     $(document.body).on('click', '.deleteproduct', function() {
-        var productid = $(this).attr('id');
-        productid = productid.replace("productdelete_", "");
-        if (productid) {
-            $.ajax({
-                url: './product-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'productdelete',
-                    productid: productid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete?")) {
+            var productid = $(this).attr('id');
+            productid = productid.replace("productdelete_", "");
+            if (productid) {
+                $.ajax({
+                    url: './product-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'productdelete',
+                        productid: productid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
-                        $('#' + "productdelete_" + uid).parent().parent().remove();
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
+                            $('#' + "productdelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
     });
 
@@ -462,36 +437,36 @@
      */
 
     $(document.body).on('click', '.deleteuser', function() {
-        
-        var obj=$(this);
-        var userid = $(this).attr('id');
-        var deleteid = userid.replace("userdelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './user-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'userdelete',
-                    userid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete? It will delete allthe details related with Particular User .")) {
+            var obj = $(this);
+            var userid = $(this).attr('id');
+            var deleteid = userid.replace("userdelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './user-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'userdelete',
+                        userid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
 
 //                        $('#' + "userdelete_" + uid).parent().parent().remove();
-                        obj.parents("tr").remove();
+                            obj.parents("tr").remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
 
 
@@ -535,36 +510,39 @@
 
     /*
      * DEV :priyanka varanasi
-     * Desc : Delete user 
+     * Desc : Delete agent
      * Date : 16/12/2015
      */
 
     $(document.body).on('click', '.deleteagent', function() {
-        var agentid = $(this).attr('id');
-        var deleteid = agentid.replace("agentdelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './user-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'agentdelete',
-                    agentid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete?It will all the details related with Particular Agent")) {
+            var agentid = $(this).attr('id');
+            var deleteid = agentid.replace("agentdelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './user-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'agentdelete',
+                        agentid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
 
-                        $('#' + "agentdelete_" + uid).parent().parent().remove();
+                            $('#' + "agentdelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+
+            }
         }
     });
 
@@ -604,7 +582,11 @@
         });
 
     });
-
+    /*
+     * DEV :priyanka varanasi
+     * Desc : get cuisines of hotel
+     * Date : 16/12/2015
+     */
     $('#type_cusine').change(function() {
         var typevalue = $(this).val();
         $.ajax({
@@ -635,6 +617,11 @@
             }
         });
     });
+    /*
+     * DEV :priyanka varanasi
+     * Desc : get category of hotel
+     * Date : 16/12/2015
+     */
     $('#type_category').change(function() {
         var typevalue = $(this).val();
         $.ajax({
@@ -705,7 +692,7 @@
 
     /*
      * DEV :priyanka varanasi
-     * Desc : Deactivate delivery guy
+     * Desc :activate delivery guy
      * Date : 9/2/2016
      */
     $(document.body).on('click', '.delguyactive', function() {
@@ -749,31 +736,33 @@
      */
 
     $(document.body).on('click', '.deletedelguy', function() {
-        var delguyid = $(this).attr('id');
-        var deleteid = delguyid.replace("delguydelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './user-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'delguydelete',
-                    delguyid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete?It will delete dtails of particular delivery guy details.")) {
+            var delguyid = $(this).attr('id');
+            var deleteid = delguyid.replace("delguydelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './user-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'delguydelete',
+                        delguyid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
 
-                        $('#' + "delguydelete_" + uid).parent().parent().remove();
+                            $('#' + "delguydelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
     });
 
@@ -827,33 +816,34 @@
      */
 
     $(document.body).on('click', '.deletetrans', function() {
-        var transid = $(this).attr('id');
-        var deleteid = transid.replace("transdelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './user-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'transdelete',
-                    transid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete?It will delete User Transaction details")) {
+            var transid = $(this).attr('id');
+            var deleteid = transid.replace("transdelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './user-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'transdelete',
+                        transid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var tid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var tid = response.replace(/ /g, '');
 
-                        $('#' + "transdelete_" + tid).parent().parent().remove();
+                            $('#' + "transdelete_" + tid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
     /*
      * DEV :sowmya
@@ -862,33 +852,34 @@
      */
 
     $(document.body).on('click', '.deleteagenttrans', function() {
-        var transid = $(this).attr('id');
-        var deleteid = transid.replace("transdelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './user-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'agenttransdelete',
-                    transid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete?It will delete agent transaction details.")) {
+            var transid = $(this).attr('id');
+            var deleteid = transid.replace("transdelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './user-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'agenttransdelete',
+                        transid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var tid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var tid = response.replace(/ /g, '');
 
-                        $('#' + "transdelete_" + tid).parent().parent().remove();
+                            $('#' + "transdelete_" + tid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
     /*
      * DEV :sowmya
@@ -897,68 +888,70 @@
      */
 
     $(document.body).on('click', '.deleteproducttrans', function() {
-        var transid = $(this).attr('id');
-        var deleteid = transid.replace("transdelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './user-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'producttransdelete',
-                    transid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete?It will delete product transaction details.")) {
+            var transid = $(this).attr('id');
+            var deleteid = transid.replace("transdelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './user-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'producttransdelete',
+                        transid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var tid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var tid = response.replace(/ /g, '');
 
-                        $('#' + "transdelete_" + tid).parent().parent().remove();
+                            $('#' + "transdelete_" + tid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
     /*
      * DEV :sowmya
-     * Desc : Delete orders
+     * Desc : Delete orders from both hotel and store orders details
      * Date : 30/3/2016
      */
 
     $(document.body).on('click', '.deleteorder', function() {
-        var orderid = $(this).attr('id');
-        var deleteid = orderid.replace("orderdelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './user-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'orderdelete',
-                    orderid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete? ")) {
+            var orderid = $(this).attr('id');
+            var deleteid = orderid.replace("orderdelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './user-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'orderdelete',
+                        orderid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var oid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var oid = response.replace(/ /g, '');
 
-                        $('#' + "orderdelete_" + oid).parent().parent().remove();
+                            $('#' + "orderdelete_" + oid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
     /*
      * DEV :sowmya
@@ -1102,7 +1095,11 @@
         });
 
     });
-
+    /*
+     * DEV :sowmya
+     * Desc :change the order staus in both hotel and store order details
+     * Date : 2/4/2016
+     */
     $(document.body).on("change", ".order_status", function(e) {
         e.preventDefault();
         var obj = $(this);
@@ -1118,9 +1115,9 @@
                 orderStatus: orderStatus
             },
             success: function(response) {
-                if (response ===1) {
+                if (response == 1) {
                     obj.parents("tr").remove();
-                    location.reload();
+                    window.location.reload(true);
                 }
             }
         });
@@ -1132,33 +1129,35 @@
      */
 
     $(document.body).on('click', '.deletehotel', function() {
-        var id = $(this).attr('id');
-        var deleteid = id.replace("hoteldelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './hotel-details-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'hoteldelete',
-                    id: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete? It will delete all the details of particular hotel")) {
+            var obj = $(this);
+            var id = $(this).attr('id');
+            var deleteid = id.replace("hoteldelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './hotel-details-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'hoteldelete',
+                        id: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
+                            obj.parents("tr").remove();
+//                        $('#' + "hoteldelete_" + uid).parent().parent().remove();
 
-                        $('#' + "hoteldelete_" + uid).parent().parent().remove();
-
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
     /*
      * DEV :sowmya
@@ -1238,33 +1237,34 @@
      */
 
     $(document.body).on('click', '.categorydelete', function() {
-        var id = $(this).attr('id');
-        var deleteid = id.replace("categorydelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './locationsettings-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'categorydelete',
-                    categoryid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete? ")) {
+            var id = $(this).attr('id');
+            var deleteid = id.replace("categorydelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './locationsettings-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'categorydelete',
+                        categoryid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
 
-                        $('#' + "categorydelete_" + uid).parent().parent().remove();
+                            $('#' + "categorydelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
 
     /*
@@ -1316,33 +1316,34 @@
      */
 
     $(document.body).on('click', '.cuisinedelete', function() {
-        var id = $(this).attr('id');
-        var deleteid = id.replace("cuisinedelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './locationsettings-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'cuisinedelete',
-                    cuisineid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete? ")) {
+            var id = $(this).attr('id');
+            var deleteid = id.replace("cuisinedelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './locationsettings-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'cuisinedelete',
+                        cuisineid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
 
-                        $('#' + "cuisinedelete_" + uid).parent().parent().remove();
+                            $('#' + "cuisinedelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
 
     /*
@@ -1464,85 +1465,87 @@
      */
 
     $(document.body).on('click', '.deletenotification', function() {
-        var notificationid = $(this).attr('id');
-        var deleteid = notificationid.replace("notificationdelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './notification-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'deletenotification',
-                    notificationId: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete? ")) {
+            var notificationid = $(this).attr('id');
+            var deleteid = notificationid.replace("notificationdelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './notification-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'deletenotification',
+                        notificationId: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
-                        $('#' + "notificationdelete_" + uid).parent().parent().remove();
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
+                            $('#' + "notificationdelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
     /*
      * DEV :sowmya
-     * Desc : Delete grocery
+     * Desc : Delete store
      * Date : 20/4/2016
      */
 
-    $(document.body).on('click', '.deletegrocery', function() {
-        var id = $(this).attr('id');
-        var deleteid = id.replace("grocerydelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './grocery-details-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'grocerydelete',
-                    groceryid: deleteid
-                },
-                beforeSend: function() {
+    $(document.body).on('click', '.deletestore', function() {
+        if (confirm("Are you sure you want to delete? It will delete all the details related with particular store")) {
+            var id = $(this).attr('id');
+            var deleteid = id.replace("storedelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './store-details-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'storedelete',
+                        storeid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
 
-                        $('#' + "grocerydelete_" + uid).parent().parent().remove();
+                            $('#' + "storedelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
     /*
      * DEV :sowmya
-     * Desc : Deactivate grocery status
+     * Desc : Deactivate store status
      * Date : 20/4/2016
      */
-    $(document.body).on('click', '.grocerydeactive', function() {
+    $(document.body).on('click', '.storedeactive', function() {
         var id = $(this).attr('id');
-        var id = id.replace("grocery_", "");
+        var id = id.replace("store_", "");
 
         console.log('deactivate called');
         $.ajax({
-            url: './grocery-details-ajax-handler',
+            url: './store-details-ajax-handler',
             type: 'POST',
             datatype: 'HTML',
             data: {
-                method: 'groceryactive',
-                groceryid: id
+                method: 'storeactive',
+                storeid: id
             },
             beforeSend: function() {
 
@@ -1554,9 +1557,9 @@
                 $('#' + "activeclass_" + uid).removeClass('bs-label label-danger');
                 $('#' + "activeclass_" + uid).addClass('bs-label label-success');
                 $('#' + "activeclass_" + uid).html("Activate");
-                $('#grocery_' + uid).removeClass('grocerydeactive');
-                $('#grocery_' + uid).addClass('groceryactive');
-                $('#' + "activegrocery_" + uid).html("Suspended");
+                $('#store_' + uid).removeClass('storedeactive');
+                $('#store_' + uid).addClass('storeactive');
+                $('#' + "activestore_" + uid).html("Suspended");
 
             }
         });
@@ -1564,20 +1567,20 @@
     });
     /*
      * DEV :sowmya
-     * Desc : Activate grocery
+     * Desc : Activate store
      * Date : 20/4/2016
      */
-    $(document.body).on('click', '.groceryactive', function() {
+    $(document.body).on('click', '.storeactive', function() {
         var id = $(this).attr('id');
-        var id = id.replace("grocery_", "");
+        var id = id.replace("store_", "");
         console.log('activate called');
         $.ajax({
-            url: './grocery-details-ajax-handler',
+            url: './store-details-ajax-handler',
             type: 'POST',
             datatype: 'HTML',
             data: {
-                method: 'groceryactive',
-                groceryid: id
+                method: 'storeactive',
+                storeid: id
             },
             beforeSend: function() {
 
@@ -1587,9 +1590,9 @@
                 $('#' + "activeclass_" + uid).removeClass('bs-label label-success');
                 $('#' + "activeclass_" + uid).addClass('bs-label label-danger');
                 $('#' + "activeclass_" + uid).html("Dectivate");
-                $('#grocery_' + uid).removeClass('groceryactive');
-                $('#grocery_' + uid).addClass('grocerydeactive');
-                $('#' + "activegrocery_" + uid).html("Active");
+                $('#store_' + uid).removeClass('storeactive');
+                $('#store_' + uid).addClass('storedeactive');
+                $('#' + "activestore_" + uid).html("Active");
 
             }
 
@@ -1601,38 +1604,39 @@
 
     /*
      * DEV :sowmya
-     * Desc : Delete grocery
+     * Desc : Delete store
      * Date : 21/4/2016
      */
 
     $(document.body).on('click', '.deletereview', function() {
-        var id = $(this).attr('id');
-        var deleteid = id.replace("reviewdelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './reviews-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'reviewsdelete',
-                    reviewid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete? ")) {
+            var id = $(this).attr('id');
+            var deleteid = id.replace("reviewdelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './reviews-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'reviewsdelete',
+                        reviewid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
 
-                        $('#' + "reviewdelete_" + uid).parent().parent().remove();
+                            $('#' + "reviewdelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
     /*
      * DEV :sowmya
@@ -1672,7 +1676,7 @@
     });
     /*
      * DEV :sowmya
-     * Desc : Activate grocery
+     * Desc : Activate store
      * Date : 20/4/2016
      */
     $(document.body).on('click', '.reviewactive', function() {
@@ -1707,10 +1711,10 @@
     });
     /*
      * DEV :sowmya
-     * Desc : Deactivate grocerycategory status
+     * Desc : Deactivate storecategory status
      * Date : 23/4/2016
      */
-    $(document.body).on('click', '.grocerycategorydeactive', function() {
+    $(document.body).on('click', '.storecategorydeactive', function() {
         var categoryid = $(this).attr('id');
         var categoryid = categoryid.replace("category_", "");
 
@@ -1720,7 +1724,7 @@
             type: 'POST',
             datatype: 'HTML',
             data: {
-                method: 'grocerycategoryactive',
+                method: 'storecategoryactive',
                 categoryid: categoryid
             },
             beforeSend: function() {
@@ -1733,8 +1737,8 @@
                 $('#' + "activeclass_" + uid).removeClass('bs-label label-danger');
                 $('#' + "activeclass_" + uid).addClass('bs-label label-success');
                 $('#' + "activeclass_" + uid).html("Activate");
-                $('#category_' + uid).removeClass('grocerycategorydeactive');
-                $('#category_' + uid).addClass('grocerycategoryactive');
+                $('#category_' + uid).removeClass('storecategorydeactive');
+                $('#category_' + uid).addClass('storecategoryactive');
                 $('#' + "activecategory_" + uid).html("Suspended");
 
             }
@@ -1743,10 +1747,10 @@
     });
     /*
      * DEV :sowmya
-     * Desc : Activate grocerycategory
+     * Desc : Activate storecategory
      * Date : 23/4/2016
      */
-    $(document.body).on('click', '.grocerycategoryactive', function() {
+    $(document.body).on('click', '.storecategoryactive', function() {
         var categoryid = $(this).attr('id');
         var categoryid = categoryid.replace("category_", "");
         console.log('activate called');
@@ -1755,7 +1759,7 @@
             type: 'POST',
             datatype: 'HTML',
             data: {
-                method: 'grocerycategoryactive',
+                method: 'storecategoryactive',
                 categoryid: categoryid
             },
             beforeSend: function() {
@@ -1766,8 +1770,8 @@
                 $('#' + "activeclass_" + uid).removeClass('bs-label label-success');
                 $('#' + "activeclass_" + uid).addClass('bs-label label-danger');
                 $('#' + "activeclass_" + uid).html("Dectivate");
-                $('#category_' + uid).removeClass('grocerycategoryactive');
-                $('#category_' + uid).addClass('grocerycategorydeactive');
+                $('#category_' + uid).removeClass('storecategoryactive');
+                $('#category_' + uid).addClass('storecategorydeactive');
                 $('#' + "activecategory_" + uid).html("Active");
 
             }
@@ -1777,45 +1781,46 @@
     });
     /*
      * DEV :sowmya
-     * Desc : Delete grocerycategory
+     * Desc : Delete storecategory
      * Date :23/4/2016
      */
 
-    $(document.body).on('click', '.grocerycategorydelete', function() {
-        var id = $(this).attr('id');
-        var deleteid = id.replace("categorydelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './locationsettings-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'grocerycategorydelete',
-                    categoryid: deleteid
-                },
-                beforeSend: function() {
+    $(document.body).on('click', '.storecategorydelete', function() {
+        if (confirm("Are you sure you want to delete? ")) {
+            var id = $(this).attr('id');
+            var deleteid = id.replace("categorydelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './locationsettings-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'storecategorydelete',
+                        categoryid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
 
-                        $('#' + "categorydelete_" + uid).parent().parent().remove();
+                            $('#' + "categorydelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
-     /*
+    /*
      * DEV :sowmya
-     * Desc : edit grocerycategory
+     * Desc : edit storecategory
      * Date :23/4/2016
      */
-    $(document.body).on('click', '.grocerycategoryedit', function() {
+    $(document.body).on('click', '.storecategoryedit', function() {
         var categoryid = $(this).attr('id');
         var categoryid = categoryid.replace("showEdit_", "");
         $.ajax({
@@ -1823,7 +1828,7 @@
             type: 'POST',
             datatype: 'HTML',
             data: {
-                method: 'getgrocerycategory',
+                method: 'getstorecategory',
                 categoryid: categoryid
             },
             beforeSend: function() {
@@ -1852,185 +1857,191 @@
         });
 
     });
-    
-      /*
+
+    /*
      * DEV :sowmya
      * Desc : Delete cities
      * Date :25/4/2016
      */
 
     $(document.body).on('click', '.citydelete', function() {
-        var id = $(this).attr('id');
-        var deleteid = id.replace("citydelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './locationsettings-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'citydelete',
-                    locationid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete? It will delete all the locations related with particular city. ")) {
+            var id = $(this).attr('id');
+            var deleteid = id.replace("citydelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './locationsettings-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'citydelete',
+                        locationid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
 
-                        $('#' + "citydelete_" + uid).parent().parent().remove();
+                            $('#' + "citydelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
-     
-      /*
+
+    /*
      * DEV :sowmya
      * Desc : Delete state
      * Date :25/4/2016
      */
 
     $(document.body).on('click', '.statedelete', function() {
-        var id = $(this).attr('id');
-        var deleteid = id.replace("statedelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './locationsettings-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'statedelete',
-                    locationid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete? It will delete all the cities and locations related with particular states. ")) {
+            var id = $(this).attr('id');
+            var deleteid = id.replace("statedelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './locationsettings-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'statedelete',
+                        locationid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
 
-                        $('#' + "statedelete_" + uid).parent().parent().remove();
+                            $('#' + "statedelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
-     
-      /*
+
+    /*
      * DEV :sowmya
      * Desc : Delete country
      * Date :25/4/2016
      */
 
     $(document.body).on('click', '.countrydelete', function() {
-        var id = $(this).attr('id');
-        var deleteid = id.replace("countrydelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './locationsettings-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'countrydelete',
-                    locationid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete? It will delete all the states,cities and locations related with particular country. ")) {
+            var id = $(this).attr('id');
+            var deleteid = id.replace("countrydelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './locationsettings-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'countrydelete',
+                        locationid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
 
-                        $('#' + "countrydelete_" + uid).parent().parent().remove();
+                            $('#' + "countrydelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
-     
-      /*
+
+    /*
      * DEV :sowmya
      * Desc : Delete location
      * Date :25/4/2016
      */
 
     $(document.body).on('click', '.locationdelete', function() {
-        var id = $(this).attr('id');
-        var deleteid = id.replace("locationdelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './locationsettings-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'locationdelete',
-                    locationid: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete? It will delete all  locations related with particular location. ")) {
+            var id = $(this).attr('id');
+            var deleteid = id.replace("locationdelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './locationsettings-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'locationdelete',
+                        locationid: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
 
-                        $('#' + "locationdelete_" + uid).parent().parent().remove();
+                            $('#' + "locationdelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
-
     });
-    
-     /*
+
+    /*
      * DEV :sowmya
      * Desc : Delete coupons
      * Date : 5/3/2016
      */
 
     $(document.body).on('click', '.deletecoupon', function() {
-        var couponId = $(this).attr('id');
-        var deleteid = couponId.replace("coupondelete_", "");
-        if (deleteid) {
-            $.ajax({
-                url: './coupons-ajax-handler',
-                type: 'POST',
-                datatype: 'json',
-                data: {
-                    method: 'deleteCoupon',
-                    couponId: deleteid
-                },
-                beforeSend: function() {
+        if (confirm("Are you sure you want to delete?")) {
+            var couponId = $(this).attr('id');
+            var deleteid = couponId.replace("coupondelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './coupons-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'deleteCoupon',
+                        couponId: deleteid
+                    },
+                    beforeSend: function() {
 
-                },
-                success: function(response) {
-                    if (response) {
-                        var uid = response.replace(/ /g, '');
-                        $('#' + "coupondelete_" + uid).parent().parent().remove();
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
+                            $('#' + "coupondelete_" + uid).parent().parent().remove();
 
+                        }
                     }
-                }
 
 
-            });
+                });
+            }
         }
     });
-/*
+    /*
      * DEV :sowmya
      * Desc : Deactivate coupons status
      * Date : 3/5/2016
@@ -2102,7 +2113,7 @@
         });
 
     });
-    
+
     /*
      * DEV :sowmya
      * Desc : Delete coupons user
@@ -2110,24 +2121,222 @@
      */
 
     $(document.body).on('click', '.deletecouponuser', function() {
-        var couponId = $(this).attr('id');
-        var deleteid = couponId.replace("couponuserdelete_", "");
-        if (deleteid) {
+        if (confirm("Are you sure you want to delete? ")) {
+            var couponId = $(this).attr('id');
+            var deleteid = couponId.replace("couponuserdelete_", "");
+            if (deleteid) {
+                $.ajax({
+                    url: './coupons-ajax-handler',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        method: 'deleteCouponUser',
+                        couponuserId: deleteid
+                    },
+                    beforeSend: function() {
+
+                    },
+                    success: function(response) {
+                        if (response) {
+                            var uid = response.replace(/ /g, '');
+                            $('#' + "couponuserdelete_" + uid).parent().parent().remove();
+
+                        }
+                    }
+
+
+                });
+            }
+        }
+    });
+    /*
+     * DEV :sowmya
+     * Desc : select hotel based on location id
+     * Date : 9/5/2016
+     */
+
+    $(document.body).on('change', '.selectlocation', function() {
+        var id = $(this).val();
+
+        if (id) {
             $.ajax({
-                url: './coupons-ajax-handler',
+                url: '/admin/user-ajax-handler',
                 type: 'POST',
                 datatype: 'json',
                 data: {
-                    method: 'deleteCouponUser',
-                    couponuserId: deleteid
+                    method: 'findhotel',
+                    locationid: id
                 },
                 beforeSend: function() {
 
                 },
                 success: function(response) {
+                    $('#hotel_id').empty();
+                    var response = JSON.parse(response);
                     if (response) {
-                        var uid = response.replace(/ /g, '');
-                        $('#' + "couponuserdelete_" + uid).parent().parent().remove();
+                        $(response).each(function(index, value) {
+                            $('#hotel_id').append('<option value="' + value.id + '">' + value.hotel_name + '</option>');
+                        });
+
+
+                    }
+                }
+
+
+            });
+        }
+    });
+    /*
+     * DEV :sowmya
+     * Desc : select hotel based on location id
+     * Date : 9/5/2016
+     */
+
+    $(document.body).on('change', '.selectlocation1', function() {
+        var id = $(this).val();
+
+        if (id) {
+            $.ajax({
+                url: '/admin/user-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'findstore',
+                    locationid: id
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    $('#store_id').empty();
+                    var response = JSON.parse(response);
+                    if (response) {
+                        $(response).each(function(index, value) {
+                            $('#store_id').append('<option value="' + value.store_id + '">' + value.store_name + '</option>');
+                        });
+
+
+                    }
+                }
+
+
+            });
+        }
+    });
+
+    /*
+     * DEV :sreekanth
+     * Desc : select states based on country id
+     * Date : 9-5-16
+     */
+
+    $(document.body).on('change', '.selectcountry', function() {
+        var id = $(this).val();
+        var element = "";
+        if (id) {
+            $.ajax({
+                url: '/agent/agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'findstates',
+                    countryid: id
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    $('#state').empty();
+                    $('#city').empty();
+                    $('#location').empty();
+                    var response = JSON.parse(response);
+                    console.log(response);
+                    if (response.code == 200) {
+                        $('#state').append('<option>Select State</option>');
+                        $.each(response.data, function(i, a) {
+                            $('#state').append('<option value="' + a.location_id + '">' + a.name + '</option>');
+                        });
+
+                    }
+                }
+
+
+            });
+        }
+    });
+
+    /*
+     * DEV :sreekanth
+     * Desc : show cities based on state select
+     * Date : 9-5-16
+     */
+
+    $(document.body).on('change', '.selectstate', function() {
+        var id = $(this).val();
+
+        if (id) {
+            $.ajax({
+                url: '/agent/agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'findcitys',
+                    stateid: id
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+
+                    var response = JSON.parse(response);
+                    $('#city').empty();
+
+                    if (response.code == 200) {
+                        $('#city').append('<option> Select City </option>');
+                        $.each(response.data, function(i, a) {
+
+                            $('#city').append('<option value="' + a.location_id + '">' + a.name + '</option>');
+                        });
+
+                    }
+                }
+
+
+            });
+        }
+    });
+
+    /*
+     * DEV :sreekanth
+     * Desc : show locations based on city
+     * Date : 9-5-16
+     */
+
+    $(document.body).on('change', '.selectcity', function() {
+        var id = $(this).val();
+        if (id) {
+            $.ajax({
+                url: '/agent/agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'findlocations',
+                    locationid: id
+                },
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+
+                    var response = JSON.parse(response);
+                    $('#location').empty();
+
+                    if (response.code == 200) {
+                        $('#location').append('<option>Select location</option>');
+                        $.each(response.data, function(i, a) {
+                            $('#location').append('<option value="' + a.location_id + '">' + a.name + '</option>');
+                        });
+
 
                     }
                 }

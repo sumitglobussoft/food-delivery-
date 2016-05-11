@@ -1,0 +1,91 @@
+<div id="page-title">
+    <h2>Store Details</h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="panel-body">
+                <h3 class="title-hero">View/Edit/Remove Store</h3>
+                <div class="example-box-wrapper">
+                    <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Store ID</th>
+                                <th>Store Name</th>
+                                <th>Store Rating</th>
+                                <th> Agent ID</th>
+                                <th> Agent Name </th>                            
+                                <th> Timing </th>
+                                <th> Status </th>
+                                <th> Action </th>
+                                <th> View/Edit/Delete</th>
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Store ID</th>
+                                <th>Store Name</th>
+                                <th>Store Rating</th>
+                                <th> Agent ID</th>
+                                <th> Agent Name </th>
+                                <th> Timing </th>
+                                <th> Status </th>
+                                <th> Action </th>
+                                <th> View/Edit/Delete</th>
+
+                            </tr>
+                        </tfoot>
+                        <tbody>
+
+                            <?php
+                            $i = 0;
+                            if (isset($this->storedetails)) {
+                                foreach ($this->storedetails as $value) {
+                                    ?>
+
+                                    <tr>
+                                        <td><?php echo ++$i; ?></td>
+                                        <td><?php echo $value['store_id']; ?></td>
+                                        <td><?php echo $value['store_name']; ?></td>
+                                         <td><?php echo $value['store_rating']; ?></td>
+                                        <td><?php echo $value['agent_id']; ?></td>
+                                        <td><?php echo $value['loginname']; ?></td> 
+                                        <td>
+                                            <span><?php echo $value['Open_time']; ?>AM</span> - <span><?php echo $value['Closing_time']; ?>PM</span>
+                                        </td>
+                                        <?php if ($value['store_status'] == 1): ?>
+                                            <td id="activestore_<?php echo $value['store_id']; ?>" class="storeactive">Active</td>
+                                            <td class="center"><a style="cursor:pointer"  id="<?php
+                                                if (isset($value['store_id'])): echo "store_" . $value['store_id'];
+                                                endif;
+                                                ?>" class="storedeactive">
+                                                    <span id="activeclass_<?php echo $value['store_id']; ?>" class="bs-label label-danger">Deactivate</span></a></td>
+                                        <?php else: ?>
+                                            <td id="activestore_<?php echo $value['store_id']; ?>" class="storedeactive">Suspended</td>
+                                            <td class="center" ><a style="cursor:pointer" id="<?php
+                                                if (isset($value['store_id'])): echo "store_" . $value['store_id'];
+                                                endif;
+                                                ?>" class="storeactive">
+                                                    <span id="activeclass_<?php echo $value['store_id']; ?>"  class="bs-label label-success">Activate</span></a></td>
+                                        <?php endif; ?> 
+                                        <td class="text-center">
+                                            <a href="/admin/view-store-details/<?php echo $value['store_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-eye"></i></a>
+                                            <a href="/admin/edit-store-details/<?php echo $value['store_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-pencil"></i></a>
+                                            <a href="javascript:;" id="<?php echo "storedelete_" . $value['store_id']; ?>" class="btn btn-default deletestore"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -16,8 +16,11 @@ class Admin_HotelDetailsController extends Zend_Controller_Action {
      */
 
     public function editHotelDetailsAction() {
+        $locationsModel = Admin_Model_Location::getInstance();
         $adminModel = Admin_Model_Users::getInstance();
         $result = $adminModel->getAdminDetails(); // showing image
+
+
         if ($result) {
             $this->view->admindetails = $result;
         }
@@ -32,11 +35,12 @@ class Admin_HotelDetailsController extends Zend_Controller_Action {
         if ($cuisinesdDetails) {
             foreach ($cuisinesdDetails as $value) {
                 $array[$i] = $value['Cuisine_name'];
-            } $i++;
+            }
+            $i++;
             $this->view->cuisinesdDetails = $cuisinesdDetails;
         }
         if ($this->getRequest()->isPost()) {
-
+            $response = "";
             $data['id'] = $hotel_id;
             $data['hotel_contact_number'] = $this->getRequest()->getPost('primary_phone');
             $data['secondary_phone'] = $this->getRequest()->getPost('secondary_phone');
@@ -48,49 +52,78 @@ class Admin_HotelDetailsController extends Zend_Controller_Action {
             $data['address'] = $this->getRequest()->getPost('address');
             $data['deliverycharge'] = $this->getRequest()->getPost('deliverycharge');
             $data['minorder'] = $this->getRequest()->getPost('minorder');
-            $coverphoto = $_FILES["fileToUpload"]["name"];
-
-            $dirpath = getcwd() . "/themes/agent/skin/hotelimages/$agentid/$hotel_id/";
-
-            if (!file_exists($dirpath)) {
-                mkdir($dirpath, 0777, true);
-            }
-            if (!empty($coverphoto)) {
-                $imagepath = $dirpath . $coverphoto;
-                $savepath = "/themes/agent/skin/hotelimages/$agentid/$hotel_id/$coverphoto";
-
-                $imageTmpLoc = $_FILES["fileToUpload"]["tmp_name"];
-                $ext = pathinfo($coverphoto, PATHINFO_EXTENSION);
-                if ($ext != "jpg" && $ext != "png" && $ext != "jpeg" && $ext != "gif") {
-                    echo json_encode("Something went wrong image upload");
-                } else {
-                    $imagemoveResult = (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $imagepath));
-
-                    if ($imagemoveResult) {
-//                        $link = "http://" . $_SERVER["HTTP_HOST"];
-                        $link = $this->_appSetting->hostLink;
-                        $data['hotel_image'] = $link . $savepath;
-//                          print_r($data);die("fbh");
-                        $result1 = $hotelDetailsModel->updateHotelDetails($hotel_id, $data);
-
-                        if ($result1) {
-                            $this->redirect('/admin/hotel-details');
+            $hotellocation = $this->getRequest()->getPost('selectlocation');
+            //to add new location while editing hotel details
+            if (empty($hotellocation)) {
+                $data1['select_city'] = $this->getRequest()->getPost('selectcity');
+                $location['name'] = $this->getRequest()->getPost('location_name');
+                if ($data1['select_city']) {
+                    $location['parent_id'] = $data1['select_city'];
+                    $location['location_status'] = 1;
+                    $location['location_type'] = 3;
+                    $countryid = $this->getRequest()->getPost('selectcountry');
+                    $stateid = $this->getRequest()->getPost('selectstate');
+                    if ($countryid && $stateid && $location['parent_id']) {
+                        $hotellocation = $locationsModel->addLocationByParentIds($location, $stateid, $countryid);
+                        if ($hotellocation) {
+                            $this->view->errormessage = 'Successfull';
+                        } else {
+                            $this->view->errormessage = 'Could not Serve the Response1';
                         }
                     } else {
-                        $this->view->errormessage = 'hotel details not updated properly';
+                        $this->view->errormessage = 'Parametre missing';
                     }
+                } else {
+                    $this->view->errormessage = 'Could not Serve the Response';
                 }
-            } else {
-                $result1 = $hotelDetailsModel->updateHotelDetails($hotel_id, $data);
-                if ($result1) {
-                    $this->redirect('/admin/hotel-details');
+            }
+
+            if (!empty($hotellocation)) {
+
+                $data['hotel_location'] = $hotellocation;
+                $coverphoto = $_FILES["fileToUpload"]["name"];
+                $dirpath = getcwd() . "/themes/agent/skin/hotelimages/$agentid/$hotel_id/";
+
+                if (!file_exists($dirpath)) {
+                    mkdir($dirpath, 0777, true);
+                }
+                if (!empty($coverphoto)) {
+                    $imagepath = $dirpath . $coverphoto;
+                    $savepath = "/themes/agent/skin/hotelimages/$agentid/$hotel_id/$coverphoto";
+
+                    $imageTmpLoc = $_FILES["fileToUpload"]["tmp_name"];
+                    $ext = pathinfo($coverphoto, PATHINFO_EXTENSION);
+                    if ($ext != "jpg" && $ext != "png" && $ext != "jpeg" && $ext != "gif") {
+                        echo json_encode("Something went wrong image upload");
+                    } else {
+                        $imagemoveResult = (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $imagepath));
+
+                        if ($imagemoveResult) {
+//                        $link = "http://" . $_SERVER["HTTP_HOST"];
+                            $link = $this->_appSetting->hostLink;
+                            $data['hotel_image'] = $link . $savepath;
+                            $result1 = $hotelDetailsModel->updateHotelDetails($hotel_id, $data);
+
+                            if ($result1) {
+                                $this->redirect('/admin/hotel-details');
+                            }
+                        } else {
+                            $this->view->errormessage = 'hotel details not updated properly';
+                        }
+                    }
+                } else {
+                    $result1 = $hotelDetailsModel->updateHotelDetails($hotel_id, $data);
+                    if ($result1) {
+                        $this->redirect('/admin/hotel-details');
+                    }
                 }
             }
         }
         $result = $hotelDetailsModel->getHotelDetailsByID($hotel_id);
-
+        $countrys = $locationsModel->getCountrys();
         if ($result) {
             $this->view->allhoteldetails = $result;
+            $this->view->countrylist = $countrys;
         } else {
             echo 'controller error occured';
         }
@@ -104,38 +137,7 @@ class Admin_HotelDetailsController extends Zend_Controller_Action {
      */
 
     public function addHotelDetailsAction() {
-
-//       $hotelDetailsModel = Admin_Model_HotelDetails::getInstance();
-//
-//
-//        $locationsModel = Admin_Model_Location::getInstance();
-//
-//        $countrys = $locationsModel->getCountrys();
-//        if ($countrys) {
-//
-//            $this->view->countriesdetails = $countrys;
-//        }   
-// 
-//        if ($this->getRequest()->isPost()) {
-//            $data['select_country'] = $this->getRequest()->getPost('selectcountry');
-//            $data['select_state'] = $this->getRequest()->getPost('selectstate');
-//            $data['select_city'] = $this->getRequest()->getPost('selectcity');
-//            $data['primary_phone'] = $this->getRequest()->getPost('primary_phone');
-//            $data['secondary_phone'] = $this->getRequest()->getPost('secondary_phone');
-//            $data['hotel_name'] = $this->getRequest()->getPost('hotel_name');
-//            $data['open_time'] = $this->getRequest()->getPost('open_time');
-//            $data['closing_time'] = $this->getRequest()->getPost('closing_time');
-//            $data['notice'] = $this->getRequest()->getPost('notice');
-//            $data['hotel_status'] = $this->getRequest()->getPost('hotel_status');
-//            $data['address'] = $this->getRequest()->getPost('address');
-//            $data['deliverycharge'] = $this->getRequest()->getPost('deliverycharge');
-//            $data['minorder'] = $this->getRequest()->getPost('minorder');
-//            if ($data) {
-//
-//              
-//                }
-//            }
-//        
+        
     }
 
     /*

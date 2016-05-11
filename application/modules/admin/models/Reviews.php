@@ -36,15 +36,15 @@ class Admin_Model_Reviews extends Zend_Db_Table_Abstract {
     }
 
 //dev:sowmya
-    //desc:grocery reviews
+    //desc:store reviews
     //date:20/4/2016
-    public function getAllGroceryReviews() {
+    public function getAllStoreReviews() {
         try {
             $select = $this->select()
                     ->setIntegrityCheck(false)
                     ->from(array('r' => 'reviews'))
                     ->joinLeft(array('u' => 'users'), 'u.user_id= r.user_id', array('u.user_id', 'u.uname', 'u.email'))
-                    ->joinLeft(array('gd' => 'grocery_details'), 'gd.grocery_id= r.review_for_id', array('gd.grocery_id', 'gd.Grocery_name'))
+                    ->joinLeft(array('gd' => 'store_details'), 'gd.store_id= r.review_for_id', array('gd.store_id', 'gd.Store_name'))
                     ->where('review_type = ?', 1)
                     ->order('review_date DESC');
             $result = $this->getAdapter()->fetchAll($select);

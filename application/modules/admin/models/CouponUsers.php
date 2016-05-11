@@ -33,7 +33,8 @@ class Admin_Model_CouponUsers extends Zend_Db_Table_Abstract {
                 ->from(array('cu' => 'coupon_users'))
                 ->joinInner(array('c' => 'coupons'), 'c.coupon_id=cu.coupon_id', array('coupon_code' => 'c.coupon_code'))
                 ->joinInner(array('u' => 'usermeta'), 'u.user_id=cu.user_id', array('first_name' => 'u.first_name', 'last_name' => 'u.last_name'))
-                ->joinInner(array('o' => 'orders'), 'o.order_id=cu.order_id', array('product_id' => new Zend_Db_Expr(" trim(trailing ']' from trim( leading '[' from replace(product_id,'\"','')))")))
+                ->joinInner(array('o' => 'orders'), 'o.order_id=cu.order_id', array('product_id' => 'o.product_id'))
+//                ->joinInner(array('o' => 'orders'), 'o.order_id=cu.order_id', array('product_id' => new Zend_Db_Expr(" trim(trailing ']' from trim( leading '[' from replace(product_id,'\"','')))")))
 //                ->joinInner(array('p' => 'products'), 'o.product_id=p.product_id', array('product_name' => new Zend_Db_Expr('SUBSTRING_INDEX(o.product_id,",",1)')))
         ;
         $result = $this->getAdapter()->fetchAll($sql);
@@ -53,7 +54,8 @@ class Admin_Model_CouponUsers extends Zend_Db_Table_Abstract {
         }
         return $result;
     }
- /* Dev : Sowmya
+
+    /* Dev : Sowmya
      * Date: 5/4/2015
      * desc: to delete coupon user */
 
@@ -72,5 +74,7 @@ class Admin_Model_CouponUsers extends Zend_Db_Table_Abstract {
             throw new Exception('Argument Not Passed');
         endif;
     }
+
 }
+
 ?>

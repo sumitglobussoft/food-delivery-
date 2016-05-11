@@ -15,7 +15,7 @@
         <!-- begin col-12 -->
         <div class="col-md-12">
             <!-- begin panel -->
-            <div class="panel pagination-theme clearfix m-b-0 " id="addCategory" >
+            <div class="panel pagination-theme clearfix m-b-0 " id="addCategory">
                 <div class="panel-heading">
                     <h4 class="panel-title">Add Hotel Category</h4>
                 </div>
@@ -26,19 +26,22 @@
                                 <div class="form-group row m-t-20 m-b-10">
                                     <label class="col-sm-2 control-label">Enter the Hotel Category</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="categoryname"  placeholder="" required />
+                                        <input type="text" class="form-control" name="categoryname" placeholder=""
+                                               required/>
                                     </div>
                                 </div>
                                 <div class="form-group row m-t-20 m-b-10">
                                     <label class="col-sm-2 control-label">Enter the Description</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="cat_desc"  id="cat_desc" placeholder=""  />
+                                        <input type="text" class="form-control" name="cat_desc" id="cat_desc"
+                                               placeholder=""/>
                                     </div>
                                 </div>
                                 <div class="form-group row m-t-20 m-b-10">
                                     <label class="col-sm-2 control-label">Status</label>
                                     <div class="col-sm-5">
-                                        <select  class="selectpicker width-full js-example-basic-hide-search " name="cat_status">
+                                        <select class="selectpicker width-full js-example-basic-hide-search "
+                                                name="cat_status">
                                             <option value="1">
                                                 Active
                                             </option>
@@ -59,34 +62,39 @@
             <!-- end panel -->
 
             <!-- begin panel -->
-            <div class="panel pagination-theme clearfix m-b-0 " id="editCategory" >
-                <div class="panel-heading">
+            <div class="panel pagination-theme clearfix m-b-0 " id="editCategory">
+                <div class="panel-heading editContent">
                     <h4 class="panel-title">Edit Hotel Category</h4>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body editContent">
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
-                            <form class="" role="form"  method="POST" action="/agent/edit-hotel-category">
+                            <form class="" role="form" method="POST" action="/agent/edit-hotel-category">
                                 <div class="form-group row m-t-20 m-b-10">
                                     <label class="col-sm-2 control-label">Hotel Category Name</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="editcategory"  name="category" placeholder="" value="" required />
+                                        <input type="text" class="form-control" id="editcategory" name="category" placeholder="" value="" required/>
                                     </div>
                                     <div class="col-sm-10 hidden">
-                                        <input type="text" class="form-control" id="categoryid"  name="category_id" placeholder="" value="" required />
+                                        <input type="text" class="form-control" id="categoryid" name="category_id"
+                                               placeholder="" value="" />
                                     </div>
                                 </div>
-                                <div class="form-group row m-t-20 m-b-10">
+                                <div class="form-group row m-t-20 m-b-10 editContent">
                                     <label class="col-sm-2 control-label">Category Description</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="editcategorydesc"  name="catdesc" placeholder="" value=""  />
+                                        <input type="text" class="form-control" id="editcategorydesc" name="catdesc"
+                                               placeholder="" value=""/>
                                     </div>
                                     <div class="col-sm-10 hidden">
-                                        <input type="text" class="form-control" id="categorydesc"  name="cat_desc" placeholder="" value=""  />
+                                        <input type="text" class="form-control" id="categorydesc" name="cat_desc"
+                                               placeholder="" value=""/>
                                     </div>
                                 </div>
                                 <div class="form-group text-right m-b-20">
-                                    <button type="submit" name="categorybtn"  value="category" class="btn btn-theme">UPDATE</button>
+                                    <button type="submit" name="categorybtn" value="category" class="btn btn-theme">
+                                        UPDATE
+                                    </button>
                                     <button class="btn btn-default clearCountry">Cancel</button>
                                 </div>
                             </form>
@@ -129,36 +137,55 @@
                                 if (isset($this->categorydetails)) {
                                     $i = 0;
                                     foreach ($this->categorydetails as $value) {
+                                        $i++;
                                         ?>
                                         <tr id="<?php echo $value['category_id']; ?>">
                                             <td><strong><?php echo $i; ?></strong></td>
                                             <td><strong><?php echo $value['cat_name']; ?></strong></td>
                                             <td><strong><?php echo $value['cat_desc']; ?></strong></td>
 
-                                            <?php if ($value['cat_status'] == 1): ?>
-                                                <td id="activecategory_<?php echo $value['category_id']; ?>" class="hotelcategoryactive">Active</td>
-                                                <td class="center"><a style="cursor:pointer" id="<?php
-                                                    if (isset($value['category_id'])): echo "category_" . $value['category_id'];
-                                                    endif;
-                                                    ?>" class="hotelcategorydeactive">
-                                                        <span id="activeclass_<?php echo $value['category_id']; ?>" class="label label-danger">Deactivate</span></a></td>
-                                            <?php else: ?>
-                                                <td id="activecategory_<?php echo $value['category_id']; ?>" class="hotelcategorydeactive">Suspended</td>
-                                                <td class="center" ><a  style="cursor:pointer" id="<?php
-                                                    if (isset($value['category_id'])): echo "category_" . $value['category_id'];
-                                                    endif;
-                                                    ?>" class="hotelcategoryactive">
-                                                        <span id="activeclass_<?php echo $value['category_id']; ?>"  class="label label-success">Activate</span></a></td>
-                                            <?php endif; ?>
+
+                                            <?php if ($value['cat_status'] == 1) { ?>
+                                                <td>
+                                                    <label id="activeclass_<?php echo $value['category_id']; ?>"
+                                                           class="label label-success js-check-change-field">ACTIVE</label>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <input type="checkbox" data-render="switchery"
+                                                           id="<?php if (isset($value['category_id'])): echo "hotel_" . $value['category_id'];
+                                                           endif;
+                                                           ?>" class="js-switch js-check-change hotelcategorydeactive" data-theme="lime"
+                                                           checked/>
+                                                </td>
+                                            <?php } else { ?>
+                                                <td>
+                                                    <label id="activeclass_<?php echo $value['category_id']; ?>"
+                                                           class="label label-danger js-check-change-field">SUSPENDED</label>
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" data-render="switchery"
+                                                           id="<?php if (isset($value['category_id'])): echo "hotel_" . $value['category_id'];
+                                                           endif;
+                                                           ?>" class="js-switch js-check-change hotelcategoryactive" data-theme="lime"/>
+                                                </td>
+                                            <?php } ?>
+
+
                                             <td class="text-center">
-                                                <a href="javascript:;" class="btn btn-purple btn-icon btn-circle btn-sm categoryedit" id="showEdit_<?php echo $value['category_id']; ?>">
+                                                <a href="#"
+                                                   class="btn btn-purple btn-icon btn-circle btn-sm categoryedit"
+                                                   id="showEdit_<?php echo $value['category_id']; ?>">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                <a href="javascript:;" id="<?php echo "categorydelete_" . $value['category_id']; ?>" class="btn btn-danger btn-icon btn-circle btn-sm hotelcategorydelete">
+                                                <a href="javascript:;"
+                                                   id="<?php echo "categorydelete_" . $value['category_id']; ?>"
+                                                   class="btn btn-danger btn-icon btn-circle btn-sm hotelcategorydelete">
                                                     <i class="fa fa-trash"></i>
                                                 </a>
                                             </td>
                                         </tr>
+
                                         <?php
                                     }
                                 }
@@ -177,14 +204,13 @@
 </div>
 
 
-
 <script>
-    $(function() {
-        $('.categoryedit').click(function() {
+    $(function () {
+        $('.categoryedit').click(function () {
             $('#editCategory').show();
             $('#addCategory').hide();
         });
-        $('.clearCountry').click(function() {
+        $('.clearCountry').click(function () {
             $('#editCategory').hide();
             $('#addCategory').show();
         });

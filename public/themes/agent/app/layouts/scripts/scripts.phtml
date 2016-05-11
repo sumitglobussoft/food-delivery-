@@ -47,10 +47,6 @@
          * Date : 18/12/2015
          */
 
-        /*
-         * 
-         * Modified script for hotel status 
-         */
         $(document.body).on('change', '.hoteldeactive', function() {
             var hotelid = $(this).attr('id');
             var hotelid = hotelid.replace("hotel_", "");
@@ -88,7 +84,7 @@
         });
         /*
          * 
-         * Modified script for hotel status 
+         * Modified script for hotel status  active
          */
         $(document.body).on('change', '.hotelactive', function() {
             var hotelid = $(this).attr('id');
@@ -128,9 +124,9 @@
     });
 
     /*
-     * DEV :priyanka varanasi
-     * Desc : Deactivate hotel
-     * Date : 18/12/2015
+     * DEV :sowmya
+     * Desc : Deactivate product
+     * Date : 5/5/2015
      */
     $(document.body).on('change', '.productdeactive', function() {
         var productid = $(this).attr('id');
@@ -166,9 +162,9 @@
 
     });
     /*
-     * DEV :priyanka varanasi
-     * Desc : Activate hotel
-     * Date : 18/12/2015
+     * DEV :sowmya
+     * Desc : Activate product
+     * Date : 5/5/2016
      */
     $(document.body).on('change', '.productactive', function() {
         var productid = $(this).attr('id');
@@ -246,7 +242,7 @@
 
     /*
      * DEV :priyanka varanasi
-     * Desc : slect states based on country id
+     * Desc : select states based on country id
      * Date : 18/12/2015
      */
 
@@ -287,7 +283,7 @@
 
     /*
      * DEV :priyanka varanasi
-     * Desc : slect citys based on state id
+     * Desc : select citys based on state id
      * Date : 18/12/2015
      */
 
@@ -328,7 +324,7 @@
 
     /*
      * DEV :priyanka varanasi
-     * Desc : slect locations based on city id
+     * Desc : select locations based on city id
      * Date : 18/12/2015
      */
 
@@ -350,7 +346,7 @@
                 success: function(response) {
 
                     var response = JSON.parse(response);
-                    $('#city').empty();
+         
                     $('#location').empty();
 
                     if (response.code == 200) {
@@ -367,7 +363,11 @@
             });
         }
     });
-
+  /*
+     * DEV :priyanka varanasi
+     * Desc : to get hotel cuisines
+     * Date : 18/12/2015
+     */
     $('#type_cusine').change(function() {
         var typevalue = $(this).val();
         $.ajax({
@@ -396,7 +396,6 @@
                     $('.show-category').hide();
                 }
                 else {
-//                    console.log('res.code');
                     $('.show-cusine').show();
                     $('.show-category').hide();
                 }
@@ -404,6 +403,11 @@
             }
         });
     });
+      /*
+     * DEV :priyanka varanasi
+     * Desc : to get hotel category
+     * Date : 18/12/2015
+     */
     $('#type_category').change(function() {
         var typevalue = $(this).val();
         $.ajax({
@@ -469,8 +473,7 @@
                     $('.show-cusine').show();
                     $('.show-category').hide();
                 }
-                else {
-                    //                    console.log('res.code');		
+                else {		
                     $('.show-cusine').show();
                     $('.show-category').hide();
                 }
@@ -554,12 +557,12 @@
     });
     /*
      * DEV :sowmya
-     * Desc : Status  change for grocery
+     * Desc : Status  change for store
      * Date : 26/4/2016
      */
-    $(document.body).on('change', '.grocerydeactive', function() {
-        var groceryid = $(this).attr('id');
-        var groceryid = groceryid.replace("grocery_", "");
+    $(document.body).on('change', '.storedeactive', function() {
+        var storeid = $(this).attr('id');
+        var storeid = storeid.replace("store_", "");
 
         console.log('deactivate called');
         $.ajax({
@@ -567,8 +570,8 @@
             type: 'POST',
             datatype: 'HTML',
             data: {
-                method: 'groceryactive',
-                groceryid: groceryid
+                method: 'storeactive',
+                storeid: storeid
             },
             beforeSend: function() {
 
@@ -580,8 +583,8 @@
                     $('#' + "activeclass_" + uid).html("SUSPENDED");
                     $('#' + "activeclass_" + uid).removeClass('label label-success');
                     $('#' + "activeclass_" + uid).addClass('label label-danger');
-                    $('#grocery_' + uid).removeClass('grocerydeactive');
-                    $('#grocery_' + uid).addClass('groceryactive');
+                    $('#store_' + uid).removeClass('storedeactive');
+                    $('#store_' + uid).addClass('storeactive');
 
 
                 } else {
@@ -593,12 +596,12 @@
     });
     /*
      * DEV :sowmya
-     * Desc : Status  change for grocery
+     * Desc : Status  change for store
      * Date : 26/4/2016
      */
-    $(document.body).on('change', '.groceryactive', function() {
-        var groceryid = $(this).attr('id');
-        var groceryid = groceryid.replace("grocery_", "");
+    $(document.body).on('change', '.storeactive', function() {
+        var storeid = $(this).attr('id');
+        var storeid = storeid.replace("store_", "");
 
         console.log('activate called');
         $.ajax({
@@ -606,8 +609,8 @@
             type: 'POST',
             datatype: 'HTML',
             data: {
-                method: 'groceryactive',
-                groceryid: groceryid
+                method: 'storeactive',
+                storeid: storeid
             },
             beforeSend: function() {
 
@@ -619,8 +622,8 @@
                     $('#' + "activeclass_" + uid).html("ACTIVE");
                     $('#' + "activeclass_" + uid).removeClass('label label-danger');
                     $('#' + "activeclass_" + uid).addClass('label label-success');
-                    $('#grocery_' + uid).removeClass('groceryactive');
-                    $('#grocery_' + uid).addClass('grocerydeactive');
+                    $('#store_' + uid).removeClass('storeactive');
+                    $('#store_' + uid).addClass('storedeactive');
 
 
                 } else {
@@ -632,21 +635,21 @@
     });
     /*
      * DEV :sowmya
-     * Desc : Delete grocery
+     * Desc : Delete store
      * Date : 26/4/2016
      */
 
-    $(document.body).on('click', '.deletegrocery', function() {
-        var groceryid = $(this).attr('id');
-        var deleteid = groceryid.replace("grocerydelete_", "");
+    $(document.body).on('click', '.deletestore', function() {
+        var storeid = $(this).attr('id');
+        var deleteid = storeid.replace("storedelete_", "");
         if (deleteid) {
             $.ajax({
                 url: './agent-ajax-handler',
                 type: 'POST',
                 datatype: 'json',
                 data: {
-                    method: 'grocerydelete',
-                    groceryid: deleteid
+                    method: 'storedelete',
+                    storeid: deleteid
                 },
                 beforeSend: function() {
 
@@ -658,7 +661,7 @@
                     if (response) {
                         var uid = response['data'].replace(/ /g, '');
 
-                        $('#' + "grocerydelete_" + uid).parent().parent().remove();
+                        $('#' + "storedelete_" + uid).parent().parent().remove();
 
                     }
                 }
@@ -777,55 +780,36 @@
     });
     /*
      * DEV :sowmya
-     * Desc : edit grocerycategory
+     * Desc : edit storecategory
      * Date :23/4/2016
      */
-    $(document.body).on('click', '.grocerycategoryedit', function() {
+     $(document.body).on('click', '.storecategoryedit', function() {
         var categoryid = $(this).attr('id');
+        var cat_name = $(this).attr('dataname');
+        var cat_desc = $(this).attr('datadesc');
+
         var categoryid = categoryid.replace("showEdit_", "");
-        $.ajax({
-            url: './agent-ajax-handler',
-            type: 'POST',
-            datatype: 'HTML',
-            data: {
-                method: 'getgrocerycategory',
-                categoryid: categoryid
-            },
-            beforeSend: function() {
-
-            },
-            success: function(response) {
-                var res = JSON.parse(response);
-
-                if (res.code == 200) {
-
+       
                     $('.editContent').find('#editcategory').val('');
-                    $('.editContent').find('#categoryid').val(res.data['category_id']);
-                    $('.editContent').find('#editcategory').val(res.data['cat_name']);
-                    $('.editContent').find('#categorydesc').val(res.data['cat_desc']);
-                    $('.editContent').find('#editcategorydesc').val(res.data['cat_desc']);
+                    $('.editContent').find('#categoryid').val(categoryid);
+                    $('.editContent').find('#editcategory').val(cat_name);
+                    $('.editContent').find('#editcategorydesc').val(cat_desc);
                     $('.editContent').show();
                     $('.addContent').hide();
 
-                } else {
+                
 
-                    window.location.reload(true);
-                }
-
-            }
+            });
 
 
-        });
-
-    });
 
     /*
      * DEV :sowmya
-     * Desc : Delete grocery category
+     * Desc : Delete store category
      * Date : 3/5/2016
      */
 
-    $(document.body).on('click', '.grocerycategorydelete', function() {
+    $(document.body).on('click', '.storecategorydelete', function() {
         var deleteid = $(this).attr('id');
       
         var deleteid = deleteid.replace("categorydelete_", "");
@@ -836,7 +820,7 @@
                 type: 'POST',
                 datatype: 'json',
                 data: {
-                    method: 'grocerycategorydelete',
+                    method: 'storecategorydelete',
                     categoryid: deleteid
                 },
                 beforeSend: function() {
@@ -860,12 +844,12 @@
 
     /*
      * DEV :sowmya
-     * Desc : Deactivate grocery category
+     * Desc : Deactivate store category
      * Date : 4/5/2016
      */
-    $(document.body).on('change', '.grocerycategorydeactive', function() {
+    $(document.body).on('change', '.storecategorydeactive', function() {
         var categoryid = $(this).attr('id');
-        var categoryid = categoryid.replace("category_", "");
+        var categoryid = categoryid.replace("store_", "");
 
         console.log('deactivate called');
         $.ajax({
@@ -873,55 +857,55 @@
             type: 'POST',
             datatype: 'HTML',
             data: {
-                method: 'grocerycategoryactive',
+                method: 'storecategoryactive',
                 categoryid: categoryid
             },
             beforeSend: function() {
 
             },
             success: function(response) {
-    
+     var response = JSON.parse(response);
                     var uid = response['data'].replace(/ /g, '');
-                    $('#' + "activeclass_" + uid).removeClass('label label-danger');
-                    $('#' + "activeclass_" + uid).addClass('label label-success');
+                    $('#' + "activeclass_" + uid).removeClass('label label-success');
+                    $('#' + "activeclass_" + uid).addClass('label label-danger');
                     $('#' + "activeclass_" + uid).html("Activate");
-                    $('#category_' + uid).removeClass('grocerycategorydeactive');
-                    $('#category_' + uid).addClass('grocerycategoryactive');
-                    $('#' + "activecategory_" + uid).html("Suspended");
+                    $('#store_' + uid).removeClass('storecategorydeactive');
+                    $('#store_' + uid).addClass('storecategoryactive');
+                    $('#' + "activeclass_" + uid).html("Suspended");
                
             }
         });
 
     });
     /*
-     * DEV :priyanka varanasi
-     * Desc : Activate hotel
-     * Date : 18/12/2015
+     * DEV :sowmya
+     * Desc : Activate store category
+     * Date : 5/5/2015
      */
-    $(document.body).on('click', '.grocerycategoryactive', function() {
+    $(document.body).on('click', '.storecategoryactive', function() {
         var categoryid = $(this).attr('id');
-        var categoryid = categoryid.replace("category_", "");
+        var categoryid = categoryid.replace("store_", "");
         console.log('activate called');
         $.ajax({
             url: './agent-ajax-handler',
             type: 'POST',
             datatype: 'HTML',
             data: {
-                method: 'grocerycategoryactive',
+                method: 'storecategoryactive',
                 categoryid: categoryid
             },
             beforeSend: function() {
 
             },
             success: function(response) {
-
+                     var response = JSON.parse(response);
                     var uid = response['data'].replace(/ /g, '');
-                    $('#' + "activeclass_" + uid).removeClass('label label-success');
-                    $('#' + "activeclass_" + uid).addClass('label label-danger');
+                    $('#' + "activeclass_" + uid).removeClass('label label-danger');
+                    $('#' + "activeclass_" + uid).addClass('label label-success');
                     $('#' + "activeclass_" + uid).html("Dectivate");
-                    $('#category_' + uid).removeClass('grocerycategoryactive');
-                    $('#category_' + uid).addClass('grocerycategorydeactive');
-                    $('#' + "activecategory_" + uid).html("Active");
+                    $('#store_' + uid).removeClass('storecategoryactive');
+                    $('#store_' + uid).addClass('storecategorydeactive');
+                    $('#' + "activeclass_" + uid).html("Active");
 
 
                
@@ -942,7 +926,6 @@
     $(document.body).on('click', '.locationdeactive', function() {
         var locationid = $(this).attr('id');
         var locationid = locationid.replace("location_", "");
-//        window.alert(locationid)
         console.log('deactivate called');
         $.ajax({
             url: './agent-ajax-handler',
@@ -976,7 +959,6 @@
      * Date : 2/5/2016
      */
     $(document.body).on('click', '.locationactive', function() {
-//        window.alert("came here")
         var locationid = $(this).attr('id');
         var locationid = locationid.replace("location_", "");
         console.log('activate called');
@@ -1006,9 +988,12 @@
         });
 
     });
-
+  /*
+     * DEV :sowmya
+     * Desc : to  edit country
+     * Date : 5/5/2016
+     */
     $(document.body).on('click', '.countryedit', function() {
-//        window.alert("came here")
         var locationid = $(this).attr('id');
         var locationid = locationid.replace("showEdit_", "");
         $.ajax({
@@ -1043,7 +1028,11 @@
 
         });
     });
-
+  /*
+     * DEV :sowmya
+     * Desc : to  delete country
+     * Date : 5/5/2016
+     */
     $(document.body).on('click', '.countrydelete', function() {
         var deleteid = $(this).attr('id');
         var deleteid = deleteid.replace("countrydelete_", "");
@@ -1069,5 +1058,325 @@
             });
         }
     });
+/*
+     * DEV :sreekanth
+     * Desc :  Deactivate  hotelcategory
+     * Date : 4-may-16
+     */
 
+    $(document.body).on('click', '.hotelcategorydeactive', function () {
+        var hotelid = $(this).attr('id');
+        var hotelid = hotelid.replace("hotel_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'hotelcategorydeactive',
+                hotelid: hotelid
+            },
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                console.log(response);
+                var response = JSON.parse(response);
+                if (response.code == 200) {
+                    var uid = response['data'].replace(/ /g, '');
+                    $('#' + "activeclass_" + uid).html("SUSPENDED");
+                    $('#' + "activeclass_" + uid).removeClass('label label-success');
+                    $('#' + "activeclass_" + uid).addClass('label label-danger');
+                    $('#hotel_' + uid).removeClass('hotelcategorydeactive');
+                    $('#hotel_' + uid).addClass('hotelcategoryactive');
+
+
+                } else {
+                    alert('Request could not served');
+                }
+            }
+        });
+
+    });
+    /*
+     * DEV :sreekanth
+     * Desc :  Deactivate  hotelcategory
+     * Date : 4-may-16
+     */
+    $(document.body).on('click', '.hotelcategoryactive', function () {
+        var hotelid = $(this).attr('id');
+        var hotelid = hotelid.replace("hotel_", "");
+
+        console.log('activate called');
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'hotelcategoryactive',
+                hotelid: hotelid
+            },
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                var response = JSON.parse(response);
+                if (response.code == 200) {
+                    var uid = response['data'].replace(/ /g, '');
+                    $('#' + "activeclass_" + uid).html("ACTIVE");
+                    $('#' + "activeclass_" + uid).removeClass('label label-danger');
+                    $('#' + "activeclass_" + uid).addClass('label label-success');
+                    $('#hotel_' + uid).removeClass('hotelcategoryactive');
+                    $('#hotel_' + uid).addClass('hotelcategorydeactive');
+
+
+                } else {
+                    alert('Request could not served');
+                }
+            }
+        });
+
+    });
+
+    //     * DEV :sreekanth
+    //     * Desc :  edit  hotel category
+    //     * Date : 4-may-16
+
+    $(document.body).on('click', '.categoryedit', function () {
+        var categoryid = $(this).attr('id');
+        var categoryid = categoryid.replace("showEdit_", "");
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'getcategoriesByCategoryId',
+                categoryid: categoryid
+            },
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                var res = jQuery.parseJSON(response);
+                if (res.code === 200) {
+
+                    $('.editContent').find('#editcategory').val('');
+                    $('.editContent').find('#categoryid').val(res.data['category_id']);
+                    $('.editContent').find('#editcategory').val(res.data['cat_name']);
+                    $('.editContent').find('#editcategorydesc').val(res.data['cat_desc']);
+                    $('.editContent').show();
+                    $('.addContent').hide();
+
+                } else {
+
+                    window.location.reload(true);
+                }
+
+            }
+
+
+        });
+    });
+
+    //     * DEV :sreekanth
+    //     * Desc :  delete   hotelcategory
+    //     * Date : 5-may-16
+
+    $(document.body).on('click', '.hotelcategorydelete', function () {
+        var deleteid = $(this).attr('id');
+        var deleteid = deleteid.replace("categorydelete_", "");
+
+        if (deleteid) {
+            $.ajax({
+                url: '/agent/agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'hotelcategorydelete',
+                    deleteid: deleteid
+                },
+                beforeSend: function () {
+
+                },
+                success: function (response) {
+                    var response = JSON.parse(response);
+                    $('#' + "categorydelete_" + response).parent().parent().remove();
+                }
+
+
+            });
+        }
+    });
+
+ /*
+     * DEV :sreekanth
+     * Desc :  Deactivate  hotelcuisine
+     * Date : 6-may-16
+     */
+
+    $(document.body).on('click', '.hotelcuisinedeactive', function () {
+        var cuisineid = $(this).attr('id');
+        var cuisineid = cuisineid.replace("hotel_", "");
+
+        console.log('deactivate called');
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'changeHotelCuisineStatus',
+                cuisineid: cuisineid
+            },
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                console.log(response);
+                var response = JSON.parse(response);
+                if (response.code == 200) {
+                    var uid = response['data'].replace(/ /g, '');
+                    $('#' + "activeclass_" + uid).html("SUSPENDED");
+                    $('#' + "activeclass_" + uid).removeClass('label label-success');
+                    $('#' + "activeclass_" + uid).addClass('label label-danger');
+                    $('#hotel_' + uid).removeClass('hotelcuisinedeactive');
+                    $('#hotel_' + uid).addClass('hotelcuisineactive');
+
+
+                } else {
+                    alert('Request could not served');
+                }
+            }
+        });
+
+    });
+    /*
+     * DEV :sreekanth
+     * Desc :  Deactivate  hotelcuisine
+     * Date : 6-may-16
+ */
+    $(document.body).on('click', '.hotelcuisineactive', function () {
+        var cuisineid = $(this).attr('id');
+        var cuisineid = cuisineid.replace("hotel_", "");
+
+        console.log('activate called');
+        $.ajax({
+            url: './agent-ajax-handler',
+            type: 'POST',
+            datatype: 'HTML',
+            data: {
+                method: 'changeHotelCuisineStatus',
+                cuisineid: cuisineid
+            },
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                var response = JSON.parse(response);
+                if (response.code == 200) {
+                    var uid = response['data'].replace(/ /g, '');
+                    $('#' + "activeclass_" + uid).html("ACTIVE");
+                    $('#' + "activeclass_" + uid).removeClass('label label-danger');
+                    $('#' + "activeclass_" + uid).addClass('label label-success');
+                    $('#hotel_' + uid).removeClass('hotelcuisineactive');
+                    $('#hotel_' + uid).addClass('hotelcuisinedeactive');
+
+
+                } else {
+                    alert('Request could not served');
+                }
+            }
+        });
+
+    });
+
+    //     * DEV :sreekanth
+    //     * Desc :  edit  hotel cuisine
+    //     * Date : 5-may-16
+
+    $(document.body).on('click', '.hotelcuisineedit', function () {
+
+        var categoryid = $(this).attr('id');
+        var dataid = $(this).attr('data_id');
+        var categoryid = categoryid.replace("showEdit_", "");
+        $('.editContent').find('#editcategory').val('');
+        $('.editContent').find('#cuisineid').val(categoryid);
+        $('.editContent').find('#editcuisinename').val(dataid);
+        $('.editContent').show();
+        $('.addContent').hide();
+    });
+
+    //     * DEV :sreekanth
+    //     * Desc :  delete   hotelcategory
+    //     * Date : 5-may-16
+
+    $(document.body).on('click', '.hotelcuisinedelete', function () {
+        var deleteid = $(this).attr('id');
+        var deleteid = deleteid.replace("cuisinedelete_", "");
+        window.alert(deleteid);
+        if (deleteid) {
+            $.ajax({
+                url: '/agent/agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'hotelcuisinedelete',
+                    deleteid: deleteid
+                },
+                beforeSend: function () {
+
+                },
+                success: function (response) {
+                    var response = JSON.parse(response);
+                    $('#' + "cuisinedelete_" + response).parent().parent().remove();
+                }
+
+
+            });
+        }
+    });
+
+    $(".js-example-responsive").select2();
+
+    $(".js-example-basic-hide-search").select2({
+        minimumResultsForSearch: Infinity
+    });
+    $('#test').change(function() {
+        $("#demo").prop("disabled", false);
+    });
+     //     * DEV :sowmya
+    //     * Desc :  delete   agent payement
+    //     * Date : 5-may-16
+
+    $(document.body).on('click', '.deletepayement', function () {
+        var deleteid = $(this).attr('id');
+        var deleteid = deleteid.replace("payementdelete_", "");
+
+        if (deleteid) {
+            $.ajax({
+                url: '/agent/agent-ajax-handler',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    method: 'payementdelete',
+                    deleteid: deleteid
+                },
+                beforeSend: function () {
+
+                },
+                success: function (response) {
+                    console.log(response);
+//                       var response = JSON.parse(response);
+                    if (response) {
+                        var uid = response['data'].replace(/ /g, '');
+
+                        $('#' + "payementdelete_" + uid).parent().parent().remove();
+
+                    }
+                }
+
+
+            });
+        }
+    });
 </script>

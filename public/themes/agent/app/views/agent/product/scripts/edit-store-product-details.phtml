@@ -1,0 +1,192 @@
+
+<div id="content" class="content">
+    <ol class="breadcrumb pull-right">
+        <li><a href="javascript:;">Home</a></li>
+        <li><a href="javascript:;">Product Details</a></li>
+        <li class="active">Edit  Store Product Details</li>
+    </ol>
+    <h1 class="page-header">Edit Store Product Details</h1>
+
+    <div class="row">
+        <div class="col-md-12">
+            <form class="" enctype="multipart/form-data" method="POST">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel pagination-theme clearfix m-b-0">
+                            <div class="panel-body">
+                    
+                             
+                
+                                <div class="form-group ">
+                                    <label class="control-label">Store Name</label>
+                                    <?php
+                                    if (isset($this->storeproductdetails)) {
+                                        echo $this->storeproductdetails['store_name'];
+                                    }
+                                    ?>
+                                </div>
+                                <div class="form-group ">
+                                    <label class="control-label">Store Category</label>
+                                    <select class="selectpicker width-full form-control" name="store_category_id" style="width:100%;">
+                                        <option disabled selected>Select Store</option>
+                                        <?php foreach ($this->storecategorylist as $value) { ?>
+                                            <option value="<?php echo $value['category_id'] ?>">
+                                                <?php echo $value['cat_name'] ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Product Name</label>
+                                    <input type="text" class="form-control" name="name" value="<?php
+                                    if (isset($this->editproductdetails['name'])) {
+                                        echo $this->editproductdetails['name'];
+                                    }
+                                    ?>" placeholder="" required />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Product Description</label>
+                                    <textarea class="form-control" name="prod_desc" value="" placeholder="" required><?php
+                                        if (isset($this->editproductdetails['prod_desc'])) {
+                                            echo $this->editproductdetails['prod_desc'];
+                                        }
+                                        ?></textarea>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="control-label">Stock Quantity</label>
+                                    <input type="text" class="form-control" name="stock_quantity" value="<?php
+                                    if (isset($this->editproductdetails['stock_quantity'])) {
+                                        echo $this->editproductdetails['stock_quantity'];
+                                    }
+                                    ?>" id="" placeholder="" required />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Cost</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon addon-inside bg-black">
+                                            <i class="fa fa-dollar"></i>
+                                        </span>
+                                        <input type="text" placeholder=""  name="cost" value="<?php
+                                        if (isset($this->editproductdetails['cost'])) {
+                                            echo $this->editproductdetails['cost'];
+                                        }
+                                        ?>" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel pagination-theme clearfix m-b-0">
+                            <div class="panel-body">
+
+                                <div class="form-group">
+                                    <label class="control-label">Discount Type</label>
+                                    <div>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="1" <?php
+                                            if (isset($this->editproductdetails['product_discount_type']) == 1) {
+                                                echo "checked";
+                                            }
+                                            ?> name="product_discount_type"  id=""> Percentage
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="2" <?php
+                                            if (isset($this->editproductdetails['product_discount_type']) == 2) {
+                                                echo "checked";
+                                            }
+                                            ?> name="product_discount_type"  id=""> Amount
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Delivery Timing</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon addon-inside bg-black">
+                                            <i class="fa fa-clock-o"></i>
+                                        </span>
+                                        <input type="text" placeholder="" name="delivery_time" value="<?php
+                                        if (isset($this->editproductdetails['delivery_time'])) {
+                                            echo $this->editproductdetails['delivery_time'];
+                                        }
+                                        ?>" class="form-control" />
+                                        <span class="input-group-addon">mins</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Discount</label>
+                                    <input type="text" class="form-control" name="product_discount" value="<?php
+                                    if (isset($this->editproductdetails['product_discount'])) {
+                                        echo $this->editproductdetails['product_discount'];
+                                    }
+                                    ?>" id="" placeholder="" required />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Service Tax</label>
+                                    <input type="text" class="form-control" name="servicetax" value="<?php
+                                    if (isset($this->editproductdetails['servicetax'])) {
+                                        echo $this->editproductdetails['servicetax'];
+                                    }
+                                    ?>" id="" placeholder="" required />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Product Image</label>
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                            <img src="<?php
+                                            if (isset($this->editproductdetails['imagelink'])) {
+                                                echo $this->editproductdetails['imagelink'];
+                                            }
+                                            ?>" alt="">
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                        <div>
+                                            <span class="btn btn-default btn-file">
+                                                <span class="fileinput-new">Replace</span>
+                                                <span class="fileinput-exists">Replace</span>
+                                                <input type="file" name="fileToUpload">
+                                            </span>
+                                            <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">Product status</label>
+                                    <select class="selectpicker width-full js-example-basic-hide-search form-control" name="prod_status">
+                                        <option value="1" <?php
+                                        if (isset($this->editproductdetails['prod_status']) == 1) {
+                                            echo "checked";
+                                        }
+                                        ?>>
+                                            Active
+                                        </option>
+                                        <option value="2" <?php
+                                        if (isset($this->editproductdetails['prod_status']) == 2) {
+                                            echo "checked";
+                                        }
+                                        ?>>
+                                            Inactive
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group pull-right">
+                                    <button type="submit" class="btn btn-alt btn-hover btn-primary">
+                                        <span>SAVE</span> <i class="glyph-icon icon-arrow-right"></i>
+                                        <div class="ripple-wrapper"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+

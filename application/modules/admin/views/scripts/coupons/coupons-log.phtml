@@ -39,14 +39,18 @@
                                     ?>
                                     <tr class="selectable" id="<?php echo $couponValue['coupon_id']; ?>">
                                         <td><?php echo ++$couponKey; ?></td>
-                                         <td><?php echo $couponValue['coupon_id']; ?></td>
+                                        <td><?php echo $couponValue['coupon_id']; ?></td>
                                         <td><?php echo $couponValue['coupon_code']; ?></td>
                                         <td><?php echo $couponValue['first_name'] . " " . $couponValue['last_name']; ?></td>
-                                        <td><?php echo $couponValue['product_id'][0]; ?></td>
+                                        <td><?php
+                                            for ($i = 0; $i < count($couponValue['product_id']); $i++) {
+                                                echo $couponValue['product_id'][$i] . ',';
+                                            }
+                                            ?></td>
                                         <td><?php echo date('d F Y - h:i A', $couponValue['used_date']); ?></td>
                                         <td class="text-center">                                                                                           
-                                                <a href="javascript:;" id="<?php echo "couponuserdelete_" . $couponValue['coupon_users_id']; ?>" class="btn btn-default deletecouponuser"><i class="glyph-icon icon-linecons-trash"></i></a>
-                                            </td>
+                                            <a href="javascript:;" id="<?php echo "couponuserdelete_" . $couponValue['coupon_users_id']; ?>" class="btn btn-default deletecouponuser"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                        </td>
                                     </tr>
                                     <?php
                                 }

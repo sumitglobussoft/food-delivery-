@@ -78,25 +78,34 @@ class Admin_AdminController extends Zend_Controller_Action {
         }
 
         $ordersModel = Admin_Model_Orders::getInstance();
-        $result2 = $ordersModel->getAllOrder();
+        $result2 = $ordersModel->getAllHotelOrder();
         if ($result2) {
             $this->view->orderdetails = count($result2);
         }
-
+        $ordersModel1 = Admin_Model_Orders::getInstance();
+        $result21 = $ordersModel->getAllStoreOrder();
+        if ($result21) {
+            $this->view->storeorderdetails = count($result21);
+        }
         $productsModel = Admin_Model_Products::getInstance();
         $result3 = $productsModel->getProductsdetails();
-        if ($result) {
+        if ($result3) {
             $this->view->productsdetails = count($result3);
+        }
+        $productsModel1 = Admin_Model_Products::getInstance();
+        $result31 = $productsModel1->getAllStoreProductdetails();
+        if ($result31) {
+            $this->view->productsdetails = count($result31);
         }
         $agentsModel = Admin_Model_Agents::getInstance();
         $result4 = $agentsModel->getAgentsDetails();
         if ($result4) {
             $this->view->agentsdetails = count($result4);
         }
-        $groceryDetailsModel = Admin_Model_GroceryDetails::getInstance();
-        $result5 = $groceryDetailsModel->getAllGrocery();
+        $storeDetailsModel = Admin_Model_StoreDetails::getInstance();
+        $result5 = $storeDetailsModel->getAllStore();
         if ($result5) {
-            $this->view->grocerydetails = count($result5);
+            $this->view->storedetails = count($result5);
         }
         $hotelDetailsModel = Admin_Model_HotelDetails::getInstance();
         $result6 = $hotelDetailsModel->getAllHotels();
@@ -114,10 +123,10 @@ class Admin_AdminController extends Zend_Controller_Action {
         if ($result8) {
             $this->view->producttransaction = count($result8);
         }
-        $groceryCategoryDetailsModel = Admin_Model_GroceryCategory::getInstance();
-        $result9 = $groceryCategoryDetailsModel->selectAllCategorys();
+        $storeCategoryDetailsModel = Admin_Model_StoreCategory::getInstance();
+        $result9 = $storeCategoryDetailsModel->selectAllCategorys();
         if ($result9) {
-            $this->view->grocerycategorydetails = count($result9);
+            $this->view->storecategorydetails = count($result9);
         }
         $DeliveryGuysModel = Admin_Model_DeliveryGuys::getInstance();
         $result10 = $DeliveryGuysModel->getAllDeliveryGuys();
@@ -135,9 +144,9 @@ class Admin_AdminController extends Zend_Controller_Action {
             $this->view->HotelReviews = count($result12);
         }
         $ReviewModel = Admin_Model_Reviews::getInstance();
-        $result13 = $ReviewModel->getAllGroceryReviews();
+        $result13 = $ReviewModel->getAllStoreReviews();
         if ($result13) {
-            $this->view->GroceryReviews = count($result13);
+            $this->view->StoreReviews = count($result13);
         }
         $locationsModel1 = Admin_Model_Location::getInstance();
         $result14 = $locationsModel1->getCountrys();
@@ -168,6 +177,16 @@ class Admin_AdminController extends Zend_Controller_Action {
         $result19 = $categoryModel->selectAllCategorys();
         if ($result19) {
             $this->view->CategoryDetails = count($result19);
+        }
+        $objModelCoupons = Admin_Model_Coupons::getInstance();
+        $allCoupons = $objModelCoupons->getCoupons();
+        if ($allCoupons) {
+            $this->view->allcoupons = count($allCoupons);
+        }
+        $objModelCouponUsers = Admin_Model_CouponUsers::getInstance();
+        $couponsLog = $objModelCouponUsers->getCouponsLog();
+        if ($couponsLog) {
+            $this->view->couponsLog = count($couponsLog);
         }
     }
 

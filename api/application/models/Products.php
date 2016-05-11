@@ -125,7 +125,7 @@ class Application_Model_Products extends Zend_Db_Table_Abstract {
     /*
      * Dev : Priyanka Varanasi
      * Date: 22/12/2015
-     * Desc: TO select product by product id
+     * Desc: TO select product by product id for hotel
      */
 
     public function getProductByProductId() {
@@ -139,7 +139,7 @@ class Application_Model_Products extends Zend_Db_Table_Abstract {
                         ->join(array('hd' => 'hotel_details'), 'pd.hotel_id=hd.id')
                         ->joinLeft(array('m' => 'menu_category'), 'pd.category_id= m.category_id')
                         ->joinLeft(array('fc' => 'famous_cuisines'), 'pd.cuisine_id= fc.cuisine_id')
-                        ->where('product_id=?', $productid);
+                        ->where('pd.product_id=?', $productid);
                 $result = $this->getAdapter()->fetchRow($select);
 
                 if ($result) {
@@ -246,54 +246,6 @@ class Application_Model_Products extends Zend_Db_Table_Abstract {
         }
     }
 
-//    /*
-//     * Dev : Priyanka Varanasi
-//     * Date: 17/12/2015
-//     * Desc: To fetch the restaurent menu and products 
-//     */
-//
-//    public function getRestaurentsMenuDetails() {
-//        if (func_num_args() > 0) {
-//            $hotel_id = func_get_arg(0);
-//
-//            try {
-//
-//                $select = $this->select()
-//                        ->setIntegrityCheck(false)
-//                        ->from(array('pd' => 'products'), array('category_id'))
-//                        ->joinLeft(array('cat' => 'menu_category'), 'pd.category_id=cat.category_id', array('cat.cat_name'))
-//                        ->where('pd.hotel_id=?', $hotel_id)
-//                        ->where('pd.prod_status=?', 1)
-//                        ->distinct('pd.category_id');
-//                $result = $this->getAdapter()->fetchAll($select);
-//
-//                if ($result) {
-//                    $i = 0;
-//
-//                    foreach ($result as $value) {
-//
-//                        $select = $this->select()
-//                                ->setIntegrityCheck(false)
-//                                ->from(array('pd' => 'products'))
-//                                ->where('pd.category_id=?', $value['category_id'])
-//                                ->where('pd.hotel_id=?', $hotel_id);
-//                        $response = $this->getAdapter()->fetchAll($select);
-//                        $result[$i]['cat_products'] = $response;
-//                        $i++;
-//                    }
-//                    echo"<pre>";print_r($result);die;
-//                    if ($result) {
-//                        return $result;
-//                    }
-//                } else {
-//
-//                    return null;
-//                }
-//            } catch (Exception $e) {
-//                throw new Exception('Unable to access data :' . $e);
-//            }
-//        }
-//    }
     //    /*
 //     * Dev : Priyanka Varanasi
 //     * Date: 17/12/2015
@@ -309,11 +261,9 @@ class Application_Model_Products extends Zend_Db_Table_Abstract {
 
                 $select = $this->select()
                         ->setIntegrityCheck(false)
-                        ->from(array('pd' => 'products'))
-                        //->joinLeft(array('cat' => 'menu_category'), 'pd.category_id=cat.category_id', array('cat.cat_name'))
+                        ->from(array('pd' => 'products'))                
                         ->where('pd.hotel_id=?', $hotel_id)
                         ->where('pd.prod_status=?', 1);
-                //->distinct('pd.category_id');
                 $result = $this->getAdapter()->fetchAll($select);
 
                 if ($result) {
@@ -530,6 +480,95 @@ class Application_Model_Products extends Zend_Db_Table_Abstract {
             }
         } else {
             throw new Exception("Argument has not passed");
+        }
+    }
+
+    /*
+     * Dev : sowmya
+     * Date: 6/5/2016
+     * Desc: get all agent related  store products
+     */
+
+    public function getALLAgentStoreProducts() {
+        if (func_num_args() > 0) {
+            $agent_id = func_get_arg(0);
+
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('pd' => 'products'))
+                        ->join(array('sd' => 'store_details'), 'pd.store_id=sd.store_id')
+                        ->where('pd.agent_id=?', $agent_id);
+                $result = $this->getAdapter()->fetchAll($select);
+
+                if ($result) {
+                    return $result;
+                } else {
+
+                    return null;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable to access data :' . $e);
+            }
+        } else {
+
+            throw new Exception('Argument Not Passed');
+        }
+    }
+
+    /*
+     * Dev : sowmya
+     * Date: 6/5/2016
+     * Desc: get all agent related  store products by store id
+     */
+
+    public function getProductsByStoreId() {
+        if (func_num_args() > 0) {
+            $store_id = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('pd' => 'products'))
+                        ->join(array('sd' => 'store_details'), 'pd.store_id=sd.store_id')
+                        ->where('pd.store_id=?', $store_id);
+                $result = $this->getAdapter()->fetchAll($select);
+
+                if ($result) {
+                    return $result;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+        }
+    }
+
+    /*
+     * Dev : sowmya
+     * Date: 6/5/2016
+     * Desc: TO select product by product id for store
+     */
+
+    public function getStoreProductByProductId() {
+        if (func_num_args() > 0) {
+            $productid = func_get_arg(0);
+            try {
+
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('pd' => 'products'))
+                        ->join(array('sd' => 'store_details'), 'pd.store_id=sd.store_id')
+                        ->where('pd.product_id=?', $productid);
+                $result = $this->getAdapter()->fetchRow($select);
+
+                if ($result) {
+                    return $result;
+                } else {
+
+                    return null;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable to access data :' . $e);
+            }
         }
     }
 

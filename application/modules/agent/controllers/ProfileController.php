@@ -14,6 +14,12 @@ class Agent_ProfileController extends Zend_Controller_Action {
         
     }
 
+    /*
+     * DEV :sowmya
+     * Desc : to edit agent profile
+     * Date : 5/5/2016
+     */
+
     public function editProfileAction() {
 
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
@@ -86,6 +92,12 @@ class Agent_ProfileController extends Zend_Controller_Action {
         }
     }
 
+    /*
+     * DEV :sowmya
+     * Desc : to cahnge agent password
+     * Date : 5/5/2016
+     */
+
     public function changePasswordAction() {
         $this->_helper->_layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
@@ -107,6 +119,12 @@ class Agent_ProfileController extends Zend_Controller_Action {
             }
         }
     }
+
+    /*
+     * DEV :sowmya
+     * Desc : to get and add country
+     * Date : 5/5/2016
+     */
 
     public function countryAction() {
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
@@ -136,6 +154,12 @@ class Agent_ProfileController extends Zend_Controller_Action {
         }
     }
 
+    /*
+     * DEV :sowmya
+     * Desc : to get and add state
+     * Date : 5/5/2016
+     */
+
     public function stateAction() {
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
         $objCore = Engine_Core_Core::getInstance();
@@ -147,7 +171,7 @@ class Agent_ProfileController extends Zend_Controller_Action {
             $data['location_status'] = $this->getRequest()->getPost('location_status');
             $data['location_type'] = 1;
             $data['parent_id'] = $this->getRequest()->getPost('parent_id');
-          
+
 
             $url = $this->_appSetting->apiLink . '/settingdetails?method=addcountry';
             $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
@@ -170,6 +194,12 @@ class Agent_ProfileController extends Zend_Controller_Action {
         }
     }
 
+    /*
+     * DEV :sowmya
+     * Desc : to get and add city
+     * Date : 5/5/2016
+     */
+
     public function cityAction() {
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
         $objCore = Engine_Core_Core::getInstance();
@@ -181,7 +211,7 @@ class Agent_ProfileController extends Zend_Controller_Action {
             $data['location_status'] = $this->getRequest()->getPost('location_status');
             $data['location_type'] = 2;
             $data['parent_id'] = $this->getRequest()->getPost('parent_id');
-            
+
 
             $url = $this->_appSetting->apiLink . '/settingdetails?method=addcountry';
             $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
@@ -205,6 +235,12 @@ class Agent_ProfileController extends Zend_Controller_Action {
         }
     }
 
+    /*
+     * DEV :sowmya
+     * Desc : to get and add location
+     * Date : 5/5/2016
+     */
+
     public function locationAction() {
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
         $objCore = Engine_Core_Core::getInstance();
@@ -216,7 +252,7 @@ class Agent_ProfileController extends Zend_Controller_Action {
             $data['location_status'] = $this->getRequest()->getPost('location_status');
             $data['location_type'] = 3;
             $data['parent_id'] = $this->getRequest()->getPost('parent_id');
-            
+
 
             $url = $this->_appSetting->apiLink . '/settingdetails?method=addcountry';
             $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
@@ -225,7 +261,7 @@ class Agent_ProfileController extends Zend_Controller_Action {
             }
         }
 
-        $url = $this->_appSetting->apiLink . '/get-locations?method=getlocations';
+        $url = $this->_appSetting->apiLink . '/get-locations?method=getlocation';
 
         $curlResponse = $objCurlHandler->curlUsingGet($url);
         $url = $this->_appSetting->apiLink . '/get-locations?method=getcountrys';
@@ -237,6 +273,12 @@ class Agent_ProfileController extends Zend_Controller_Action {
             $this->view->countrylist = $curlResponse2->data;
         }
     }
+
+    /*
+     * DEV :sowmya
+     * Desc : to edit location
+     * Date : 5/5/2016
+     */
 
     public function editLocationAction() {
         $this->_helper->_layout->disableLayout();
@@ -285,15 +327,73 @@ class Agent_ProfileController extends Zend_Controller_Action {
         }
     }
 
+    /*
+     * DEV :sowmya
+     * Desc : to  add and get hotel cuisines
+     * Date : 5/5/2016
+     */
+
     public function hotelCuisinesAction() {
-        
+
+        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+        $objCore = Engine_Core_Core::getInstance();
+        $objSecurity = Engine_Vault_Security::getInstance();
+        $this->_appSetting = $objCore->getAppSetting();
+
+        if ($this->getRequest()->isPost()) {
+            $data['Cuisine_name'] = $this->getRequest()->getPost('cuisinename');
+            $data['cuisine_status'] = $this->getRequest()->getPost('cuisine_status');
+//            $cuisine_id = $cuisinesModel->addCuisines($data);
+            $url = $this->_appSetting->apiLink . '/settingdetails?method=addCuisinesDetails';
+            $cuisine_id = $objCurlHandler->curlUsingPost($url, $data);
+            $cuisine_id = $cuisine_id->data;
+            $hotelcuisinesdata['cuisine_id'] = $cuisine_id;
+            $hotelcuisinesdata['hotel_id'] = $this->getRequest()->getPost('hotels');
+//            $result = $hotelcuisinesModel->addCuisinesDetails($hotelcuisinesdata);
+            $url = $this->_appSetting->apiLink . '/settingdetails?method=addhotelcuisines';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $hotelcuisinesdata);
+
+            if ($curlResponse) {
+                $this->redirect('/agent/hotel-cuisine');
+            } else {
+                $this->redirect('/agent/hotel-cuisine');
+            }
+        }
+
+
+        $url = $this->_appSetting->apiLink . '/settingdetails?method=getCuisines';
+        $curlResponse = $objCurlHandler->curlUsingGet($url);
+        if ($curlResponse->code == 200) {
+            $this->view->cuisinedetails = $curlResponse->data;
+        }
     }
+
+    /*
+     * DEV :sowmya
+     * Desc : toadd and get hotel category
+     * Date : 5/5/2016
+     */
 
     public function hotelCategoryAction() {
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
         $objCore = Engine_Core_Core::getInstance();
         $objSecurity = Engine_Vault_Security::getInstance();
         $this->_appSetting = $objCore->getAppSetting();
+
+        if ($this->getRequest()->isPost()) {
+            $data['categoryname'] = $this->getRequest()->getPost('categoryname');
+            $data['cat_desc'] = $this->getRequest()->getPost('cat_desc');
+            $data['cat_status'] = $this->getRequest()->getPost('cat_status');
+            $url = $this->_appSetting->apiLink . '/settingdetails?method=addhotelcategory';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+
+            if ($curlResponse) {
+                $this->redirect('/agent/hotel-category');
+            } else {
+                $this->redirect('/agent/hotel-category');
+            }
+        }
+
 
         $url = $this->_appSetting->apiLink . '/settingdetails?method=getCategories';
         $curlResponse = $objCurlHandler->curlUsingGet($url);
@@ -303,7 +403,13 @@ class Agent_ProfileController extends Zend_Controller_Action {
         }
     }
 
-    public function groceryCategoryAction() {
+    /*
+     * DEV :sowmya
+     * Desc : to add and get store category
+     * Date : 5/5/2016
+     */
+
+    public function storeCategoryAction() {
         $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
         $objCore = Engine_Core_Core::getInstance();
         $objSecurity = Engine_Vault_Security::getInstance();
@@ -313,13 +419,13 @@ class Agent_ProfileController extends Zend_Controller_Action {
             $data['cat_name'] = $this->getRequest()->getPost('categoryname');
             $data['cat_desc'] = $this->getRequest()->getPost('cat_desc');
             $data['cat_status'] = $this->getRequest()->getPost('cat_status');
-            $url = $this->_appSetting->apiLink . '/grocerydetails?method=addGroceryCategory';
+            $url = $this->_appSetting->apiLink . '/storedetails?method=addStoreCategory';
             $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
             if ($curlResponse) {
-                $this->redirect('/agent/grocery-category');
+                $this->redirect('/agent/store-category');
             }
         }
-        $url1 = $this->_appSetting->apiLink . '/grocerydetails?method=groceryCategory';
+        $url1 = $this->_appSetting->apiLink . '/storedetails?method=storeCategory';
         $curlResponse1 = $objCurlHandler->curlUsingGet($url1);
         if ($curlResponse1->code == 200) {
             $this->view->categorydetails = $curlResponse1->data;
@@ -330,9 +436,11 @@ class Agent_ProfileController extends Zend_Controller_Action {
      * Dev: sowmya
      * Desc: edit category
      * date : 2/4/2016
+     * modified by sreekanth
+     * date: 5-5-2016
      */
 
-    public function editGroceryCategoryAction() {
+    public function editStoreCategoryAction() {
 
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
@@ -341,15 +449,82 @@ class Agent_ProfileController extends Zend_Controller_Action {
         $objSecurity = Engine_Vault_Security::getInstance();
         $this->_appSetting = $objCore->getAppSetting();
         if ($this->getRequest()->isPost()) {
-            $data['cat_name'] = $this->getRequest()->getPost('category');
+            $data['categoryname'] = $this->getRequest()->getPost('category');
+            $data['category_id'] = $this->getRequest()->getPost('category_id');
             $data['cat_desc'] = $this->getRequest()->getPost('catdesc');
-            $category_id = $this->getRequest()->getPost('category_id');
-            $categoryname = $this->getRequest()->getPost('categorybtn');
-            $url = $this->_appSetting->apiLink . '/grocerydetails?method=updateGroceryCategory';
-            $curlResponse = $objCurlHandler->curlUsingPost($url, $data, $category_id, $categoryname);
+            $url = $this->_appSetting->apiLink . '/storedetails?method=updateStoreCategory';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
             if ($curlResponse) {
-                $this->redirect('/agent/grocery-category');
+                $this->redirect('/agent/store-category');
             }
+        }
+    }
+
+    /*
+     * DEV :sowmya
+     * Desc : to edit hotel category
+     * Date : 5/5/2016
+     */
+
+    public function editHotelCategoryAction() {
+        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+        $objCore = Engine_Core_Core::getInstance();
+        $objSecurity = Engine_Vault_Security::getInstance();
+        $this->_appSetting = $objCore->getAppSetting();
+
+        if ($this->getRequest()->isPost()) {
+            $data['categoryname'] = $this->getRequest()->getPost('category');
+            $data['category_id'] = $this->getRequest()->getPost('category_id');
+            $data['cat_desc'] = $this->getRequest()->getPost('catdesc');
+
+            $url = $this->_appSetting->apiLink . '/settingdetails?method=editcategory';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+
+            if ($curlResponse) {
+                $this->redirect('/agent/hotel-category');
+            } else {
+                $this->redirect('/agent/hotel-category');
+            }
+        }
+
+
+        $url = $this->_appSetting->apiLink . '/settingdetails?method=getCategories';
+        $curlResponse = $objCurlHandler->curlUsingGet($url);
+
+        if ($curlResponse->code == 200) {
+            $this->view->categorydetails = $curlResponse->data;
+        }
+    }
+
+//Dev: sreekanth
+//Date: 5-5-2016
+    // to edit hotel cuisines
+    public function editHotelCuisinesAction() {
+        $objCurlHandler = Engine_Utilities_CurlRequestHandler::getInstance();
+        $objCore = Engine_Core_Core::getInstance();
+        $objSecurity = Engine_Vault_Security::getInstance();
+        $this->_appSetting = $objCore->getAppSetting();
+
+
+        if ($this->getRequest()->isPost()) {
+
+            $data['Cuisine_name'] = $this->getRequest()->getPost('cuisine');
+            $data['cuisine_id'] = $this->getRequest()->getPost('cuisine_id');
+            $url = $this->_appSetting->apiLink . '/settingdetails?method=edithotelcuisines';
+            $curlResponse = $objCurlHandler->curlUsingPost($url, $data);
+
+            if ($curlResponse) {
+                $this->redirect('/agent/hotel-cuisine');
+            } else {
+                $this->redirect('/agent/hotel-cuisine');
+            }
+        }
+
+        $url = $this->_appSetting->apiLink . '/settingdetails?method=getCategories';
+        $curlResponse = $objCurlHandler->curlUsingGet($url);
+
+        if ($curlResponse->code == 200) {
+            $this->view->categorydetails = $curlResponse->data;
         }
     }
 

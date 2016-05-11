@@ -1,0 +1,101 @@
+
+<div id="content" class="content">
+    <!-- begin breadcrumb -->
+    <ol class="breadcrumb pull-right">
+        <li><a href="javascript:;">Home</a></li>
+        <li><a href="javascript:;">Store Details</a></li>
+        <li class="active">Store Details</li>
+    </ol>
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header">Store Details </h1>
+    <!-- end page-header -->
+
+    <!-- begin row -->
+    <div class="row">
+        <!-- begin col-12 -->
+        <div class="col-md-12">
+            <div class="text-right m-b-15">
+                <a href="/agent/add-store-details" class="btn btn-primary"> <i class="fa fa-plus-circle"></i> Add Store </a>
+            </div>
+            <!-- begin panel -->
+            <div class="panel pagination-theme clearfix m-b-0">
+                <table id="data-table" data-order='[[1,"asc"]]' class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="default">
+                            <th> Store Name </th>
+                             <th> Rating </th>
+                            <th> Timing </th>
+                            <th> Status </th>
+                            <th> Status Change </th>
+                            <th> Action </th>
+<!--                            <th> View Orders </th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (isset($this->storedetails)) {
+                            $i = 0;
+                            foreach ($this->storedetails as $value) {
+                                ?>
+                                <tr id="<?php echo $value['store_id']; ?>">
+                                    <td><?php echo $value['store_name']; ?></td>
+                                    <td><?php echo $value['store_rating']; ?></td>
+                                    <td>
+                                        <span><?php echo $value['Open_time']; ?>AM</span> - <span><?php echo $value['Closing_time']; ?>PM</span>
+                                    </td>
+                                    <?php if ($value['store_status'] == 1) { ?>
+                                        <td>
+                                            <label id="activeclass_<?php echo $value['store_id']; ?>" class="label label-success js-check-change-field">ACTIVE</label>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <input type="checkbox" data-render="switchery" id="<?php
+                                            if (isset($value['store_id'])): echo "store_" . $value['store_id'];
+                                            endif;
+                                            ?>"  class="js-switch js-check-change storedeactive" data-theme="lime" checked /> 
+                                        </td>
+                                    <?php }else { ?>
+                                        <td >
+                                            <label id="activeclass_<?php echo $value['store_id']; ?>" class="label label-danger js-check-change-field">SUSPENDED</label>
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="checkbox" data-render="switchery" id="<?php
+                                            if (isset($value['store_id'])): echo "store_" . $value['store_id'];
+                                            endif;
+                                            ?>"  class="js-switch js-check-change storeactive" data-theme="lime" /> 
+                                        </td>
+                                    <?php } ?>
+
+                                    <td class="text-center">
+
+                                        <a href="/agent/view-store-details/<?php echo $value['store_id']; ?>" class="btn btn-purple btn-icon btn-circle btn-sm"><i class="fa fa-eye"></i></a>
+                                        <a href="/agent/edit-store-details/<?php echo $value['store_id']; ?>" class="btn btn-success btn-icon btn-circle btn-sm"><i class="fa fa-pencil"></i></a>
+                                        <a href="javascript:;" id="<?php echo "storedelete_" . $value['store_id']; ?>" class="btn btn-primary btn-icon btn-circle btn-sm deletestore">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+<!--                                    <td class="text-center">
+                                        <a href="/agent/restuarent-orders/<?php echo $value['store_id']; ?>">
+                                            <button type="submit" class="btn btn-theme">View Orders</button>
+
+                                        </a>
+                                    </td>-->
+                                </tr>
+                                <?php
+                            }
+                        }
+                        ?>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+

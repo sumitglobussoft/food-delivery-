@@ -12,12 +12,10 @@ class Admin_Model_Products extends Zend_Db_Table_Abstract {
         return self::$_instance;
     }
 
-    /*
-     * Modified code 
-     * Dev :priyanka varanasi
-     */
+    /* Dev : Sowmya
+     * Date: 11/4/2015
+     * desc: to get products wihth hotel details */
 
-    //////////////////// Newly modifed and used code /////////////////
     public function getProductsdetails() {
         try {
             $select = $this->select()
@@ -33,6 +31,10 @@ class Admin_Model_Products extends Zend_Db_Table_Abstract {
             return $result;
         }
     }
+
+    /* Dev : Sowmya
+     * Date: 11/4/2015
+     * desc: to add products  */
 
     public function addProductsdetails() {
         if (func_num_args() > 0) {
@@ -51,7 +53,10 @@ class Admin_Model_Products extends Zend_Db_Table_Abstract {
         }
     }
 
-    //added by sowmya 9/4/2016
+    /* Dev : Sowmya
+     * Date: 11/4/2015
+     * desc: to get  all hotel  products details */
+
     public function getAllProductdetails() {
         if (func_num_args() > 0) {
             $productId = func_get_arg(0);
@@ -75,6 +80,10 @@ class Admin_Model_Products extends Zend_Db_Table_Abstract {
         }
     }
 
+    /* Dev : Sowmya
+     * Date: 11/4/2015
+     * desc: to update products  */
+
     public function updateProductsdetails() {
         if (func_num_args() > 0) {
             $productId = func_get_arg(0);
@@ -93,6 +102,10 @@ class Admin_Model_Products extends Zend_Db_Table_Abstract {
             }
         }
     }
+
+    /* Dev : Sowmya
+     * Date: 11/4/2015
+     * desc: to get products by hotel id */
 
     public function getProductsByHotelId() {
         if (func_num_args() > 0) {
@@ -113,6 +126,10 @@ class Admin_Model_Products extends Zend_Db_Table_Abstract {
             }
         }
     }
+
+    /* Dev : Sowmya
+     * Date: 11/4/2015
+     * desc: to change status of products  */
 
     public function changeProductStatus() {
         if (func_num_args() > 0):
@@ -193,6 +210,97 @@ class Admin_Model_Products extends Zend_Db_Table_Abstract {
         endif;
     }
 
-}
+    /*
+     * Dev : sreekanth
+     * Date: 9/5/2016
+     * Desc: TO get all products by id
+     */
 
-?>
+    public function getProductsById() {
+        if (func_num_args() > 0) {
+            $product_id = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->from($this)
+                        ->where('product_id=?', $product_id);
+                $result = $this->getAdapter()->fetchRow($select);
+                if ($result) {
+                    return $result;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+        }
+    }
+
+    /* Dev : Sowmya
+     * Date: 11/4/2015
+     * desc: to get all  store  products */
+
+    public function getAllStoreProductdetails() {
+        if (func_num_args() > 0) {
+            $productId = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('p' => 'products'))
+                        ->joinLeft(array('hd' => 'store_details'), 'p.store_id= hd.store_id')
+                        ->joinLeft(array('a' => 'agents'), 'p.agent_id= a.agent_id')
+                        ->joinLeft(array('m' => 'store_category'), 'p.store_category_id= m.category_id')
+                        ->where('p.product_id=?', $productId);
+                $result = $this->getAdapter()->fetchRow($select);
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+
+            if ($result) {
+                return $result;
+            }
+        }
+    }
+
+    /* Dev : Sowmya
+     * Date: 11/4/2015
+     * desc: to get store products */
+
+    public function getStoreProductsdetails() {
+        try {
+            $select = $this->select()
+                    ->setIntegrityCheck(false)
+                    ->from(array('p' => 'products'))
+                    ->joinLeft(array('hd' => 'store_details'), 'p.store_id= hd.store_id');
+            $result = $this->getAdapter()->fetchAll($select);
+        } catch (Exception $e) {
+            throw new Exception('Unable To retrieve data :' . $e);
+        }
+
+        if ($result) {
+            return $result;
+        }
+    }
+
+    /* Dev : Sowmya
+     * Date: 11/4/2015
+     * desc: to get store products by store id */
+
+    public function getProductsByStoreId() {
+        if (func_num_args() > 0) {
+            $hotelId = func_get_arg(0);
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('p' => 'products'))
+                        ->joinLeft(array('hd' => 'store_details'), 'p.store_id= hd.store_id')
+                        ->where('p.store_id=?', $hotelId);
+                $result = $this->getAdapter()->fetchAll($select);
+
+                if ($result) {
+                    return $result;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+        }
+    }
+
+}

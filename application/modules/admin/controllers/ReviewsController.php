@@ -32,16 +32,16 @@ class Admin_ReviewsController extends Zend_Controller_Action {
     }
 
 //added by sowmya 20 april 2016
-    public function groceryReviewsAction() {
+    public function storeReviewsAction() {
         $adminModel = Admin_Model_Users::getInstance();
         $result = $adminModel->getAdminDetails(); // showing image
         if ($result) {
             $this->view->admindetails = $result;
         }
         $ReviewsModel = Admin_Model_Reviews::getInstance();
-        $result = $ReviewsModel->getAllGroceryReviews();
+        $result = $ReviewsModel->getAllStoreReviews();
         if ($result) {
-            $this->view->groceryReviews = $result;
+            $this->view->storeReviews = $result;
         } else {
             echo 'controller error occured';
         }
@@ -61,7 +61,7 @@ class Admin_ReviewsController extends Zend_Controller_Action {
             $method = $this->getRequest()->getParam('method');
 
             switch ($method) {
-                case 'reviewactive':
+                case 'reviewsactive':
                     $state = $this->getRequest()->getParam('reviewid');
                     $ok = $ReviewsModel->getstatustodeactivate($state);
 
@@ -71,7 +71,7 @@ class Admin_ReviewsController extends Zend_Controller_Action {
                         echo "Error";
                     }
                     break;
-                case 'reviewdelete':
+                case 'reviewsdelete':
                     $id = $this->getRequest()->getParam('reviewid');
                     $result = $ReviewsModel->deleteReviews($id);
                     if ($result) {

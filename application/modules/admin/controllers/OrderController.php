@@ -10,7 +10,7 @@ class Admin_OrderController extends Zend_Controller_Action {
 
     /* dev : sowmya     
      * date : 29/3/2016
-     * details: get all order details */
+     * details: get all  hotel order details */
 
     public function orderDetailsAction() {
         $adminModel = Admin_Model_Users::getInstance();
@@ -19,8 +19,8 @@ class Admin_OrderController extends Zend_Controller_Action {
             $this->view->admindetails = $result;
         }
         $ordersModel = Admin_Model_Orders::getInstance();
-        $result = $ordersModel->getAllOrder();
-
+        $result = $ordersModel->getAllHotelOrder();
+//  echo '<pre>';print_r($result);die;
         if ($result) {
             $pendingArr = $adminArr = $cancelledArr = array();
             foreach ($result as $key => $value) {
@@ -45,11 +45,12 @@ class Admin_OrderController extends Zend_Controller_Action {
 
     /*
      * DEV :sowmya
-     * Desc : edit Order Details action
+     * Desc : view hotel Order Details action
      * Date : 21/3/2016
      */
 
-    public function editOrderDetailsAction() {
+    public function viewOrderDetailsAction() {
+        $adminproducts = Admin_Model_Products::getInstance();
         $adminModel = Admin_Model_Users::getInstance();
         $result = $adminModel->getAdminDetails(); // showing image
         if ($result) {
@@ -58,8 +59,20 @@ class Admin_OrderController extends Zend_Controller_Action {
         $order_id = $this->getRequest()->getParam('oId');
         $ordersModel = Admin_Model_Orders::getInstance();
         $result = $ordersModel->getAllOrdersById($order_id);
+        $productID = json_decode($result['product_id'], true);
+        $quantity = json_decode($result['quantity'], true);
+        $amount = json_decode($result['product_amount'], true);
+        $i = 0;
+        foreach ($productID as $productname) {
+            $productname = $adminproducts->getProductsById($productname);
+            $productnames[$i] = $productname['name'];
+            $i++;
+        }
         if ($result) {
             $this->view->orderdetails = $result;
+            $this->view->productnames = $productnames;
+            $this->view->quantity = $quantity;
+            $this->view->amount = $amount;
         }
     }
 
@@ -707,4 +720,70 @@ class Admin_OrderController extends Zend_Controller_Action {
         }
     }
 
+    /* dev : sowmya     
+     * date : 29/3/2016
+     * details: get all store order details */
+
+    public function storeOrderDetailsAction() {
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
+        $ordersModel = Admin_Model_Orders::getInstance();
+        $result = $ordersModel->getAllStoreOrder();
+        if ($result) {
+            $pendingArr = $adminArr = $cancelledArr = array();
+            foreach ($result as $key => $value) {
+                if ($value['order_status'] == 0) {
+                    $pendingArr[] = $value;
+                } elseif ($value['order_status'] == 1) {
+                    $adminArr[] = $value;
+                } else if ($value['order_status'] == 2) {
+                    $deliveredArr[] = $value;
+                } else if ($value['order_status'] == 6) {
+                    $cancelledArr[] = $value;
+                }
+            }
+            $this->view->pendingStatus = $pendingArr;
+            $this->view->processStatus = $adminArr;
+            $this->view->canceledStatus = $cancelledArr;
+        } else {
+            echo 'controller error occured';
+        }
+        $this->view->orderdetails = $result;
+    }
+    
+    /*
+     * DEV :sowmya
+     * Desc : view  store Order Details action
+     * Date : 21/3/2016
+     */
+
+    public function viewStoreOrderDetailsAction() {
+        $adminproducts = Admin_Model_Products::getInstance();
+        $adminModel = Admin_Model_Users::getInstance();
+        $result = $adminModel->getAdminDetails(); // showing image
+        if ($result) {
+            $this->view->admindetails = $result;
+        }
+        $order_id = $this->getRequest()->getParam('oId');
+        $ordersModel = Admin_Model_Orders::getInstance();
+        $result = $ordersModel->getAllStoreOrdersById($order_id);
+        $productID = json_decode($result['product_id'], true);
+        $quantity = json_decode($result['quantity'], true);
+        $amount = json_decode($result['product_amount'], true);
+        $i = 0;
+        foreach ($productID as $productname) {
+            $productname = $adminproducts->getProductsById($productname);
+            $productnames[$i] = $productname['name'];
+            $i++;
+        }
+        if ($result) {
+            $this->view->orderdetails = $result;
+            $this->view->productnames = $productnames;
+            $this->view->quantity = $quantity;
+            $this->view->amount = $amount;
+        }
+    }
 }

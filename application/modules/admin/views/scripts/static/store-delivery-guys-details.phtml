@@ -1,0 +1,95 @@
+<div id="page-title">
+    <h2>Delivery Guy Details For Stores</h2>  
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="panel-body">
+                <h3 class="title-hero">View/Edit/Remove Delivery Guy Details For Stores</h3>
+                <div class="example-box-wrapper">
+                    <table class="table table-striped table-bordered responsive no-wrap datatable-responsive" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th> S.No. </th>
+                                <th> Delivery ID</th>
+                                <th> Delivery UserName </th>
+                                <th> Email</th>
+                                <th> First Name</th>
+                                <th> Last name </th>
+                                <th>Orders Carried </th>
+                                <th>Date </th>
+                                <th> Status </th>                                
+                                <th> Action </th>
+                                <th> View/Delete</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th> S.No. </th>
+                                <th> Delivery ID</th>
+                                <th> Delivery UserName </th>
+                                <th> Email</th>
+                                <th> First Name</th>
+                                <th> Last name </th>  
+                                <th>Orders Carried </th>
+                                <th>Date </th>
+                                <th> Status </th>                                
+                                <th> Action </th>
+                                <th> View/Delete</th>
+
+                            </tr>
+                        </tfoot>
+                        <tbody>
+
+                            <?php
+                            if (isset($this->deliveryguysdetails)) {
+                                $i = 0;
+                                foreach ($this->deliveryguysdetails as $value) {
+                                    if($value['hotel_store']==2){
+                                    ?>
+                                    <tr id="<?php echo $value['del_guy_id']; ?>" >
+                                        <td><?php echo ++$i; ?></td>
+                                        <td><?php echo $value['del_guy_id']; ?></td>
+                                        <td><?php echo $value['login_name']; ?></td>
+                                        <td><?php echo $value['email']; ?></td>
+                                        <td><?php echo $value['firstname']; ?></td>
+                                        <td><?php echo $value['lastname']; ?></td>                                      
+                                        <td><span><a href="/admin/store-delivery-guy-orders/<?php echo $value['del_guy_id']; ?>"><span  class="bs-label label-warning">View Orders Carried</span></a></td>
+                                        <td><?php echo date("j F , Y h:i:s A", strtotime($value['reg_date'])); ?></td>
+                                        <?php if ($value['status'] == 1): ?>
+                                            <td id="activedelguy_<?php echo $value['del_guy_id']; ?>" class="delguyactive">Active</td>
+                                            <td class="center"><a style="cursor:pointer"  id="<?php
+                                                if (isset($value['del_guy_id'])): echo "delguy_" . $value['del_guy_id'];
+                                                endif;
+                                                ?>" class="delguydeactive">
+                                                    <span id="activeclass_<?php echo $value['del_guy_id']; ?>" class="bs-label label-danger">Deactivate</span></a></td>
+                                        <?php else: ?>
+                                            <td id="activedelguy_<?php echo $value['del_guy_id']; ?>" class="delguydeactive">Suspended</td>
+                                            <td class="center" ><a style="cursor:pointer" id="<?php
+                                                if (isset($value['del_guy_id'])): echo "delguy_" . $value['del_guy_id'];
+                                                endif;
+                                                ?>" class="delguyactive">
+                                                    <span id="activeclass_<?php echo $value['del_guy_id']; ?>"  class="bs-label label-success">Activate</span></a></td>
+                                        <?php endif; ?> 
+
+
+                                        <td class="text-center">
+                                            <a href="/admin/view-store-deliveryguy-details/<?php echo $value['del_guy_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-eye"></i></a>
+                                            <a href="/admin/edit-store-deliveryguy-details/<?php echo $value['del_guy_id']; ?>" class="btn btn-default"><i class="glyph-icon icon-linecons-pencil"></i></a>
+                                            <a href="javascript:;" id="<?php echo "delguydelete_" . $value['del_guy_id']; ?>" class="btn btn-default deletedelguy"><i class="glyph-icon icon-linecons-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

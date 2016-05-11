@@ -15,6 +15,17 @@
                         <div class="panel pagination-theme clearfix m-b-0">
                             <div class="panel-body">
                                 <div class="form-group">
+                                    <label class="control-label">Item Type</label>
+                                    <div>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="1" name="item_type"  id="hotel_item" /> Hotel Items
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="2"  name="item_type"  id="store_item" />Store Items
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group show-hotel">
                                     <label class="control-label">Hotel Name</label>
                                     <select class="selectpicker width-full form-control" name="hotel_id" style="width:100%;">
                                         <option disabled selected>Select Hotel</option>
@@ -25,26 +36,7 @@
                                         <?php } ?>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">Product Name</label>
-                                    <input type="text" class="form-control" name="name" value="" placeholder="" required />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Product Description</label>
-                                    <textarea class="form-control" name="prod_desc" value="" placeholder="" required><?php echo $this->allproductdetails['prod_desc'] ?></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Item Type</label>
-                                    <div>
-                                        <label class="radio-inline">
-                                            <input type="radio" value="1" name="item_type"  id="" /> Hotel Items
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" value="2"  name="item_type"  id="" />Grocery Items
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
+                                  <div class="form-group show-hotel">
                                     <label class="control-label">Product Type</label>
                                     <div>
                                         <label class="radio-inline">
@@ -72,20 +64,50 @@
                                 <div class="form-group show-category">
                                     <label class="control-label">Sub Category :</label>
                                     <select class="selectpicker width-full js-example-basic-hide-search form-control" name="Subcategory_id">
-                                        <option value="0" >
+                                        <option value="1" >
                                             Veg
                                         </option>
-                                        <option value="1" >
+                                        <option value="2" >
                                             Halal
                                         </option>
-                                        <option value="2" >
+                                        <option value="3" >
                                             Non Halal
                                         </option>
-                                        <option value="3" >
-                                            None of These
-                                        </option>
+                                        
                                     </select>
                                 </div>
+                                <div class="form-group show-store">
+                                    <label class="control-label">Store Name</label>
+                                    <select class="selectpicker width-full form-control" name="store_id" style="width:100%;">
+                                        <option disabled selected>Select Store</option>
+                                        <?php foreach ($this->storelist as $value) { ?>
+                                            <option value="<?php echo $value['store_id'] ?>">
+                                                <?php echo $value['store_name'] ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group show-store">
+                                    <label class="control-label">Store Category</label>
+                                    <select class="selectpicker width-full form-control" name="store_category_id" style="width:100%;">
+                                        <option disabled selected>Select Store</option>
+                                        <?php foreach ($this->storecategorylist as $value) { ?>
+                                            <option value="<?php echo $value['category_id'] ?>">
+                                                <?php echo $value['cat_name'] ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Product Name</label>
+                                    <input type="text" class="form-control" name="name" value="" placeholder="" required />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Product Description</label>
+                                    <textarea class="form-control" name="prod_desc" value="" placeholder="" required><?php echo $this->allproductdetails['prod_desc'] ?></textarea>
+                                </div>
+
+                              
                                 <div class="form-group">
                                     <label class="control-label">Stock Quantity</label>
                                     <input type="text" placeholder=""  name="stock_quantity" value="" class="form-control" />
@@ -180,8 +202,20 @@
 </div>
 
 <style>
-    .show-cusine, .show-category {
+    .show-cusine, .show-category,.show-hotel, .show-store {
         display: none;
     }
 </style>
 
+<script>
+    $(function() {
+        $('#hotel_item').click(function() {
+            $('.show-hotel').show();
+            $('.show-store').hide();
+        });
+        $('#store_item').click(function() {
+            $('.show-hotel').hide();
+            $('.show-store').show();
+        });
+    });
+</script>

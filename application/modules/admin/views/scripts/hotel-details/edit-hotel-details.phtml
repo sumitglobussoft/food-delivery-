@@ -55,11 +55,11 @@ $allhoteldetailsArray = $this->allhoteldetails;
 
                                                         echo $value['Cuisine_name'];
                                                         ?>
-                                <!--                                                        <select class="form-control js-example-responsive width-full" value="<?php echo $this->cuisineslist[$i]['Cuisine_name']; ?>" multiple="" name="selectcuisine[]" data-size="10" data-live-search="true">
-                                                                                            <optgroup label="Select Cuisine">                                                 
-                                                                                                <option value="<?php echo $this->cuisineslist[$i]['c_id']; ?>"><?php echo $this->cuisineslist[$i]['Cuisine_name']; ?></option>                                                     
-                                                                                            </optgroup>
-                                                                                        </select>-->
+                                        <!--                                                        <select class="form-control js-example-responsive width-full" value="<?php echo $this->cuisineslist[$i]['Cuisine_name']; ?>" multiple="" name="selectcuisine[]" data-size="10" data-live-search="true">
+                                                                                                    <optgroup label="Select Cuisine">                                                 
+                                                                                                        <option value="<?php echo $this->cuisineslist[$i]['c_id']; ?>"><?php echo $this->cuisineslist[$i]['Cuisine_name']; ?></option>                                                     
+                                                                                                    </optgroup>
+                                                                                                </select>-->
 
                                                         <?php
                                                     }
@@ -135,44 +135,6 @@ $allhoteldetailsArray = $this->allhoteldetails;
                                                 <input type="text" class="form-control" name="secondary_phone"  id="last_name" value="<?php echo $allhoteldetailsArray['secondary_phone'] ?>" placeholder=""  />
                                             </td>
                                         </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="panel">
-                        <div class="panel-body">
-                            <div class="example-box-wrapper">
-                                <table class="table table-responsive">
-                                    <tbody>
-
-                                        <tr>
-                                            <td>
-                                                <label class="control-label">Hotel Image</label>
-                                            </td>
-                                            <td>
-                                                <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                                        <img src="<?php
-                                                        if (isset($this->allhoteldetails['hotel_image'])) {
-                                                            echo $this->allhoteldetails['hotel_image'];
-                                                        }
-                                                        ?>" alt="">
-                                                    </div>
-                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
-                                                    <div>
-                                                        <span class="btn btn-default btn-file">
-                                                            <span class="fileinput-new">Select Image</span>
-                                                            <span class="fileinput-exists">Replace</span>
-                                                            <input type="file" name="fileToUpload">
-                                                        </span>
-                                                        <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
                                         <tr>
                                             <td>
                                                 <label class="control-label">Min. Order</label>
@@ -190,31 +152,158 @@ $allhoteldetailsArray = $this->allhoteldetails;
 
                                                 <input type="text" class="form-control" name="deliverycharge"  id="last_name" value="<?php echo $allhoteldetailsArray['deliverycharge'] ?>" placeholder="" required />
                                             </td>
-                                        </tr>                                   
-                                        <tr>
-                                            <td>
-                                                <label class="control-label">Hotel Notice</label>
-                                            </td>
-                                            <td>
-
-                                                <textarea class="form-control" name="notice" id="notice" cols="20" rows="2"  ><?php echo $allhoteldetailsArray['notice'] ?></textarea>
-                                            </td>
-                                        </tr>
+                                        </tr>                    
                                     </tbody>
                                 </table>
-                                <div class="form-group pull-right">
-                                    <button type="submit" class="btn btn-alt btn-hover btn-primary">
-                                        <span>SAVE</span> <i class="glyph-icon icon-arrow-right"></i>
-                                        <div class="ripple-wrapper"></div>
-                                    </button>
-                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <!--==============================================edited by sreekanth================================================================================                         -->
+                                    <legend class="heading">Location:</legend>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Select the Country</label>
+                                                <select class="form-control selectpicker width-full selectcountry" name="selectcountry"  selectpicker width-full data-size="10" data-live-search="true">
+                                                    <optgroup label="Select Country">
+                                                        <option value="<?php echo $value['location_id']; ?>"><?php
+                                                            if (isset($allhoteldetailsArray['countryName'])) {
+
+                                                                echo $allhoteldetailsArray['countryName'];
+                                                            } else {
+
+                                                                echo "Select Country";
+                                                            }
+                                                            ?>
+                                                        </option>
+                                                        <?php
+                                                        if (isset($this->countrylist)) {
+                                                            foreach ($this->countrylist as $value) {
+                                                                ?>
+                                                                <option value="<?php echo $value['location_id']; ?>"><?php echo $value['name']; ?></option>
+                                                                <?php
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Select the State</label>
+                                                <select id="state" class="form-control selectpicker width-full selectstate" name="selectstate" data-size="10" data-live-search="true">
+                                                    <optgroup label="Select State" id="state1">
+                                                        <option value="<?php echo $value['location_id']; ?>"><?php
+                                                        if (isset($allhoteldetailsArray['stateName'])) {
+
+                                                            echo $allhoteldetailsArray['stateName'];
+                                                        } else {
+
+                                                            echo "Select state";
+                                                        }
+                                                        ?></option>
+
+
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Select the City</label>
+                                                <select id="city" class="form-control selectpicker width-full selectcity" name="selectcity" data-size="10" data-live-search="true">
+                                                    <optgroup label="Select City" id="city">
+                                                        <option value="<?php echo $value['location_id']; ?>"><?php
+                                                            if (isset($allhoteldetailsArray['cityName'])) {
+
+                                                                echo $allhoteldetailsArray['cityName'];
+                                                            } else {
+
+                                                                echo "Select city";
+                                                            }
+                                                        ?></option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Select the Location</label>
+                                                <select id="location" class="form-control selectpicker loc-disable width-full" name="selectlocation" data-size="10" data-live-search="true">
+                                                    <optgroup label="Select Location" id="location">
+                                                        <option value="<?php echo $value['location_id']; ?>"><?php
+                                                            if (isset($allhoteldetailsArray['areaName'])) {
+
+                                                                echo $allhoteldetailsArray['areaName'];
+                                                            } else {
+
+                                                                echo "Select Location";
+                                                            }
+                                                        ?></option>
+                                                    </optgroup>
+                                                </select>
+                                                <small><i>if your location is not listed, Click <a href="javascript:;" class="add-loc">here</a></i></small>
+                                                <div id="addloc" > <input type="text"  class="form-control m-t-20 new-location" name="location_name" placeholder="Enter your Location" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <tr>
+                                <td>
+                                    <label class="control-label">Hotel Image</label>
+                                </td>
+                                <td>
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                            <img src="<?php
+                                                            if (isset($this->allhoteldetails['hotel_image'])) {
+                                                                echo $this->allhoteldetails['hotel_image'];
+                                                            }
+                                                        ?>" alt="">
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                        <div>
+                                            <span class="btn btn-default btn-file">
+                                                <span class="fileinput-new">Select Image</span>
+                                                <span class="fileinput-exists">Replace</span>
+                                                <input type="file" name="fileToUpload">
+                                            </span>
+                                            <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label class="control-label">Hotel Notice</label>
+                                </td>
+                                <td>
+
+                                    <textarea class="form-control" name="notice" id="notice" cols="20" rows="2"  ><?php echo $allhoteldetailsArray['notice'] ?></textarea>
+                                </td>
+                            </tr>
+                            </tbody>
+                            </table>
+                            <div class="form-group pull-right">
+                                <button type="submit" class="btn btn-alt btn-hover btn-primary">
+                                    <span>SAVE</span> <i class="glyph-icon icon-arrow-right"></i>
+                                    <div class="ripple-wrapper"></div>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
     </div>
+</form>
+</div>
 </div>
 
 <style>

@@ -1,0 +1,221 @@
+<?php
+$allorderdetailsArray = $this->orderdetails;
+$productnames = $this->productnames;
+$quantity = $this->quantity;
+$amount = $this->amount;
+?>
+<div id="page-title">
+    <h2>View Store Order Details</h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal bordered-row" enctype="multipart/form-data" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Order Id</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['order_id']; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User Name</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['uname']; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User Email</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['email']; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Store Name</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['store_name']; ?>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Products Name</label>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                for ($i = 0; $i < count($productnames); $i++) {
+
+                                                    echo $productnames[$i] . ", ";
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Quantity</label>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                for ($i = 0; $i < count($productnames); $i++) {
+
+                                                    echo $productnames[$i] . ": " . "<span style='color:black'>" . $quantity[$i] . "</span>" . "<br>";
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Product Amount</label>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                for ($i = 0; $i < count($productnames); $i++) {
+
+                                                    echo $productnames[$i] . ": " . "<span style='color:black'>" . $quantity[$i] . " unit" . "= " . $amount[$i] . ".00 Rs" . "</span>" . "<br>";
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Transaction Type</label>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($allorderdetailsArray['tx_type'] == 0) {
+                                                    echo" COD";
+                                                } else {
+                                                    echo" Paypal";
+                                                }
+                                                ?>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Transaction Amount</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['tx_amount']; ?>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="example-box-wrapper">
+                                <table class="table table-responsive">
+                                    <tbody>                                 
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Tax Code</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['tx_code']; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label"> Code</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['COD_Code']; ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Pay Amount</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['total_amount'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Pay Status</label>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($allorderdetailsArray['tx_status'] == 1) {
+                                                    echo 'Success';
+                                                } elseif ($allorderdetailsArray['tx_status'] == 2) {
+                                                    echo 'Pending';
+                                                } elseif ($allorderdetailsArray['tx_status'] == 3) {
+                                                    echo" Failed";
+                                                } else {
+                                                    echo 'Canceled';
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Order Status</label>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($allorderdetailsArray['order_status'] == 0) {
+                                                    echo"Pending";
+                                                } elseif ($allorderdetailsArray['order_status'] == 1) {
+                                                    echo"Approved";
+                                                } elseif ($allorderdetailsArray['order_status'] == 6) {
+                                                    echo"Canceled ";
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>                                 
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Delivery  Charge</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['delivery_charge'] ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Cancel Refund Reason</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['cancel_refund_reason'] ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">User Message</label>
+                                            </td>
+                                            <td>
+                                                <?php echo $allorderdetailsArray['user_message'] ?>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

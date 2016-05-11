@@ -75,7 +75,7 @@
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/time/time_ago.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/jquery-validation/js/jquery.validate.js', 'text/javascript')
                     ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/bootstrap-checkbox/js/bootstrap-checkbox.js', 'text/javascript')
-                        ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/bootstrap-datetimepicker/js/datetimepicker.min.js', 'text/javascript');
+                    ->appendFile($this->baseUrl() . $this->appSetting->assestPath . 'admin/bootstrap-datetimepicker/js/datetimepicker.min.js', 'text/javascript');
         }
         ?>  
         <style>
@@ -152,14 +152,14 @@
                                         </div>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0);" title="Grocery Details">
-                                            <i class="glyph-icon icon-linecons-shop"></i> <span>Grocery Details</span>
+                                        <a href="javascript:void(0);" title="Store Details">
+                                            <i class="glyph-icon icon-linecons-shop"></i> <span>Store Details</span>
                                         </a>
                                         <div class="sidebar-submenu">
                                             <ul>
-                                                <li><a href="/admin/grocery-details" title="Grocery Details"><span>Grocery Details</span></a></li>
+                                                <li><a href="/admin/store-details" title="Store Details"><span>Store Details</span></a></li>
         <!--                                                <li><a href="/admin/add-hotel-details" title="Add New Hotel"><span>Add New Hotel Details</span></a></li>-->
-                                                <li><a href="/admin/grocery-category-details" title="Category Details"><span>Grocery Category Details</span></a></li>
+                                                <li><a href="/admin/store-category-details" title="Category Details"><span>Store Category Details</span></a></li>
                                             </ul>
                                         </div>
                                     </li>
@@ -171,6 +171,8 @@
                                             <ul>
                                                 <li><a href="/admin/hotel-details" title="Hotel Details"><span>Hotel Details</span></a></li>
         <!--                                                <li><a href="/admin/add-hotel-details" title="Add New Hotel"><span>Add New Hotel Details</span></a></li>-->
+                                                <li><a href="/admin/category-details" title="Category Details"><span>Hotel Category Details</span></a></li>
+                                                <li><a href="/admin/cuisines-details" title="Cuisine Details"><span>Hotel Cuisine Details</span></a></li>
                                             </ul>
                                         </div>
                                     </li>
@@ -180,7 +182,8 @@
                                         </a>
                                         <div class="sidebar-submenu">
                                             <ul>
-                                                <li><a href="/admin/product-details" title="Product Details"><span>Product Details</span></a></li>
+                                                <li><a href="/admin/product-details" title="Store Product Details"><span>Hotel Product Details</span></a></li>
+                                                <li><a href="/admin/store-product-details" title="Store Product Details"><span>Store Product Details</span></a></li>
         <!--                                                <li><a href="/admin/add-product-details" title="Add New Product"><span>Add New Product</span></a></li>-->
                                             </ul>
                                         </div>
@@ -191,7 +194,8 @@
                                         </a>
                                         <div class="sidebar-submenu">
                                             <ul>
-                                                <li><a href="/admin/order-details" title="Order Details"><span>Order Details</span></a></li>
+                                                <li><a href="/admin/order-details" title="Order Details"><span>Hotel Order Details</span></a></li>
+                                                <li><a href="/admin/store-order-details" title="Store Order Details"><span>Store Order Details</span></a></li>
         <!--                                                <li><a href="/admin/refund-request" title="Test Order Details"><span>Test Order Details</span></a></li>-->
                                             </ul>
                                         </div>
@@ -214,9 +218,11 @@
                                         </a>
                                         <div class="sidebar-submenu">
                                             <ul>
-                                                <li><a href="/admin/delivery-guys-details" title="Delivery Guys Details"><span>Delivery Guy Details</span></a></li>
+                                                <li><a href="/admin/delivery-guys-details" title="Delivery Guys Details"><span>Delivery Guy Details for Hotels</span></a></li>
+                                                <li><a href="/admin/store-delivery-guys-details" title="Delivery Guys Details For Stores"><span>Delivery Guy Details for Stores</span></a></li>
                                                 <li><a href="/admin/add-delivery-guy" title="Add New Delivery Guy"><span>Add New Delivery Guy</span></a></li>
-                                                <li><a href="/admin/delivery-guy-order-logs" title="Delivery Guys Order Logs"><span>Delivery Guys Order Logs</span></a></li>
+                                                <li><a href="/admin/delivery-guy-order-logs" title="Delivery Guys Order Logs For Hotels"><span>Delivery Guys Order Logs for Hotel</span></a></li>
+                                                <li><a href="/admin/store-delivery-guy-order-logs" title="Delivery Guys Order Logs For Stores"><span>Delivery Guys Order Logs For Stores</span></a></li>
                                             </ul>
                                         </div>
                                     </li>                                 
@@ -240,7 +246,7 @@
                                         <div class="sidebar-submenu">
                                             <ul>
                                                 <li><a href="/admin/hotel-reviews" title="hotel-review"><span>Hotel Reviews</span></a></li>
-                                                <li><a href="/admin/grocery-reviews" title="grocery-review"><span>Grocery Reviews</span></a></li>
+                                                <li><a href="/admin/store-reviews" title="store-review"><span>Store Reviews</span></a></li>
 
 
                                             </ul>
@@ -265,8 +271,7 @@
                                         </a>
                                         <div class="sidebar-submenu">
                                             <ul>
-                                                <li><a href="/admin/category-details" title="Category Details"><span>Category Details</span></a></li>
-                                                <li><a href="/admin/cuisines-details" title="Cuisine Details"><span>Cuisine Details</span></a></li>
+
                                                 <li><a href="/admin/countries-details" title="Country Details"><span>Country Details</span></a></li>
                                                 <li><a href="/admin/states-details" title="State Details"><span>State Details</span></a></li>
                                                 <li><a href="/admin/city-details" title="City Details"><span>City Details</span></a></li>

@@ -509,17 +509,17 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
         }
     }
 
-    
     /*
      * Dev: sreekanth
      * Desc: fetch all states from db
      * date : 3/5/2016;
      */
+
     public function getAllLocations() {
         try {
             $select = $this->select()
                     ->from($this)
-                ->where('location_type=?', 3);
+                    ->where('location_type=?', 3);
 
             $result = $this->getAdapter()->fetchAll($select);
 
@@ -530,7 +530,77 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
             throw new Exception('Unable To retrieve data :' . $e);
         }
     }
-}
 
+    /*
+     * Dev: sowmya
+     * Desc: fetch grocery based on city Id, state Id, Country Id,Location Id( AND WHERE)
+     * date : 5/5/2016;
+     */
+
+    public function getGroceryByLocationsIds() {
+        if (func_num_args() > 0) {
+            $countryid = func_get_arg(0);
+            $stateid = func_get_arg(1);
+            $cityid = func_get_arg(2);
+            $locationid = func_get_arg(3);
+            try {
+                $select = $this->select()
+                        ->from($this)
+                        ->where('parent_id=?', $countryid)
+                        ->where('location_type=?', 1)
+                        ->where('location_id=?', $stateid)
+                        ->where('location_status=?', 1);
+                $result1 = $this->getAdapter()->fetchRow($select);
+
+                if ($result1['location_id'] && $result1['location_id'] == $stateid) {
+                    $select = $this->select()
+                            ->from($this)
+                            ->where('parent_id=?', $result1['location_id'])
+                            ->where('location_type=?', 2)
+                            ->where('location_id=?', $cityid)
+                            ->where('location_status=?', 1);
+                    $result2 = $this->getAdapter()->fetchRow($select);
+
+                    if ($result2['location_id'] && $result2['location_id'] == $cityid) {
+                        $select = $this->select()
+                                ->from($this)
+                                ->where('parent_id=?', $result2['location_id'])
+                                ->where('location_type=?', 3)
+                                ->where('location_id=?', $locationid)
+                                ->where('location_status=?', 1);
+                        $result3 = $this->getAdapter()->fetchRow($select);
+
+                        if ($result3['location_id'] && $result3['location_id'] == $locationid) {
+                            $select = $this->select()
+                                    ->setIntegrityCheck(false)
+                                    ->from(array('gd' => 'grocery_details'))
+                                    ->joinLeft(array('gc' => 'grocery_category'), 'gd.category_id= gc.category_id')
+                                    ->where('grocery_location=?', $result3['location_id'])
+                                    ->where('grocery_status=?', 1);
+                            $result4 = $this->getAdapter()->fetchAll($select);
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        return null;
+                    }
+                } else {
+
+                    return null;
+                }
+                if ($result4) {
+                    return $result4;
+                } else {
+                    return null;
+                }
+            } catch (Exception $e) {
+                throw new Exception('Unable To retrieve data :' . $e);
+            }
+        } else {
+            
+        }
+    }
+
+}
 
 ?>

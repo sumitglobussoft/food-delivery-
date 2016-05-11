@@ -47,7 +47,7 @@ class Application_Model_Reviews extends Zend_Db_Table_Abstract {
 //dev:sowmya
     //desc:grocery reviews
     //date:20/4/2016
-    public function getAllGroceryReviews() {
+    public function getAllStoreReviews() {
         if (func_num_args() > 0) {
             $agent_id = func_get_arg(0);
             try {
@@ -55,7 +55,7 @@ class Application_Model_Reviews extends Zend_Db_Table_Abstract {
                         ->setIntegrityCheck(false)
                         ->from(array('r' => 'reviews'))
                         ->joinLeft(array('u' => 'users'), 'u.user_id= r.user_id', array('u.user_id', 'u.uname', 'u.email'))
-                        ->joinLeft(array('gd' => 'grocery_details'), 'gd.grocery_id= r.review_for_id', array('gd.grocery_id', 'gd.Grocery_name'))
+                        ->joinLeft(array('gd' => 'store_details'), 'gd.store_id= r.review_for_id', array('gd.store_id', 'gd.store_name'))
                         ->joinLeft(array('a' => 'agents'), 'gd.agent_id= a.agent_id')
                         ->where('review_type = ?', 1)
                         ->order('review_date DESC')
@@ -182,31 +182,6 @@ class Application_Model_Reviews extends Zend_Db_Table_Abstract {
         }
     }
 
-//    public function getUserforhotelsReviews() {
-//        if (func_num_args() > 0) {
-//
-//            $hotelid = func_get_arg(0);
-//            $userid = func_get_arg(1);
-//            try {
-//                $select = $this->select()
-//                        ->setIntegrityCheck(false)
-//                        ->from(array('r' => 'reviews'))
-//                        ->where('r.review_type=1')
-//                        ->where("r.review_for_id=?", $hotelid)
-//                        ->where("r.user_id=?", $userid)
-//                        ->where("r.review_status=1 or r.review_status=0")
-//                        ->join(array('u' => 'users'), 'r.user_id=u.user_id', array('u.uname'));
-//                $result = $this->getAdapter()->fetchRow($select);
-//                return $result;
-//            } catch (Exception $ex) {
-//                throw new Exception('Unable to access data :' . $ex);
-//            }
-//        } else {
-//            throw new Exception('Argument Not Passed');
-//        }
-//    }
-
-
     public function getavgratingsofindividualHotel() {
         if (func_num_args() > 0) {
             $hotelid = func_get_arg(0);
@@ -218,8 +193,6 @@ class Application_Model_Reviews extends Zend_Db_Table_Abstract {
                     'three_star' => new Zend_Db_Expr('@three_star:=sum(case when review_rating = 3 then 1 else 0 end)'),
                     'four_star' => new Zend_Db_Expr('@four_star:=sum(case when review_rating = 4 then 1 else 0 end)'),
                     'five_star' => new Zend_Db_Expr('@five_star:=sum(case when review_rating = 5 then 1 else 0 end)'),
-//                    'averageRating' => new Zend_Db_Expr('TRUNCATE((@one_star*1+@two_star*2+@three_star*3+@four_star*4+@five_star*5)'
-//                            . '/(@one_star+@two_star+@three_star+@four_star+@five_star),1)')
                 ];
 
                 $select = $this->select()
@@ -236,9 +209,6 @@ class Application_Model_Reviews extends Zend_Db_Table_Abstract {
 
 
                 $avgresult1 = (($one_star * 1 + $two_star * 2 + $three_star * 3 + $four_star * 4 + $five_star * 5) / ($one_star + $two_star + $three_star + $four_star + $five_star));
-
-//                $result1 = 'averageRating' => ('TRUNCATE(($result[one_star]*1+two_star*2+three_star*3+four_star*4+five_star*5)'
-//                . '/(one_star+two_star+three_star+four_star+five_star),1)')
 
                 return $avgresult1;
             } catch (Exception $ex) {
