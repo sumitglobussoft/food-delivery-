@@ -156,4 +156,34 @@ class Application_Model_StoreCategory extends Zend_Db_Table_Abstract {
         }
     }
 
+    /*
+     * Dev : Sibani Mishra
+     * Desc : Fetch product List by category_Id
+     * date : 6th May 2016
+     */
+
+    public function fetchListofProducts() {
+        if (func_num_args() > 0) {
+
+            $category_id = func_get_arg(0);
+
+            try {
+
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('hc' => 'store_category'), array('hc.cat_name'))
+                        ->join(array('p' => 'products'), 'hc.category_id=p.store_category_id', array('p.product_id', 'p.name', 'p.prod_desc', 'p.cost', 'p.imagelink', 'p.stock_quantity', 'p.product_discount', 'p.product_discount_type', 'p.servicetax'))
+                        ->where('p.store_category_id=?', $category_id);
+
+                $result = $this->getAdapter()->fetchAll($select);
+
+                return $result;
+            } catch (Exception $ex) {
+                throw new Exception('Unable To retrieve data :' . $ex);
+            }
+        } else {
+            throw new Exception("Argument not passed");
+        }
+    }
+
 }

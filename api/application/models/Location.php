@@ -531,13 +531,18 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
         }
     }
 
+ 
     /*
      * Dev: sowmya
      * Desc: fetch grocery based on city Id, state Id, Country Id,Location Id( AND WHERE)
      * date : 5/5/2016;
      */
 
-    public function getGroceryByLocationsIds() {
+    /* Dev : Sibani Mishra
+     * Desc : Modified Function 
+     */
+
+    public function getStoreByLocationsIds() {
         if (func_num_args() > 0) {
             $countryid = func_get_arg(0);
             $stateid = func_get_arg(1);
@@ -571,13 +576,15 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
                         $result3 = $this->getAdapter()->fetchRow($select);
 
                         if ($result3['location_id'] && $result3['location_id'] == $locationid) {
+
                             $select = $this->select()
                                     ->setIntegrityCheck(false)
-                                    ->from(array('gd' => 'grocery_details'))
-                                    ->joinLeft(array('gc' => 'grocery_category'), 'gd.category_id= gc.category_id')
-                                    ->where('grocery_location=?', $result3['location_id'])
-                                    ->where('grocery_status=?', 1);
+                                    ->from(array('sd' => 'store_details'))
+                                    ->where('store_location=?', $result3['location_id'])
+                                    ->where('store_status=?', 1);
                             $result4 = $this->getAdapter()->fetchAll($select);
+
+                            return $result4;
                         } else {
                             return null;
                         }
@@ -586,11 +593,6 @@ class Application_Model_Location extends Zend_Db_Table_Abstract {
                     }
                 } else {
 
-                    return null;
-                }
-                if ($result4) {
-                    return $result4;
-                } else {
                     return null;
                 }
             } catch (Exception $e) {

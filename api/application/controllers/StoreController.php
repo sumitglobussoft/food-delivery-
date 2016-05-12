@@ -20,12 +20,20 @@ class StoreController extends Zend_Controller_Action {
         if ($method) {
 
             switch ($method) {
-                /* DEV :sowmya
-                 * Desc :services to  get store list by location
+
+
+######################################  START SERVICES   ############################################
+
+                /* DEV : sowmya
+                 * Desc : services to  get store list by location
                  * Date : 5/5/2016
                  */
 
-                case'getStoreListByLocations':
+                /* DEV : Sibani Mishra
+                 * Desc : Did Modification
+                 * Date : 6/5/2016
+                 */
+                case 'getStoreListByLocations':
                     if ($this->getRequest()->isPost()) {
 
                         $countryid = $this->getRequest()->getPost('country_id');
@@ -39,6 +47,11 @@ class StoreController extends Zend_Controller_Action {
                         if ($countryid && $stateid && $cityid && $locationid) {
 
                             $StoreList = $locationsmodal->getStoreByLocationsIds($countryid, $stateid, $cityid, $locationid);
+
+                            foreach ($StoreList as $key => $val) {
+                                unset($val['category_id']);
+                                $StoreList[$key] = $val;
+                            }
 
                             if ($StoreList) {
                                 $response->message = 'Successfull';
@@ -63,12 +76,11 @@ class StoreController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die();
                     break;
-
                 /* DEV :sowmya
                  * Desc :services to  get store list by storename
                  * Date : 5/5/2016
                  */
-                case'storename':
+                case 'storename':
 
                     if ($this->getRequest()->isPost()) {
 
@@ -102,20 +114,40 @@ class StoreController extends Zend_Controller_Action {
                  * Desc :services to  get store  categorylist
                  * Date : 5/5/2016
                  */
-                case'GetCategory':
+
+                /* DEV :Sibani Mishra
+                 * Desc :Modified Service
+                 * Date : 5/6/2016
+                 */
+                case 'GetCategory':
                     if ($this->getRequest()->isPost()) {
+
                         $store_id = $this->getRequest()->getPost('store_id');
+
                         if ($store_id) {
+
                             $cats = $storesummaryModel->getcategoriesByStoreId($store_id);
+
+                            foreach ($cats as $key => $val) {
+
+                                unset($val['store_id']);
+
+                                $cats[$key] = $val;
+                            }
+
                             if ($cats) {
                                 $response->message = 'Successfull';
                                 $response->code = 200;
                                 $response->data = $cats;
                             } else {
-                                $response->message = 'Could not Serve the Response';
+                                $response->message = 'Something went wrong';
                                 $response->code = 197;
                                 $response->data = NUll;
                             }
+                        } else {
+                            $response->message = 'Store id is not correct';
+                            $response->code = 197;
+                            $response->data = NUll;
                         }
                     } else {
                         $response->message = 'Could not Serve the Response';
@@ -124,15 +156,12 @@ class StoreController extends Zend_Controller_Action {
                     }
                     echo json_encode($response, true);
                     die();
-
                     break;
                 /*
                  * DEV :sowmya
                  * Desc : service used for sorting store based by reviews and ratings
                  * Date : 5/5/2016
                  */
-
-
                 case 'selectReviewsAndRatings':
 
                     if ($this->getRequest()->isPost()) {
@@ -165,8 +194,268 @@ class StoreController extends Zend_Controller_Action {
                     echo json_encode($response, true);
                     die;
                     break;
-                ///////////////////////////////////////// method for agent panel only //////////////////////////
-                /////////////////////////// store details module//////////////////////////////////
+                /*
+                 * Dev ; Sibani Mishra
+                 * Desc : List of category based on LocationId
+                 * Date : 6th may 2016 
+                 */
+                case 'getCategoryListbyLocationID':
+
+                    if ($this->getRequest()->isPost()) {
+
+                        $store_location = $this->getRequest()->getPost('store_location');
+
+                        if ($store_location) {
+
+                            $categorydetails = $storesummaryModel->getCategory($store_location);
+
+                            foreach ($categorydetails as $key => $val) {
+
+                                unset($val['store_location']);
+
+                                $categorydetails[$key] = $val;
+                            }
+                            if (!empty($categorydetails)) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $categorydetails;
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'Could Not Serve The Request';
+                            $response->code = 197;
+                            $response->data = null;
+                        }
+                    } else {
+                        $response->message = 'Could not Serve the Response';
+                        $response->code = 197;
+                        $response->data = NUll;
+                    }
+
+                    echo json_encode($response, true);
+                    die;
+                    break;
+                /*
+                 * Dev : Sibani Mishra
+                 * Desc : List of products based on category
+                 * Date : 6th may 2016
+                 */
+                case 'getProductListByCategoryId':
+
+                    if ($this->getRequest()->isPost()) {
+                        $category_id = $this->getRequest()->getPost('category_id');
+
+                        if ($category_id) {
+                            $result = $storecategoryModel->fetchListofProducts($category_id);
+                            if ($result) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $result;
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'Invalid Request';
+                            $response->code = 401;
+                            $response->data = Null;
+                        }
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+                /*
+                 * Dev : Sibani Mishra
+                 * Desc : List of Stores_Details based on category
+                 * Date : 7th may 2016
+                 */
+                case 'fetchingStoresDetailsBasedOnCategory':
+                    if ($this->getRequest()->isPost()) {
+
+
+                        $store_location = $this->getRequest()->getPost('store_location');
+                        $store_category_id = $this->getRequest()->getPost('store_category_id');
+                        $store_category_id = json_decode($store_category_id);
+
+                        if (!empty($store_location) && !empty($store_category_id)) {
+
+                            $storesnames = $storesummaryModel->getstoresname($store_location, $store_category_id);
+
+                            if ($storesnames) {
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $storesnames;
+                            } else {
+                                $response->message = 'No Data Found';
+                                $response->code = 197;
+                                $response->data = Null;
+                            }
+                        } else {
+                            $response->message = 'parameter Shouldnot be blank';
+                            $response->code = 198;
+                            $response->data = Null;
+                        }
+                    } else {
+                        $response->message = 'Could Not Serve The Request';
+                        $response->code = 401;
+                        $response->data = NULL;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+                /*
+                 * Dev : Sibani Mishra
+                 * Desc : Inser/Update OrdersToCart Based on Stock_Quantity
+                 * Date : 10th may 2016
+                 */
+                case 'UpdateInsertStoresOrdersToCartOnQuantityBasis':
+                    if ($this->getRequest()->isPost()) {
+                        $user_id = $this->getRequest()->getPost('userid');
+                        $store_id = $this->getRequest()->getPost('storeid');
+                        $product_id = $this->getRequest()->getPost('productid');
+                        $product_id = json_decode($product_id);
+                        $quantity = $this->getRequest()->getPost('quantity');
+                        $quantity = json_decode($quantity);
+
+                        if ($user_id && $store_id && !empty($product_id) && !empty($quantity)) {
+
+                            if (sizeof($product_id) == sizeof($quantity)) { // Match Array Length
+                                $availableOrNot = $objProducts->seperateTheProductsByQuantityAvailablity($product_id, $quantity);
+
+                                if (is_array($availableOrNot) && !empty($availableOrNot)) {
+
+                                    if (array_key_exists('success', $availableOrNot)) {
+
+                                        $updatedAndInsertedProduct = $Addtocart->insertUpdateStoreProductsInCart($user_id, $store_id, $availableOrNot['success'], $availableOrNot['quantity']);
+
+                                        if (is_array($updatedAndInsertedProduct) && !empty($updatedAndInsertedProduct)) {
+
+                                            $availableOrNot['success'] = $updatedAndInsertedProduct;
+                                            unset($availableOrNot['quantity']);
+
+                                            $response->message = 'Successfully inserted or updated the product in cart.';
+                                            $response->code = 200;
+                                            $response->data = $availableOrNot;
+                                        } else {
+                                            $response->message = $updatedAndInsertedProduct;
+                                            $response->code = 198;
+                                            $response->data = Null;
+                                        }
+                                    } else {
+
+                                        $response->message = 'All requested product has been out of stocks.';
+                                        $response->code = 200;
+                                        $response->data = $availableOrNot;
+                                    }
+                                } else {
+                                    $response->message = $availableOrNot;
+                                    $response->code = 198;
+                                    $response->data = Null;
+                                }
+                            } else {
+                                $response->message = 'The number of product and quantity in array should be same.';
+                                $response->code = 195;
+                                $response->data = NULL;
+                            }
+                        } else {
+                            $response->message = 'You should enter all params.';
+                            $response->code = 195;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'You should use the post method';
+                        $response->code = 195;
+                        $response->data = Null;
+                    }
+
+                    echo json_encode($response, true);
+                    die;
+                    break;
+                /*
+                 * Dev : Sibani Mishra
+                 * Desc : Get OrdersToCart 
+                 * Date : 10th may 2016
+                 */
+                case 'getStoreOrderToCart':
+
+                    if ($this->getRequest()->isPost()) {
+                        $user_id = $this->getRequest()->getPost('user_id');
+                        $store_id = $this->getRequest()->getPost('store_id');
+
+                        if ($user_id && $store_id) {
+                            $getaddtocartdetails = $Addtocart->getStoresOrdertocart($user_id, $store_id);
+
+                            if ($getaddtocartdetails) {
+
+                                $response->message = 'successfull';
+                                $response->code = 200;
+                                $response->data = $getaddtocartdetails;
+                            } else {
+                                $response->message = 'No Products available';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'parametre not passed';
+                            $response->code = 197;
+                            $response->data = null;
+                        }
+                    } else {
+                        $response->message = 'Could Not Serve The Request';
+                        $response->code = 401;
+                        $response->data = NULL;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+                /*
+                 * Dev : Sibani Mishra
+                 * Desc : Remove OrdersToCart 
+                 * Date : 10th may 2016
+                 */
+                case 'RemoveStoreOrderToCart':
+                    if ($this->getRequest()->isPost()) {
+
+                        $addtocartSerialNo = $this->getRequest()->getPost('cart_id');
+                        $user_id = $this->getRequest()->getPost('user_id');
+
+                        if ($addtocartSerialNo && $user_id) {
+                            $cartdetails = $Addtocart->RemoveStoreOrderFromAddtoCart($addtocartSerialNo, $user_id);
+
+                            if ($cartdetails) {
+
+                                $response->message = 'successfully Deleted';
+                                $response->code = 200;
+                                $response->data = $cartdetails;
+                                echo json_encode($response, true);
+                                die();
+                            } else {
+                                $response->message = 'Could Not Serve The Request';
+                                $response->code = 197;
+                                $response->data = null;
+                            }
+                        } else {
+                            $response->message = 'Could Not Serve The Request';
+                            $response->code = 401;
+                            $response->data = NULL;
+                        }
+                    } else {
+                        $response->message = 'Invalid Request';
+                        $response->code = 401;
+                        $response->data = Null;
+                    }
+                    echo json_encode($response, true);
+                    die;
+                    break;
+
+######################################  END SERVICES   ############################################
+
+/////////////////////////////////////////// method for agent panel only ///////////////////////////
+///////////////////////////// store details module//////////////////////////////////////////////
                 /*
                  * DEV :sowmya
                  * Desc : get all stores
@@ -753,7 +1042,7 @@ class StoreController extends Zend_Controller_Action {
                     die;
 
                     break;
-                    
+
                 /*
                  * DEV :sowmya
                  * Desc : to update  stores category

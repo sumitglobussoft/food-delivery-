@@ -669,4 +669,217 @@ class Application_Model_Addtocart extends Zend_Db_Table_Abstract {
         }
     }
 
+    /*
+     * Dev : Sibani Mishra
+     * Desc : Inser/Update OrdersToCart Based on Stock_Quantity
+     * Date : 10th may 2016
+     */
+
+    public function insertUpdateStoreProductsInCart() {
+        if (func_num_args() > 0) {
+            $user_id = func_get_arg(0);
+            $store_id = func_get_arg(1);
+            $product_id = func_get_arg(2);
+            $quantity = func_get_arg(3);
+            $allCartDetail = array();
+            $success = null;
+            $i = 0;
+            $this->getAdapter()->beginTransaction();
+
+            try {
+
+                foreach ($product_id as $key => $value) {
+                    $cartId = $this->select()
+                            ->from($this, array('id'))
+                            ->where('user_id = ?', $user_id)
+                            ->where('store_id = ?', $store_id)
+                            ->where('product_id = ?', $value);
+
+                    $cartId = $this->getAdapter()->fetchRow($cartId);
+
+                    $data = null;
+
+                    if ($cartId) {
+
+                        $where['id = ?'] = $cartId['id'];
+                        $data1 = array('quantity' => 0);
+                        $data2 = array('quantity' => $quantity[$key]);
+                        $updateQuantity1 = $this->update($data1, $where);
+                        $updateQuantity2 = $this->update($data2, $where);
+
+                        if ($updateQuantity1 && $updateQuantity2) {
+
+                            $allCartDetail[$i]['cartId'] = $cartId['id'];
+                            $allCartDetail[$i]['productId'] = $value;
+                            $allCartDetail[$i]['orderedQuantity'] = $quantity[$key];
+                            $success = true;
+                        } else {
+                            $success = false;
+                            break;
+                        }
+                    } else {
+
+                        $data = array(
+                            'product_id' => $value,
+                            'user_id' => $user_id,
+                            'quantity' => $quantity[$key],
+                            'store_id' => $store_id,
+                        );
+
+                        $insertedCartId = $this->insert($data);
+
+                        if ($insertedCartId) {
+                            $allCartDetail[$i]['cartId'] = $insertedCartId;
+                            $allCartDetail[$i]['productId'] = $value;
+                            $allCartDetail[$i]['orderedQuantity'] = $quantity[$key];
+                            $success = true;
+                        } else {
+                            $success = false;
+                            break;
+                        }
+                    }
+
+                    $i++;
+                }
+
+                if ($success) {
+                    $this->getAdapter()->commit();
+                    return $allCartDetail;
+                } else {
+                    $this->getAdapter()->rollBack();
+                    return 'fail';
+                }
+            } catch (Exception $ex) {
+                $this->getAdapter()->rollBack();
+                throw new Exception("Error : " . $ex);
+            }
+        } else {
+            throw new Exception("Argument has not passed");
+        }
+    }
+
+    /*
+     * Dev : Sibani Mishra
+     * Desc : Get OrdersToCart 
+     * Date : 10th may 2016
+     */
+
+    public function getStoresOrdertocart() {
+
+        if (func_num_args() > 0) {
+            $user_id = func_get_arg(0);
+            $store_id = func_get_arg(1);
+            $res = array();
+            try {
+                $select = $this->select()
+                        ->setIntegrityCheck(false)
+                        ->from(array('atc' => 'addtocart'), array('atc.user_id', 'atc.product_id', 'atc.id AS cart_id', 'atc.Store_id', 'atc.quantity'))
+                        ->joinLeft(array('p' => 'products'), 'atc.product_id=p.product_id', array('p.name', 'p.imagelink', 'p.cost AS product_cost'))
+                        ->joinLeft(array('sd' => 'store_details'), 'atc.Store_id=sd.store_id')
+                        ->where('atc.user_id = ?', $user_id)
+                        ->where('atc.Store_id = ?', $store_id);
+
+                $result = $this->getAdapter()->fetchAll($select);
+
+                if ($result) {
+                    $i = 0;
+                    foreach ($result as $value) {
+                        $store_id = $value['store_id'];
+                        $res['store_name'] = $value['store_name'];
+                        $res['store_id'] = $value['store_id'];
+                        $res['Deliverycharge'] = $value['Deliverycharge'];
+                        $res['products'][$i]['product_id'] = $value['product_id'];
+                        $res['products'][$i]['imagelink'] = $value['imagelink'];
+                        $res['products'][$i]['cost'] = $value['product_cost'];
+                        $res['products'][$i]['sub_cost_product'] = $value['product_cost'] * $value['quantity'];
+                        $res['products'][$i]['quantity'] = $value['quantity'];
+                        $res['products'][$i]['cart_id'] = $value['cart_id'];
+                        $res['products'][$i]['product_name'] = $value['name'];
+                        if (isset($res['subtotal'])) {
+                            $res['subtotal']+= $res['products'][$i]['sub_cost_product'];
+                        } else {
+                            $res['subtotal'] = 0;
+                            $res['subtotal']+= $res['products'][$i]['sub_cost_product'];
+                        }
+                        $i++;
+                    }
+
+                    return $res;
+                } else {
+                    return null;
+                }
+            } catch (Exception $ex) {
+                throw new Exception("argument not passed: " . $ex);
+            }
+        } else {
+            throw new Exception("argument not passed");
+        }
+    }
+
+    /*
+     * Dev : Sibani Mishra
+     * Desc : Remove OrdersToCart 
+     * Date : 10th may 2016
+     */
+
+    public function RemoveStoreOrderFromAddtoCart() {
+        if (func_num_args() > 0) {
+            $addtocartSerialNo = func_get_arg(0);
+            $userid = func_get_arg(1);
+
+            try {
+
+                $deleted = $this->delete('id= ' . $addtocartSerialNo);
+                if ($deleted) {
+
+                    $select = $this->select()
+                            ->from(array('act' => 'addtocart'), array('act.user_id', 'act.product_id', 'act.id AS cart_id', 'act.Store_id', 'act.quantity'))
+                            ->setIntegrityCheck(false)
+                            ->joinLeft(array('p' => 'products'), 'act.product_id=p.product_id', array('p.name', 'p.imagelink', 'p.cost AS product_cost'))
+                            ->joinLeft(array('sd' => 'store_details'), 'act.Store_id=sd.store_id')
+                            ->where('act.user_id = ?', $userid);
+
+                    $result = $this->getAdapter()->fetchAll($select);
+
+                    if ($result) {
+                        $i = 0;
+                        foreach ($result as $value) {
+                            $store_id = $value['store_id'];
+                            $res['store_name'] = $value['store_name'];
+                            $res['store_id'] = $value['store_id'];
+                            $res['Deliverycharge'] = $value['Deliverycharge'];
+                            $res['products'][$i]['product_id'] = $value['product_id'];
+                            $res['products'][$i]['imagelink'] = $value['imagelink'];
+                            $res['products'][$i]['cost'] = $value['product_cost'];
+                            $res['products'][$i]['sub_cost_product'] = $value['product_cost'] * $value['quantity'];
+                            $res['products'][$i]['quantity'] = $value['quantity'];
+                            $res['products'][$i]['cart_id'] = $value['cart_id'];
+                            $res['products'][$i]['product_name'] = $value['name'];
+                            if (isset($res['subtotal'])) {
+                                $res['subtotal']+= $res['products'][$i]['sub_cost_product'];
+                            } else {
+                                $res['subtotal'] = 0;
+                                $res['subtotal']+= $res['products'][$i]['sub_cost_product'];
+                            }
+                            $i++;
+                        }
+                        if ($res) {
+                            return $res;
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return 'error';
+                }
+            } catch (Exception $ex) {
+                echo $ex->getTraceAsString();
+            }
+        } else {
+            throw new Exception("Argument not passed");
+        }
+    }
+
 }
